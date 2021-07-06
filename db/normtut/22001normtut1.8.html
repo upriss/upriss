@@ -1,0 +1,22 @@
+
+<html>
+<head>
+<title>Relational Database Tutorials</title> 
+</head>
+<body>
+<h3>1.8 Exercise: Student details (completed)</h3>
+The relation Student(<b>regno</b>, na, add, tno, tna, dc, dn, (mc, mn, res))
+<p>with functional dependencies 
+<p><ul>
+<li> dc -> dn
+<li> tno -> tna
+<li> regno, mc -> res
+<li> mc -> mn
+</ul>
+<p>is normalised into 3NF using the following 5 relations:
+<p>Student(<b>regno</b>, na, add, tno, dc) <br> 
+Diploma (<b>dc</b>, dn) <br> 
+Tutor (<b>tno</b>, tna)<br>
+Module(<b>mc</b>, mn) <br> 
+Result (<b>regno, mc</b>, res)
+<p><p><a href='22001normtut_index.html'>Index</a>

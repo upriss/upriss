@@ -1,0 +1,218 @@
+<HTML>
+<HEAD>
+<TITLE>Session 2</TITLE>
+</HEAD>
+<BODY>
+
+<h3>1 Python scripts</h3>
+
+For longer programs it is sometimes more convenient to write
+a script instead of using the interactive interpreter.
+<p>
+To edit code, it is easiest to open two windows. Edit
+the code in one window and execute it in another window. On Socweb:
+after mapping your I-drive, you can open/edit/save your files on the
+I-drive. Use Notepad++ or UltraEdit for editing. (Don't use Notepad
+because copy and paste might create invisible control characters.)
+Then open the ssh window and use it for executing your code. In the
+ssh window, use uparrow to repeat the previous command.
+<p>
+
+<font color=blue><pre>
+# This program adds and multiplies two numbers
+
+number1 = input("Input the first number ")
+number2 = input("Input the second number ")
+
+result = number1 + number2
+print "The sum is:", result
+result = number1 * number2
+print "The product of", number1, "and", number2, "is:", result
+</pre></font>
+
+To execute the python script copy the blue text from the screen
+and paste it into a file. Save the file, for example, under the
+name "add.py". Then type at the Unix prompt:
+
+<font color=blue><pre>
+python add.py
+</pre></font>
+
+<h4>1.1 Explanations</h4>
+
+<table border=1 cellpadding=3>
+<tr><td># <td>indicates a comment;  the line is ignored
+<tr><td>input <td> reads from the keyboard
+<tr><td>number1, number2, result <td> variables
+<tr><td> + - * / <td> numeric operators
+<tr><td> = <td> assignment operator
+<tr><td>print <td> command
+<tr><td> , <td> separates elements in a print statement
+<tr><td>print ... ,<td> A comma at the end of a print statement suppresses newline
+</table>
+
+<h4>1.2 Exercise</h4>
+
+1) Repeat the magician's exercise from last week, but this
+time asking for user input.
+Write a script that asks a user for a number. The script
+adds 3 to that number. Then multiplies the result by 2, subtracts 4,
+subtracts twice the original number, adds 3, then prints
+the result. 
+
+<h3>2 Sets</h3>
+
+The code below shows how to form sets and how to use union,
+intersection and difference. More operators for sets are in the table below.
+Try this code:
+
+<font color=blue><pre>
+from sets import Set
+students = Set(['Joe', 'Jane', 'Mary', 'Pete'])
+programmers = Set(['Caroline', 'Tom', 'John', 'Pete'])
+designers = Set(['Paul', 'Mary', 'Susan', 'Pete'])
+
+print "These are the students:"
+for student in students:
+   print student,
+print "!"
+
+print "There are", len(students), "students."
+print
+
+people = students | programmers | designers           # union
+print "All people:", people
+print
+
+student_designers = students & designers              # intersection
+print "Students who also design:", student_designers
+print
+
+non_design_students = students - designers            # difference
+print "Students who do not design:", non_design_students
+</pre></font>
+
+Note: do <b>not</b> name this file "sets.py". The reason is because 
+"sets.py" is the name of a system file that you are
+importing from. Using a predefined name, will not work. Furthermore,
+Python may create a file "sets.pyc" in your directory, which will also
+interfere with the predefined name and needs to be deleted.
+
+<h4>2.1 Set operators</h4>
+
+<table border=1 cellpadding=3>
+<tr><td><tt>len(s)</tt><td>cardinality of set <em>s</em>
+<tr><td><tt>x in s</tt><td>test <em>x</em> for membership in <em>s</em>
+<tr><td><tt>x not in s</tt><td>test <em>x</em> for non-membership in<em>s</em>
+<tr><td><tt>s.issubset(t)</tt><td>test whether every element in
+        <em>s</em> is in <em>t</em>
+<tr><td><tt>s.issuperset(t)</tt><td>test whether every element in
+        <em>t</em> is in <em>s</em>
+<tr><td><tt>s | t</tt><td>Union: new set with elements from both
+        <em>s</em> and <em>t</em>
+<tr><td><tt>s &amp; t</tt><td>Intersection: new set with elements common to
+        <em>s</em> and <em>t</em>
+<tr><td><tt>s - t</tt><td>Difference: new set with elements in <em>s</em>
+        but not in <em>t</em>
+<tr><td><tt>s ^ t</tt><td>Symmetric difference: new set with elements in either
+        <em>s</em> or <em>t</em> but not both
+<tr><td><tt>s.copy()</tt><td>new set with a shallow copy of <em>s</em>
+
+<tr><td><tt>s.add(x)</tt><td>add element <em>x</em> to set <em>s</em>
+<tr><td><tt>s.discard(x)</tt><td>remove element <em>x</em> from set <em>s</em>
+<tr><td><tt>s.clear()</tt><td>remove all elements from set <em>s</em>
+<tr><td><tt>s == t</tt><td>test whether sets <em>s</em> and <em>t</em> are equal
+<tr><td><tt>s != t</tt><td>test whether sets <em>s</em> and <em>t</em> are not equal
+</table>
+
+<h4>2.2 Copying and comparing sets</h4>
+
+In order to create a new set which is a copy of an existing set, you
+need "copy()". Try this code:
+
+<font color=blue><pre>
+from sets import Set
+odd = Set([1,3,5])
+even = Set([2,4,6])
+copy1 = odd
+copy2 = odd.copy()
+
+print "Are copy1 and odd the same?", copy1 is odd
+print "Are copy1 and odd equal?", copy1 == odd
+print "Are copy2 and odd the same?", copy2 is odd
+print "Are copy2 and odd equal?",copy2 == odd
+
+odd.add(7)
+print "odd:", odd
+print "copy1:", copy1
+print "copy2:", copy2
+</pre></font>
+
+<h4>2.3 Exercise for sets</h4>
+
+2) Write a script that evaluates whether two sets are equal, subset of
+each other or disjoint. The script outputs a sentence: "The two sets
+are ..." stating whether they are equal, subset or disjoint. In order
+to test the script use the sets odd and even or students and
+programmers from the examples above. (Optional: a more complicated
+version of this exercise would ask users to enter two sets by entering
+one element at a time. The sets could be fixed length or the user
+could be asked each time "would you like to add another element?".)
+
+<h4>2.4 Exercises for writing scripts</h4>
+
+The Set module is a general Python module. For the exercises below,
+whenever you need SymPy functions, you need to import the functions.
+For example, if you need Symbol and isprime, your
+script needs to start with the following lines:
+
+<font color=blue><pre>
+from sympy import isprime, Symbol
+</pre></font>
+
+For efficiency it is best to only import what you really need.
+<p>
+3) This code prints the factors of numbers smaller than 10:
+
+<font color=blue><pre>
+has_factor = False
+for number in range(1,11):
+   for factor in range(2,number):
+      if number % factor == 0:    ### the remainder is 0
+         print factor,
+         has_factor = True
+   if has_factor == True:
+      print "factor of", number
+   has_factor = False
+</pre></font>
+
+Change the code so that it prints prime numbers.
+<p>
+4) Find a number n so that n**2 + n + 41 is not a prime number.
+Hint: use the subs() function. Use
+<font color=blue>for x in range(35,45)</font> and 
+the sympy function isprime().
+
+<p>
+5) Write a script that calculates the Fibonacci numbers below 100.
+Fibonacci numbers are: 0, 1, 1, 2, 3, 5, 8, 13, 21, ... The next Fibonacci
+number is calculated by adding the previous two numbers: 0 + 1 = 1;
+1 + 1 = 2; 1 + 2 = 3; 2 + 3 = 5; ...
+<p>
+To terminate the calculation, you can use: 
+<font color=blue>while number < 100:</font>.
+
+<p>
+6) Write a script that computes all two element subsets of a set.
+(Optional: think about how to write an algorithm that
+computes all subsets of a set. This is actually quite difficult!
+A set with n elements has 2<sup>n</sup> subsets. Thus the number
+of subsets grows quickly. You have probably not yet learned enough
+Python to implement this. Thus, for now just think about it.
+What algorithm do you use when you write down all subsets
+of a set with pen and paper?)
+
+
+
+</BODY>
+</HTML>

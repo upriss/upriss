@@ -1,0 +1,108 @@
+<HTML>
+<HEAD>
+<TITLE>Unix Workshop</TITLE>
+</HEAD>
+<BODY>
+
+<h3>4) Basic System Administration</h3>
+
+Chapter 18
+<p>
+SAM (system administration menu), sysadmsh<br>
+<p>
+
+<h4>a) Root and superuser</h4>
+
+login as root<br>
+type "su" and then the password within any user account<br>
+type "su username" to login to any account
+<p>
+<b>Questions:</b>
+<p>
+Why is it not a good idea to always login as root?
+
+<h4>b) Start up and shut down the system</h4>
+
+single-user mode<br>
+inform users before shutdown<br>
+wall (write to all)<br>
+Command: shutdown<br>
+<p>
+<b>Questions:</b>
+<p>
+Why is it dangerous to turn the power off without shutting down 
+properly?
+
+<h4>c) Managing user accounts</h4>
+
+create and delete accounts: <br>
+a typical line of the /etc/password file:<br>
+upriss:hdj472mfiwv:22101:20:Uta Priss,,,:/Users/upriss:/usr/bin/csh <br>
+create home directory for user<br>
+copy .login files to user's home directory<br>
+assign user to group (/etc/group)<br>
+other settings (quota etc.)
+<p>
+user support:<br>
+cope with lost passwords<br>
+answer hundreds of questions!<br>
+<p>
+<b>Exercises</b>
+<p>
+What is your own group, user id? Have a look at the /etc/passwd file
+and the /etc/group file.
+
+<h4>d) Regular duties</h4>
+
+monitor performance<br>
+df<br>
+du -s *|more<br>
+<p>
+file system versus filesystem<br>
+mount<br>
+<p>
+back up<br>
+tar <br>
+tar -cvf /tmp/bkup11.26.97 /Users/upriss<br>
+gzip /tmp/bkup11.26.97<br> 
+tar -rvf /dev/rmt/0m /tmp/bkup11.26.97.gz
+<p>
+check the file system integrity<br>
+fsck
+<p>
+<b>Exercise</b>
+<p>
+tar one of your directories into a file, gzip it, 
+then gunzip it and extract it (tar -xvf). 
+
+<h4>e) Security</h4>
+
+logfiles<br>
+/var/adm/syslog/syslog.log<br>
+/var/adm/syslog/mail.log<br>
+last |more <br>
+<p>
+patches<br>
+Subscribe to the appropriate mailing lists for updates.
+<p>
+Disable all inet services that are not required (especially rlogin, 
+finger, systat). Install safe versions of the services that are
+required. The files "hosts.allow" and "hosts.deny".
+<p>
+Check the /etc/passwd file from time to time.
+<p>
+<b>Exercise</b>
+<p>
+Type "last|more". Have a look at the files in /etc/inet, especially
+/etc/inet/inetd.conf.
+
+<h4>f) Printer service</h4>
+
+/etc/lp
+
+<h4>g) Install hardware and software</h4>
+
+Cannot be explained in this class!
+
+</BODY>
+</HTML>

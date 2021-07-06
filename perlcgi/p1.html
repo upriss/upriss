@@ -1,0 +1,246 @@
+<html>
+<title>Week 1</Title>
+
+<body>
+
+<h4>0 PHP Introduction</h4>
+
+This session provides an overview of important PHP structures and functions.
+It is not necessary to learn all existing PHP functions. It is preferable
+to learn a subset of functions (as provided on this website) that can do
+most things and then to look up additional functions as needed in the 
+<a href="http://www.php.net/manual/en/index.php">PHP manual</a>.
+
+<h4>0.1 Setting up PHP files on the server</h4>
+
+In general, you need two directories: "public_html" and a subdirectory
+of "public_html" called "php". The public_html and the php directory should
+both be world readable and executable. You may also need to change the permissions 
+for your top level directory. The following commands create the 
+directories and set the permissions in a typical Unix environment.
+On Windows in a WAMP-like environment, the permissions are most likely automatically
+set at the time of installation.
+<p>
+<font color=blue>
+cd; chmod 711 .; <br>
+mkdir public_html; chmod 755 public_html;<br>
+cd public_html; mkdir php; chmod 755 php;
+</font>
+<p>
+
+All php files should be in the php directory and should have an extension ".php".
+The URL for PHP files should be something like:<br>
+<font color=blue>http://someserver/~yourusername/php/filename.php
+</font>
+
+<h3>1 A first example "Hello World"</h3>
+
+<font color=blue>
+&#60;html&#62;<br>
+&#60;head&#62;&#60;title&#62;Hello World&#60;/title&#62;&#60;/head&#62;
+&#60;body&#62;<BR>
+&#60;?php<br>
+echo "Hello World";<BR>
+?&#62;<BR>
+&#60;/body&#62;&#60;/html&#62;<BR>
+</font>
+
+
+<h4>1.1 Exercises</h4>
+1) Save this PHP script in your php directory under the name helloworld.php. 
+(On Unix you may need to change the permissions, for example:
+<font color=blue>chmod 755 helloworld.php</font>.)
+Look at the file through your browser.
+
+<p>
+2) Add a second echo statement to the script from the example. 
+(For example: echo "How are you?".) 
+<p>
+3) Make some random changes, for example, delete one of the double quotes.
+In most cases you will get an error message. The most useful piece
+of information in that message is probably the number of the line in
+which the error occurred. Fix the errors until the script executes again
+successfully.
+
+<h3>2 A second example </h3>
+
+<font color=blue>
+&#60;html&#62;<br>
+&#60;head&#62;&#60;title&#62;Hello World&#60;/title&#62;&#60;/head&#62;
+&#60;body&#62;<BR>
+&#60;?php<br>
+echo "What is your name? ";<BR>
+echo "Hello, {$_REQUEST['name']}! How are you?";<BR>
+?&#62;<BR>
+&#60;/body&#62;&#60;/html&#62;<BR>
+</font>
+<p>
+The variable $_REQUEST['name'] retrieves data from a user request (such as
+a web form). For testing purposes it can be used via the query string (see
+next exercise). If you don't like the complicated variable name,
+write <font color=blue>$name = $_REQUEST['name']</font> at the beginning
+of the PHP code and then use $name in the rest of the code.
+
+<h4>2.1 Exercises</h4>
+
+4) Look at the script through your browser. Then add "?name=Snoopy" at the
+end of the URL:
+<p>
+<font color=blue>
+thenameofyourfile.php?name=Snoopy
+</font>
+<p>
+ and press enter.
+
+<p>
+5) Write a program that
+asks two people for their names; stores the names in variables
+called $_REQUEST['name1'] and $_REQUEST['name2'] and
+says hello to both of them. (In the URL, you need to separate the
+variables with "&": "?name1=Snoopy&name2=Charlie".)
+
+<h3>3 Operators for Numbers</h3>
+
+<font color=blue>
+$a = 3 -4 +10;<br>
+$b = 5*6;<br>
+$c = 7/8;<br>
+echo "These are the values: $a $b $c &#60;br&#62;";<br>
+echo "Increment $a by one: ";<br>
+$a++;<br>
+echo $a;<br>
+echo "&#60;br&#62;";<br>
+echo "Decrease $a by one: ";<br>
+$a--;<br>
+echo $a;<br>
+echo "&#60;br&#62;";     
+</font>      
+
+<h4>3.1 Exercise</h4>
+
+6) Add the code to your script and see what it does.
+
+<h4>3.2 Example</h4>
+
+<font color=blue>
+$can_money = $_REQUEST['us_money'] /0.6;<br>
+echo "US\$ {$_REQUEST['us_money']} = Canadian \$ $can_money&#60;br&#62;";<br>
+</font>
+
+<h4>3.3 Exercise</h4>
+
+7) In analogy to the example, write a script that 
+takes a temperature in F
+and echos the temperature in C. (Conversion: 
+Celsius = (F - 32) * 5/9 )<br>
+
+<h3>4 Logical expressions and control structures</h3>
+
+<font color=blue>
+echo "Do you like PHP? &#60;br&#62;";<br>
+if ($_REQUEST['answer'] == "yes"){<br>
+&nbsp; &nbsp; &nbsp; echo "That is great!";<br>
+} else {<br>
+&nbsp; &nbsp; &nbsp; echo "That is disappointing!";<br>
+}
+</font>
+
+<h4>4.1 Exercise</h4>
+
+8) Modify the program so that it answers "That is great!" if the
+answer was "yes", "That is disappointing"
+if the answer was "no" and "That is not an answer to my question."
+otherwise. Use "if ... else if ... else ...". Note that "if" and
+"else if" are followed by an expression in parenthesis () and then
+a statement in curly brackets {}, "else" is followed only by a statement
+in curly brackets.
+
+<h4>4.2 For loops</h4>
+
+An example of a control structures is "for".
+<p>
+<font color=blue>
+for ($i =1; $i <= 10; $i++){<br>
+&nbsp; &nbsp; &nbsp; echo  "$i ";<br>
+}<br>
+</font>
+<p>
+The PHP manual has a complete listing of PHP's
+<a href="http://uk.php.net/manual/en/language.control-structures.php">
+control structures</a>.
+
+<h4>4.3 Exercise</h4>
+
+9) Create a script that adds the numbers from 1 to 20 and prints
+the result. Use a for loop.
+
+
+<h3>5 Arrays</h3>
+
+Arrays in PHP are ordered maps (also called "hashs",
+"associative arrays", "maps", "lookup tables" or "dictionaries"
+in other programming languages).
+
+<p>
+<font color=blue>
+$zoo = array("monkey", "tiger", "eagle");<br>
+echo "The zoo has the following ".count($zoo)." animals: ";<br>
+echo implode (" ",$zoo);<br>
+echo ".&#60;br&#62;";<br>
+echo "Which animal would you like to add?&#60;br&#62; ";<br>
+$new_animal = $_REQUEST['animal'];<br>
+array_push($zoo, $new_animal);<br>
+echo "The zoo now has the following ".count($zoo)." animals: ";<br>
+echo implode (" ",$zoo);<br>
+echo ".&#60;br&#62;";  <br>
+echo "The 3rd animal in the array is $zoo[2].";
+</font>
+
+<h4>5.1 Exercise</h4>
+
+10) Create an array that contains the names of 5 students of this class.
+(You don't need a loop to do that. Simply assign the 5 values.)
+Echo the array. Remove (array_pop) the last name from the array.
+Echo the array. Add (array_push) a further name to the array.
+Echo the array.
+Echo the array in alphabetical and in reverse order (using sort and rsort).<p>
+
+<h3>5.2 Foreach</h3>
+
+<font color=blue>
+$zoo = array("tiger", "elephant", "monkey");<br>
+foreach ($zoo as $animal) {<br>
+&nbsp; &nbsp; $animal = "_".$animal."_";<br>
+&nbsp; &nbsp; echo "$animal";<br>
+}<br>
+echo "&#60;br&#62;";<br>
+</font>
+
+<h4>5.3  Exercise</h4>
+
+11) Use the array of student names from exercise 10.
+Create a foreach loop that echos for each student
+"hello $student, how are you?".
+
+<h3>6 Input from a file</h3>
+
+Click <a href="alice.txt">here</a> and save the file in your 
+PHP directory under the name "alice.txt".
+<p>
+<font color=blue>
+$lines = file('alice.txt');<br>
+foreach ($lines as $line_num =&#62; $line) {<br>
+&nbsp;
+  echo "Line ",$line_num,": ",$line, "&#60;br&#62;\n";<br>
+}<br>
+</font>
+
+
+<h4>6.1 Exercise</h4>
+
+12) Modify the program so that
+the lines are echoed in reverse order. <p>
+
+</body>
+</html>
+

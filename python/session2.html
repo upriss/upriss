@@ -1,0 +1,158 @@
+<HTML>
+<HEAD>
+<TITLE>L548 Session 2</TITLE>
+</HEAD>
+<BODY>
+
+<b>1) Operators for Numbers</b>
+<p>
+<table border=1>
+
+<tr><td>a = b <td> Assign b to a
+<tr><td>a = 1 + 2 <td> Add 1 and 2 and store in a
+<tr><td>a = 3 - 4 <td> Subtract 4 from 3 and store in a
+<tr><td>a = a + b <td> Add a and b; store in a
+<tr><td>a = 5 * 6 <td> Multiply 5 and 6
+<tr><td>a = 7.0 / 8.0 <td> Divide 7 by 8, yields 0.875
+<tr><td>a = 7 / 8 <td> Divide 7 by 8, yields 0
+<tr><td>a = 9.0 ** 10 <td> 9 to the power of 10
+<tr><td>a = 5 % 2 <td> Remainder of 5 divided by 2
+<tr><td>int(a)  <td> converts string into number
+</table>
+<p>
+
+<b>Exercise: Operating with Numbers</b>
+<p>
+<font color=blue>
+#!/usr/bin/env python<br>
+# <br>
+# This program converts from US $ to Canadian $ <br>
+<br>
+us_money = input ("Money value in US $ ")<br>
+<br>
+can_money = us_money /0.6<br>
+print "US$", us_money, "= Canandian $", can_money<br>
+</font>
+<p>
+
+1.1) In analogy to the example, write a script that 
+asks users for the temperature in F
+and prints the temperature in C. (Conversion: 
+Celsius = (F - 32) * 5/9 )<br>
+<p>
+
+<b>2) Strings</b>
+<p>
+A string is delimited by double quotes ("..."). Certain special characters
+can be used, such as "\n" (for newline) and "\t" (for a tab). 
+To print the characters " and \, they must be preceded by a backslash (\). 
+A \ at end of line is used to continue a string on the next line. A 
+multi-line
+print statement should be enclosed by three double quotes ("""...""").
+
+<p>
+<font color=blue>
+#!/usr/bin/env python<br>
+# <br>
+print "hello\n"<br>
+print "To print a newline use \\n"<br>
+print "She said: \"hello\"" <br>
+print "\tThis is indented" <br>
+print "This is a very, very, very, very, very, very \<br>
+long print statment"<br>
+print """<br>
+This is a multi-line print statement<br>
+First line<br>
+Second line<br>
+"""<br>
+</font>
+<p>
+<b>Exercise:</b>
+<p>
+2.1) Write a python script that prints the following figure
+<p>
+<pre>
+       \  |  /
+         @ @
+          *
+        \"""/
+</pre>
+
+<p>
+
+<b>3) Operators and functions for strings</b>
+
+<p>
+<table border =1>
+<tr><td>a = b + c <td> concatenate b and c
+<tr><td>a = b * c <td> b repeated c times
+<tr><td>a[0] <td> the first character of a
+<tr><td>len(a) <td> the number of characters in a
+<tr><td>min(a) <td> the smallest element in a (alphabetically first)
+<tr><td>max(a) <td> the largest element in a (alphabetically last)
+</table>
+
+<p>
+Example:
+<p>
+<font color=blue>
+#!/usr/bin/env python<br>
+#<br>
+# String operations<br>
+<br>
+b = "the"<br>
+c = "cat"<br>
+d = " is on the mat"<br>
+a = b + " " + c + d<br>
+print a<br>
+b = b + " "<br>
+a = b * 5<br>
+print a<br>
+print "The first character of", c, "is" ,c[0]<br>
+print "The word \""+ c+ "\" has", len(c) ,"characters"<br>
+<br>
+name = raw_input ("Please, type in your name ")<br>
+name = (name + "!") * 5<br>
+print name
+</font>
+<p>
+<b>Exercise:</b>
+<p>
+3.1) Write a program that asks users for their favourite
+color. Create the following output (assuming "red" is the chosen
+color). Use "+" and "*".
+
+<pre>
+red red red red red red red red red red  
+red                                 red
+red                                 red
+red red red red red red red red red red
+</pre>
+<p>
+
+<b>4) Control structures: if</b>
+<p>
+This is just a first introduction to control structures. They will
+be covered in more detail during the next two weeks.
+<p>
+<font color=blue>
+#!/usr/bin/env python<br>
+# if statement<br>
+<br>
+answer = raw_input("Do you like Python? ")<br>
+if answer == "yes":<br>
+&nbsp; &nbsp; &nbsp; &nbsp; print "That is great!"<br>
+else:<br>
+&nbsp; &nbsp; &nbsp; &nbsp;  print "That is disappointing!"
+</font>
+<p>
+<b>Exercise:</b>
+<p>
+4.1) Modify the program so that it answers "That is great!" if the
+answer was "yes", "That is disappointing"
+if the answer was "no" and "That is not an answer to my question."
+otherwise. Use "if ... elif ... else ...". 
+
+</body>
+</html>
+

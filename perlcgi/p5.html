@@ -1,0 +1,84 @@
+<HTML>
+<TITLE>Week 5</Title>
+
+<body>
+
+PHP allows for the use of two different types of Regular Expressions:
+POSIX and Perl-compatible ones. Below are a few example scripts which
+illustrate how to open a file in PHP, how to use Perl-compatible
+regular expressions and how to use replacement and split/implode. 
+<p>
+For the specific exercises, please, see the <a href="s5.html">Perl version</a>
+of this page because the same exercises 
+can be used for Perl-compatible regular expressions in PHP. 
+<p>
+
+<h4>Opening a file and printing it line by line</h4>
+
+<font color=blue>
+&#60;html&#62;&#60;head&#62;<br>
+&#60;title&#62;Displaying a file line by line&#60;/title&#62; <br>
+&#60;/head&#62;&#60;body&#62;<br>
+&#60;hr&#62;&#60;h1&#62;Results:&#60;/h1&#62;&#60;hr&#62;&#60;p&#62;<br>
+&#60;?php<br>
+$lines = file('alice.txt');<br>
+foreach ($lines as $line_num =&#62; $line) {<br>
+&nbsp;
+  echo "Line ",$line_num,": ",$line, "&#60;br&#62;\n";<br>
+}<br>
+?&#62;<br>
+&#60;p&#62;&#60;hr&#62;&#60;/body&#62;&#60;/html&#62;<br>
+</font>
+
+<h4>Using regular expressions</h4>
+
+<font color=blue>
+&#60;html&#62;&#60;head&#62;<br>
+&#60;title&#62;Searching&#60;/title&#62; &#60;/head&#62;&#60;body&#62;<br>
+&#60;hr&#62;&#60;h1&#62;Results:&#60;/h1&#62;&#60;hr&#62;&#60;p&#62;<br>
+&#60;?php<br>
+$lines = file('alice.txt');<br>
+foreach ($lines as $line_num =&#62; $line) {<br>
+&nbsp; if (preg_match("/the /i", $line, $matches)) {<br>
+&nbsp; &nbsp; 
+echo "&#60;br&#62; Line ", $line_num, " matches: ",$matches[0],"&#60;br&#62;";<br>
+&nbsp; &nbsp; 
+echo $line;<br>
+&nbsp;  }<br>
+}<br>
+?&#62;<br>
+&#60;p&#62;&#60;hr&#62;&#60;/body&#62;&#60;/html&#62;<br>
+</font>
+<p>
+See <a href="http://uk.php.net/manual/en/ref.pcre.php">here</a> for details
+on regular expressions and 
+<a href="http://uk.php.net/manual/en/function.preg-match.php">here</a> 
+for details and examples of preg_match.
+
+<h4>Replacement</h4>
+
+<font color=blue>
+&#60;html&#62;&#60;head&#62;<br>
+&#60;title&#62;Searching&#60;/title&#62; &#60;/head&#62;&#60;body&#62;<br>
+&#60;hr&#62;&#60;h1&#62;Results:&#60;/h1&#62;&#60;hr&#62;&#60;p&#62;<br>
+&#60;?php<br>
+$lines = file('alice.txt');<br>
+foreach ($lines as $line_num =&#62; $line) {<br>
+$line = preg_replace("/T/", 't', $line); <br>
+&nbsp; &nbsp; 
+echo $line, "&#60;br&#62;";<br>
+}<br>
+?&#62;<br>
+&#60;p&#62;&#60;hr&#62;&#60;/body&#62;&#60;/html&#62;<br>
+</font>
+<p>
+See <a href="http://www.php.net/manual/en/function.preg-replace.php">here</a>
+for details and examples of preg_replace.
+
+<h4>Split and Implode</h4>
+
+See <a href="http://www.php.net/manual/en/function.preg-split.php">here</a>
+for details and examples of preg_split.
+<p>
+See <a href="http://www.php.net/manual/en/function.implode.php">here</a>
+for details and examples of implode (which is the equivalent to Perl "join").

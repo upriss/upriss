@@ -1,0 +1,105 @@
+<html>
+<title>Week 11</Title>
+
+<body>
+
+<h3>In-class exercises</h3>
+<h3>1 Unicode</h3>
+
+The code points of Unicode characters can be looked up in the 
+<a href="http://www.unicode.org/charts/">Unicode charts</a>
+or in 
+<a href="http://en.wikipedia.org/wiki/Category:Unicode_blocks">
+this Wikipedia page</a>.
+
+<h4>Exercises</h4>
+
+1.1 Determine what the characters look like which have the 
+following Unicode code points (as decimal numbers):<br>
+U+9730, U+9731, U+9755, U+9836, U+9859.<br>
+Hints: insert them as numeric character references into an HTML
+document and look at them through your browser. Hexadecimal
+characters have an x before the number, decimal ones don't have an x.
+<p>
+1.2 Find Unicode characters for smiley faces, the pound sterling 
+sign and the euro sign. <br>
+Hint: look them up in the name index of the 
+<a href="http://www.unicode.org/charts/">Unicode charts</a>.
+<p>
+1.3 Search for Kobenhavn and K&#248;benhavn on an internet search
+engine (e.g. Google). Do the two words produce different numbers of websites?
+What about searching for Cafe and Caf&eacute;? <br>
+Hint: copying and pasting the characters should work on most browsers.
+
+
+<h3>2 HTML5</h3>
+
+2.1 Save the following html file on your computer:
+
+<font color=blue><pre>
+&#60;html&#62;
+&#60;head&#62;
+&#60;script&#62;
+function storeText()
+{ localStorage.sometext=document.getElementById("field1").value; }
+&#60;/script&#62;
+&#60;/head&#62;
+&#60;body&#62;
+
+&#60;div id="result"&#62;&#60;/div&#62;
+Field1: &#60;input type="text" id="field1" value="Hello World!"&#62;&#60;br&#62;
+Field2: &#60;input type="text" id="field2"&#62;
+&#60;br&#62;&#60;br&#62;
+&#60;button onclick="storeText()"&#62;Store Text&#60;/button&#62;
+
+&#60;script&#62;
+document.getElementById("field2").value= localStorage.sometext;
+&#60;/script&#62;
+
+&#60;/body&#62;
+&#60;/html&#62;
+</pre></font>
+
+Change the text in Field1, press the Store Text button, then reload the page.
+See what happens if you
+<ul>
+<li>reload the page without pressing the Store Text button first
+<li>reload the page after removing cookies from your browser
+<li>reload the page after emptying the web storage or local storage of
+your browser (if you don't know how to do this, look it up on the web).
+</ul>
+
+<p>
+
+2.2 Have a look at your browser preferences to see whether you can 
+display or configure the local storage or databases used by your browser.
+Can you find where this data is stored? On Unix computers, you can try the 
+sqlite3 command.
+
+<p>
+
+2.3 Have a look at the source code of this
+<a href="../awt/drawing.html">HTML Canvas Demo</a>. It uses the &#60;canvas&#62;
+element. Can you determine what the two parameters of the btrclick function
+are used for? What type of function is btrclick? How is the canvas initialised?
+What types of functions are start, stop and update?
+
+<h3>3 Programming exercises</h3>
+
+3.1 Use a PHP script that you wrote in a previous tutorial.
+Test what happens when you copy and paste characters, such as
+&#248; or &eacute; into a textfield on such a script. 
+Add some code that converts these characters from UTF-8 to numeric
+character references and back. 
+<p>
+3.2 Change the code from 2.1 so that it checks whether the localStorage.sometext
+variable is defined. If it is defined, display the variable, otherwise display
+"empty".
+
+<p>
+3.3 Save the <a href="../awt/drawing.html">HTML Canvas Demo</a> on your computer.
+You also need to download the draw.js file. Add more pen colors and more linewidth
+options to the script.
+
+</body>
+</html>

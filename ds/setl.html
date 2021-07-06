@@ -1,0 +1,113 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/*html*; charset=UTF-8" />
+</head>
+<body>
+
+<h2>Zuweisung und Variablen</h2>
+
+<pre>
+a := 23;
+text_1:="Hello World";
+</pre>
+
+<font color='red'>Variablen müssen mit einem Kleinbuchstaben beginnen!!!</font>
+
+<h2>Arithmetische Operationen</h2>
+
+<table border=1 cellpadding=5>
+<tr><td>+<td>Addition</tr>
+<tr><td>-<td>Subtraktion</tr>
+<tr><td>*<td>Multiplikation</tr>
+<tr><td>**<td>Potenz</tr>
+<tr><td>/<td>Division</tr>
+<tr><td>\<td>ganzzahlige Division</tr>
+<tr><td>%<td>Modulus</tr>
+</table>
+
+<h2>Vergleichsoperationen</h2>
+
+<table  border=1 cellpadding=5>
+<tr><td>==<td>Gleich</tr>
+<tr><td>!=<td>Ungleich</tr> 
+<tr><td>><td>Größer</tr>  
+<tr><td>>=<td>Größer oder gleich</tr> 
+<tr><td>&lt;<td>Kleiner</tr> 
+<tr><td>&lt;=<td>Kleiner oder gleich</tr>
+</table> 
+
+<h2>Aussagenlogische Operationen</h2>
+
+<table  border=1 cellpadding=5>
+<tr><td>&&<td>Konjunktion (logisches Und)</tr>
+<tr><td>||<td>Disjunktion (logisches Oder) </tr>
+<tr><td>!<td>Negation (logisches Nicht) </tr>
+<tr><td>=><td>Implikation </tr>
+<tr><td>&lt;==><td>Äquivalenz </tr>
+</table>
+
+<h2>Mengen und Mengenoperationen</h2>
+
+<p>Eine Menge in SetlX definiert durch Aufzählung
+</p><pre>
+{1, 2, 3};
+</pre>
+
+oder durch <b>Set comprehension:</b>
+
+<pre>{ 2 * a : a in {1..10}};</pre> 
+<pre>{a*b: a in{1..3},b in{1..3} };</pre>
+<pre>{ 2 * a : a in {1..10} | a%2 == 0};</pre>
+
+<table  border=1 cellpadding=5>
+<tr><td>in<td>Element von</tr>
+<tr><td>..<td>Aufzählung</tr>
+<tr><td>+<td>Vereinigung</tr> 
+<tr><td>*<td>Schnittmenge</tr>
+<tr><td>-<td>Differenz</tr>
+<tr><td>#<td>Kardinalität (Anzahl der Elemente)</tr>
+<tr><td>==<td>Gleich</tr>
+<tr><td>!=<td>Ungleich</tr> 
+<tr><td>&lt;=<td>Teilmenge (auch <span>>=</span>)</tr> 
+<tr><td>&lt;<td>echte Teilmenge (auch <span>></span>)</tr> 
+<tr><td>>&lt;<td>kartesisches Produkt</tr>
+<tr><td>** 2<td>kartesisches Produkt mit sich selbst</tr>
+<tr><td>2 **<td>Potenzmenge</tr>
+</table>
+
+<h2>Listen</h2>
+
+<pre>a := [ 2 * a : a in [1..10]];</pre> 
+
+<table  border=1 cellpadding=5>
+<tr><td>a[3];<td>drittes Element</tr>
+<tr><td>first(a);<td>erstes Element</tr>
+<tr><td>last(a);<td>letztes Element</tr>
+</table>
+
+<h2>Quantoren</h2>
+
+<pre>forall (x in {1..10} |x%1 == 0);</pre>
+<pre>exists (x in {1..10} |x%2 == 0);</pre>
+
+<h2>Funktionen</h2>
+
+<pre>
+addiere1 := procedure(s) {    
+     return { a + 1 : a in s }; 
+};</pre>
+
+<h2>Andere Befehle</h2>
+
+<table  border=1 cellpadding=5>
+<tr><td>load("dateipfad");<td>Dateien laden</tr>
+<tr><td>print("hello world");<td>Ausgabe</tr>
+<tr><td>print("Wert $a$");<td>Ausgabe mit Auswertung der Variablen</tr>
+<tr><td>multiLineMode(true);<td>Mehrzeilenmodus (auch mit -m starten)</tr>
+</table>
+
+
+
+</body>
+</html>
+

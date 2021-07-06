@@ -1,0 +1,190 @@
+<HTML>
+<HEAD>
+<TITLE>Session 3</TITLE>
+</HEAD>
+<BODY>
+
+
+<h3>1 Boolean logic/propositional calculus</h3>
+
+Sage contains a logic module. On Socweb this is imported using
+
+<font color=blue><pre>
+sys.path.append('/home/staff/cs170/sagelogic/')
+import propcalc
+</pre></font>
+<p>
+(In other installations, the module is imported with:
+<font color=blue>import sage.logic.propcalc as propcalc</font>.)
+<p>
+The logic module uses the following operators:
+<p>
+<table border=1 cellpadding=3>
+<tr><td>not<td>~
+<tr><td>and<td>&
+<tr><td>or<td>|
+<tr><td>xor (exclusive or)<td>^
+<tr><td>implies<td>->
+<tr><td>equivalent<td><->
+</table>
+<p>
+
+<font color=blue><pre>
+f = propcalc.formula("a&b")
+f.truthtable()  ## Producing a truthtable
+f.is_satisfiable() ## whether at least one row that results in True
+f.is_tautology() ## whether all rows in the truthtable result in True
+</pre></font>
+
+Print all rows in the truthtable that result in True.
+
+<font color=blue><pre>
+f.truthtable().true_rows()
+</pre></font>
+
+(Note: the "true_rows()" function is only available on Socweb. If you are
+using this on your own computer, you'll need something like this instead:
+<pre>
+table = f.truthtable().get_table_list()
+table[0].append('value')
+for row in table[1:]:
+&nbsp;   if row[-1] == True:
+&nbsp; &nbsp;      print table[0]
+&nbsp; &nbsp;      print row
+</pre>
+
+Checking whether two expressions are equivalent:
+<font color=blue><pre>
+f = propcalc.formula("~(a & b) <->(~ a | ~ b)")
+f.is_tautology()
+</pre></font>
+
+
+<h4>1.1 Exercises</h4>
+
+Use the python interpreter (not scripts) for the exercises below.
+<p>
+1) For each expression on the left, 
+can you find the one on the right that is equivalent? Check your
+results with Python.
+
+<p>
+<center><table cellpadding=5>
+<tr><td> a | a <td>~ (a | ~ b)
+<tr><td> a & b <td> ~ b | ~ a
+<tr><td> ~ a & b <td> a & (a | b) 
+<tr><td> ~ (a & b) <td>(~ a) & (~ b) 
+<tr><td> ~ (a | b) <td> ~ (~ a | ~ b)
+<tr><td> a & b & c &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<td> (c & a)|(a & b)
+<tr><td> a & (b | c) <td>(a | c) & (b | c) 
+<tr><td> (a & b) | c <td> c & a & b
+</table>
+</center>
+<p>
+2) A logic puzzle: Whom to invite for the party? 
+<p>
+<li> If you invite Susan, you must invite John. 
+<li> You must invite either John or Mary, but not both. 
+<li> You must invite either Susan or Mary or both. 
+<li> If you invite Mary, you must also invite Susan. 
+<p>
+To solve this puzzle, write a formula which combines all the
+conditions. For example, the first condition is: (susan -> john),
+or abbreviated as (s -> j).
+Combine the conditions using &. Then find all the rows in the
+truthtable which result in true. 
+What is the answer of the puzzle that can be read from the truthtable?
+<p>
+3) Another logic puzzle:
+<p>
+<li> You should not invite Andrew or not invite Lisa. 
+<li> If you don't invite Diana, Mary will not come either. 
+<li> If you invite Lisa, you should also invite Paul or John. 
+<li> You should not invite both John and Mary. 
+<li> Paul never goes to parties.
+<li> You definitely want to invite Lisa.
+<p>
+Because the truthtable for this one is quite big, it is best to print
+only the rows that result in True.
+<p> 
+4) Knights and Knaves:
+<p>
+The logician Raymond Smullyan describes an island with two kinds of
+people: knights and knaves. Knights always tell the truth, whereas
+knaves always lie. What are the following two people, knights or
+knaves?
+<p>
+A says: B is a knight.<br>
+B says: A and I are of opposite type.
+<p>
+Hint: you can model this as four variables: "a speaks the truth", "a lies",
+"b speaks the truth", "b lies".
+<p>
+5) A logic grid puzzle:
+
+<table>
+<tr><td><li>Paul has grey hair.
+<li>The 70 kilo person has red hair.
+<li>Paul is not the heaviest.
+<li>John is heavier than Sue.
+<td>
+&nbsp; &nbsp; <img src="puzzle.jpg">
+</table>
+<p>
+Logic grid puzzles consist of a few clues and a grid that can be used
+while solving the puzzle with pen and paper. Try it!
+<p>
+Optional: attempt a Boolean logic solution 
+(which may be more difficult than a
+solution with pen and paper). In Boolean logic each of the blue coloured
+squares in the grid needs to become a variable ("p60: Paul weighs 60",
+"p70: Paul weighs 70", etc). How many rows does a truthtable with 12
+variables have?
+<p>
+All of the conditions (even the ones
+about Sue) need to be written in terms of Paul and John. The implicit
+conditions (someone can only have one hair colour, one weight) also
+need to be stated. 
+<p>
+Since your formula won't fit on one line: you can continue it to the
+next line if you put a backslash at the end of the first line.
+<p>
+This puzzle shows the limits of Boolean logic. For more complex
+puzzles one needs a more higher level logic programming language
+(something like Prolog).
+
+<h3>2 Intensional definition of sets</h3>
+
+Python has a mechanism (called "list comprehension") which allows to
+define sets in a manner that is very close to mathematical notations.
+For example,
+<p>
+<table border=1 cellpadding=3>
+<tr><th>Python <th>mathematical notation
+<tr><td>ints = Set(range(1,11))   <td> {x &nbsp; | &nbsp; 0 < x < 11 }
+<tr><td>Set([2*x for x in range(1,6)])  <td> {y &nbsp; | &nbsp; y = 2x; 0 < x < 6 }
+<tr><td>Set([2*x for x in range(1,20) if x%3 == 0])<td>
+{y &nbsp; | &nbsp; y = 2x; 0 < x < 20; 3 divides x }
+<tr><td>Set([sqrt(x) for x in range(1,6)]) <td> 
+{y &nbsp; | &nbsp; y = &radic;x; 0 < x < 6;}
+<tr><td>Set([x for x in range(1,11) for y in range(2,x) if x % y ==0]) <td>
+{x &nbsp; | &nbsp; 0 < x < 11; &#8707;y >1: y divides x }
+</table>
+
+<h4>2.1 Exercises</h4>
+
+Reminder: you'll need <font color=blue>from sets import Set</font> for
+these exercises.
+<p>
+6) Try the examples above. Can you find a verbal description for each of the sets?
+
+<p>
+7) Define the following sets:
+<p>
+a) Numbers between 1 and 100 which are divisible by 2, 3 and 7.<br>
+b) Rational numbers (fractions) with a numerator between 1 and 10
+and a denominator between 1 and 5. All fractions should be reduced.<br>
+c) Prime numbers below 10. (Use the set defined above and set operators.)
+
+</BODY>
+</HTML>

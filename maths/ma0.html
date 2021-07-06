@@ -1,0 +1,82 @@
+<HTML>
+<HEAD>
+<TITLE>Setup</TITLE>
+</HEAD>
+<BODY>
+
+<h4>Configuring your SSH client (Putty)</h4>
+
+<ul>
+<li> Under "Window - Translation" set the value for
+"Received data assumed to be in which character set" to UTF-8
+<li> Under "Session", enter the host name: &nbsp;
+socweb8.napier.ac.uk
+<li> Save this session: type a name in the field "Saved sessions",
+then click "Save"
+<li> Click "Open"
+</ul>
+<p>
+You can configure the client when it starts up or for the current
+session (in which case you need to click on the icon in the top left corner).
+<p>
+The next time you start the client, click on your saved session 
+and then "Open".
+
+<h4>Using Python on the Unix server</h4>
+
+Type <font color="blue">python</font> at the command line.
+This starts the interactive mode. You can now type commands. To
+leave the interactive mode press the control key followed by
+<font color="blue">D</font>. 
+<p>
+In order to use sympy and to set python to accept certain
+conventions, you should copy and paste the following code
+after you start python. (Use the right mouse button for pasting.)
+
+<font color=blue><pre>
+from __future__ import division
+import sys
+from sympy import *
+sys.displayhook = pprint
+</pre></font>
+
+You need to do this whenever you start python.
+
+<h4>Save the Python settings permanently</h4>
+
+Type <font color=blue>nano .pythonstartup</font> to create a file.
+Save the following lines to that file:
+
+<font color=blue><pre>
+from __future__ import division
+import sys
+from sympy import *
+sys.displayhook = pprint
+</pre></font>
+
+Next, determine which shell you are using by typing
+<font color=blue>printenv SHELL</font>. Please be careful with the next
+steps. If you don't understand this, please ask for help. If you mess up your
+login file, you will not be able to login to your account anymore.
+<p>
+
+If you are using bash, type <font color=blue>nano .profile</font> 
+and add this line to the end of the file:
+
+<font color=blue><pre>
+export PYTHONSTARTUP=~/.pythonstartup
+</pre></font>
+
+Save the file and type <font color=blue>source .profile</font> to
+apply the changes.
+
+<p>
+(If you were using a c-shell, you would need to add this line to your .cshrc file:
+<font color=blue>setenv PYTHONSTARTUP ~/.pythonstartup</font>)
+
+
+
+
+
+</BODY>
+</HTML>

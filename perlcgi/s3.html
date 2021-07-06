@@ -1,0 +1,209 @@
+<HTML>
+<HEAD>
+<TITLE>Week 3</TITLE>
+</HEAD>
+<BODY>
+
+<h3>1 Arrays</h3>
+
+Arrays in Perl are lists. It should be noted that 
+arrays in PHP correspond to hashs in Perl (see number 4 below), which are
+lists of index/value or key/value pairs. Hashs are also called 
+"associative arrays", "maps", "lookup tables" or "dictionaries".
+
+<p>
+<font color=blue>
+#!/usr/local/bin/perl -w<br>
+#<br>
+# animals in a zoo<br>
+#<br>
+@zoo=("monkey", "tiger", "eagle");<br>
+print "The zoo has the following ".@zoo." animals: @zoo\n";<br>
+print "Which animal would you like to add? ";<br>
+$new_animal = &#60STDIN&gt ;<br>
+chomp $new_animal;<br>
+push(@zoo, $new_animal);<br>
+$length = @zoo;<br>
+print "The zoo now has the following $length animals: @zoo\n";<br>
+print "The 3rd animal in the list is $zoo[2]\n";        
+</font>
+
+<h4>1.1 Array operators and functions</h4>
+
+a) Important ones
+<p>
+<table border =2>
+<tr><td>@zoo = ("monkey", "tiger", "eagle");</td><td>defining an array</td>
+<tr><td>push(@zoo,"parrot"); </td><td>add elements at end of array</td>
+<tr><td>@zoo = ("zebra","lion", @zoo);</td><td>add elements at beginning</td>
+<tr><td>$length = @zoo; </td><td> length of @zoo</td>
+<tr><td>$animal = $zoo[0]; </td><td> the first element of @zoo</td>
+<tr><td>$animal = $zoo[2]; </td><td> the third element of @zoo</td>
+<tr><td>$animal = $zoo[@zoo-1]; </td><td> the last element of @zoo</td>
+<tr><td>$lastelement = pop(@zoo); </td><td> remove last element from @zoo</td>
+<tr><td>@other_zoo = reverse(@zoo); </td><td> new array with reverse order 
+  </td>
+<tr><td>@other_zoo = sort(@zoo); </td><td> new array in alphabetical order</td>
+
+</table>
+<p>
+b) Optional ones
+<p>
+<table border =2>
+<tr><td>@zoo = qw(monkey tiger eagle);<br>@numbers = (1 .. 5);
+  </td><td>defining an array</td>
+<tr><td>$number = $#zoo; </td><td> index of the last element</td>
+<tr><td>$animal = $zoo[-1]; <br>
+  $animal = $zoo[$#zoo]; </td><td> the last element of @zoo</td>
+<tr><td>@zoo[0,1] = @zoo[1,0]; </td><td> swap the first two elements</td>
+</table>
+
+<h4>1.2 Exercises</h4>
+
+1) Create an array that contains the names of 5 students of this class.
+(You don't need a loop to do that. Simply assign the 5 values.)
+Print the array. Remove (pop) the last name from the array.
+Print the array.
+Ask a user to type in her/his name. Add (push) that name to the array.
+Print the array.
+Ask a user to input a number. Print the name that has that number as
+index.
+Add "John Smith" and "Mary Miller" at the beginning of the array.
+Print the array.
+Print the array in alphabetical and in reverse order.<p>
+2) (Optional Exercise) Add <br>
+$"="!"; <br>
+after the line that starts with "push" in the zoo program
+. How does it change the output?
+
+<h3>2 Foreach</h3>
+
+<font color=blue>
+#!/usr/local/bin/perl -w<br>
+#<br>
+# if statement<br>
+#<br>
+@zoo = ("tiger", "elephant", "monkey");<br>
+foreach $animal (@zoo){<br>
+&nbsp; &nbsp; $animal = "_".$animal."_";<br>
+&nbsp; &nbsp; print "$animal";<br>
+}<br>
+print "\n";<br>
+</font>
+
+<h4>2.1  Exercises</h4>
+
+3) Create a second copy of the array in reverse order.
+Add a second foreach loop that
+prints the reverse copy.
+<p>
+4) Use the array of student names from exercise 1.
+Create a foreach loop that prints for each student
+"hello $student, how are you?".
+
+<h3>3 Input from a file</h3>
+
+Click <a href="alice.txt">here</a> and save the file in your 
+current directory under the name "alice.txt".
+<p>
+<font color=blue>
+#!/usr/local/bin/perl<br>
+#<br>
+# Program to read and print a file <br>
+#<br>
+open(ALICE, "alice.txt");<br>
+@lines = &#60ALICE&gt ;<br>
+close(ALICE);<br>
+print @lines;<br>
+
+</font>
+<h4>3.1 File handling</h4>
+
+<table border=2>
+<tr><td>open(FILEHANDLE, "alice.txt"); <br>
+open(FILEHANDLE, "&#60;alice.txt"); </td><td> open for input </td>
+<tr><td>open(FILEHANDLE, "&#62;alice.txt"); </td><td> open for output </td>
+<tr><td>open(FILEHANDLE, "&#62;&#62;alice.txt"); 
+  </td><td> open for appending </td>
+<tr><td>print FILEHANDLE "Some text.\n"; </td><td> print to an open file </td>
+<tr><td>open(FILEHANDLE, "alice.txt") || die "cannot open file";
+  </td><td> open file, print error message</td>
+</table>
+
+<h4>3.2 Exercises</h4>
+
+5) Modify the program so that
+the lines are printed in reverse order. <p>
+6) Write a Perl script that copies one file to another file. 
+Then change the script so that it appends one file to another file.<p>
+7) Optional: Modify the program so that 
+each line is printed with a line number at the beginning.
+(Hint: use a foreach loop and a counter.)<p>
+8) Optional: Print the lines with a # character
+at the beginning. Hints: a) what does adding "chomp @lines" change?
+b) Use the $" variable.
+c) You need to escape "#" so that it is not interpreted as a comment.
+d) There is a difference between 'print @lines' and 'print "@lines"'.
+As usual, the double quotes cause Perl to interpret the variables,
+such as the $" variable.
+
+<h3>4 Optional: Hashs</h3>
+
+Hashs are like arrays whose indices are arbitrary scalars or like
+relational database tables with two columns (a "key" and a "value"
+column).
+<p>
+<font color=blue>
+# defining a hash<br>
+%relatives =("Lisa" =&#62; "daughter", "Bart" =&#62; "son", "Marge" =&#62;
+ "mother", "Homer" =&#62; "father", "Santa" =&#62; "dog");<br>      
+<br>
+# to print a single element: <br>
+print "Lisa is a $relatives{Lisa}\n";<br>
+<br>
+# to print an entire hash it should be converted into an array<br>
+@array = %relatives;<br>
+print "@array\n"; <br>
+</font>
+
+<h4>4.1 Exercises</h4>
+
+9) Create a second hash (such as "age") and print it.
+
+<h3>5 Optional: Other means of input</h3>
+
+Input from STDIN can also be read into an array. The user has 
+to type Ctrl-D (the end-of-file character) to terminate the input.
+<p>
+<font color=blue>
+#!/usr/local/bin/perl -w<br>
+# <br>
+# input into an array from standard input<br>
+#<br>
+print "Type something ";<br>
+@something = &#60STDIN&gt ;<br>
+print "@something \n";<br>
+<p>
+</font>
+
+Alternative method of reading a file. This method should be used
+for files that are too large to be read into an array at once.
+<p>
+
+<font color=blue>
+#!/usr/local/bin/perl<br>
+#<br>
+# Program to read and print a file<br>
+#<br>
+open(ALICE, "alice.txt");<br>
+while (&#60ALICE&gt){<br>
+&nbsp; &nbsp; &nbsp; print $_;<br>
+}<br>
+close(ALICE);  <br>               
+<p>
+</font>
+
+
+</body>
+</html>
+

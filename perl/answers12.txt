@@ -1,0 +1,86 @@
+3) Create a form that asks a user for his/her name and some comments. 
+Then create two CGI scripts that create a response. The first script 
+displays the information which the user has submitted ("Hello $name. 
+These are your comments: $comments") and asks the user whether he/she 
+really wants to submit the information. The second script is invoked by 
+the first one and displays "Thank you $name. Your comments have been 
+submitted: $comments". 
+
+Form:
+
+<form action='yourcgifile' method='post'>
+Name: <input type='text' name='name' ><p>
+Comments: <input type='text' name='comments' ><p>
+<input type='submit' value='next'>
+</form>      
+
+First CGI Script:
+
+#!/usr/local/bin/perl
+use CGI qw(:standard);
+my $name= param("name");
+my $comments = param("comments");
+print header();
+print "<HTML><HEAD><TITLE>Maintaining State</TITLE></HEAD><BODY>
+     <form action = 'yourcgifile' method='post'>
+     Hello $name! Do you really want to submit these comments?<p> $comments
+     <input type='hidden' name='name' value=\"$name\"><p>
+     <input type='hidden' name='comments' value=\"$comments\"><p>
+     <input type='submit' value='yes'>
+     </form>";
+print end_html();     
+
+4) Use a cookie instead of hidden text in the previous exercise
+
+First CGI file:
+
+#!/usr/local/bin/perl
+use CGI qw(:standard);
+my $name= param("name");
+my $comments = param("comments");
+$cookiedata = $name."|".$comments;
+$cookie = cookie(-name=>'nameandcomments',-value=>"$cookiedata",
+       -expires=>'+1h');
+print header(-cookie=>$cookie);
+print "<HTML><HEAD><TITLE>Maintaining State</TITLE></HEAD><BODY>
+     <form action = 'yourcgifile' method='post'>
+     Hello $name! Do you really want to submit these comments?<p> $comments
+     <input type='submit' value='yes'>
+     </form>";
+print end_html();     
+
+Second CGI file:
+
+use CGI qw(:standard);
+print header();
+print "<HTML><HEAD><TITLE>Maintaining State</TITLE></HEAD><BODY>
+<H3>Reply</h3>";
+$cookiedata = cookie(-name=>'nameandcomments');
+($name, $comments) = split(/\|/,$cookiedata);
+print "<p> Hello $name. Here are your comments: <p> $comments";
+print end_html();
+
+6) Hit counter: create a file that contains only
+the number "0". Your CGI script must open that file for reading; read
+the first line of the file into a scalar variable; increase the number by
+one; close the file; open the file again for writing (not appending); write
+the number to the file; close the file. 
+
+#!/usr/local/bin/perl
+
+use CGI qw(:standard);
+
+print header(); 
+print start_html("Hit Counter");
+open(FILE, "output.txt");
+$counter = <FILE>;
+$counter++;
+close(FILE);
+
+open(FILE, ">output.txt");
+print FILE $counter;
+close(FILE);
+
+print p("You are the $counter visitor of this page");
+print end_html();
+

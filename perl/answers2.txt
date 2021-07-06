@@ -1,0 +1,75 @@
+1a) Write a script that asks users for the temperature in F and 
+prints the temperature in C. (Conversion: Celsius = (F - 32) * 5/9 )
+
+#!/usr/local/bin/perl -w
+#
+# This program converts F to C
+#
+print "What is the termperature in degrees F?";
+$F = <STDIN> ;
+chomp $F;
+$C=(($F-32)*(5/9));
+print "The termperature in C is $C\n";
+
+2a) Write Perl print statements for the following text: 
+
+print "Snoopy bought a CD called \"Greatest Hits\" on the WWW for\n";
+print "\$10.00. To buy the CD he had to send an email message to\n";
+print "orders\@hits-online.net. This is what the design on the CD\n";
+print "cover looked like:\n\n";
+print "\t\\  |  /\n";
+print "\t  \@ \@\n";
+print "\t   *\n";
+print "\t \\---/\n";
+
+
+3b) Write a program that asks users for their favourite color. 
+Create the following output (assuming "red" is the chosen color). 
+
+red red red red red red red red red red  
+red                                      red
+red                                      red
+red red red red red red red red red red
+
+Hints: For the first and last lines: concatenate the string 
+with "." and use the x-operator. For the second and third line use "\t". 
+
+
+#!/usr/local/bin/perl -w
+#
+# program that demonstrates operating with strings
+#
+print "Please, type your favourite color: ";
+$color= <STDIN> ;
+chomp $color;
+$color = $color . " ";
+$color2 = $color x 10;
+print "$color2\n";
+print "$color\t\t\t\t\t$color\n";
+print "$color\t\t\t\t\t$color\n";
+print "$color2\n";
+
+
+5) Modify the program so that it answers "That is great!" if the answer 
+was "yes", "That is disappointing" if the answer was "no" and "That is not 
+an answer to my question." otherwise. 
+
+#!/usr/local/bin/perl -w
+#
+# if statement
+#
+print "Do you like Perl? ";
+$answer = <STDIN> ;
+chomp $answer;
+if ($answer eq "yes")
+        {print "That is great!\n";}
+elsif ($answer eq "no")
+	{print "That is disappointing!\n";}
+else
+ 	{print "That is not an answer to my question.\n";}
+
+
+
+
+
+

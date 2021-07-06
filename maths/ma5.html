@@ -1,0 +1,193 @@
+<HTML>
+<HEAD>
+<TITLE>Session 5</TITLE>
+</HEAD>
+<BODY>
+
+<h3>Preparation</h3>
+
+As a preparation for todays exercises, save the following code in a file
+called <font color=blue>write_gif.py</font> in your current directory.
+(You don't need to read and understand this code. It is just a utility
+for saving graphs into gif files.)
+
+<font color=blue><pre>
+import networkx
+import subprocess
+from subprocess import Popen, PIPE
+from networkx.utils import _get_fh
+
+def write_gif(G, path, prgr="dot"):
+    """
+    Write the graph G in gif format using Graphviz
+    """
+
+    pathgif = path + ".gif"
+    pathdot = path + ".dot"
+
+    fh=_get_fh(pathdot,mode='w')        
+
+    count=iter(range(G.number_of_nodes()))
+    node_id={}
+
+    if G.is_directed():
+        fh.write("digraph G{node [ ];\n")
+    else :
+        fh.write("graph G{node [ ];\n")
+    for n in G:
+        nid=G.node[n].get('id',count.next())
+        node_id[n]=nid
+        fh.write("%s ["%nid)
+        fh.write("label = \"%s\"];\n"%n)
+    for u,v,edgedata in G.edges_iter(data=True):
+        if G.is_directed():
+           fh.write("%s ->"%node_id[u])
+        else:
+           fh.write("%s --"%node_id[u])
+        fh.write("%s\n"%node_id[v])
+    fh.write("}\n")
+    cmd = prgr + ' -Tgif -o ' + pathgif + ' ' + pathdot
+    pipe = Popen(cmd, shell=True, stdin=PIPE).stdin
+</pre>
+</font>
+
+<h3>1 Graphs</h3>
+
+<h4>1.1 Exercise</h4>
+
+1) Which of the following graphs are isomorphic (i.e. they are the same
+but their layout is different)?
+<p>
+<table>
+<tr><td>1:<br> <img src='mfig1.gif' height=250>
+<td>2:<br> <img src='mfig5.gif' height=220>
+<td>3:<br> <img src='mfig2.gif' height=350>
+<tr><td>4:<br> <img src='mfig3.gif' height=250>
+<td>5:<br> <img src='mfig4.gif' height=220>
+<td>6:<br> <img src='mfig6.gif' height=250>
+</table>
+<p>
+It can be easier to determine that two graphs are not isomorphic than
+to show that they are. Which property of the nodes can be used to
+determine that two graphs are not isomorphic?
+
+
+<h4>1.2 Creating graphs with NetworkX</h4>
+
+In order to use the graph modules, the following is needed:
+
+<font color=blue><pre>
+from networkx import *
+from write_gif import *
+</pre></font>
+
+Commands for creating a graph and adding nodes and edges:
+
+<font color=blue><pre>
+G=Graph()                           ### initialises a new graph
+G.add_node("One")
+G.add_nodes_from(["Hello","World"]) ### adding a list of nodes
+G.add_edge("Hello","World")
+G.add_edges_from([("One","Hello"),("One","World")])
+H= DiGraph(G)                       ### creates a directed graph using G
+</pre></font>
+
+Commands for displaying nodes and edges:
+
+<font color=blue><pre>
+G.nodes()
+G.edges()
+</pre></font>
+
+Removing edges:
+
+<font color=blue><pre>
+G.clear()
+</pre></font>
+
+
+<h4>1.3 Exercise</h4>
+
+2) Create Graph 1 from exercise 1).
+
+<h4>1.4 Viewing graphs</h4>
+
+The following command creates a gif file of a graph G:
+
+<font color=blue><pre>
+write_gif(G,"filename")
+</pre></font>
+
+Instead of <font color =blue>filename</font> 
+you should type a name of a file (without extension). After executing
+the command, two files, <font color =blue>filename.gif</font> and  
+<font color =blue>filename.dot</font> (which can be ignored), will appear in the current
+directory. You can view the gif file via your I:-drive. 
+<p>
+
+The software that creates the layouts is called Graphviz. These
+layout options are available:
+<p>
+<table border=1 cellpadding=5>
+<tr><td>write_gif(G,"filename")<td>hierarchical layout
+<tr><td>write_gif(G,"filename","neato")<td>spring model layout
+<tr><td>write_gif(G,"filename","fdp")<td>another spring model layout
+<tr><td>write_gif(G,"filename","twopi")<td>radial layout
+<tr><td>write_gif(G,"filename","circo")<td>circular layout
+</table>
+<p>
+This <a href="http://www.graphviz.org/">website</a> has more
+information about Graphviz and the different types of layouts.
+<p>
+(<a href="writegif.html">Here</a> is more information on how to use Graphviz 
+with NetworkX.)
+
+<h4>1.5 Exercises</h4>
+
+3) Try different layouts for the graph you created in exercise 2.
+<p>
+4) NetworkX provides many standard graphs. Try different layouts for these:
+
+<font color=blue><pre>
+G1=house_x_graph()
+G2=complete_bipartite_graph(3,5)
+G3=lollipop_graph(10,20)
+</pre></font>
+
+Where did you see the House Graph in the lecture?
+
+<h4>1.6 Exercises: other graph operations </h4>
+
+5) NetworkX provides many graph operations. Using the graphs G (from
+exercise 2) and G1, G2, G3 from exercise 4 determine the following:
+
+<ul>
+<li>Which of the graphs are bipartite (using <font color=blue>is_bipartite(G)</font>?
+<li>Generate the complement of G1 (using <font color=blue>complement(G1)</font>. 
+Look at the gif files for G1 and its
+complement. Can you figure out what is meant by "complement" here?
+<li>Calculate the <font color=blue>diameter(G)</font> and the 
+<font color=blue>radius(G)</font> of the graphs.
+The diameter is the maximum distance (shortest path) between two nodes in the graph;  
+the radius is the minimum steps needed to reach all nodes from a
+single node.
+How much larger can the diameter be compared to the radius?
+Can you use these values to determine which of the graphs have
+a small-world effect with "six degrees of separation"?
+</ul>
+
+<h4>1.7 Exercises with pen and paper</h4>
+
+Using the graphs from exercise 1 and G1, G2, G3 from exercise 4
+determine the following:
+
+<p>
+6) Determine the chromatic number of the graphs.
+(The chromatic number is the minimum number of colours needed to colour a
+graph so that neighbouring nodes have different colours.)
+<p>
+
+7) Which of the graphs have a Hamiltonian or Eulerian path?
+
+</BODY>
+</HTML>

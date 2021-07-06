@@ -1,0 +1,85 @@
+<html>
+<title>Week 5</Title>
+
+<body>
+
+<h3>1 XML Introduction</h3>
+
+It is best to edit XML files with a dedicated XML editor. A free, open-source
+XML editor is <a href="http://sourceforge.net/projects/butterflyxml">Butterfly</a>.
+Another free XML editor is <a href="http://www.xmlwrench.com/">XmlWrench</a>
+but that is PC-only. Some browsers are also quite good at displaying XML files.
+
+<h4>1.1 Exercises</h4>
+
+1) Install an XML editor. The exercises below assume that you are installing
+the Butterfly editor, but other XML editors should have similar functionality.
+(If you have problems installing an editor, 
+see item 1.2 below for exercises that don't involve an XML editor.)<br>
+To run the Butterfly editor 
+on Unix type "sh run.sh" in the Butterfly folder; on Windows click
+on run.bat or ButterflyXML.exe.
+<p>
+2) Click on "Create a new XML file". Create an XML file for a weekly schedule
+with 
+<ul>
+<li>the days of the week (Monday - Friday);
+<li>each day has a date;
+<li>events can be scheduled;
+<li>each event has a time, a name, a location and a short description
+</ul>
+Note: Butterfly does not have a copy/paste function, but Ctrl-C/Ctrl-V
+might work. Otherwise, once
+you have entered the information for one day, you can right click on the tags
+and use "add sibling/add child" to enter the tags for other days, etc.
+<p>
+Think about the best modelling strategy for this XML file. Should Monday,
+Tuesday, etc be elements, attributes or PCDATA (ie content of elements)?
+<p>
+3) When you are finished entering the data, right click on a tag and then
+select "Generate DTD". Modify the DTD so that events are optional and
+descriptions of elements are optional. (Note: DTDs use a regular
+expression like notation: * means 0 or more, + means 1 or more,
+? means 0 or 1). 
+<p>
+4) The following XML is a mess! Save it as a file and open it in
+your XML editor. Fix all the problems. Note: don't try to generate the DTD
+while there are errors in your XML because Butterfly may crash. Save
+the XML before creating a DTD.
+
+<font color=blue><pre>
+&#60;!- This is about movies! -&#62;
+  &#60;!ELEMENT actor ( #PCDATA )&#62;
+  &#60;!ELEMENT movie (actor*, title, year*)&#62;
+  &#60;!ELEMENT title ( #PCDATA )&#62;
+  &#60;!ELEMENT year ( #PCDATA )&#62;
+
+  &#60;movie id = 1&#62;
+    &#60;title&#62;The Quest&#60;/title&#62;
+    &#60;actor&#62;Tom Smith&#60;/actor&#62;
+    &#60;year&#62;2007&#60;/year&#62;
+  &#60;movie id = 2&#62;
+    &#60;title&#62;Summer&#60;/title&#62;
+    &#60;year&#62;1998&#60;/year&#62;
+    &#60;actor&#62;Susie Black&#60;/actor&#62;
+    &#60;actor&#62;Paul White&#60;/actor&#62;
+  &#60;/movie&#62;
+ &#60;movie id = 3&#62;&#60;title&#62;Hello World&#60;/movie&#62;&#60;/title&#62;
+</pre></font>
+
+<h4>1.2 More exercises</h4>
+
+Andrew Cumming has created on-line tutorials for learning XML:
+<a href="http://xmlzoo.net/dtd/">DTD</a> and
+<a href="http://xmlzoo.net/dtd2/">more DTD</a>.
+They contain more details than will be covered in this class, but you
+might want to do some of the exercises from these tutorials to get a 
+better understanding of DTDs. There is also a tutorial for 
+<a href="http://xmlzoo.net/xsd/">XML Schema</a> which is an alternative
+to using DTDs, but will not be covered in this class.
+
+
+
+
+</body>
+</html>

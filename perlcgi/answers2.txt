@@ -1,0 +1,274 @@
+2a) Write a script that asks someone to input their first name, last name 
+and phone number. If the user does not type at least some characters for 
+each of these, print "Do not leave any fields empty" otherwise print "Thank 
+you". 
+
+#!/usr/local/bin/perl -w
+
+print "Please, type in your first name: ";
+$fname = <STDIN> ;
+chomp $fname;
+print "Please, type in your second name: ";
+$lname = <STDIN> ;
+chomp $lname;
+print "Please, type in your phone number: ";
+$phone = <STDIN> ;
+chomp $phone;
+if (not ($fname and $lname and $phone)) {
+     print "Do not leave any fields empty\n";
+}
+else {
+     print "Thank you!\n";
+}  
+
+--------------------------------------------------------
+
+2b) Change the script so that the script prints "Thank you" if either the 
+first name or the last name or the phone number is supplied. Print "Do not 
+leave all fields empty" otherwise. 
+
+if ($fname or $lname or $phone) {
+     print "Thank you!\n";
+}
+else {
+     print "Do not leave all fields empty\n";
+}
+
+--------------------------------------------------------
+
+2c) Change the script so that only first name and last name are required. 
+The phone number is optional. 
+
+if ($fname and $lname) {
+     print "Thank you!\n";
+}
+else {
+     print "Do not leave any fields empty\n";
+}
+
+--------------------------------------------------------
+
+3) Write a program that asks a user to input a color.  If the color is
+black or white, output "The color was black or white". If it starts
+with a letter that comes after "k" in the alphabet, output "The color
+starts with a letter that comes after "k" in the alphabet".
+
+
+#!/usr/local/bin/perl -w
+#
+# if statement
+#
+print "Please enter a color: ";
+$answer = <STDIN> ;
+chomp $answer;
+if (($answer eq "black") or ($answer eq "white"))
+        {print "The color was black or white.\n";}
+elsif ($answer gt "k")
+	{print "The color starts with a letter that comes after \"k\" in the alphabet.\n";}
+
+--------------------------------------------------------
+
+4) Optional Material:
+
+a) if ($a++ and $b++) {}
+
+Observation: If the first variable is 0 then only the first variable is 
+increased by one, otherwise both variables are increased by one.
+
+Explanation: Perl looks at the expression from left to right. If the first part is 
+zero, Perl does not even look at the second part because an expression
+with "and" is always false if the first part is false. Therefore only $a++ is
+executed, not $b++.
+
+b) if ($a++ or $b++) {}
+
+Observation: If the first variable is 1 then only the first variable is
+increased by one, otherwise both variables are increased by one.
+
+Explanation: Perl looks at the expression from left to right. If the first part is 
+not zero, Perl does not even look at the second part because an expression
+with "or" is true if the first part is true. Therefore only $a++ is
+executed, not $b++.
+
+--------------------------------------------------------
+
+5) Modify the program so that it answers "That is great!" if the answer
+was "yes", "That is disappointing" if the answer was "no" and "That is not
+an answer to my question." otherwise.
+
+#!/usr/local/bin/perl -w
+#
+# if statement
+#
+print "Do you like Perl? ";
+$answer = <STDIN> ;
+chomp $answer;
+if ($answer eq "yes")
+        {print "That is great!\n";}
+elsif ($answer eq "no")
+        {print "That is disappointing!\n";}
+else
+        {print "That is not an answer to my question.\n";}
+
+
+--------------------------------------------------------
+
+
+6) Modify the program from above so that it asks users to "guess the lucky 
+number". If the correct number is guessed the program stops, otherwise it 
+continues forever. 
+
+#!/usr/local/bin/perl -w
+#
+# guess the lucky number
+#
+$number = 0;
+while ($number ne 5){
+   print "Please, guess the lucky number!\n";
+   $number = <STDIN>;
+   chomp $number;
+   if ($number eq 5) {
+      print "Great guess!\n";
+   } else {
+     print "That is not the right number! Try again.\n";
+   }
+}  
+
+Here is an alternative version:
+
+#!/usr/local/bin/perl -w
+#
+# guess the lucky number
+#
+print "Guess the lucky number: ";
+$number = <STDIN> ;
+chomp $number;
+while ($number ne "5"){
+	print "That is not the right number! Try again.\n";
+	$number = <STDIN> ;
+	chomp $number;
+}     
+
+--------------------------------------------------------
+
+7) Modify the program so that it asks users whether they want to guess again 
+each time. The program stops if users answer "no" or if the correct number 
+is guessed. 
+
+#!/usr/local/bin/perl -w
+#
+# while statement
+#
+$number = 0;
+$answer = "yes";
+while ($number ne "5" and $answer ne "no"){
+	print "Guess the lucky number: ";
+	$number = <STDIN> ;
+	chomp $number;
+	if ($number ne "5") {
+		print "That is not the right answer\n";
+		print "Would you like to try again?";
+		$answer = <STDIN>;
+		chomp $answer;
+	}
+}    
+
+--------------------------------------------------------
+
+8) Write a program that asks five times to guess the lucky number. 
+If the correct number is guessed, the program outputs "Good guess!\n" 
+otherwise it outputs "Try again!\n". After the fifth guess it stops and 
+prints "Game over.\n". 
+
+#!/usr/local/bin/perl -w
+#
+# while statement
+#
+$counter = 1;
+while ($counter <= 5) {
+    print "Guess the $counter number\n";
+    $answer = <STDIN> ;
+    chomp $answer;
+    if ($answer ne "5"){
+        print "Try again.\n";
+    } else {
+        print "Good guess!\n";
+    }
+    $counter++;
+}   
+print "Game over!\n";
+
+--------------------------------------------------------
+
+9) In the previous example, insert "last;" after the "Good guess!\n" print 
+statement. "last" will terminate the while loop so that users do not have 
+to continue guessing after they found the number. 
+
+#!/usr/local/bin/perl -w
+#
+# while statement
+#
+$counter = 1;
+while ($counter <= 5) {
+    print "Guess the $counter number\n";
+    $answer = <STDIN> ;
+    chomp $answer;
+    if ($answer ne "5"){
+        print "Try again.\n";
+    } else {
+        print "Good guess!\n";
+        last;
+    }
+    $counter++;
+}
+
+--------------------------------------------------------
+   
+10) Let users again guess five numbers but this time do not tell them 
+immediately whether they were successful or not. After the while loop is 
+finished print "The correct number was guessed\n" if the number was among 
+the five guesses and "The correct number was not among them\n" otherwise. 
+
+#!/usr/local/bin/perl -w
+#
+# while statement
+#
+$counter = 1;
+$flag = 0;
+while ($counter <= 5) {
+    print "Guess the $counter number\n";
+    $answer = <STDIN> ;
+    chomp $answer;
+    if ($answer eq "5"){
+        $flag = 1;
+    }
+    $counter++;
+}
+if ($flag == 1) {
+    print "The correct number was guessed\n";
+} else {
+    print "The correct number was not among them\n";
+}   
+
+--------------------------------------------------------
+
+11) Modify the counter program from above using a for loop so that it asks the 
+user for five guesses and then stops. Use "last" to terminate the for loop 
+as soon as the correct number is guessed. 
+
+#!/usr/local/bin/perl -w
+#
+# while statement
+#
+for ($counter = 1; $counter <= 5; $counter++) {
+    print "Guess the $counter number\n";
+    $answer = <STDIN> ;
+    chomp $answer;
+    if ($answer ne "5"){
+        print "Wrong number.\n";
+    } else {
+        print "Good guess!\n";
+        last;
+    }
+}  
+

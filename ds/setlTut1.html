@@ -1,0 +1,132 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/*html*; charset=UTF-8" />
+</head>
+<body>
+
+<h1>SetlX-Tutorial Teil 1</h1>
+<p>Dieses Tutorial soll Sie mit der Verwendung von SetlX vertraut machen. Nach jedem Abschnitt finden Sie einige Beispiele zum Ausprobieren. Diese Beispiele sind in der Regel möglichst einfach gehalten. Es geht hierbei nicht um die richtigen Ergebnisse, sondern vielmehr darum, dass Sie Ihre eigenen Erwartungen überprüfen. </p>
+<p style="font-style:italic">Verhält sich das System so, wie Sie es <em style="text-decoration:underline">vor</em> der Ausführung eines Befehls vorhergesagt hätten?</p>
+<p>Nachdem Sie das Tutorial durchgearbeitet haben sollen folgende Punkte erfüllt sein: </p>
+<ul>
+<li>Sie haben eine funktionierende Installation von SetlX auf Ihrem Rechner, die auch während der Vorlesung einsatzbereit ist.  </li>
+<li>Sie können die gängigen Operationen benennen, beschreiben und in SetlX umsetzen. </li>
+</ul>
+
+<p>Im Verlauf des Semesters werden Sie sich vertiefend mit SetlX und der diskreten Mathematik beschäftigen. </p>
+
+<h2>Download und Installation</h2>
+<p>Laden Sie SetlX von der Webseite <a target="_blank" href="http://www.randoom.org/Software/SetlX">http://www.randoom.org/Software/SetlX</a> herunter und installieren Sie das Programm. Hinweise zur Installation finden Sie auf der genannten Seite. Auf der Webseite finden Sie auch einen Link zu dem offiziellen Tutorial mit weiterführenden Informationen.  </p>
+
+
+
+<a name="arithmetik" ></a>
+
+<h2>1. Arithmetische Operatoren</h2>
+<p>Starten Sie SetlX. Auf Ihrem Bildschirm erscheint nach dem Begrüßungstext der SetlX-Prompt "<span class="code">=></span>".</p>
+<p>Sie können SetlX jederzeit durch Eingabe von <span class="code">exit;</span> verlassen. Die meisten Befehle in SetlX (Ausdrücke und Zuweisungen) werden durch ein Semikolon abgeschlossen (z.B. <span class="code">2+2;</span>). SetlX stellt die folgenden arithmetischen Operatoren bereit: </p>
+
+<table>
+<tr><td class="code">+</td><td>Addition</td></tr>
+<tr><td class="code">-</td><td>Subtraktion</td></tr>
+<tr><td class="code">*</td><td>Multiplikation</td></tr>
+<tr><td class="code">**</td><td>Potenz</td></tr>
+<tr><td class="code">/</td><td>Division</td></tr>
+<tr><td class="code">\</td><td>ganzzahlige Division</td></tr>
+<tr><td class="code">%</td><td>Modulus</td></tr>
+</table>
+
+<p>Probieren Sie diese Operatoren selbst einmal aus. Hier einige Anregungen: </p>
+
+<pre class="code">47 + 11;
+2/3 + 7/5;
+2*3 + 7*5;
+2\3 + 7\5;
+2**8;
+2**3**5;
+2*(3+4)**2;
+2.0/3 + 7/5;
+47 % 11;</pre>
+
+<p>Entsprechen die Ergebnisse Ihren Erwartungen? Wie unterscheiden sich die Ergebnisse von SetlX ggf. von Ihren Erwartungen?<br />
+Welche Typen von Operanden akzeptieren die genannten Operatoren in SetlX? <br />
+Können Sie weitere Beispiele finden, die nicht Ihren Erwartungen entsprechen? Nennen Sie diese. </p>
+
+<a name="14" ></a>
+
+<h2>2. Vergleichsoperatoren</h2>
+<p>Sie können Aussagen miteinander vergleichen.
+Zum Beispiel "2 hoch 3 ist kleiner als 3 hoch 2" oder "die Summe aus 47 und 11 ist gleich dem Produkt aus 29 und 2". Um derartige Aussagen in SetlX formulieren zu können, stehen folgende Operatoren zur Verfügung: </p>
+
+<table>
+<tr><td class="code">==</td><td>Gleich (vgl. <span class="code">&lt;==></span>)</td></tr>
+<tr><td class="code">!=</td><td>Ungleich</td></tr> 
+<tr><td class="code">></td><td>Größer</td></tr>  
+<tr><td class="code">>=</td><td>Größer gleich</td></tr> 
+<tr><td class="code">&lt;</td><td>Kleiner</td></tr> 
+<tr><td class="code">&lt;=</td><td>Kleiner gleich</td></tr>
+</table> 
+
+<p>Probieren Sie diese Operatoren selbst einmal aus. Hier einige Anregungen:</p>
+
+<pre class="code">2**3 &lt; 3**2;
+47 + 11 == 58;
+47 + 11 == 29 * 2;
+47 + 11 == 4711;
+"Hello World" != "hello World";
+</pre>
+
+<p>Entsprechen die Ergebnisse Ihren Erwartungen? Wie unterscheiden sich die Ergebnisse von SetlX ggf. von Ihren Erwartungen? </p>
+
+
+<a name="18" ></a>
+
+<h2>3. Zuweisung und Variablen</h2>
+<p>Sie können Variablen verwenden, um z.B. bestimmte Werte oder Ergebnisse aus Berechnungen für die spätere Verwendung zu speichern. Um Variablen Werte zuzuweisen, stellt SetlX den Zuweisungsoperator <span class="code">:=</span> bereit. Variablennamen in SetlX beginnen immer mit einem Kleinbuchstaben, auf den Buchstaben, Zahlen oder Unterstriche folgen können. Beispiel:</p>
+
+<pre class="code">a := 23;
+a := a - 20;
+b:= 4/5;
+c:= b - a;
+text_1:="Hello World";
+</pre>
+
+<p>Entsprechen die Ergebnisse Ihren Erwartungen? </p>
+
+
+
+<a name="20" ></a>
+
+<h2>4. Klammern sind wichtig</h2>
+
+<pre class="code">
+1 + 2 * 3 + 4;
+1 + (2 * 3) + 4;
+(1 + 2) * (3 + 4);
+2**3 + 1;
+2**(3 + 1);
+</pre>
+<p>Probieren Sie diese aus. Entsprechen die Ergebnisse Ihren Erwartungen? </p>
+
+
+<h2>5. Dateien laden</h2>
+<p>Sie können Ihre Programme auch mit einem Editor ihrer Wahl erstellen und bearbeiten.
+Dafür legen Sie eine Textdatei an, in die Sie die Befehle zeilenweise eintragen. Diese 
+Datei können Sie dann mittels <span class="code">load("dateipfad")</span> in SetlX laden.</p>
+
+<p>Speichern Sie die folgenden Zeilen in einer Datei (z.B. hello.stlx), laden Sie die Datei in SetlX und führen Sie danach die Prozedur <span class="code">hallo()</span> aus. </p> 
+
+<pre class="code">hallo := procedure(){
+     print("Hallo!\nSie haben die Datei erfolgreich geladen!");
+};</pre>
+
+<p>Sie sollten nun folgende Ausgabe sehen:</p>
+<pre class="code">Hallo!
+Sie haben die Datei erfolgreich geladen!
+~< Result: om >~
+</pre>
+
+
+
+</body>
+</html>

@@ -1,0 +1,115 @@
+1.1 
+
+preliminary stuff that will be used later: 
+compile regular expression for searching for closing_tags
+compile regular expression for searching for opening_tags
+
+define the find_closing_tags function:
+
+    search for closing_tag in line
+    if closing_tag is found:
+       print the tag
+
+define the find_opening_tags function:
+
+    search for opening_tag in line
+    if opening_tag is found:
+       print the tag
+
+main program: #############################
+
+open a file with name "example.html" for reading
+read the lines from the file
+close the file 
+
+print "these are the closing tags"
+
+for each line in the text of the file:
+    use the find_closing_tags function
+
+print "these are the opening tags"
+
+for each line in the text of the file:
+    use the find_opening_tags function
+
+---
+
+2.1 
+
+define the read_file function:
+    
+    open a file with name filename for reading
+    read the lines from the file
+    close the file 
+    return the filecontent to the main program
+
+define the write_file function:
+
+    open a file with name filename for writing
+    write the lines to the file
+    close the file 
+
+define the get_input function:
+
+    ask the user to type some input
+    append the user_input to the end of the filecontent
+    return the filecontent to the main program
+
+main program: ################################
+
+use the read_file function, which reads a file with name "example.html"
+use the get_input function, which obtains user input and 
+       appends it to the filecontent
+use the write_file function, which writes the filecontent to a file
+       with filename "example.html"
+
+show the file to the user (using the Unix command "more")
+
+---
+
+2.3
+
+
+define the read_file function:
+    
+    open a file with name filename for reading
+    read the lines from the file
+    close the file 
+    return the filecontent to the main program
+
+define the write_file function:
+
+    open a file with name filename for writing
+    write the lines to the file
+    close the file 
+
+define the get_input function:
+
+    ask the user to enter his/her first name
+    ask the user to enter his/her last name
+    ask the user to enter his/her email address
+    append the user_input to the end of the filecontent
+    return the filecontent to the main program
+
+define the find_email function:
+
+    ask the user to enter a last name
+    compile a regular expression for searching for the pipe symbol
+    for each line in the text of the file:
+        split the line into a list at the pipe symbol    
+        if the second element of the list is equal to the last name:
+             print "Your email address is" 
+             print the email address, which is stored in the third element 
+                                                              of the list
+   
+
+main program: ################################
+
+use the read_file function, which reads a file with name "example.html"
+use the get_input function, which obtains user input and 
+       appends it to the filecontent
+use the write_file function, which writes the filecontent to a file
+       with filename "example.html"
+use the find_email function, which asks the user for a last name and
+       then prints the corresponding email address
+

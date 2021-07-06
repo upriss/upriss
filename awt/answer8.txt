@@ -1,0 +1,102 @@
+2) a) Retrieve lines that contain a word of any length that starts with t and 
+ends with e. 
+/\bt\w*e\b/
+
+Modify this so that the word has at least three characters. 
+/\bt\w+e\b/
+
+b) Retrieve lines that start with a. 
+/^a/
+
+Retrieve lines that start with a and end with n.
+/^a.*n$/
+
+c) Retrieve blank lines. Think of at least two ways of doing this.
+/^$/
+or
+!~ /./
+
+d) a word that starts with an upper case letter 
+/\b[A-Z]/
+
+---------------------------------------------------------------------------
+
+3) What is the difference between the following expressions?
+
+b) !/yes/ and /[^y][^e][^s]/ 
+
+!/yes/ matches lines that do not contain the string "yes".
+
+/[^y][^e][^s]/ matches lines that contain three characters so that
+the first one is not "y", the second one is not "e", and the third one
+is not "s". Eg. "yes" or "yeS" or "yyy" are not matched, but
+"YES" or "yes!" are matched (because "es!" does not equal "yes"). 
+
+---------------------------------------------------------------------------
+
+4) a) Replace all upper case letters by lower case letters;
+
+open(ALICE, "alice.txt");
+@lines = <ALICE> ;
+close(ALICE);
+foreach $line (@lines){
+$line =~ s/A/a/g;
+print $line;
+} # end of foreach 
+
+b) Delete all words with more than 3 characters.
+
+s/\b\w\w\w+\b//g; 
+
+---------------------------------------------------------------------------
+
+5) Write a replace statement that deletes all HTML mark-up from a file. 
+
+s/<.*>//g;
+
+But this doesn't work if there are several tags in one line because
+* is greedy. Better solution:
+
+s/<.*?>//g; 
+
+---------------------------------------------------------------------------
+
+6) Print double characters within parenthesis "()". For example, replace 
+"arrived" by "a(rr)ived". 
+
+s/(.)\1/(\1\1)/g;
+
+---------------------------------------------------------------------------
+
+7) Read the alice.txt file into an array. Chomp it. Using join concatenate 
+it into one string. Then split it into words (or sentences) and print it 
+one word (sentence) per line. 
+
+open(ALICE, "alice.txt");
+@lines = <ALICE> ;
+close(ALICE);
+
+chomp @lines;
+$bigstring = join(" ",@lines);
+@words = split(/\b/, $bigstring);
+
+foreach $word (@words){
+print "$word\n";
+}
+                 
+---------------------------------------------------------------------------
+
+8) Write a script that takes an HTML source file as input and prints it so 
+that a newline follows only "closing tags", i.e. tags that are of the 
+form </...>. 
+
+open(HTML, "file.html");
+@lines = <HTML> ;
+close(HTML);
+chomp @lines;
+foreach $line (@lines){
+$line =~ s/(<\/.*?>)/\1\n/g;
+print $line;
+} # end of foreach
+close(HTML);  
+

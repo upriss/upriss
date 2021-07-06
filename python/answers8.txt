@@ -1,0 +1,209 @@
+1.1 Write a regular expression that finds html tags in a file and 
+prints them. 
+
+#!/usr/bin/env python
+import re
+
+# open a file
+file = open("file.html","r")
+text = file.readlines()
+file.close()
+
+# searching the file content line by line:
+keyword = re.compile(r"<.+?>")
+
+for line in text:
+    result = keyword.search (line)
+    if result:
+       print result.group(), ":", line,
+
+---
+
+2.1 Continue with the previous exercise but print the type of every 
+html tag your script finds, such as html, body, title, a, br. 
+
+#!/usr/bin/env python
+import re
+
+# open a file
+file = open("file.html","r")
+text = file.readlines()
+file.close()
+
+# searching the file content line by line:
+keyword = re.compile(r"<(.+?)>")
+
+for line in text:
+    result = keyword.search (line)
+    if result:
+       print result.group(1), ":", line,
+
+
+---
+2.2 Optional: Print all lines in the alice.txt file so that the first and
+the last character in each line are switched.
+
+#!/usr/bin/env python
+import re
+
+# open a file
+file = open("alice.txt","r")
+text = file.readlines()
+file.close()
+
+# compiling the regular expression:
+keyword = re.compile(r"(.)(.*)(.)")
+
+for line in text:
+    result = keyword.search (line)
+    if result:
+        print result.group(3) + result.group(2) + result.group(1)
+
+---
+
+2.3 Print all lines in the alice.txt file that contain two double
+characters.
+
+#!/usr/bin/env python
+import re
+
+# open a file
+file = open("alice.txt","r")
+text = file.readlines()
+file.close()
+
+# compiling the regular expression:
+keyword = re.compile(r"(.)\1(.*)(.)\3")
+
+for line in text:
+    result = keyword.search (line)
+    if result:
+        print result.group()
+
+
+---
+
+3.1 all upper case A by lower case a. 
+
+# compiling the regular expression:
+keyword = re.compile(r"A")
+
+# searching the file content line by line:
+for line in text:
+    print keyword.sub ("a",line),
+
+---
+
+3.2 Delete all words with more than 3 characters.
+
+# compiling the regular expression:
+keyword = re.compile(r"\b\w\w\w\w+\b")
+
+# searching the file content line by line:
+for line in text:
+    print keyword.sub ("",line),
+
+---
+
+3.3 Print two blank space characters after the "." at the end of a sentence.
+
+# compiling the regular expression:
+keyword = re.compile(r"\.")
+
+# searching the file content line by line:
+for line in text:
+    print keyword.sub (". ",line),
+
+---
+(Optional: Don't do this if the "." is the last character in a line.)
+
+# compiling the regular expression:
+keyword = re.compile(r"\.[^\n]")
+
+# searching the file content line by line:
+for line in text:
+    print keyword.sub (".  ",line),
+
+---
+
+3.4 Replace single quotes (' or `) by double quotes. 
+
+# compiling the regular expression:
+keyword = re.compile(r"['`]")
+
+# searching the file content line by line:
+for line in text:
+    print keyword.sub ("\"",line),
+
+---
+3.5 Modify your program from exercise 1.1, so that it deletes al 
+HTML markup.
+
+#!/usr/bin/env python
+import re
+
+# open a file
+file = open("file.html","r")
+text = file.readlines()
+file.close()
+
+# searching the file content line by line:
+keyword = re.compile(r"<.+?>")
+
+# searching the file content line by line:
+for line in text:
+    print keyword.sub ("",line),
+
+
+---
+
+4.1 Modify the example so that it splits the file into words instead of
+sentence parts.
+
+#!/usr/bin/env python
+import re
+
+# open a file
+file = open("alice.txt","r")
+text = file.readlines()
+file.close()
+
+# join all of the lines together using " " as glue
+bigstring = " ".join(text)
+
+# delete newline characters and white space from the end of each line
+keyword = re.compile(r"\s*\n\s*")
+bigstring = keyword.sub (" ",bigstring)
+
+keyword = re.compile(r"\s*")
+text = keyword.split (bigstring)
+
+for line in text:
+    print line
+
+4.2 Write a script that takes an HTML source file as input and prints 
+it so that a newline follows only "closing tags", i.e. tags that are of 
+the form </...>. 
+
+#!/usr/bin/env python
+import re
+
+# open a file
+file = open("file.html","r")
+text = file.readlines()
+file.close()
+
+# join all of the lines together using " " as glue
+bigstring = " ".join(text)
+
+# delete newline characters and white space from the end of each line
+keyword = re.compile(r"\s*\n\s*")
+bigstring = keyword.sub (" ",bigstring)
+
+# split bigstring where "." or "," occurs
+keyword = re.compile(r"</.*?>")
+text = keyword.split (bigstring)
+
+for line in text:
+    print line 
+

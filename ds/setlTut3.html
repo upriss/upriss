@@ -1,0 +1,86 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/*html*; charset=UTF-8" />
+</head>
+<body>
+<h2>1. Mengen und Mengenoperatoren</h2>
+
+<p>Eine Menge in SetlX:
+</p><pre class="code">
+{1, 2, 3};
+</pre>
+
+<p>SetlX stellt die folgenden Operatoren für Mengen bereit: </p>
+
+<table>
+<tr><td class="code">in</td><td>Element in Menge</td></tr>
+<tr><td class="code">..</td><td>Aufzählung</td></tr>
+<tr><td class="code">+</td><td>Vereinigung</td></tr> 
+<tr><td class="code">*</td><td>Schnittmenge</td></tr>
+<tr><td class="code">-</td><td>Differenz</td></tr>
+<tr><td class="code">#</td><td>Kardinalität (Anzahl der Elemente)</td></tr>
+<tr><td class="code">==</td><td>Gleich</td></tr>
+<tr><td class="code">!=</td><td>Ungleich</td></tr> 
+<tr><td class="code">&lt;=</td><td>Teilmenge (auch <span class="code">>=</span>)</td></tr> 
+<tr><td class="code">&lt;</td><td>echte Teilmenge (auch <span class="code">></span>)</td></tr> 
+</table>
+
+
+<p>Weitere Operatoren, die Sie im Verlauf des Semesters kennenlernen werden sind: <span class="code">>&lt;</span> kartesisches Produkt, <span class="code">** 2</span> kartesisches Produkt einer Menge mit sich selbst und <span class="code">2 **</span> Potenzmenge. Darüber hinaus gibt es in SetlX weitere Operatoren, die die Arbeit mit Mengen vereinfachen.</p>
+
+<p>Neben der Angabe als Literal, können Mengen auch mittels einer Konstruktionsregel angegeben werden (set comprehension):</p>
+
+<pre class="code">
+{ 2 * a : a in {1..10}};
+</pre> 
+
+<p>Diese Notation ist in der Regel deutlich kürzer und mit etwas Übung leichter verständlich als die explizite Angabe aller Elemente.</p>
+
+<p>Probieren Sie diese Operatoren selbst einmal aus. Hier einige Anregungen:</p>
+
+<pre class="code">{1..100};
+{47, 11} == {11, 47};
+{1, 3, 5} + {2, 4, 6};
+{1, 3, 5} - {2, 3, 4};
+{1, 3, 3} == {1, 3};
+{-5..5} * {1..100};
+#{a/b : a in {1..100}, b in {1..100}};
+{-5..5} &lt;= {-5..5}*{1..100};
+{1, 2, 3} &lt; {1, 2, 3};
+2 in {1, 2, 3};
+{2} in {1, 2, 3};
+{2} &lt; {1, 2, 3};
+2 &lt; {1, 2, 3};</pre>
+
+<p>Entsprechen die Ergebnisse Ihren Erwartungen? Wie unterscheiden sich die Ergebnisse von SetlX ggf. von Ihren Erwartungen?<br />
+Können Sie weitere Beispiele finden, die nicht Ihren Erwartungen entsprechen? Nennen Sie diese. <br />
+Erklären Sie, warum die letzten vier Befehle zu unterschiedlichen Ergebnissen führen.</p>
+
+
+<h2>2. Prozeduren</h2>
+<p>Funktionen lassen sich in SetlX z.B. durch Prozeduren repräsentieren. Eine Funktion, die zu jedem Element einer Menge 1 hinzuaddiert, könnte beispielsweise so aussehen: </p>
+
+<pre class="code">
+addiere1 := procedure(s) {    
+     return { a + 1 : a in s }; 
+};</pre>
+
+<pre class="code">
+=> addiere1({1,2,3});
+~< Result: {2, 3, 4} >~</pre>
+
+<p>Um dieses Beispiel in SetlX zu testen, können Sie die beiden Zeilenumbrüche entfernen und den gesamten Quelltext in einer Zeile eingeben oder Sie aktivieren den Mehrzeilenmodus mittels <span class="code">multiLineMode(true)</span>. Im zweiten Fall müssen Sie nun die Return Taste zweimal betätigen, um die Zeilen auszuführen. </p>
+
+<p>Schreiben Sie eine Prozedur <span class="code">cSumme</span>, die zwei Mengen als Eingabe akzeptiert, jedes Element der einen Menge und jedes Element der anderen Menge addiert und als Ergebnis die Menge dieser Summen zurückgibt.</p>
+
+<p>Beispiel für einen Aufruf von <span class="code">cSumme</span>:</p>
+<pre class="code">=> cSumme({1,2,3}, {10,20,30});
+~< Result: {11, 12, 13, 21, 22, 23, 31, 32, 33} >~</pre>
+
+<p>Ihr Code:</p>
+
+
+
+</body>
+</html>
+

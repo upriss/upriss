@@ -1,0 +1,76 @@
+<HTML>
+<HEAD>
+<TITLE>Q200 Week 11</title>
+</HEAD>
+<BODY>
+
+<h3>Knowledge Representation and Reasoning</h3>
+
+<h4>Concept-based versus linguistic representation</h4>
+
+AI knowledge representation systems are usually concept-based
+and thus independent of specific natural languages.
+
+<h4>Semantics</h4>
+
+A knowledge representation system should have a well-defined 
+<em>semantics</em> which identifies the "meaning" of concepts, relations and 
+statements. 
+<p>
+A concept or relation is <em>satisfiable</em> if it 
+has a model. For example, an existing white swan is a model for 
+"Swans are white".
+<p>
+A statement is <em>valid</em> if it is satisfiable for all models. 
+For example, an existing black swan shows that "All swans are white"
+is not valid. 
+<p>
+Satisfiability and validity depend on the context of statements.
+For example, "Unicorns are animals" can be valid in a fairy tale 
+context but is not considered valid in normal everyday life.
+
+<h4>Relations</h4>
+
+Relations can be <em>transitive</em>, for example, "Snoopy ISA Dog",
+"Dog ISA Mammal" therefore "Snoopy ISA Mammal". The ISA relation
+should always be transitive, other relations, such as "HAS" or part-whole
+relations are not always transitive.
+<p>
+Relations require <em>quantification</em>. For example, does "Dogs
+eat dogfood" mean "all dogs eat some dogfood" or "some dogs eat 
+all dogfood" or "some dogs eat only dogfood" or ...?
+
+<h4>Description Logics</h4>
+
+Description Logics is an improved version of the knowledge representation 
+language KL-ONE. It distinguishes between <em>terminologic knowledge</em>
+(TBox),
+such as "poodles are dogs" or "people eat food", and <em>assertional 
+knowledge</em> (Abox), such as "Snoopy is a dog" or "Snoopy is eating that 
+piece
+of meat". <em>Semantic networks</em> can be formalized in description
+logics. 
+
+<h4>Tasks for knowledge representation systems</h4>
+
+<li>Acquisition: new information is integrated into the system
+<li>Retrieval: existing information is retrieved, query answering
+<li>Reasoning: checking whether concepts, relations and assertions
+are satisfiable/valid; checking whether the knowledge base is 
+<em>consistent</em>, which means that all concepts and relations are
+satisfiable and all statements are valid.
+<p>
+Reasoning is used for acquisition because, for example,
+new concepts must be integrated into the existing ISA hierarchy
+without creating inconsistencies. Reasoning is also used for retrieval
+to retrieve implicit knowledge.
+
+<h4>Challenges for reasoning strategies and knowledge representation</h4>
+
+<li>Complexity: the reasoning tasks must not take too much time or 
+computing resources
+<li>Incomplete or uncertain knowledge must be handled by the system
+
+</html>
+
+

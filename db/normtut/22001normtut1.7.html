@@ -1,0 +1,16 @@
+
+<html>
+<head>
+<title>Relational Database Tutorials</title> 
+</head>
+<body>
+<h3>1.7 Exercise: Student details (continued)</h3>
+Student(<b>regno</b>, na, add, tno, tna, dc, dn)
+<p>with functional dependencies
+<p><ul>
+<li> dc -> dn
+<li> tno -> tna
+</ul>
+<p>can be normalised to 3NF as follows.<br>
+Hint: remove the transitive dependencies. 
+<p><ol><li><a href='22001normtut1.81ans.html'>Student(<b>regno</b>, na, add, tno, dc, dn) <br> Tutor (<b>tno</b>, tna)</a><br>&nbsp;<li><a href='22001normtut1.82ans.html'>Student(<b>regno</b>, na, add, tno, dc) <br> TutorDiploma (<b>tno, dc</b>, tna, dn)</a><br>&nbsp;<li><a href='22001normtut1.83ans.html'>Student(<b>regno</b>, na, add, tno, dc, dn) <br> Diploma (<b>dc</b>, dn) <br> Tutor (<b>tno</b>, tna)</a><br>&nbsp;<li><a href='22001normtut1.84ans.html'>Student(<b>regno</b>, na, add, tno, dc) <br> Diploma (<b>dc</b>, dn) <br> Tutor (<b>tno</b>, tna)</a><br>&nbsp;</ol><p><a href='22001normtut_index.html'>Index</a>

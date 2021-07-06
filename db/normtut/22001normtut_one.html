@@ -1,0 +1,341 @@
+
+<html>
+<head>
+<title>Relational Database Tutorials</title> 
+</head>
+<body>
+Normalisation Tutorial
+<br>
+<p><hr><p><h3>1.1 Summary: 1NF</h3>
+<ul>
+<li> A relation is in 1NF if it contains no repeating groups.
+<li> To convert an unnormalised relation to 1NF either: 
+<ul>
+<li> Flatten the table and change the primary key, or 
+<li> Decompose the relation into smaller relations, one for the 
+repeating groups and one for the non-repeating groups. 
+</ul><li> Remember to put the primary key from the original relation into both new relations. 
+</ul>
+<p><p><hr><p><h3>1.2 Exercise: Student details</h3>
+A college keeps the following details about a student and the various 
+modules the student studied:
+<p><ul>
+<li> regno - registration number
+<li> na - student name
+<li> add - student address
+<li> tno - tutor number
+<li> tna - tutor name
+<li> dc - diploma code
+<li> dn - diploma name
+<li> mc - module code
+<li> mn - module name
+<li> res - module exam result
+</ul>
+<p>in a relation: Student(<b>regno</b>, na, add, tno, tna, dc, dn, (mc, mn, res))
+<p>The functional dependencies are:
+<p><ul>
+<li> dc -> dn
+<li> tno -> tna
+<li> regno, mc -> res
+<li> mc -> mn
+</ul>
+<p>Which of the following is a normalisation of 
+the relation Student to first normal form?<br>
+Hint: remove the repeating group.
+<p><p><hr><p><h3>1.3 Summary: 2NF</h3>
+<ul>
+<li> A relation is in 2NF if it contains no repeating groups and no 
+partial key functional dependencies
+<li> Rule: A relation in 1NF with a single key field must be in 2NF
+<li> To convert a relation with partial functional dependencies to 2NF, 
+create a set of new relations:
+<ul>
+<li> One relation for the attributes that are fully dependent upon the key.
+<li> One relation for each part of the key that has partially dependent attributes
+</ul>
+</ul>
+<p><hr><p><h3>1.4 Exercise: Student details (continued)</h3>
+The two relations Student and Module are in 1NF.
+<p>Student(<b>regno</b>, na, add, tno, tna, dc, dn) <br> 
+Module(<b>regno, mc</b>, mn, res) 
+<p>The functional dependencies are still:
+<p><ul>
+<li> dc -> dn
+<li> tno -> tna
+<li> regno, mc -> res
+<li> mc -> mn
+</ul>
+<p>Which of the following is a normalisation of 
+the relations Student and Module to second normal form?<br>
+Hint: check for partial key dependencies.
+<p><p><hr><p><h3>1.5 Summary: 3NF</h3>
+<ul>
+<li> A relation is in 3NF if it contains no repeating groups, no partial 
+functional dependencies, and no transitive functional dependencies.
+<li> To convert a relation with transitive functional dependencies to 3NF, 
+remove the attributes involved in the transitive dependency and put them 
+in a new relation.
+<li> Rule: A relation in 2NF with only one non-key attribute must be in 3NF
+<li> In a normalised relation a non-key field must provide a fact about the 
+key, the whole key and nothing but the key.
+<li> Relations in 3NF are sufficient for most practical database design 
+problems. However, 3NF does not guarantee that all anomalies have been removed.
+</ul>
+<p><p><hr><p><h3>1.6 Exercise: Student details (continued)</h3>
+The result for 2NF is:
+<p>Student(<b>regno</b>, na, add, tno, tna, dc, dn) <br> 
+Module(<b>mc</b>, mn) <br> 
+Result (<b>regno, mc</b>, res)
+<p>Which of these three relations needs to be normalised further to reach 3NF?
+<p><p><hr><p><h3>1.7 Exercise: Student details (continued)</h3>
+Student(<b>regno</b>, na, add, tno, tna, dc, dn)
+<p>with functional dependencies
+<p><ul>
+<li> dc -> dn
+<li> tno -> tna
+</ul>
+<p>can be normalised to 3NF as follows.<br>
+Hint: remove the transitive dependencies. 
+<p><p><hr><p><h3>1.8 Exercise: Student details (completed)</h3>
+The relation Student(<b>regno</b>, na, add, tno, tna, dc, dn, (mc, mn, res))
+<p>with functional dependencies 
+<p><ul>
+<li> dc -> dn
+<li> tno -> tna
+<li> regno, mc -> res
+<li> mc -> mn
+</ul>
+<p>is normalised into 3NF using the following 5 relations:
+<p>Student(<b>regno</b>, na, add, tno, dc) <br> 
+Diploma (<b>dc</b>, dn) <br> 
+Tutor (<b>tno</b>, tna)<br>
+Module(<b>mc</b>, mn) <br> 
+Result (<b>regno, mc</b>, res)
+<p><p><hr><p><h3>2.1 Exercise: Determine the normal form</h3>
+Classify the following relation as either UNNORMALISED, 1NF, 2NF or 3NF. 
+<p>EMPLOYEE(<b>empno</b>,empname,jobcode)
+<p><ul>
+<li> empno -> empname
+<li> empno -> jobcode
+</ul>
+<p><p><hr><p><h3>2.2 Exercise: Determine the normal form</h3>
+Classify the following relation as either UNNORMALISED, 1NF, 2NF or 3NF. 
+<p>EMPLOYEE(<b>empno</b>,empname,(jobcode,years))
+<ul>
+<li> empno -> empname
+<li> empno,jobcode -> years
+</ul>
+<p><p><hr><p><h3>2.3 Exercise: Determine the normal form</h3>
+Classify the following relation as either UNNORMALISED, 1NF, 2NF or 3NF. 
+<p>EMPLOYEE(<b>empno</b>,empname,jobcode,jobdesc)
+<ul>
+<li> empno -> empname,jobcode
+<li> jobcode -> jobdesc
+</ul>
+<p><p><hr><p><h3>2.4 Exercise: Determine the normal form</h3>
+Classify the following relation as either UNNORMALISED, 1NF, 2NF or 3NF. 
+<p>EMPLOYEE(<b>empno</b>,empname,<b>project</b>,hoursworked)
+<ul>
+<li> empno -> empname
+<li> empno,project -> hoursworked
+</ul>
+<p><p><hr><p><h3>2.5 Exercise: Determine the normal form (completed)</h3>
+For the following exercises, you might want to open a text editor
+and attempt to normalise the relations before you compare with the
+answers.
+<p><p><hr><p><h3>3.1 Another example: Patient Database</h3>
+Identify any repeating groups and functional dependences in the
+PATIENT relation. Show all the intermediate steps to derive the
+third normal form for PATIENT.
+<pre>
+PATIENT(patno,patname,gpno,gpname,appdate,consultant,conaddr,sample)
+</pre>
+<table border="1">
+<tr><th>patno</th><th>patname</th><th>gpno</th><th>gpname</th><th>appdate</th>
+<th>consultant</th><th>conaddr</th><th>sample</th></tr>
+<tr><td rowspan="3">01027</td><td rowspan="3">Grist</td><td rowspan="3">919</td>
+<td rowspan="3">Robinson</td><td>3/9/2004</td><td>Farnes</td><td>Acadia Rd</td>
+<td>blood</td></tr>
+<tr><td>20/12/2004</td><td>Farnes</td><td>Acadia Rd</td><td>none</td></tr>
+<tr><td>10/10/2004</td><td>Edwards</td><td>Beech Ave</td><td>urine</td></tr>
+<tr><td rowspan="2">08023</td><td rowspan="2">Daniels</td><td rowspan="2">818</td>
+<td rowspan="2">Seymour</td><td>3/9/2004</td><td>Farnes</td><td>Acadia Rd</td>
+<td>none</td></tr>
+<tr><td>3/9/2004</td><td>Russ</td><td>Fir St</td><td>sputum</td></tr>
+<tr><td>191146</td><td>Falken</td><td>717</td><td>Ibbotson</td><td>4/10/2004</td>
+<td>Russ</td><td>Fir St</td><td>blood</td></tr>
+<tr><td>001239</td><td>Burgess</td><td>818</td><td>Seymour</td><td>5/6/2004</td>
+<td>Russ</td><td>Fir St</td><td>sputum</td></tr>
+<tr><td>007249</td><td>Lynch</td><td>717</td><td>Ibbotson</td><td>9/11/2004</td>
+<td>Edwards</td><td>Beach Ave</td><td>none</td></tr>
+</table>
+<br/><br/><br/>
+<p>For this exercise, please, write down all steps in a text editor. 
+Once you have the First Normal Form, 
+click "next" to compare your results to the model answer.
+<p><p><hr><p><h3>3.2 Solution for the Patient Database: 1NF</h3>
+Patient (<b>patno</b>, patname, gpno, gpname)<br>
+Appt (<b>patno, appdate, consultant</b>, conaddr, sample)
+<p>
+Now, normalise this to 2NF and then click "next".
+<p><p><hr><p><h3>3.3 Solution for the Patient Database: 2NF</h3>
+Patient (<b>patno</b>, patname, gpno, gpname)      <br>
+Appt (<b>patno, appdate, consultant</b>, sample) <br>     
+Consultant (<b>consultant</b>, conaddr)    
+<p>
+Now, normalise this to 3NF and then click "next".
+<p><p><hr><p><h3>3.4 Solution for the Patient Database: 3NF</h3>
+Patient (<b>patno</b>, patname, gpno)      <br>
+GP (<b>gpno</b>, gpname)      <br>
+App (<b>patno, appdate, consultant</b>, sample)<br>      
+Consultant (<b>consultant</b>, conaddr)  
+<p><p><hr><p><h3>4.1 Reduce to BCNF: Supplier Database</h3>
+Reduce the following to BCNF, showing all the steps involved.
+<pre>
+Supplier(sno,sname,saddress,(partno, partdesc,(custid,custname,custaddr,quantity)))
+  sno -> sname,saddr
+  partno -> partdesc
+  sno,partno,custid -> quantity
+  sname -> sno
+  custid -> custname,custaddr
+</pre>
+Suppliers supply many parts to many customers. Each customer deals with only
+one supplier. Supplier names are unique. Customer names are not unique.
+<p>
+Which of the following is a normalisation to 1NF?
+<p><hr><p><h3>4.2 1NF</h3>
+So far, the result is in 1NF:
+<p>Supplier(<b>sno</b>,sname,saddress)<br>
+Supp-part(<b>sno,partno</b>,partdesc)<br>
+Cust-supp(<b>partno,custid,</b>,sno,custname,custaddr,quantity)
+<p>
+Which of the relations require further normalisation?
+<p><p><hr><p><h3>4.3 Further normalisation</h3>
+So far:
+<p>
+Supp-part(<b>sno,partno</b>,partdesc)<br>
+Cust-supp(<b>partno,custid,</b>,sno,custname,custaddr,quantity)
+<p>
+<pre>
+  sno -> sname,saddr
+  partno -> partdesc
+  partno,custid,sno -> quantity
+  sname -> sno
+  custid -> custname,custaddr
+</pre>
+<p>
+Because of "custid -> sno" the dependency "sno,partno,custid -> quantity"
+can be modified to "partno,custid -> quantity".
+<p><p>
+These relations are normalised into 2NF as follows:
+<p><p><hr><p><h3>4.4 2NF</h3>
+Supplier(<b>sno</b>,sname,saddress)<br>
+Supp-part(<b>sno,partno</b>)<br>
+Cust-supp(<b>partno,custid</b>,quantity)<br>
+Part(<b>partno</b>,partdesc)<br>
+Cust(<b>custid</b>,custname,custaddr,sno)
+<p>
+<pre>
+  sno -> sname,saddr
+  partno -> partdesc
+  partno,custid -> quantity
+  sname -> sno
+  custid -> custname,custaddr
+  custid -> sno
+</pre>
+<p>The relations are now in 2NF.
+<p>
+Which of the following is true?
+<p><p><hr><p><h3>4.5 3NF</h3>
+Supplier(<b>sno</b>,sname,saddress)<br>
+Supp-part(<b>sno,partno</b>)<br>
+Cust-supp(<b>partno,custid</b>,quantity)<br>
+Part(<b>partno</b>,partdesc)<br>
+Cust(<b>custid</b>,custname,custaddr,sno)
+<p>
+<pre>
+  sno -> sname,saddr
+  partno -> partdesc
+  partno,custid -> quantity
+  sname -> sno
+  custid -> custname,custaddr
+  custid -> sno
+</pre>
+<p>The relations are now in 3NF.
+<p>
+Which of the following is true?
+<p><p><hr><p><h3>4.6 Summary</h3>
+Supplier(<b>sno</b>,sname,saddress)<br>
+Supp-part(<b>sno,partno</b>)<br>
+Cust-supp(<b>partno,custid</b>,quantity)<br>
+Part(<b>partno</b>,partdesc)<br>
+Cust(<b>custid</b>,custname,custaddr,sno)
+<p>
+<pre>
+  sno -> sname,saddr
+  partno -> partdesc
+  partno,custid -> quantity
+  sname -> sno
+  custid -> custname,custaddr
+  custid -> sno
+</pre>
+The relations are in BCNF.
+<p><p><hr><p><h3>5.1 Exercise: GP Database</h3>
+Normalise the following relation to 3NF showing all the steps involved.
+<pre>
+GP(<u>gpno</u>,cpname,gpadd,(patno,patname,patadd,patdob,(apptdate,apptime,diagnosis,treatment)))
+  gpno -> gpname,gpadd
+  patno -> patname,patadd, patdob
+  patno,apptdate -> apptime,diagnosis
+  diagnosis -> treatment
+</pre>
+<p>Copy the relation into a text editor and normalise it. When you are finished
+ask a lecturer or demonstrator to check your result.
+<p><p><hr><p><h3>5.2 Exercise: Tour operator</h3>
+The table below shows an extract from a tour operator's data on travel
+agent bookings. Derive the third normal form of the data, showing all the
+intermediate steps.
+<table border="1">
+<tr><th>batchno</th><th>agentno</th><th>agent name</th><th>holiday code</th><th>cost</th><th>quantity booked</th><th>airport code</th><th>airport name</th></tr>
+<tr><td rowspan="3">1</td><td rowspan="3">76</td><td rowspan="3">Bairns travel</td> <td>B563</td><td>363</td><td>10</td><td>1</td><td>Luton</td></tr>
+<tr><td>B248</td><td>248</td><td>20</td><td>12</td><td>Edinburgh</td></tr>
+<tr><td>B428</td><td>322</td><td>18</td><td>11</td><td>Glasgow</td></tr>
+<tr><td rowspan="4">2</td><td rowspan="4">142</td><td rowspan="4">Active Holidays</td> <td>B563</td><td>363</td><td>15</td><td>1</td><td>Luton</td></tr>
+<tr><td>C930</td><td>568</td><td>2</td><td>14</td><td>Newcastle</td></tr>
+<tr><td>A270</td><td>972</td><td>1</td><td>14</td><td>Newcastle</td></tr>
+<tr><td>B728</td><td>248</td><td>5</td><td>12</td><td>Edinburgh</td></tr>
+<tr><td rowspan="2">3</td><td rowspan="2">76</td><td rowspan="2">Bairns travel</td> <td>C930</td><td>568</td><td>11</td><td>1</td><td>Luton</td></tr>
+<tr><td>A430</td><td>279</td><td>15</td><td>11</td><td>Glasgow</td></tr>
+</table>
+<p>Copy the relation into a text editor and normalise it. When you are finished
+ask a lecturer or demonstrator to check your result.
+<p><p><hr><p><h3>5.3 Exercise: Software consulting firm</h3>
+A software consulting firm wishes to keep the following data for an employee
+and costing database:
+<ul>
+<li>employee number </li>
+<li>employee name </li>
+<li>employee address </li>
+<li>salary </li>
+<li>current job code </li>
+<li>job history (job promotion code + year) </li>
+<li>office location </li>
+<li>telephone number </li>
+<li>project number </li>
+<li>project name </li>
+<li>task number </li>
+<li>task name </li>
+<li>project budget </li>
+<li>task expenditure to date </li>
+<li>department number </li>
+<li>department name</li>
+</ul>
+There are none, one or more job promotion code/year entries per employee.
+The office location uniquely depends on the telephone number, and there may
+be more than one employee using the same telephone and more than one telephone
+in the one office. Tasks are numbered uniquely only within each project.
+An employee may be concurrently assigned to more than one project and
+task, but belongs to one department. Reduce this data to third normal form.
+<br/><br/><br/>
+<p>Write the relations into a text editor and normalise them. When you are finished
+ask a lecturer or demonstrator to check your result.

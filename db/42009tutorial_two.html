@@ -1,0 +1,166 @@
+
+<html>
+<!-- DO NOT EDIT DO NOT EDIT DO NOT EDIT DO NOT EDIT DO NOT EDIT -->
+<head>
+<title>OODB</title> 
+</head>
+<body>
+Tutorial 2
+
+<h3>2.1 Information about object types</h3>
+As you will have noticed by now, there is no information about
+types in the user catalog ("select * from cat"). The 
+following select statements can be used to list user types
+and their attributes. 
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   select * from user_types;<br>
+&nbsp; &nbsp; &nbsp;   select * from user_objects;<br>
+&nbsp; &nbsp; &nbsp;   select * from user_source;<br>
+</font>
+<p><p><hr><p><h3>2.2 Subtypes</h3>
+Subtypes can be created under an existing type using "UNDER".
+But subtypes can only be created under types that are not "FINAL",
+i.e. not at the bottom of the type hierarchy.
+To create a subtype "employee" under "person", the type "person"
+(from last week's exercises) must first be changed to "NOT FINAL".
+Because there is already an object table (person_table) with objects
+attached to "person", the last word in the alter statement should
+be "CASCADE". That means that an alteration of "person" also applies
+to "person_table" and its objects. 
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   ALTER TYPE person NOT FINAL CASCADE;<br>
+</font>
+<p>If "describe person" now produces an error message, you need
+to logout of SQLPLUS and login again. This is so that Oracle can
+update the altered type and its objects. 
+<p>Next, a subtype "employee" can be generated under "person".
+This subtype can itself be either NOT FINAL or FINAL. A 
+subtype inherits all columns from its supertype but can
+also have additional columns, which are declared within
+the brackets.
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   CREATE TYPE employee UNDER person () NOT FINAL ;<br>
+&nbsp; &nbsp; &nbsp;   /<br>
+</font>
+<p>The "IS OF" clause can be used to check the type of objects.
+The following statement selects all employees who are also a person,
+i.e., it selects all rows in employee_table. 
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   SELECT value(p) FROM employee_table p WHERE value(p) IS OF (person);<br>
+</font>
+<p><b>Exercise</b>
+<p><ul>
+<li> 11. Create a type "employee" under "person" that has an additional
+attribute "emp_ID" of type INT. Create it as NOT FINAL.
+</ul>
+<p><ul>
+<li> 12. Create a corresponding employee_table and 
+insert 3 rows into it.
+</ul>
+<p><p><hr><p><h3>2.3 Primary Keys</h3>
+Even though an object-relational database maintains object IDs
+for all objects (i.e., for types, row objects, column objects), it is still a 
+good idea to use primary keys for some tables. The following statement
+shows the object IDs. Obviously they are too long and would be too
+difficult to remember to be used directly by users. 
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   select SYS_NC_OID$ from person_table;<br>
+</font>
+<p>Object tables can be altered so that they have primary keys:
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   ALTER TABLE job_table <br>
+&nbsp; &nbsp; &nbsp;   ADD (CONSTRAINT jobID PRIMARY KEY (job_ID));<br>
+</font>
+<p>In this case "jobID" is the name of the constraint whereas job_ID
+is the name of an actual column in job_table. If job_ID contains
+duplicates, then the alter statement produces an error. 
+<p><b>Exercises</b>
+<p><ul>
+<li> 13. Alter both the employee_table and the job_table (from exercise 4) so that
+they have primary keys. 
+</ul>
+<p><p><hr><p><h3>2.4 References or REFs</h3>
+References (REF) can be used instead of foreign keys in many-to-one
+relationships. Note that the references point to object types
+not object tables. 
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   CREATE TABLE employment (<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+     employee REF employee,<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+     position REF job);<br>
+</font>
+<p>In addition to referencing the type it is also possible to restrict
+the references to actual object tables by using "SCOPE IS". Scoped
+references are implemented more efficiently by Oracle and are processed
+faster. But scope can only be defined when creating a table, not
+when creating a type.
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   CREATE TABLE employment (<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+     employee REF employee SCOPE IS employee_table,<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+     position REF job SCOPE IS job_table);<br>
+</font>
+<p>The data to be inserted into tables with REFs comes from the
+corresponding object tables (i.e., employee_table and job_table). 
+The function REF in the following statement provides the pointers
+to the objects in employee_table and job_table which are then
+inserted into employment.
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;    INSERT INTO employment <br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+       SELECT REF(e), REF(j)<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+       FROM job_table j, employee_table e <br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+       WHERE e.emp_ID = 2<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+       AND j.job_ID = 1;<br>
+</font>
+<p><b>Exercises:</b>
+<p><ul>
+<li> 14. Create the employment table as described above and insert 3 rows into it.
+(The insert statement above will probably not work for your 
+database. You need to use the same attribute names that you used
+in your tables from exercises 4 and 10.) 
+</ul>
+<p><ul>
+<li> 15. What does "Select * from employment" show? 
+Print the complete information from table "employment" in two
+formats: <br>
+First, print it in a way that it shows all types and
+all data. (E.g EMPLOYEE(NAME('Mary', NULL, 'Edwards'), ....)
+You can do this by dereferencing (DEREF) the two columns of employment.<br>
+Second, print it in a way so that it only shows the data, not the types.
+</ul>
+<p><ul>
+<li> 16. Using the employment table, print the names of all
+employees whose salary is larger than 20000. Print the jobtitles
+of all employees who live in Edinburgh. (Note that in contrast
+to relational databases you do not need a join to do this!)
+</ul>
+<p><ul>
+<li> 17. Sit back for a moment and evaluate the differences between
+the relational approach and the object relational approach that 
+you have learned so far. Which of the approaches is easier to design, 
+easier to maintain or easier to use? Is there any danger of anomalies 
+or inconsistencies in the object-relational approach? Is normalisation 
+relevant for the object-relational approach? 
+</ul>
+<p><ul>
+<li> 18. Create an object type "project" with columns: "project_id",
+"project_leader", "project_title" where "project_leader" is
+a REF to person. Create a corresponding object table "project_table". 
+Alter the table so that project_id is a primary key. Insert 3 rows into 
+"project_table". 
+</ul>
+<p><ul>
+<li> 19. Create a table "project_membership" with two columns "project_id"
+and "member" so that the project IDs are references to projects but
+can only be filled with data from project_table. The members are
+references to person and can only be filled with data from employee_table.
+Insert 3 rows into this table. Select all rows from this table
+using dereferencing of the two columns.
+</ul>
+<p><p>

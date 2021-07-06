@@ -1,0 +1,243 @@
+<HTML>
+<TITLE>Week 12</Title>
+
+<body>
+<h3>1 Object-oriented programming in Perl</h3>
+
+In the following example, a package (or class) Student is defined.
+It contains three methods: new(), printDetails() and enroll().
+The method new() is used as a constructor to instantiate new objects.
+But it is just a convention to use the word "new", any other word
+could be used instead.
+The objects of the class Student have two attributes: name and courses.
+These are numbered $_[1] and $_[2] in the subroutine because the 
+name of the package itself is stored in $_[0].
+<p>
+<font color=blue>
+#!/usr/local/bin/perl<br>
+#########################################<br>
+package Student;<br>
+sub new {<br>
+&nbsp; &nbsp; &nbsp; my $self = {};<br>
+&nbsp; &nbsp; &nbsp; bless $self;<br>
+&nbsp; &nbsp; &nbsp; $self->{name} = $_[1];<br>
+&nbsp; &nbsp; &nbsp; $self->{courses} = $_[2];<br>
+&nbsp; &nbsp; &nbsp; return $self;<br>
+}<br>
+sub printDetails {<br>
+&nbsp; &nbsp; &nbsp; my $self = $_[0];<br>
+&nbsp; &nbsp; &nbsp; print "Name: $self->{name}\n";<br>
+&nbsp; &nbsp; &nbsp; print "Courses: @{$self->{courses}}\n";<br>
+}<br>
+sub enroll {<br>
+&nbsp; &nbsp; &nbsp;    my $self = $_[0];<br>
+&nbsp; &nbsp; &nbsp;    my $course = $_[1];<br>
+&nbsp; &nbsp; &nbsp;    push (@{$self->{courses}},$course);<br>
+}<br>
+#########################################<br>
+package main;<br>
+my($student1) = new Student("Fred", ["L548"]);<br>
+<br>
+print "Input the courses which $student1->{name} is enrolled in.\n";<br>
+print "When finished, type X.\n";<br>
+$newcourse = &#60;STDIN&#62;;<br>
+chomp $newcourse;<br>
+<br>
+while ($newcourse !~ /x/i) {<br>
+    $student1-&#62;enroll($newcourse);<br>
+    $newcourse = &#60;STDIN&#62;;<br>
+    chomp $newcourse;<br>
+}<br>
+<br>
+$student1-&#62;printDetails(); 
+</font>
+
+<h4>1.2 Exercises</h4>
+
+1) Add further attributes to the  student class (phone number, email address, 
+degree, etc).
+<p>
+2) Create an array of students. Let users add new students to the array.
+Ask the user for the name of a student and then print his/her details.
+<p>
+3) Create a method creditHours  that computes the number of credit hours
+for a student
+assuming that every class is a three credit class.
+<p>                    
+4) Create a class Employee that contains information
+about names, ages and positions. What could be useful methods
+for the class? 
+
+<h4>1.2 Blessing of $self</h4>
+
+ Without blessing the variable in the subroutine "new",
+a different notation would have to be used:<br>
+Student::printDetails($student1);  <br>
+instead of <br>
+$student1->printDetails(); <br>  
+
+Using that notation any subroutine from any package can be included in
+a script. A blessed variable 
+contains an internal pointer to its package, i.e. the variable
+becomes an "object" of that class. 
+
+<h4>1.3 Optional Materials: Pointers (References)</h4>
+
+The following examples provide more details for the notation (implementation)
+of object-oriented programming in Perl. Object-oriented notation was added
+to Perl in version 5. Therefore existing constructs (such as pointers
+and hashs) were used for the object-oriented features.
+<p>
+<font color=blue>
+#!/usr/local/bin/perl<p>
+# normal hash<br>
+%hash = ("name", "Fred", "color", "white");<br>
+print "$hash{name}\n";<br>
+print "$hash{color}\n";<br>
+<br>
+# pointer to a hash<br>
+$pointer_to_hash = \%hash;<br>
+print "$pointer_to_hash->{name}\n";<br>
+print "$pointer_to_hash->{color}\n"; <br>
+ </font>
+<p>
+The subroutine "new" returns a pointer to a hash.
+The hash is defined as "$self = {...}" instead of as "%self =(...)".
+"$self" is a scalar and therefore a pointer to a hash.
+<p>
+<font color=blue>
+#!/usr/local/bin/perl<p>
+sub new {<br>
+        my $self = {};<br>
+        $self->{'name'} = $_[0];<br>
+        $self->{'color'} = $_[1];<br>
+        return $self;<br>
+        }<br>
+<br>
+my($cat) = new("Fred","white");<br>
+print "$cat->{name}\n";<br>
+print "$cat->{color}\n";<br>
+</font>
+
+<h4>1.4 Another example</h4>
+
+<font color=blue>
+#!/usr/local/bin/perl<p>
+package Cat;<br>
+sub new {<br>
+        my $class = $_[0];<br>
+        my $self = {};<br>
+        bless $self;<br>
+        $self->{'name'} = $_[1];<br>
+        $self->{'color'} = $_[2];<br>
+        return $self;<br>
+        }<br>
+sub meow {<br>
+        print "meow\n";<br>
+        }<br>
+sub printDetails {<br>
+        my $self = $_[0];<br>
+        print "$self->{name}\n";<br>
+        print "$self->{color}\n";<br>
+}<br>
+###################################<br>
+<br>
+package main;<br>
+my($cat) = new Cat("Fred", "white");<br>
+$cat->meow();<br>
+$cat->printDetails(); <br>
+</font>
+<p>
+<ul>
+<li>object or instance: $cat
+<li>class: Cat
+<li>attribute: name, color
+<li>behaviour or methods: new(), meow(), printDetails()
+<li>constructor method: new()
+<li>instance method: printDetails()
+<li>class method: meow()
+</ul>
+
+<h4>1.5 Exercise</h4>
+
+5) In analogy to the example above, create a package (class) for another
+type of pet besides cat or dog (see below).
+
+<h4>1.6 Encapsulation, inheritance, and polymorphism</h4>
+
+<font color=blue>
+#!/usr/local/bin/perl<br>
+package Animal;<br>
+sub printDetails {<br>
+        my $self = $_[0];<br>
+        print "$self->{name}\n";<br>
+        print "$self->{color}\n";<br>
+}<br>
+###################################<br>
+package Cat;<br>
+@ISA = qw(Animal);<br>
+sub new {<br>
+        my $class = $_[0];<br>
+        my $self = {};<br>
+        bless $self;<br>
+        $self->{'name'} = $_[1];<br>
+        $self->{'color'} = $_[2];<br>
+        return $self;<br>
+        }<br>
+sub speak {<br>
+        print "meow\n";<br>
+        }<br>
+###################################<br>
+package Dog;<br>
+@ISA = qw(Animal);<br>
+sub new {<br>
+        my $class = $_[0];<br>
+        my $self = {};<br>
+        bless $self;<br>
+        $self->{'name'} = $_[1];<br>
+        $self->{'color'} = $_[2];<br>
+        return $self;<br>
+        }<br>
+sub speak {<br>
+        print "woof\n";<br>
+        }<br>
+###################################<br>
+package main;<br>
+my($cat) = new Cat("Fred", "white");<br>
+my($dog) = new Dog("Max", "black");<br>
+@pets = ($cat,$dog);<br>
+<br>
+foreach $pet (@pets){<br>
+$pet->speak();<br>
+$pet->printDetails();<br>
+}     
+</font>
+<p>
+<ul>
+<li>encapsulation: the implementation of printDetails() is hidden from
+Cat and Dog
+<li>inheritance: Cat and Dog inherit printDetails()
+<li>polymorphism: $pet refers to instances of different types() 
+</ul>
+
+<h4>1.7 Exercise</h4>
+
+6) Add your pet from the previous exercise to the Animal package.
+
+<h4>1.8 Modules</h4>
+
+A module is a package stored in a file by itself and named 
+"packagename.pm". The last executed line in a module should be
+"return 1;". A package can be used in a different file by including
+"use packagename;" at the beginning of the file.
+
+<h4>1.9 Exercise</h4>
+
+7) Save Animal, Cat, Dog and the additional pet 
+as modules by themselves. To use them you can 
+either include "use" statements for all four of them in the main file
+or you use Cat, Dog and the other pet in the main file and Animal 
+in Cat, Dog and the other pet.
+Try both possibilities.
+</body>
+</HTML>

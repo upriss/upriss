@@ -1,0 +1,69 @@
+2) Which layout seems most suitable?
+
+twopi, fdp and neato work well.
+
+-----------------------------------------
+
+3) Calculate the reverse graph.
+
+FR = F.reverse()
+
+-----------------------------------------
+
+4) Calculate the PageRank of the reverse graph. 
+
+pgr = pagerank(FR)
+for item in sorted(pgr.iteritems(), key=itemgetter(1), reverse=True):
+    print item
+
+Why is Claire high in F and low in the reverse graph?
+
+Claire is called "friend" by 3 people including Helen who is top
+ranked in F. 
+
+Claire only calls one person "friend" herself (as does Richard).
+In FR: because Richards' friend Sue is higher ranked than Claire's
+friend Helen, Claire is ranked below Richard.
+
+Why are Helen and Sue highly ranked in F and in the reverse graph? 
+
+They both have many friends and are called "friend" by many people.
+
+-----------------------------------------
+
+5) Determine whether the friends graph is a small-world network
+
+FU = F.to_undirected()
+average_shortest_path_length(FU)
+average_clustering(FU)
+FR = gnm_random_graph(FU.number_of_nodes(), FU.number_of_edges())
+average_clustering(FR)
+
+The average shortest path is 1.55. This means that on average it takes
+less than 2 steps to get from a node to any other node. This proves
+the small-world effect.
+
+The average clustering coefficient (0.55) is larger than for a random
+graph. Thus, it is a small-world network.
+
+-----------------------------------------
+
+6) Can you figure out how many hands you shook and how many hands your
+   girlfriend/boyfriend shook? 
+
+Because each person gives a different answer, the answers are 0, 1, 2,
+3, 4, 5, 6.
+
+Start drawing a graph by placing 8 nodes in a circle.
+
+Draw 6 edges connected to a single node (the person with 6 handshakes).
+The girlfriend/boyfriend of this person, must be the one who shook 0 hands.
+
+Pick another node to be the one with 5 handshakes, it doesn't matter which one.
+The girlfriend/boyfriend of this person, must be the one who shook 1 hand.
+
+Pick another node to be the one with 4 handshakes, it doesn't matter which one.
+The girlfriend/boyfriend of this person, must be the one who shook 2 hands.
+
+The remaining two nodes both have 3 edges. These must be you and your
+girlfriend/boyfriend.

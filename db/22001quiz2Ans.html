@@ -1,0 +1,71 @@
+<html>
+<head>
+<title>Quiz 2</title>
+</head>
+<body>
+
+Revision Questions for Week 3 and 4: use the 
+Student Notes book to answer these questions. The answers will
+be discussed briefly during the lecture.
+
+<h4>Which of the following is NOT an ER diagram connection trap?</h4>
+
+<li>Mousetrap
+
+<h4>Fan traps</h4>
+
+A many-to-one relationship between Ingredients and Meals and a
+many-to-one relationship between Dishes and Meals constitutes
+a possible fan trap because the pathway between  Ingredients
+and Dishes is ambiguous. 
+<p>
+The fan trap can be resolved by changing the many-to-one relationship
+between Ingredients and Meals into a
+many-to-one relationship between Ingredients  and Dishes.
+
+<h4>A Chasm trap can occur if ... (choose one)</h4>
+
+<li>some relationships are optional
+
+<h4>Which of the following is NOT part of Enhanced ER Models (EER)?</h4>
+
+<li>normalisation
+
+<h4>Which of the following is a relationship, relationship type or relation?</h4>
+
+<li>Bus-Driver: relationship type
+<li>Bus 14 - Driver John Smith: relationship
+<li>The database table that holds the data about buses and drivers: relation
+
+<h4>Which of the following is NOT true?</h4>
+
+<li>1:m relationships are mapped by taking the primary key from the
+'many end' and adding it to the 'one end' as a foreign key.
+
+<h4>Which of the following may include rows that failed the JOIN
+condition because of NULL values?</h4>
+
+<li>OUTER JOIN
+
+<h4>What are the two aliases in "SELECT name, address from 
+student undergraduate, student postgraduate"?</h4>
+
+undergraduate and postgraduate.
+
+<h4>Which of the rows in the following table is not an equivalence (i.e. produces
+the same result if used in SQL)?</h4>
+
+SELECT * FROM department WHERE ...
+<p>
+<table border=1>
+<tr><td>"depno > ANY (1,2,3)" </td><td> "depno = 1 AND depno =2
+AND depno =3" </td></tr>
+</table>
+
+<h4>Which of the following is correct?</h4>
+
+None of the answers is correct. A correct answer would be:
+
+<li>CREATE table student (name varchar(20), dob date);
+
+</body>

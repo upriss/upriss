@@ -1,0 +1,134 @@
+<HTML>
+<HEAD>
+<TITLE>Latex</TITLE>
+</HEAD>
+<BODY>
+
+<h3>Links</h3>
+
+<li><a href="http://www.ctan.org/starter.html">Starting with Latex</a>
+<li><a href="http://mirrors.ctan.org/info/lshort/german/l2kurz.pdf">
+Latex Kurzbeschreibung (pdf)</a>
+
+<hr>
+
+<h3>A very short tutorial for Latex</h3>
+
+Here is is an example of a basic Latex 2e document:
+
+<font color=blue><pre>
+\documentclass{article}    %%% article is just one type of document
+\usepackage{graphicx}      %%% useful for including figures
+\usepackage{times}         %%% if this is here the fonts are nicer in pdf files
+
+\title{A very short Latex document}
+\author{Uta Priss}
+
+\begin{document}           %%% the content of the document begins here
+\maketitle                 %%% without this, the title will not be printed
+
+\section{This is a section}
+
+Here is some text.
+
+\section*{This is another section but without a number}
+
+a paragraph a paragraph a paragraph a paragraph a paragraph a paragraph
+a paragraph a paragraph a paragraph a paragraph a paragraph a paragraph
+a paragraph a paragraph a paragraph a paragraph a paragraph a paragraph
+
+a paragraph a paragraph {\bf a paragraph} a paragraph a paragraph a paragraph
+a paragraph a paragraph a paragraph a paragraph a paragraph a paragraph
+\end{document}   
+</pre></font>
+
+<h4>Exercises</h4>
+
+1) Copy and paste the blue code into an editor.
+Save the document. Run latex or pdflatex on it. View the resulting ps or 
+pdf file. <br>
+
+2) Add another heading (for section number 2). Add another paragraph and
+another footnote. Change the name of the author.
+Change the bold-face (bf) to italics (it).
+<br>
+3) Remove the title by adding just a single character.
+
+<h4>Finding more information</h4>
+
+Documentation can be found on-line, for example (open these two pages
+in other tabs of your browser):
+<li><a href="http://www.emerson.emory.edu/services/latex/latex2e/latex2e_toc.html">
+general commands</a>
+<li><a href="http://web.ift.uib.no/Fysisk/Teori/KURS/WRK/TeX/symALL.html">
+mathematical symbols</a>
+
+<h4>Exercises</h4>
+
+4) Add a quotation, an itemized list ("itemize") and a numbered list 
+("enumerate") to your document.
+<br>
+5) Add the following mathematical symbols (note they must be enclosed in dollar
+signs, such as $\alpha$): Greek letter alpha, a larger or equal sign, 
+an equivalence sign (left and right arrow), an infinity sign and some text
+which is underlined.
+
+<h4>Tables</h4>
+
+<font color=blue><pre>
+\begin{table}
+\caption{A heading for the table}
+\begin{center}
+\begin{tabular}{l|l|l}
+Name & Date of Birth & Phone \\
+\hline
+Paul & 1.1.2001 & 1234567 \\
+Mary & 3.4.2011 & 9876543 \\
+\end{tabular}
+\end{center}
+\end{table}
+</pre></font>
+
+<h4>Exercises</h4>
+
+6) Add another column and make the text right-alined (r) instead of
+left-aligned (l).
+<br>
+7) Add a surrounding box (i.e. horizontal lines at the top and bottom and 
+on the sides).
+
+<h4>Figures</h4>
+
+<font color=blue><pre>
+\begin{figure}
+\includegraphics[width=4in]{picture.jpg}
+\caption{This is a heading for a figure}
+\end{figure}
+</pre></font>
+
+<h4>Exercises</h4>
+
+8) Download a jpg file from the web and save it under the name "picture.jpg"
+in the same directory as your Latex file.
+<br>
+9) Make the picture first bigger, then smaller by changing the width.
+
+<h4>Mathematical formulas</h4>
+
+Some documentation on mathematical formulas (open these two pages
+in other tabs of your browser):
+<li><a href="http://www.personal.ceu.hu/tex/math.htm">very brief</a>
+<li><a href="http://en.wikibooks.org/wiki/LaTeX/Mathematics">more detailed</a> 
+
+<h4>Exercises</h4>
+
+10) Typeset some of the formulas on these pages:
+<a href="http://en.wikibooks.org/wiki/Intermediate_Algebra/Expressions_and_Formulas">
+here</a>, 
+<a href="http://en.wikibooks.org/wiki/A-level_Mathematics/OCR/C1/Appendix_A:_Formulae">
+here</a> and 
+<a href="http://en.wikibooks.org/wiki/A-level_Mathematics/OCR/FP1/Appendix_A:_Formulae">here</a>.
+
+
+</body>
+</html>

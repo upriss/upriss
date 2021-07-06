@@ -1,0 +1,60 @@
+
+<html>
+<!-- DO NOT EDIT DO NOT EDIT DO NOT EDIT DO NOT EDIT DO NOT EDIT -->
+<head>
+<title>OODB</title> 
+</head>
+<body>
+<h3>Data Warehouses</h3>
+<br>
+<p><hr><p><h3>1.1 Business Intelligence (BI)</h3>
+<ul>
+<li> Decision Support Systems (DSS)
+<li> Data Warehouses (DW)
+<li> Online Transaction Processing (OLTP): traditional relational db
+<li> Online Analytical Processing (OLAP): data analysis for BI
+<li> Extraction, Transportation, and Transformation (ETT) solutions
+</ul>
+<p><p><hr><p><h3>1.2 What is a Data Warehouse?</h3>
+From Oracle Manual:
+<p>"A data warehouse is a relational database that is designed for query and 
+analysis rather than transaction processing. It usually contains historical 
+data that is derived from transaction data, but it can include data from 
+other sources. It separates analysis workload from transaction workload 
+and enables an organisation to consolidate data from several sources."
+<p><p><hr><p><h3>1.3 Inmon's characteristics of data warehouses</h3>
+<ul>
+<li> Subject Oriented (built for specific focus, specific questions)
+<li> Integrated (from heterogeneous sources)
+<li> Nonvolatile (data does not changed after warehouse is created)
+<li> Time Variant (comparisons between data at different times)
+</ul>
+<p><p><hr><p><h3>1.4 Data warehouses are materialised views</h3>
+Data warehouses typically have
+<p><ul>
+<li> more indexes
+<li> fewer joins
+<li> more derived data and aggregates 
+</ul>
+<p>than OLTP databases. 
+<p>Furthermore, data warehouses need not be normalised!
+<p><p><hr><p><h3>1.5 Features of data warehouses</h3>
+Data warehouses are 
+<p><ul>
+<li> expected to be optimised for ad-hoc queries
+<li> updated via ETT at scheduled times (there is no direct data entry)
+<li> expected to process large amounts of data (VLDB) 
+<li> store historical data
+</ul>
+<p><p><hr><p><h3>2.1 Data Warehousing Schemas</h3>
+<ul>
+<li> Star schema (one fact table with several dimension tables).
+<li> Snowflake schema (in third normal form)
+</ul>
+<p><p><hr><p><h3>2.2 OLAP Operations</h3>
+<ul>
+<li> Drill Across or Drill-Down (navigating along dimension hierarchy)
+<li> Roll-Up (aggregating data at next level in the same dimension)
+<li> Slice (isolating one layer)
+<li> Dice (forming a subset of a cube)
+<li> Pivoting (switching columns and rows in a table or cube)

@@ -1,0 +1,125 @@
+<HTML>
+<TITLE>L548: Session 13</Title>
+
+<body>
+<h3>Object-oriented programming II</h3>
+
+<font color=blue>
+#!/usr/local/bin/perl<p>
+package Cat;<br>
+sub new {<br>
+        my $class = $_[0];<br>
+        my $self = {};<br>
+        bless $self;<br>
+        $self->{'name'} = $_[1];<br>
+        $self->{'color'} = $_[2];<br>
+        return $self;<br>
+        }<br>
+sub meow {<br>
+        print "meow\n";<br>
+        }<br>
+sub printDetails {<br>
+        my $self = $_[0];<br>
+        print "$self->{name}\n";<br>
+        print "$self->{color}\n";<br>
+}<br>
+###################################<br>
+<br>
+package main;<br>
+my($cat) = new Cat("Fred", "white");<br>
+$cat->meow();<br>
+$cat->printDetails(); <br>
+</font>
+<p>
+<ul>
+<li>object or instance: $cat
+<li>class: Cat
+<li>attribute: name, color
+<li>behaviour or methods: new(), meow(), printDetails()
+<li>constructor method: new()
+<li>instance method: printDetails()
+<li>class method: meow()
+</ul>
+<p>
+<b>Exercise</b>
+<p>In analogy to the example above, create a package (class) for another
+type of pet besides cat or dog (see below).
+
+<h3>Encapsulation, inheritance, and polymorphism</h3>
+
+<font color=blue>
+#!/usr/local/bin/perl<br>
+package Animal;<br>
+sub printDetails {<br>
+        my $self = $_[0];<br>
+        print "$self->{name}\n";<br>
+        print "$self->{color}\n";<br>
+}<br>
+###################################<br>
+package Cat;<br>
+@ISA = qw(Animal);<br>
+sub new {<br>
+        my $class = $_[0];<br>
+        my $self = {};<br>
+        bless $self;<br>
+        $self->{'name'} = $_[1];<br>
+        $self->{'color'} = $_[2];<br>
+        return $self;<br>
+        }<br>
+sub speak {<br>
+        print "meow\n";<br>
+        }<br>
+###################################<br>
+package Dog;<br>
+@ISA = qw(Animal);<br>
+sub new {<br>
+        my $class = $_[0];<br>
+        my $self = {};<br>
+        bless $self;<br>
+        $self->{'name'} = $_[1];<br>
+        $self->{'color'} = $_[2];<br>
+        return $self;<br>
+        }<br>
+sub speak {<br>
+        print "woof\n";<br>
+        }<br>
+###################################<br>
+package main;<br>
+my($cat) = new Cat("Fred", "white");<br>
+my($dog) = new Dog("Max", "black");<br>
+@pets = ($cat,$dog);<br>
+<br>
+foreach $pet (@pets){<br>
+$pet->speak();<br>
+$pet->printDetails();<br>
+}     
+</font>
+<p>
+<ul>
+<li>encapsulation: the implementation of printDetails() is hidden from
+Cat and Dog
+<li>inheritance: Cat and Dog inherit printDetails()
+<li>polymorphism: $pet refers to instances of different types() 
+</ul>
+<p>
+<b>Exercise</b>
+<p>
+Add your pet from the previous exercise to the Animal package.
+
+<h3>Modules</h3>
+
+A module is a package stored in a file by itself and named 
+"packagename.pm". The last executed line in a module should be
+"return 1;". A package can be used in a different file by including
+"use packagename;" at the beginning of the file.
+<p>
+<b>Exercise</b>
+<p>
+Save Animal, Cat, Dog and the additional pet 
+as modules by themselves. To use them you can 
+either include "use" statements for all four of them in the main file
+or you use Cat, Dog and the other pet in the main file and Animal 
+in Cat, Dog and the other pet.
+Try both possibilities.
+</body>
+</HTML>

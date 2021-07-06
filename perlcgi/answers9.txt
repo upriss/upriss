@@ -1,0 +1,16 @@
+1) Create a module called 'Hello.pm' and save it in a directory 'perl_lib' under
+your home directory. Write a subrouting called 'sayhello' within Hello.pm,
+which prints "Hello World". Write a perl script that uses this subroutine.
+
+# file Hxello.pm:
+#
+sub sayhello {
+    print "Hello World";
+}
+return 1;
+
+# perl script that uses Hello.pm
+#
+use lib '/home/yourusername/perl_lib';
+use Hello;
+sayhello();

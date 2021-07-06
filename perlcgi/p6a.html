@@ -1,0 +1,52 @@
+<HTML>
+<TITLE>Week 6</Title>
+
+<body>
+
+<h3>1 Environment Variables</h3>
+
+<font color=blue>
+&#60;html&#62;&#60;head&#62;&#60;title&#62; Environment Variables &#60;/title&#62;
+&#60;/head&#62;&#60;body&#62;<br>
+&#60;h3&#62;Environment variables script&#60;/h3&#62;<br>
+&#60;p&#62; Here are the CGI environment variables that 
+this PHP script has been called with<br>
+&#60;p&#62;&#60;hr&#62;<br>
+&#60;?php<br>
+foreach($_SERVER as $key =&#62; $value) {<br>
+  echo ($key . "=" . $value ."&#60;br&#62;");<br>
+}<br>
+?&#62;<br>
+&#60;h4&#62;How to use just one environment variable:&#60;/h4&#62;<br>
+&#60;?php<br>
+echo "\$_SERVER['REMOTE_ADDR'] = ". $_SERVER['REMOTE_ADDR'];<br>
+?&#62;<br>
+</font>
+
+<h4>1.1 Exercises</h4>
+
+1) Try the script.
+<p>
+2) Use one of the PHP scripts that you have created earlier in this
+semester and that responds to a form. Include a print statement in the PHP script that 
+prints the environment variables REQUEST_METHOD, QUERY_STRING 
+and CONTENT_LENGTH. Note: that some of these are only available if the
+method for sending the form is "get", others are only available if the
+method is "post". (Check the 
+&#60;form action=... method=... &#62; tag in your form.)
+REQUEST_METHOD and CONTENT_LENGTH can be used to 
+increase the security of your script. CONTENT_LENGTH
+should not be longer than a predefined maximum length. 
+
+<h3>2 Customize Pages with PHP</h3>
+
+PHP can show different pages to different users depending on user preferences.
+
+<h4>2.1 Exercises</h4>
+
+3) Ask a user to input their name into a textfield and 
+to choose a color from a popup menu. Then display a page with
+a short message (e.g. "Thank you $_REQUEST['name'] for your request") in that color.
+
+</body>
+</html>

@@ -1,0 +1,193 @@
+1.1) Create a list that contains the names of 5 students of this
+class.  (Do not ask for input to do that, simply create the list.)
+Print the list. Ask the user to input one more name and append it to
+the list.  Print the list. Ask a user to input a number. Print the
+name that has that number as index. Add "John Smith" and "Mary Miller"
+to the beginning of the list (by using "+"). Print the list.
+
+#!/usr/bin/env python
+
+students = ["Paul Miller", "Kathy Jones", "Susan Smith", "John Doe",
+"James Black"]
+
+print "The following students are in the class:", students
+
+new_student = raw_input("Type the name of another student: ")
+students.append(new_student)
+print "The following students are in the class:", students
+
+number = input("Enter a number: ")
+print "The student number", number + 1, "is", students[number]
+
+students = ["John Smith", "Mary Miller"] + students
+print "The following students are in the class:", students
+
+----------------
+
+2.1) Continue with the script from 1.1): Print the list. Remove the
+last name from the list. Print the list. Ask a user to type a name. Check
+whether that name is in the list: if it is then delete it from the
+list. Otherwise add it at the end. Create a copy of the list in
+reverse order. Print the original list and the reverse list.
+
+#!/usr/bin/env python
+
+students = ["Paul Miller", "Kathy Jones", "Susan Smith", "John Doe",
+"James Black"]
+
+print "The following students are in the class:", students
+
+del students[-1]
+print "The following students are in the class:", students
+
+another_student = raw_input("Enter the name of a student to be added/deleted: ")
+if another_student in students:
+        students.remove(another_student)
+else:
+        students.append(another_student)
+
+print "The following students are in the class:", students
+
+more_students = students[:]
+
+more_students.reverse()
+print students
+print more_students
+
+----------------
+
+3.1) Use the list of student names from exercise 2.1): Create a
+for loop that prints for each student "hello student_name, how are
+you?" where student_name is replaced by the name of the student.
+
+#!/usr/bin/env python
+#
+
+students = ["Paul Miller", "Kathy Jones", "Susan Smith", "John Doe",
+"James Black"]
+
+for student in students:
+    print "Hello", student + ", how are you?"
+
+----------------
+
+3.2) Optional: Use the list of student names from the previous
+exercise. Create a for loop that asks the user for every name whether
+they would like to keep the name or delete it. Delete the names which
+the user no longer wants. Hint: you cannot go through a list using a
+for loop and delete elements from the same list simulatenously because
+in that way the for loop will not reach all elements. You can either
+use a second copy of the list for the loop condition or you can use a
+second empty list to which you append the elements that the user does
+not want to delete.
+
+#!/usr/bin/env python
+#
+# first version
+
+students = ["Paul Miller", "Kathy Jones", "Susan Smith", "John Doe",
+"James Black"]
+
+new_students = students[:]
+
+for student in new_students:
+     print "Do you want to keep student", student, "?"
+     answer = raw_input ("yes/no ")
+     if answer != "yes":
+         students.remove(student)
+print students
+
+----------------
+
+#!/usr/bin/env python
+#
+# second version
+
+students = ["Paul Miller", "Kathy Jones", "Susan Smith", "John Doe",
+"James Black"]
+
+new_students = []
+
+for student in students:
+     print "Do you want to keep student", student, "?"
+     answer = raw_input ("yes/no ")
+     if answer == "yes":
+         new_students.append(student)
+
+students = new_students
+print students
+
+---------------
+4.1) Modify the program so that the lines are printed in reverse
+order.
+
+#!/usr/bin/env python
+#
+# Program to read and print a file 
+#
+file = open("alice.txt","r")
+text = file.readlines()
+file.close()
+
+text.reverse()
+
+for line in text:
+    print line,
+print 
+
+
+---------------
+4.2) Output to another file instead of the screen. First, let your
+script overwrite the output file, then change the script so that it
+appends the output to an existing file.
+
+file = open("alice.txt","r")
+text = file.readlines()
+file.close()
+
+file2 = open ("output.txt", "w")
+file2.writelines(text)
+file2.close
+
+file2 = open ("append.txt", "a")
+file2.writelines(text)
+file2.close
+
+---------------
+4.3) Modify the program so that each line is printed with a line
+number at the beginning.
+
+#!/usr/bin/env python
+#
+# Program to read and print a file 
+#
+file = open("alice.txt","r")
+text = file.readlines()
+file.close()
+
+counter = 1
+for line in text:
+    print counter, line,
+    counter = counter +1
+print 
+
+
+
+
+---------------
+6.1) Create a second dictionary (such as "age") and print its values
+as well.
+
+#!/usr/bin/env python
+#
+# a dictionary
+
+relatives ={"Lisa" : "daughter", "Bart" : "son", "Marge" : "mother",
+"Homer" : "father", "Santa" : "dog"}
+
+age ={"Lisa" : 8, "Bart" : 10, "Marge" : 35,
+"Homer" : 40, "Santa" : 2}
+
+for member in relatives.keys():
+    print member, "is a", relatives[member], "and is", age[member], \
+    "years old"

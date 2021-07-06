@@ -1,0 +1,173 @@
+<HTML>
+<HEAD>
+<TITLE>Unix Workshop</TITLE>
+</HEAD>
+<BODY>
+
+<h3>3) Shell Scripts</h3>
+
+Chapter 6
+
+<h4>Shells</h4>
+
+Different shells: sh, ksh, rsh, csh<br>
+<p>
+<b>Exercise 1</b>
+<p>
+Find out which shells are on nations (hint: shells are binaries and end in
+"sh")<br>
+The default shell for a user is usually defined in the /etc/passwd file.<br>
+You can start a new shell by typing its name. You exit a shell by typing
+"exit". 
+<p>
+<b>Exercise 2</b>
+<p>
+Have a look at /etc/passwd
+<p>
+Switch between different shells. Execute the following (humorous)
+commands in the csh and ksh: <br>
+cat "food in cans"<br>
+rm God<br>
+man: why did you get a divorce?<br>
+make fire<br>
+why not?<br>
+[Where is my brain?<br>
+<p>
+Serious question: how can you tell whether there are different shells
+running in your terminal window?
+<p>
+
+<h4>Environment variables</h4>
+
+<b>Exercise 3</b>
+<p>
+Type "printenv". <br>
+(In csh) Type: set newstuff="stuff"; echo $newstuff<br>
+Type: unset newstuff; echo $newstuff<br>
+Type: setenv NEWSTUFF stuff; printenv<br>
+Type: unsetenv NEWSTUFF; printenv<br>
+
+<h4>User login scripts</h4>
+
+The csh uses ".login" (which is only executed when users login)
+and ".cshrc" (which is executed each time a new shell starts)
+as login scripts. The ksh uses ".profile" and ".kshrc" instead.
+The windows environment  uses additional login files (such as
+.dtprofile) where you 
+define the initial settings of the desktop environment.
+There are also global login files in the /etc directory that 
+are executed before the user's files. 
+<p>
+<b>Exercise 4</b>
+<p>
+Have a look at ".login" and ".cshrc".<p>
+Type: cat /usr/local/etc/motd<br>
+Find this command in .cshrc. Obviously it is misplaced in .cshrc and
+should be in .login. <br>
+Execute the last five lines of .cshrc separately. <p>
+
+Create a file (using echo) and look at its permissions. Type:
+umask 077. Create another file and look at its permissions.
+<p>
+Change umask permanently in your .cshrc. After editing the file 
+type "source .cshrc" to make the changes valid for the current shell.
+<p>
+<font color=red>It is important to execute .cshrc immediately 
+(by typing source .cshrc) after making changes. If you should make
+a mistake while editing .cshrc, you will not be able to login anymore!
+The only way to fix that then is to ftp from a different machine,
+get the .cshrc file (but don't overwrite you local .cshrc),
+make changes to it and ftp it back.</font>
+
+<p>
+Type: setenv PATH . <br>
+Type: ls<br>
+Type: /bin/ls<br>
+How can you fix this problem?
+<p>
+Type: set prompt="%"
+<p>
+Type: history<br>
+Type: h<br>
+Type: alias h history<br>
+Type: h
+
+<p>
+Add aliases to your .cshrc that make "rm", "mv", "cp" safer. 
+The Sun comes with a Trash bin that you can use by dragging and dropping
+files into it. You can also create one yourself that works on any Unix 
+computer and for command line "rm". See the red comments 
+<a href="uclass1.html"> here</a>.
+
+
+<h4>Shell scripts</h4>
+
+Chapters 13 and 16
+<p>
+Any commands can be combined in a shell. We will be using the sh shell
+for the following examples.
+<p>
+<b>Example 1</b>
+<p>
+:<br>
+# date and users<br>
+#<br>
+date <br>
+who -u<br>
+<p>
+Save this in a file called dw.
+To execute this script either type "sh dw" or type
+"chmod 700 dw" and then "dw". 
+<p>
+<b>Example 2</b>
+<p>
+:<br>
+# A simple menu<br>
+#<br>
+quit=n<br>
+while test "$quit" = "n"<br>
+do<br>
+clear<br>
+echo "        Menu       "<br>
+echo "---------"<br>
+echo<br>
+echo "1. List Users"<br>
+echo "2. Show Date"<br>
+echo "3. Quit"<br>
+echo<br>
+echo "Enter Choice: ."<br>
+read choice<br>
+case $choice in<br>
+1) who<br>
+echo "press enter"<br>
+read dummy;;<br>
+2) date<br>
+echo "press enter"<br>
+read dummy;;<br>
+3) quit=y;;<br>
+*) echo "Invalid choice!"<br>
+echo "press enter"<br>
+read dummy;;<br>
+esac<br>
+done<br>
+<p>
+<b>Example 3</b>
+<p>
+:<br>
+# if statement<br>
+#<br>
+echo "guess a number"<br>
+read number<br>
+if test "$number" -eq 7<br>
+then<br>
+echo "That is the number!"<br>
+else<br>
+echo "Wrong number"<br>
+fi<br>
+<p>
+<b>Exercise 5</b>
+<p>
+Write a script that lets a user guess a number between 1 and 9 
+and stops only when the correct number is guessed.
+</BODY>
+</HTML>

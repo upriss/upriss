@@ -1,0 +1,227 @@
+<html>
+<title>Week 7</Title>
+
+<body>
+
+<h4>1 Simple Javascript examples</h4>
+
+The code below shows some of the things that can be done with Javascript.
+
+<font color=blue><pre>
+&#60;a href='' onMouseOver='window.alert("You cannot!")'&#62;try to click this&#60;/a&#62;
+&#60;p&#62;
+&#60;input type='button' 
+       value='Click here for alert' 
+       onClick='window.alert("Hello?")'/&#62;
+&#60;p&#62;
+&#60;input type='button' 
+       value='Click here for confirmation' 
+       onClick='temp=window.confirm("Would you like to confirm?");
+                  window.status=(temp)?"true":"false"'/&#62;
+&#60;p&#62;
+&#60;input type='button' 
+       value='Click here for prompt' 
+       onClick='temp=window.prompt("Enter some text:","default value");
+                  window.status=temp '/&#62;
+&#60;p&#62;
+&#60;a href='' 
+   onMouseOver='window.status="Go on"; return true'
+   onMouseOut='window.status="Finished"'&#62;Watch the status bar&#60;/a&#62;
+&#60;p&#62;
+&#60;a href='javascript:history.back();'&#62;back&#60;/a&#62;
+&#60;a href='javascript:history.forward();'&#62;forward&#60;/a&#62;
+&#60;p&#62;
+&#60;input type='button' 
+       value='open new window'
+       onClick='newwin=window.open("http://www.ostfalia.de","newwin",
+                  "toolbar=no,scrollbars=yes,status=no,width=200,height=100"); '&#62;
+&#60;input type='button' 
+       value='close new window'
+       onClick='newwin.close();' &#62;
+&#60;p&#62;
+&#60;script language="JavaScript"&#62;
+  function square(i) {
+    document.write("The function takes this ", i ,"&#60;br&#62;")
+    return i * i
+  }
+  document.write("and calculates its square: ",square(5),".")
+&#60;/script&#62;
+</pre></font>
+
+<h4>1.1 Exercise</h4>
+
+1) Try the code. Click the buttons, move your mouse over the links and click the
+links. In some case the actitivity is shown in the status bar (window.status).
+Look through the code and make sure that you understand what it does.
+
+<h4>1.2 More complex examples</h4>
+
+The exercises below are fine when viewed via
+<a href="http://www.mozilla.com/firefox/">Firefox</a> or Safari. If you use
+Internet Explorer, there seems to be problem with reloading the page.
+<p>
+The first example opens an XML file and reads its content.
+A sample xml file called "text.xml"
+
+<font color=blue><pre>
+&#60;?xml version="1.0" ?&#62;
+&#60;maintag&#62;
+Here is some content.
+&#60;/maintag&#62;
+</pre></font>
+
+is opened by the following script. The content of "maintag"
+is parsed using DOM and written into an
+alert box. The GetXmlHttpObject function is required because of
+differences between Internet Explorer and other browsers.
+
+<font color=blue><pre>
+&#60;html&#62;&#60;head&#62;
+&#60;script type='text/javascript'&#62;
+var request
+
+function popupfile() {
+  request=GetXmlHttpObject()
+  if (request==null) {
+    alert ("Browser does not support HTTP Request")
+    return
+  }
+  request.open("GET","text.xml",true)
+  request.send(null)
+  request.onreadystatechange=stateChanged
+}
+
+function stateChanged() {
+  if (request.readyState==4) {
+    var xmldoc = request.responseXML;
+    var root_node = xmldoc.getElementsByTagName('maintag').item(0);
+    alert(root_node.firstChild.data);
+  }
+}
+
+function GetXmlHttpObject() {
+  var objXMLHttp=null
+  if (window.XMLHttpRequest) {
+    objXMLHttp=new XMLHttpRequest()
+  } else if (window.ActiveXObject) {
+    objXMLHttp=new ActiveXObject("Microsoft.XMLHTTP")
+  }
+  return objXMLHttp
+}
+&#60;/script&#62;
+&#60;/head&#62;
+&#60;body&#62;
+&#60;input type='button' onclick="popupfile()" value='click here'/&#62;
+&#60;/body&#62;&#60;/html&#62;
+</pre></font>
+
+The following second example shows how to change text in a page without
+refreshing the page.
+
+<font color=blue><pre>
+&#60;html&#62;&#60;head&#62;
+&#60;script type='text/javascript'&#62;
+function rewriter(parameter,content){
+  document.getElementById(parameter).innerHTML=content;
+}
+&#60;/script&#62;
+&#60;/head&#62;&#60;body&#62;
+
+I would like some &#60;span id="flavour"&#62;what kind of flavour&#60;/span&#62; ice cream.
+
+&#60;p&#62;
+&#60;input type='button' 
+       onclick='rewriter("flavour","chocolate")' 
+       value='chocolate'/&#62;
+
+&#60;input type='button'
+       onclick="javascript:document.getElementById('flavour').innerHTML='strawberry'"
+       value='strawberry'/&#62;
+&#60;p&#62;
+&#60;a href=#
+onclick="javascript:document.getElementById('flavour').innerHTML='peach'"&#62;
+peach&#60;/a&#62;
+
+&#60;/body&#62;&#60;/html&#62;
+</pre></font>
+ 
+
+<h4>1.3 Exercise</h4>
+
+2) Try both scripts and make sure that you understand how they
+work.
+
+<h4>1.4 A first AJAX example</h4>
+
+The two previous scripts can be combined in order to 
+create an AJAX example. This AJAX script reads content from a 
+file in the background and refreshes a page without
+reloading. The content is stored in a PHP file (which needs
+to reside in the PHP directory on a webserver). The following
+php file ("ajaxinput.php") is very simple and only contains 
+three choices. In more advanced applications, this PHP file could
+contain more complex code, such as connecting to a database or 
+interacting with other scripts.
+
+<font color=blue><pre>
+&#60;?php  switch($_REQUEST['action']) {
+    case 'one':
+      echo "chocolate";
+      break;
+    case 'two':
+      echo "strawberry";
+      break;
+    default:
+      echo "peach";
+      break;
+  }
+?&#62;
+</pre></font>
+
+The function "rewriter()" is combined with the code from
+the function "popupfile()" above:
+
+<font color=blue><pre>
+var request
+var param 
+  
+function rewriter(parameter,content) {
+  param = parameter 
+  request=GetXmlHttpObject()
+  if (request==null) {
+    alert ("Browser does not support HTTP Request")
+    return
+    }
+  request.open("GET", "ajaxinput.php?action="+content, true)
+  request.send(null)
+  request.onreadystatechange=stateChanged
+}
+</pre></font>
+
+The function "stateChanged()" now uses
+request.responseText instead of request.responseXML. It stores
+the response in the innerHTML instead of sending it to an alert box as
+before.
+
+<font color=blue><pre>
+  if (request.readyState==4 || request.readyState=="complete") {
+    javascript:document.getElementById(param).innerHTML = request.responseText;
+    }
+  }
+</pre></font>
+
+The function "GetXmlHttpObject()" is unchanged.
+The body of the file contains three buttons for the different
+ice cream flavours. All three buttons use the rewriter function.
+
+<h4>1.5 Exercise</h4>
+
+3) Implement the AJAX script using the two files from 
+exercise 2) following the instructions provided above.
+<p>
+4) Change the script from the previous exercise so that it reads
+the content from an XML file, which contains a tag for each
+flavour (&#60;one&#62;chocolate&#60;/one&#62;, etc). 
+
+</body>
+</html>

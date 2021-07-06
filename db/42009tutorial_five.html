@@ -1,0 +1,140 @@
+
+<html>
+<!-- DO NOT EDIT DO NOT EDIT DO NOT EDIT DO NOT EDIT DO NOT EDIT -->
+<head>
+<title>OODB</title> 
+</head>
+<body>
+Tutorial 5
+
+<h3>5.1 Ordinary Relations and Object Relations</h3>
+To convert ordinary relational tables into object tables one can
+either create new tables and drop the old ones or one can create
+object-relational views for the old tables but keep the data in the
+old tables.
+<p>As an example, consider a relational table:
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   CREATE TABLE people (<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      ID number PRIMARY KEY,<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      name VARCHAR2(30),<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      phone VARCHAR2(20) );<br>
+&nbsp; &nbsp; &nbsp;   INSERT into people VALUES (0, 'Smith', '546-4364');<br>
+&nbsp; &nbsp; &nbsp;   INSERT into people VALUES (1, 'Miller', '556-4374');<br>
+&nbsp; &nbsp; &nbsp;   INSERT into people VALUES (2, 'Jones', '536-4386');<br>
+</font>
+<p>A corresponding object type is "people_type" below. The type
+"phone_nested" from last week's exercises is used so that
+a person can have more than one phone number.
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   CREATE TYPE phone_nested AS TABLE OF VARCHAR2(12); <br>
+&nbsp; &nbsp; &nbsp;   CREATE TYPE people_type AS OBJECT (<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      person_ID number,<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      name VARCHAR2(30),<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      phone_list phone_nested);         <br>
+</font>
+<p>The first possibility to define an object-relational table is to
+insert the data from "people" into "people_object_table".
+When inserting the data into the object-relational table the
+types need to be specified, such as "phone_nested(phone)".
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   CREATE TABLE people_object_table OF people_type<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      NESTED TABLE phone_list STORE AS p_table;<br>
+&nbsp; &nbsp; &nbsp;   INSERT into people_object_table <br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      SELECT ID, name, phone_nested(phone) from people;<br>
+</font>
+<p>The second possibility to define an object-relational table is to
+create an object view. Because an object view does not duplicate the
+data, it is not necessary to define a storage table (such as p_table).
+But a column must be specified that is used as an object identifier.
+This is normally the column that corresponds to 
+the primary key of the relational table.
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   CREATE VIEW people_object_view OF people_type<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      WITH OBJECT IDENTIFIER (person_ID) AS<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      SELECT ID, name, phone_nested(phone) AS phone_list from people;<br>
+</font>
+<p><b>Exercises:</b>
+<p><ul>
+<li> 29. Create a relational table "department", which has columns
+dno, dname, dstreet, dstreetnumber, dcity and dpostalcode. Create
+a type for the address information (or use the address type from
+previous exercises). Create a type "dept_type" with columns
+deptno, deptname and deptaddress. Create an object view dept_view
+that views the data from the relational table. 
+</ul>
+<p><ul>
+<li> 30. Insert three rows into the department table. Use the object
+view to view the rows. Can you use the object view to insert further
+rows?
+</ul>
+<p><p><hr><p><h3>5.2 Using Nested Tables in Views</h3>
+The previous example showed how to define a view with a nested
+table column (phone_list) but not how to insert multiple phone
+numbers into that column. To insert multiple phone numbers
+for a person, the phone numbers must be stored in a separate
+table, such as phone_nrs below.
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   CREATE TABLE phone_nrs (<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      ID number, <br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      phone VARCHAR2(20) );<br>
+&nbsp; &nbsp; &nbsp;   INSERT into phone_nrs VALUES (0, '546-4364');<br>
+&nbsp; &nbsp; &nbsp;   INSERT into phone_nrs VALUES (0, '546-4123');<br>
+&nbsp; &nbsp; &nbsp;   INSERT into phone_nrs VALUES (1,  '556-4374');<br>
+&nbsp; &nbsp; &nbsp;   INSERT into phone_nrs VALUES (2, '536-4386');<br>
+</font>
+<p>The view people_object_view2 combines data from the relational
+table people and from the relational table phone_nrs. Because
+multiple rows from phone_nrs can belong to one row from
+people, the functions CAST(MULTISET()) must be used as shown
+in the example.
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   CREATE VIEW people_object_view2 OF people_type<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      WITH OBJECT IDENTIFIER (person_ID) AS<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      SELECT p.ID, p.name,<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      CAST(MULTISET (SELECT phone FROM phone_nrs n <br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      WHERE n.ID = p.ID) AS phone_nested)<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      FROM people p;<br>
+</font>
+<p><b>Exercise:</b>
+<p><ul>
+<li> 31. Create a relational table employees with columns empID,
+empname and deptno. Insert a few rows into this table. 
+Create an object type employee_t with columns
+eID and ename. Create a type employee_list_t
+which is a nested table of employee_t.
+Create a type dept_t with columns deptno, deptname and emp_list
+where emp_list is of type employee_list_t. Finally, create
+an object view that combines the department data from the
+previous exercises with the employees from the employees table.
+</ul>
+<p><p><hr><p><h3>5.3 Further Information about Object Views</h3>
+There is much more to know about object views. For example, in
+some circumstances it is not possible to use object views to 
+update data. Instead triggers must be used. 
+<p>References to rows in object views can be created
+with MAKE_REF. This allows for creating inverse relationships
+or circular references.
+<p>Object views can form a hierarchy (using UNDER). 
+<p>Details about such advanced features can be found in 
+<a href="
+http://www.csis.gvsu.edu/GeneralInfo/Oracle/appdev.920/a96594/adobjvew.htm">
+Applying an Object Model to Relational Data</a>.
+But these advanced features will not be covered in this tutorial.
+<p><p><p>

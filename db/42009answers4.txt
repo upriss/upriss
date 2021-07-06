@@ -1,0 +1,33 @@
+
+Exercise 25
+
+CREATE TYPE phone_code AS OBJECT (
+     area_code VARCHAR2(5),
+     localnumber VARCHAR2(10)
+  );
+CREATE TYPE phone_numbers AS TABLE OF phone_code;
+CREATE TABLE company3 (
+   name VARCHAR2(20),
+   phone phone_numbers
+   )
+   NESTED TABLE phone STORE AS phone_nr_table;
+
+---
+Exercise 26 
+
+INSERT into company3 VALUES ('abc', 
+phone_numbers(phone_code('0131','243-4758'), phone_code('0131','485-2534'))
+);
+
+---
+Exercise 28
+
+SELECT t.* from company3 c, TABLE (c.phone) t where c.name = 'abc';
+SELECT t.* from company3 c, TABLE (c.phone) t where t.area_code =
+'0131' and t.localnumber = '485-2534';
+select t.localnumber from company3 c, TABLE(c.phone) t;
+
+
+
+
+

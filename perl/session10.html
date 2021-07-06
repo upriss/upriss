@@ -1,0 +1,113 @@
+<HTML>
+<TITLE>L575: Session 10</Title>
+
+<body>
+<h3>Perl and Networking</h3>
+
+Protocols<p>
+Bottom layers: physical network, IP, TCP <br>
+Top layers: FTP, telnet, http<p>
+Type of connection: connection-oriented vs. packet-oriented
+
+<h3>Connecting to the http port</h3>
+
+In this script "$remote" is a variable for a two directional socket
+handle (similar to a filehandle, which is usually one directional).
+<p>
+<font color=blue>
+#!/usr/local/bin/perl<br>
+use IO::Socket;<br>
+<br>
+$current_host = "www.slis.indiana.edu";<br>
+$current_doc = "/";<br>
+<br>
+$remote =IO::Socket::INET->new(Proto => "tcp",<br>
+PeerAddr => $current_host,<br>
+PeerPort => "http(80)",<br>
+);<br>
+if (!$remote) {die "cannot connect to http daemon on $current_host"}<br>
+$remote->autoflush(1);<br>
+print $remote "GET $current_doc HTTP/1.0\n\n";<br>
+$line = &#60$remote&#62 ; <br>
+while ($line) {<br>
+print "$line";<br>
+$line = &#60$remote&#62 ; <br>
+}<br>
+close $remote;<br>
+</font>
+<p>
+<b>Exercises</b>
+<p>
+Try the script using pages you know. Notice the text that is 
+printed before the "&#60;html&#62;" tag. What happens if the
+filename is incomplete (for example compare "php.indiana.edu/~upriss"
+and "php.indiana.edu/~upriss/")? What happens if there exists no
+file at the requested URL. 
+<p>
+Print the output to a file and then view the file through your browser.
+<p>
+Using a regular expression to omit the header information and print
+only the lines that follow the  "&#60;html&#62;" tag.
+<p>
+Turn the script into a subroutine. In a main routine save three
+hostnames and document names each into an array. Let the main routine
+call the subroutine three times using each hostname/document name
+pair once. Don't use global variables but instead pass
+$current_host and $current_doc as arguments to the subroutine.
+
+
+<h3>Connecting to other CGI sites</h3>
+
+To connect to another CGI script on the web you can submit the 
+information that the script requires via the URL and then 
+display the result through your CGI script.
+For example, type<br>
+http://search.yahoo.com/bin/search?p=WORD<br>
+into the URL field  of your browser and replace WORD by a topic you want
+to retrieve. 
+<p>
+<b>Exercise</b>
+<p>
+Incorporate this into the 
+"connecting to http ports" script from above. Let the user input a topic. 
+Display the result without the advertisements.
+<p>
+Note: it may be illegal to incorporate other CGI scripts
+into your script without asking the owner of the original script
+for permission. At a minimum you would have to inform users about
+the underlying script. 
+<p>
+<b>Exercise</b>
+<p>
+Review what you have learned about processing forms with CGI so far.
+
+<h3>Optional: Connecting to the ftp port</h3>
+
+You need to fill in your email address before you start the script.
+This script is only an example of how to use the IO::Socket. For 
+serious implementation the NET::FTP module should be used. Another
+possibility would be to use the http protocol.
+<P>
+<font color=blue>
+#!/usr/local/bin/perl -w<br>
+use IO::Socket;<br>
+<br>
+$current_host ="ftp.uwsg.indiana.edu";<br>
+$email_address ="user\@indiana.edu";<br>
+<br>
+$remote =IO::Socket::INET->new(Proto => "tcp",<br>
+PeerAddr => $current_host,<br>
+PeerPort => "ftp(21)",<br>
+);<br>
+if (!$remote) { die "cannot connect to http daemon on $current_host"}<br>
+$remote->autoflush(1);<br>
+print $remote "USER anonymous\n";<br>
+print $remote "PASS $email_address\n";<br>
+print $remote "quit\n";<br>
+while (&#60$remote&#62)<br>
+{print;}<br>
+close $remote;<br>
+</font>
+
+</body>
+</html>

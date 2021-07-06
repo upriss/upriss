@@ -1,0 +1,80 @@
+<HTML>
+<TITLE>L548: Session 12</Title>
+
+<body>
+<h4>Object-oriented programming</h4>
+
+<font color=blue>
+#!/usr/bin/env python<br>
+<br>
+class Student:<br>
+&nbsp; &nbsp;    'contains students, email, name ...'<br>
+<br>
+&nbsp; &nbsp;    def __init__(self, name ="John Doe", courses =[]):<br>
+&nbsp; &nbsp;&nbsp; &nbsp;   self.name = name<br>
+&nbsp; &nbsp;&nbsp; &nbsp;   self.courses = courses<br>
+&nbsp; &nbsp;&nbsp; &nbsp;   print "Created a class instance for "+ name<br>
+<br>
+&nbsp; &nbsp;    def printDetails(self):<br>
+&nbsp; &nbsp;&nbsp; &nbsp;        print "Name: ", self.name<br>
+&nbsp; &nbsp;&nbsp; &nbsp;        print "Courses: ", self.courses<br>
+<br>
+&nbsp; &nbsp;    def enroll(self, course):<br>
+&nbsp; &nbsp;&nbsp; &nbsp;        self.courses.append(course)<br>
+<br>
+student1 = Student("Mary", ["L548"])<br>
+<br>
+print "Input the courses which",  student1.name,  "is enrolled in."<br>
+newcourse = raw_input ("Type the course number or 'stop' ")<br>
+<br>
+while newcourse != "stop":<br>
+&nbsp; &nbsp;    student1.enroll(newcourse)<br>
+&nbsp; &nbsp;    print "Input the courses which",  student1.name,  "is enrolled in."<br>
+&nbsp; &nbsp;    newcourse = raw_input ("Type the course number or 'stop' ")<br>
+<br>
+student1.printDetails()
+
+
+</font>
+<h4>Exercises</h4>
+
+1.1 Add further attributes to the  student class (phone number, email 
+address, degree, etc).
+<p>
+1.2 Create a list of students. Let users add new students to the list.
+Ask the user for the name of a student and then print his/her details.
+<p>
+1.3 Create a method creditHours  that computes the number of credit hours
+for a student assuming that every class is a three credit class.
+<p>                    
+1.4 Create a class Employee that contains information
+about names, ages and positions. What could be useful methods
+for the class? 
+
+<h4>2) Modules</h4>
+
+Code can be stored in different files (modules) and can be imported. 
+A module must have an extension "py". It should contain exactly one
+class which has the same name as the module. To import a module from
+the current directory the system path may need to be changed:
+<p>
+<font color=blue>
+import sys<br>
+sys.path.append(".")<br>
+</font>
+<p>
+The Student module (in the file Student.py) can then be imported
+with <font color=blue>from Student import *</font>. 
+(<font color=blue>import Student</font> would also work but then
+all methods would have to be prefixed with "Student.".)
+
+<h4>Exercises</h4>
+
+2.1 Using the previous example, 
+separate the main code and the class definition. Save the class
+definition as a module Student.py and import it into the file that
+contains the main code. 
+ 
+<p>
+</body>
+</HTML>

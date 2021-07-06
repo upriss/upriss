@@ -1,0 +1,156 @@
+<html>
+<title>Sample Exam Questions</Title>
+
+<body>
+
+<h3>Short Answer Questions</h3>
+
+(Write 1-2 Sentences when answering each question.)
+
+<h4>1) HTML and CSS</h4>
+
+What is the difference between HTML and HTML 5 with respect to how pages
+are formatted?
+
+<h4>2) W3C, Web 2.0 and CMS</h4>
+
+Which of the information that is stored in Apache access log files can
+be used to trace users. How can this information be used for tracing users?
+
+<h4>4) HTTP Protocol and Server-Side Basics</h4>
+
+Can sessions be established even if a user has cookies and Javascript turned off?
+If yes, explain how.
+
+<h4>5) Regular Expressions</h4>
+
+5.1) Consider the regular expression
+
+<pre>/&#60;.*&#62;/</pre>
+
+What problem occurs if this expression is used to delete tags from HTML and
+how can this problem be solved?
+
+
+<h4>6) Web Graphics</h4>
+
+6.1) A company wants to generate ER diagrams from their databases and wants to publish 
+them on the web. What graphics format could be used to display the diagrams on web 
+pages? What software tools would be involved in creating the diagrams: list all 
+required tools starting with the database software. 
+
+<p>
+
+6.2) Write SVG-like tags for a stop sign.
+Since you don't have the SVG documentation available, you are allowed to invent the 
+tag names and attributes used in the tags. You can leave the attribute values empty 
+apart from the colour attributes. Include only the tags for the stop sign, not the 
+general tags that are at the start of every SVG document. 
+
+
+<h4>7) XML</h4>
+
+7.1) The following XML document is not well-formed. List as many mistakes as you can 
+find. 
+<pre>
+&#60;furniture id=1&#62; 
+&#60;chair size=3 legs=4&#62; 
+&#60;/furniture&#62; 
+&#60;furniture id =2&#62; 
+&#60;table size =10 legs=4&#62;large & small&#60;/table&#62; 
+&#60;/furniture&#62; 
+</pre>
+
+<p>
+
+7.2) Is this XML document valid? If not, state why. 
+
+<pre>
+&#60;?xml version="1.0" ?&#62; 
+&#60;!DOCTYPE hello [ 
+&#60;!ELEMENT World EMPTY&#62; 
+&#60;!ELEMENT b (#PCDATA)&#62; 
+&#60;!ELEMENT hello (#PCDATA | World | b | doc)*&#62; 
+&#60;!ELEMENT doc (doc?)&#62; 
+]&#62; 
+&#60;hello&#62; 
+&#60;World/&#62;This &#60;doc&#62;&#60;doc/&#62;&#60;/doc&#62; is 
+&#60;b&#62;very&#60;/b&#62; &lt; well formed &gt;. 
+&#60;/hello&#62; 
+</pre>
+
+<p>
+
+7.3) With respect to an XHTML document, write the DOM statements that print 
+the content of the first child node of text in italics. (Since you don't have
+the DOM documentation with you, it does not matter if you do not remember 
+the exact names of the statements. You can invent statements as long as they
+are DOM-like).
+
+<p>
+
+7.4) How does SAX handle Unicode?
+
+<h4>9) Web Security</h4>
+
+9.1) Does the following code allow or prevent SQL injection? Briefly explain why. 
+
+<pre>
+$item = htmlentities($_REQUEST["input"]); 
+$query = "select price from sales where item = ". $item; 
+$result = mysql_query($query); 
+</pre>
+
+<p>
+
+9.2) Which of the following does not pose a direct security risk for the server:
+
+<ul>
+<li>html injection
+<li>Trojan horses
+<li>sending mail from a script
+<li>phishing
+<li>hidden variables
+<li>Denial of Service
+</ul>
+
+Explain your answer.
+
+
+<h4>10) AJAX</h4>
+
+10.1) Would it be possible to implement AJAX without using Javascript? What about 
+JSON, is that possible without Javascript? Provide a reason for your answers. 
+
+<h4>11) Unicode, XSL and HTML5</h4>
+
+11.1) Is &amp;#x9755; Unicode, UTF-8, a font or something else? If it isn't Unicode, 
+what is the Unicode code for the character it is meant to represent? 
+
+<h4>12) Web Services</h4>
+
+12.1) The following lines are from a WSDL file. What is the name of the method that is 
+transmitted? 
+
+<pre>
+&#60;message name='ProductRequest'&#62; 
+&#60;part name='Product' type='xsd:string'/&#62; 
+&#60;/message&#62; 
+... 
+&#60;portType name='ProductPortType'&#62; 
+&#60;operation name='ProductSelection'&#62; 
+&#60;input message='tns:ProductRequest'/&#62; 
+... 
+&#60;/operation&#62; 
+&#60;/portType&#62; 
+</pre>
+
+
+<h3>Essay-Style Questions</h3>
+
+<ul>
+<li>Briefly describe the scripts you implemented for the coursework.
+<li>What kind of checks did you implement?
+<li>What are the elements in your XML file?
+<li>What AJAX functionality did you implement?
+</ul>

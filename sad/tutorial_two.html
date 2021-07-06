@@ -1,0 +1,305 @@
+
+<html>
+<head>
+<title>Unix</title> 
+</head>
+<body>
+<h4>Tutorial: Basic Unix continued</h4>
+<br>
+<p><hr><p><h3>1.1 Input/Output redirection: Redirection to a file</h3>
+Instead of sending output from a command to the screen, it can be send to a file.
+This is done by using ">" (which creates a new file or overwrites an existing
+file) or by using ">>" (which appends to an existing file).
+<p><ul>
+<li> Type the following commands:
+</ul>
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   cal<br>
+&nbsp; &nbsp; &nbsp;   cal 3 1991<br>
+&nbsp; &nbsp; &nbsp;   cal > file1<br>
+&nbsp; &nbsp; &nbsp;   more file1<br>
+&nbsp; &nbsp; &nbsp;   cal 3 1991 >> file1<br>
+&nbsp; &nbsp; &nbsp;   more file1<br>
+</font>
+<p><ul>
+<li> Concatenate 2 files into one file using "cat" and file redirection.
+</ul>
+<p>A command can also read input from a file, using "<". The following
+two lines are equivalent:
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   more file1<br>
+&nbsp; &nbsp; &nbsp;   more < file1<br>
+</font>
+<p><ul>
+<li> Use file redirection to create a file named 'yearfile' in your directory. 
+Put a whole year's calendar into it. Then append the next year's calendar.
+</ul>
+<p><p><hr><p><h3>1.2 Input/Output redirection: Pipes</h3>
+Another form of redirection occurs if the output from one command is directly
+sent to another command. This is called a "pipe(line)" and represented by "|".
+<p>The following two lines
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   cat file1 file2 > sample_file<br>
+&nbsp; &nbsp; &nbsp;   wc < sample_file<br>
+</font>
+<p>can be combined into one line by using a pipe. 
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   cat file1 file2 | wc<br>
+</font>
+<p>This eliminates the need for temporary files. 
+<p><ul>
+<li> The command "grep" is used for searching through file content (eg. 
+grep 'wc' file). The command "history" lists the last
+commands that were executed. Can you figure out how to combine
+"history" and "grep" so that all commands containing "wc"
+that were recently executed are printed? If you cannot figure
+it out right away, start by redirecting the output from history
+to a temporary file. Then combine "grep" and "history" into one
+line. 
+</ul>
+<p><p><hr><p><h3>2.1 Wildcards and other special characters</h3>
+The following characters have special meanings
+<p><ul>
+<li> * means "any character including no characters"
+<li> ? means "any single character"
+<li> ; end of a command
+<li> \ escape character
+</ul>
+<p>Execute the following commands: 
+(Note: "touch" creates empty files for given filenames.)
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   touch hello.txt progr.out newfile<br>
+&nbsp; &nbsp; &nbsp;   ls *<br>
+&nbsp; &nbsp; &nbsp;   ls n*<br>
+&nbsp; &nbsp; &nbsp;   ls *.*<br>
+&nbsp; &nbsp; &nbsp;   ls h?ll?.txt<br>
+&nbsp; &nbsp; &nbsp;   ls *.txt; ls *.out<br>
+&nbsp; &nbsp; &nbsp;   touch Hello\!<br>
+</font>
+<p>Exercises:
+<p><ul>
+<li> Touch a file called "Hello World".
+<li> List all files which have a three character extension.
+<li> Create a directory "temp". Copy all files which contain a "t" in their name
+from your home directory into "temp". 
+<li> Remove all files from your directory "temp". Use the option which asks for 
+confirmation for each file before deleting it.
+</ul>
+<p><p><hr><p><h3>3.1 Unix file permission</h3>
+Unix file permissions are visible in a long listing ('ls -l').
+<p>Three levels of permissions:
+<p><ul>
+<li> r - read permission
+<li> w - write permission
+<li> x - execute permission
+</ul>
+<p>Three levels of ownership:
+<p><ul>
+<li> u - user
+<li> g - group
+<li> o - others
+</ul>
+<p>Example: "-rwxr-x---" means: 
+<p><ul>
+<li> owner: rwx 
+<li> group: r-x
+<li> other: ---
+</ul>
+<p>Permissions are changed with "chmod WHO+PERMISSION FILENAME".
+<p>Examples:
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   chmod o+r newfile<br>
+&nbsp; &nbsp; &nbsp;   chmod g-x newfile<br>
+</font>
+<p>Permissions can also be changed using a numerical representation, which
+is calculated by interpreting the permissions string as three binary
+numbers. For example, "-rwxr-x---" corresponds to 111 101 000, which 
+corresponds to 1*4 + 1*2 + 1*1, 1*4 + 0*2 + 1*1, 0*4 + 0*2 + 0*1,  
+which corresponds to 750. Thus "chmod 750 FILENAME" changes the
+permissions to "-rwxr-x---".
+<p>Exercises
+<p><ul>
+<li> List one of your directories. Then remove your own read and execute (search) 
+permissions from the directory. Try to list the directory again. Restore the 
+read access and try again. Finally restore the execute access.
+</ul>
+<p><ul>
+<li> Remove the write permission from a file in your home directory, then try to 
+add the current month to the end of the file. Restore the write permission 
+and try again.
+</ul>
+<p><ul>
+<li> Ask your neighbour for his/her username. List his/her home directory
+and find out which files (if any) you have read access to. Change one
+of your files, so that your neighbour can write to it. Test whether that
+works. Can your neighbour delete any of your files?
+</ul>
+<p><ul>
+<li> Check the permissions for all your files and directories according to
+the following criteria: If you plan
+on storing any coursework (or back-ups of your coursework) on your 
+Unix drive, set the permissions for those directories, so that no one
+else can read them. Keep in mind that if you have a public_html directory, this
+needs to be readable and executable by others. Your top-level directory
+needs to be executable by group and others if you want to store
+web pages in your public_html directory. But the top-level directory
+does not need to be readable by group or others.
+</ul>
+<p><p><hr><p><h3>4.1 Symbolic links</h3>
+Directories or files can be links to other directories or files. This is 
+similar to using pointers or references in programming languages. There
+are many reasons for using links, such as, abbreviating long pathnames and 
+providing duplicate names for files to facilitate compatibility among
+different flavours of Unix. 
+<p>There are two different types of links: hard links and soft (or symbolic) links.
+Hard links point directly to a file and may not span different file systems 
+or link to directories. 
+<p>Soft links contain only an object's path name (a 'pointer') to the place where 
+the actual data is stored. They can span file systems, and may refer to directories.
+<p>The following example for a hard link assumes that you have a directory called "temp":
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   cal > hardfile  <br>
+&nbsp; &nbsp; &nbsp;   ls -l <br>
+&nbsp; &nbsp; &nbsp;   ln hardfile temp/hardfile2<br>
+&nbsp; &nbsp; &nbsp;   ls -l temp/hardfile2<br>
+</font>
+<p><ul>
+<li> Change the content of "hardfile" and check what this does to hardfile2.
+</ul>
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   cal > softfile  <br>
+&nbsp; &nbsp; &nbsp;   ls -l<br>
+&nbsp; &nbsp; &nbsp;   ln -s softfile temp/softfile2<br>
+&nbsp; &nbsp; &nbsp;   ls -l temp/softfile2<br>
+</font>
+<p><ul>
+<li> Notice the difference in the listing between hard and soft links.
+<li> Remove both hardfile and softfile and see what that does to the linked files.
+</ul>
+<p><p><hr><p><h3>5.1 Processes</h3>
+Unix provides several commands for monitoring and administering 
+processes and jobs. Below is a summary:
+<p><table border=1>
+<tr><td> ps   <td>
+	<li> ps (all processes of terminal)
+	<li> ps has lots of options but they depend on the flavour of Unix
+<tr><td> top   <td> shows top processes in the system
+<tr><td> jobs  <td> shows background jobs
+<tr><td> bg  <td> 
+	<li> bg [[job]] 
+	<li> puts specified job into background
+<tr><td> fg  <td> 
+	<li> fg [[job]] 
+	<li> puts specified job into foreground
+<tr><td> kill <td>
+	<li> kill [-signo] pid1 ... 
+	<li> sends signal to process
+	<li> default for signo: -15 (usually terminates process)
+	<li> -9 (always terminates process)
+<tr><td> sleep <td>
+	example: (sleep 5; echo "Hello")&
+<tr><td> at <td>
+	<li> at time (scheduling processes at a certain time)
+	<li> example: at 4:30am tomorrow RETURN bigjob RETURN ^D
+<tr><td> nice <td>
+	<li> nice command &
+	<li> (executes command at a lower priority, useful for batch jobs)
+<tr><td> wait <td> 
+	<li> wait [pid] 
+	<li> (waits for termination of child process)
+<tr><td> nohup <td>
+	<li> nohup bigjob &
+	<li> job keeps running after logout
+</table>
+<p>Exercises:
+<p><ul>
+<li> Try different ps options. Type "more &" then "nano &"
+then "ps -l". Which of the
+processes is the parent? What is the id of the parent process?
+In what states are the processes?
+</ul>
+<p><ul>
+<li> Type "jobs". Then bring the "more" process into the foreground.
+Find the process id of the "nano" process and kill it.
+</ul>
+<p><ul>
+<li> Type "emacs". Then put the process into the background using a 
+second terminal window. Then kill the emacs process.
+</ul>
+<p><ul>
+<li> Find out what the current time is using "date". Using "at" print 
+the current month to a new file exactly 2 minutes later.
+</ul>
+<p><p><hr><p><h3>6.1 Shells</h3>
+Unix commands are interpreted by a shell. Every terminal window has
+at least one shell running in it. There are different types of shells:
+sh, ksh, csh, tcsh and so on. You can find out what type of shell
+you are using by 
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   printenv SHELL<br>
+</font>
+<p>Overview of shells:
+<p><table border=1>
+<tr><th> shell <th> name <th> user start-up files <th> system-wide files
+<tr><td> sh <td> Bourne shell or Posix shell <td> .profile <td> /etc/profile
+<tr><td> ksh <td> Korn shell <td> .profile <td> /etc/profile
+<tr><td> csh <td> C shell <td> .login, .cshrc <td> /etc/csh.login
+<tr><td> tcsh <td> T C shell <td> .login, .tcshrc, .cshrc
+<td>/etc/csh.login, /etc/tcsh.login
+<tr><td> bash <td> bash: GNU Bourne Again SHell <td> .bash_profile, 
+.bash_login, .profile <td>/etc/profile
+</table>
+<p>A shell can be started by typing its name (eg "csh"). The command "printenv"
+shows all environment variables which are currently set. Shells can be 
+customised according to user preferences and system-wide preferences.
+The system preferences are in the /etc directory and usually executed
+before the user preferences. Some shells (csh and tcsh) have separate
+files for when a user logs in (.login) and when a user starts a shell (.cshrc).
+The alias command can be used to create a name for a command or command
+sequence. For example, "alias rm 'rm -i'" makes sure that rm is always
+used with the -i option. Such an alias can be stored in the start-up file.
+<p><ul>
+<li> Find out what shell you are currently using. Edit the start-up file 
+for your shell (or create a start-up file if you don't already have one).
+Edit the file so that it prints the current date and time when you start the
+shell. <font color=red>IMPORTANT: when editing a start-up file, you need
+to make sure that it doesn't contain any errors before you logout. 
+After editing the file, start a new shell (by typing the name of the shell)
+and test whether it works. If everything is ok, you can exit the shell
+with "exit". It is a good idea to copy the original file to a backup
+version (eg .cshrc_backup) before you make changes. If you mess up
+your start-up files you MAY NOT BE ABLE TO LOGIN TO YOUR ACCOUNT again.
+If that ever happens, there is still something you can do. 
+Find out what that is. (No, asking C&IT is not the right answer
+in this case.) </font> 
+</ul>
+<p><ul>
+<li> Check whether there is a command called "e". If there isn't,
+add an alias to your start-up file which abbreviates your favourite editor
+as "e".
+</ul>
+<p><p><hr><p><h3>7.1 Some more advanced exercises</h3>
+<ul>
+<li> Write an alias which stores your current working directory in a 
+file "~/.curdir" every time you use the cd command. Make sure only 
+one directory is ever present in the .curdir file.
+</ul>
+<p><ul>
+<li> Have a message "Welcome, USER!" printed to the terminal exactly
+1 minute after a new shell is started (replace USER with the username).
+</ul>
+<p><ul>
+<li> Write a command that deletes all letters from a file and then sorts it 
+numerically.
+</ul>
+<p><ul>
+<li> Copy some web-page to a file. Using your favourite editor (or any
+Unix commands you know), change the file into a text file, ie.
+replace all &#60;p&#62; 
+tags by blank lines; 
+delete all HTML tags from the text;
+insert line breaks so that lines don't wrap across a line;
+if the file contains PC line breaks, delete these; 
+delete unnecessary blank space. 
+Try to achieve this as efficiently as possible, 
+using only a few commands. 

@@ -1,0 +1,93 @@
+3)  Ask a user to input their name into a textfield and to choose a color from 
+a popup menu. Then display a page with a short message (e.g. "Thank you 
+$_REQUEST['name'] for your request") in that color.
+
+a) Form:
+
+<form action="color.php">
+Type in your name, please:
+<input type="text" name="name"><br>
+<SELECT NAME="color" SIZE="1">
+<OPTION SELECTED>Blue
+<OPTION>Red
+<OPTION>Yellow
+<OPTION>Green
+<OPTION>Black
+</SELECT><br>
+<input type="submit" name="submit">
+</form>
+</body>
+</html>
+
+b) PHP Script:
+
+<HTML><HEAD><TITLE>User Preferences</TITLE></HEAD>
+
+<BODY bgcolor='<?php echo $_REQUEST['color']?>'>
+Thank you '<?php echo $_REQUEST['name']?>' for your request.
+
+</body></html>
+
+
+------------------------------------------------------------------
+
+4) In the previous script check whether the input is reasonable and not empty: 
+- check whether the name and color contain only word characters or -.
+- check that neither name nor color is longer than 100 chars 
+(use the {100,} multiplier). 
+If the criteria are not fulfilled, do not display the results page but 
+instead show an error message. 
+
+<HTML><HEAD><TITLE>User Preferences</TITLE></HEAD>
+
+<?php
+if ($_REQUEST['color'] == "" or $_REQUEST['name'] == "" or
+    preg_match("/[^\w-]/i", $_REQUEST['color']) or
+    preg_match("/[^\w-]/i", $_REQUEST['name']) or
+    strlen($_REQUEST['color']) > 100 or 
+    strlen($_REQUEST['name']) > 100){   
+  echo "<BODY>Invalid Input";
+  exit;
+}
+?>
+<BODY bgcolor='<?php echo $_REQUEST['color']?>'>
+Thank you '<?php echo $_REQUEST['name']?>' for your request.
+</body></html>
+
+------------------------------------------------------------------
+
+5) For the $_REQUEST['name'] variable replace HTML characters "<" and ">" 
+with &#60; and &#62; before printing the name.
+
+(Note: if this is combined with exercise 4, the regular expression for
+$name must be changed to $name =~ /[^&#;\w-]/ otherwise it would die anyway
+if it sees HTML tags.)
+
+<HTML><HEAD><TITLE>User Preferences</TITLE></HEAD>
+
+<?php
+$_REQUEST['name'] = htmlspecialchars($_REQUEST['name']);
+
+if ($_REQUEST['color'] == "" or $_REQUEST['name'] == "" or
+    preg_match("/[^\w-]/i", $_REQUEST['color']) or
+    preg_match("/[^&#;\w-]/i", $_REQUEST['name']) or
+    strlen($_REQUEST['color']) > 100 or 
+    strlen($_REQUEST['name']) > 100){   
+  echo "<BODY>Invalid Input";
+  exit;
+}
+?>
+<BODY bgcolor='<?php echo $_REQUEST['color']?>'>
+Thank you '<?php echo $_REQUEST['name']?>' for your request.
+</body></html>
+
+
+
+
+
+
+
+
+
+
+

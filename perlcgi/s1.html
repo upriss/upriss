@@ -1,0 +1,230 @@
+<HTML>
+<HEAD>
+<TITLE>Part 1</TITLE>
+</HEAD>
+<BODY>
+
+<h4>Notes:</h4>
+
+<li>Materials marked as "optional" can be skipped.
+<li>The first two weeks contain more materials than the later weeks,
+because I am assuming that you are already familiar with basic programming
+concepts from other programming languages. 
+<li>Starting from week 4, you will be working with HTML. If you have 
+never manually edited HTML pages, I would recommend that you familiarize
+yourself with HTML tags before week 4. See the resources for week 1
+on the module webpage.
+
+
+<h3>1 A first example "Hello World"</h3>
+
+<font color=blue>
+#!/usr/local/bin/perl -w<br>
+#<br>
+# This program says "hello" to the world<br>
+#<br>
+print "Hello World!\n";<br>
+</font>
+<p>
+Telnet to a Unix computer. Copy the blue text from the screen
+and paste it into a file. Save the file, for example, under the
+name "hello". Then type at the Unix prompt:
+
+<font color=blue>
+<p>
+perl hello
+<p>
+</font>
+
+<h4>1.1 Explanations</h4>
+
+<table border=1 cellpadding=3>
+<tr><td># </td><td>indicates a comment;  the line is ignored</td>
+<tr><td>print </td><td> a command; prints the string between the quotes</td>
+<tr><td>\n<td> newline character</td>
+<tr><td>; </td><td> indicates the end of a command</td>
+</table>
+
+<h4>1.2 Exercises</h4>
+
+1) Add a second print statement to the script from the example.
+(For example print "How are you?".)
+What does adding or deleting "\n" change?
+<p>
+2) Make some random changes, for example, delete the "#" before
+"This program says ..."; delete the semicolon after "World\n"; etc.
+In most cases you will get an error message. The only useful piece
+of information in that message is probably the number of the line in
+which the error occurred. Fix the errors until the script executes again
+successfully.
+<p>
+3) Type "perl -v" at the command line. It gives you information
+about the specific version of Perl that is installed on the computer.<br>
+Type "perldoc perl" at the command line. To exit "perldoc perl" type "q".
+Perldoc provides on-line help pages. 
+(Don't try to read the documentation right now - it's too technical. Just
+keep in mind that it's there in case you need it later in the semester.)
+If perldoc is not installed on a machine, try "man perl".
+
+<h3>2 A second example </h3>
+
+<font color=blue>
+#!/usr/local/bin/perl -w<br>
+#<br>
+# A program for greeting people<br>
+#<br>
+print "What is your name? ";<br>
+$name = &#60STDIN&gt ;<br>
+chomp ($name);<br>
+print "Hello, $name! How are you?\n";<br>
+</font>
+
+<h4>2.1 Explanations</h4>
+<table border=1>
+<tr><td>$name <td> a variable for a "name"
+<tr><td> = <td> an assignment operator
+<tr><td> &#60STDIN&#62  <td> reads from standard input (i.e. keyboard)
+<tr><td> chomp <td> deletes the newline character ("enter" key)
+</table>
+
+<h4>2.2 Exercises</h4>
+
+4) What happens if you delete the line with "chomp"?
+<br>
+5) Write a program that
+asks two people for their names; stores the names in variables
+called $name1 and $name2; says hello to both of them.
+
+<h3>3 Operators for Numbers</h3>
+
+<font color=blue>
+$a = 3 -4 +10;<br>
+$b = 5*6;<br>
+$c = 7/8;<br>
+print "These are the values: $a $b $c \n";<br>
+print "Increment $a by one: ";<br>
+$a++;<br>
+print $a;<br>
+print "\n";<br>
+print "Decrease $a by one: ";<br>
+$a--;<br>
+print $a;<br>
+print "\n";     
+</font>      
+
+<h4>3.1 Exercises</h4>
+
+6) Execute the script. Make sure you understand every line.
+<br>
+7) Write a script that asks a user for a number. The script
+adds 3 to that number. Then multiplies the result by 2, subtracts 4,
+subtracts twice the original number, adds 3, then prints
+the result.
+
+<h4>3.2 Example</h4>
+
+<font color=blue>
+#!/usr/local/bin/perl -w<br>
+# <br>
+# This program converts from US $ to Canadian $<br>
+# <br>
+print "Money value in US \$ ";<br>
+$us_money = &#60;STDIN&#62; ;<br>
+chomp $us_money;<br>
+$can_money = $us_money /0.6;<br>
+print "US\$ $us_money = Canadian \$ $can_money\n";<br>
+</font>
+
+<h4>3.3 Exercises</h4>
+
+8) In analogy to the example, write a script that 
+asks users for the temperature in F
+and prints the temperature in C. (Conversion: 
+Celsius = (F - 32) * 5/9 )<br>
+
+<h3>4 Strings</h3>
+
+A string is delimited by double quotes (""). Certain special characters
+can be used, such as "\n" and "\t". Variables are interpreted, i.e.
+'print "$name"' prints the value of '$name' and not $-sign followed by
+'name'. To print the characters $, ", \, @, they must be preceded
+by a backslash (\). 
+<p>
+<font color=blue>
+print "hello\n";<br>
+print "hello\\n";<br>
+print "\$5.00\n";<br>
+print "She said: \"hello\"\n"; <br>
+print "\tThis is indented\n"; <br>
+$a = "apples"; $b = "pears"; <br>
+print "$a and $b\n"; <br>
+</font>
+
+<h4>4.1 Exercises</h4>
+
+9) Write Perl print statements for 
+the following text (with the same linebreaks, etc):
+<p>
+Snoopy bought a CD called "Greatest Hits" on the WWW for <br>
+$10.00. To buy the CD he had to send an email message to <br>
+orders@hits-online.net. This is what the design on the CD <br>
+cover looked like:
+<p>
+<pre>
+       \  |  /
+         @ @
+          *
+        \---/
+</pre>
+
+<h4>4.2 Operators and functions for strings</h4>
+
+<table border=1 cellpadding=3>
+<tr><td>chop $a; </td><td># removes the last character</td>
+<tr><td>chomp $a; </td><td>
+# removes the last character if it is a newline character</td>
+<tr><td>$a = $b . $c; </td><td># concatenate $b and $c</td>
+<tr><td>$a = $b x $c; </td><td># $b repeated $c times</td>
+</table>
+
+<h4>4.3 Example</h4>
+
+<font color=blue>
+#!/usr/local/bin/perl -w <br>
+# <br>
+# program that demonstrates operating with strings<br>
+#<br>
+print "Please, type your favorite color: ";<br>
+$color= &#60;STDIN&#62;;<br>
+chomp $color;<br>
+$color = $color . "***";<br>
+chop $color; chop $color;<br>
+$color = $color . "!";<br>
+$color = $color x 5;<br>
+print "$color\n";
+</font>
+<p>
+(If you are unsure what this program does,
+add 'print "$color\n";' after every line so that you can see how
+the content of the variable is changed at each step.) 
+
+<h4>4.4 Exercises</h4>
+
+10) Write a program that asks users for their favorite
+color. Create the following output (assuming "red" is the chosen
+color). 
+
+<pre>
+red red red red red red red red red red  
+red                                 red
+red                                 red
+red red red red red red red red red red
+</pre>
+
+Hints: For the first and last lines: concatenate the string with
+"." and use the x-operator. For the second and third line use 
+"\t". Don't worry about the length of different color words. It
+is not necessary to draw the square exactly.
+</body>
+</html>
+

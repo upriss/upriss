@@ -1,0 +1,140 @@
+<HTML>
+<HEAD>
+<TITLE>L548 Session 1</TITLE>
+</HEAD>
+<BODY>
+
+
+<h3>1) A first example "Hello World"</h3>
+
+<font color=blue>
+#!/usr/local/bin/perl -w<br>
+#<br>
+# This program says "hello" to the world<br>
+#<br>
+print "Hello World!\n";<br>
+</font>
+<p>
+To execute the perl script copy the blue text from the screen
+and paste it into a file. Save the file, for example, under the
+name "hello". Then type at the Unix prompt:
+
+<font color=blue>
+<p>
+perl hello
+<p>
+</font>
+<p>
+
+<b>Explanations</b>
+<table border=1>
+<tr><td># <td>indicates a comment;  the line is ignored
+<tr><td>print <td> a command; prints the string between the quotes
+<tr><td>\n<td> newline character
+<tr><td>; <td> indicates the end of a command
+</table>
+<p>
+<b>Exercises</b>
+<p>
+1) Add a second print statement to the script from the example.
+(For example print "How are you?".)
+What does adding or deleting "\n" change?
+<p>
+2) Make some random changes, for example, delete the "#" before
+"This program says ..."; delete the semicolon after "World\n"; etc.
+In most cases you will get an error message. The only useful piece
+of information in that message is probably the number of the line in
+which the error occurred. Fix the errors until the script executes again
+successfully.
+<p>
+3) Type "perl -v" at the command line. It gives you information
+about the specific version of Perl that is installed on the computer.<br>
+Type "man perl" at the command line. It provides you with on-line
+help. (Don't try to read it right now - it's too technical. Just
+keep in mind that it's there in case you need it later in the semester.)
+To exit "man perl" type "q" or Ctrl-c.
+
+<br>
+
+
+<h3>2) A second example </h3>
+
+<font color=blue>
+#!/usr/local/bin/perl -w<br>
+#<br>
+# A program for greeting people<br>
+#<br>
+print "What is your name? ";<br>
+$name = &#60STDIN&gt ;<br>
+chomp ($name);<br>
+print "Hello, $name! How are you?\n";<br>
+</font>
+<p>
+
+<b>Explanations</b>
+<table border=1>
+<tr><td>$name <td> a variable for a "name"
+<tr><td> = <td> an assignment operator
+<tr><td> &#60STDIN&#62  <td> reads from standard input (i.e. keyboard)
+<tr><td> chomp <td> deletes the newline character ("enter" key)
+</table>
+<p>            
+
+<b>Exercises:</b><p>
+1) What happens if you delete the line with "chomp"?
+<br>
+2) Write a program that
+asks two people for their names; stores the names in variables
+called $name1 and $name2; says hello to both of them.
+
+<h3>Operators for Numbers</h3>
+
+<font color=blue>
+$a = 3 -4 +10;<br>
+$b = 5*6;<br>
+$c = 7/8;<br>
+print "These are the values: $a $b $c \n";<br>
+print "Increment $a by one: ";<br>
+$a++;<br>
+print $a;<br>
+print "\n";<br>
+print "Decrease $a by one: ";<br>
+$a--;<br>
+print $a;<br>
+print "\n";     
+</font>      
+<p>
+
+<b>Exercises</b>
+<p>
+1) Execute the script. Make sure you understand every line.
+<br>
+2) What is the value of $a and $b after each of the following
+statements? 
+<br>
+$a=5; $b=10;<br>
+$a++;<br>
+$b--;$b--;$b++;<br>
+$a = $a + $b; <br>
+$b = $a; <br>
+$a--; <br>
+3) Write a script that asks a user for a number. The script
+adds 3 to that number. Then multiplies the result by 2, subtracts 4,
+subtracts twice the original number, adds 3, then prints
+the result.
+
+<h3>Optional exercise</h3>
+
+To execute a perl script 
+you can also change the program permissions to executable
+
+<font color=blue>
+<p>
+chmod u+x program_name
+<p>           
+</font>
+
+and then execute it by simply typing the program_name. 
+
+</BODY>
+</HTML>

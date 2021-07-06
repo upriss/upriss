@@ -1,0 +1,84 @@
+<html>
+<head>
+<title>SQL</title> 
+</head>
+<body>
+<h4>Normalisation Summary</h4>
+
+Example: Student(<u>s#</u>,progr,school,(module,classroom,mark))
+with functional dependencies:<br>
+
+module -> classroom<br>
+progr -> school<br>
+
+
+<table border=1>
+<tr><th>normal form<th>rule<th>example<th>what to look for
+<tr><td>unnormalized<td>has repeating groups
+<td>Student(<u>s#</u>,progr,school,<font color=green>(module,classroom,mark))
+</font>
+<td><font color=green>
+- can have brackets
+</font>
+
+<tr><td>1NF<td>no repeating groups
+<td>
+<font color=red>
+Student(<u>s#</u>,progr, school)
+</font>
+<font color=blue>
+<br>Exams(<u>s#,module</u>,classroom,mark)
+</font>
+<td><font color=green>
+- must not have brackets
+</font>
+
+<tr><td>2NF
+<td>no partial key dependencies
+<td>
+<font color=red>
+Student(<u>s#</u>,progr, school)
+</font>
+<font color=blue>
+<br>Exams(<u>s#,module</u>,mark)
+<br>Module(<u>module</u>,classroom)
+</font>
+<td><font color=blue>
+- for each composite key:
+</font>
+<br>check whether part of key implies non-key attribute
+<tr>
+
+<td>3NF
+<td>no transitive dependencies
+<td>
+<font color=red>
+Student(<u>s#</u>,progr)
+<br>Programme(<u>progr</u>, school)
+</font><font color=blue>
+<br>Exams(<u>s#,module</u>,mark)
+<br>Module(<u>module</u>,classroom)
+</font>
+<td><font color=red>
+- if there is more than 1 non-key attribute:
+</font>
+<br>non-key attributes must not dependent on each other
+
+<tr>
+<td>BCNF
+<td>every determinant is candidate key
+<td>&nbsp;
+<td>- check all functional dependencies:<br>
+- all LHS must be candidate keys
+<tr>
+<td>4NF
+<td>no multi-valued dependencies
+<td>&nbsp;<td>&nbsp;
+<tr>
+<td>5NF
+<td>not decomposable via joins<td>&nbsp;<td>&nbsp;
+</table>
+
+
+</body>
+</html>

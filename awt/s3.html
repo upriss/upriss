@@ -1,0 +1,331 @@
+<html>
+<title>Week 3</Title>
+
+<body>
+
+<h3>1 SVG - Scalable Vector Graphics</h3>
+
+SVG is an XML-based, W3C approved graphics standard. It facilitates creation 
+of vector graphics which can be incorporated into HTML files. All modern
+browsers (except Microsoft Internet Explorer) support SVG. If you are using
+Internet Explorer, you need to install a plugin (such as
+<a href="http://www.adobe.com/svg/viewer/install/">this one</a>) or
+install a different browser (such as 
+<a href="http://www.mozilla.com/firefox/">Firefox</a>).
+
+<p>
+
+Below is an example of an SVG file, which draws a blue rectangle.
+
+<font color=blue><pre>
+&#60;?xml version="1.0" standalone="no"?&#62; 
+&#60;!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"&#62; 
+
+&#60;svg width="100%" height="100%" version="1.1" 
+xmlns="http://www.w3.org/2000/svg"&#62; 
+
+&#60;rect width="300" height="100" fill="blue"/&#62; 
+
+&#60;/svg&#62; 
+</pre></font>
+
+<h4>1.1 Exercises</h4>
+
+1) Save this as "example1.svg".
+Change the file so that the blue rectangle is a bit further
+in the middle of the page.<br>
+Hints:
+The first 5 lines of the example should not be changed.
+You can find details on the basic shapes
+<a href="http://www.w3.org/TR/SVG11/shapes.html">here</a>.
+(Don't read that whole page. Scroll down until you find
+an example of the shape you are looking for.)
+
+<p>
+2) Add a green circle and a yellow star to the example. 
+<p>
+3) Add some <a href="http://www.w3.org/TR/SVG11/text.html">text</a>.
+
+<h3>2 Embedding SVG into an HTML file</h3>
+
+An SVG image can be embedded into an HTML page using
+either the &#60;embed&#62; or the &#60;object&#62; tag.
+
+<font color=blue><pre>
+&#60;embed src="example.svg" type="image/svg+xml" width="400" height="300" /&#62;
+</pre></font>
+
+Or:
+
+<font color=blue><pre>
+&#60;object data="example.svg" type="image/svg+xml" width="400" height="300" /&#62;
+</pre></font>
+
+Browsers need to create scrollbars for large SVG images. Some browsers
+have problems with that. Creating a large
+object area will force the browser to produce adequate scrollbars:
+
+<font color=blue><pre>
+&#60;object data="example.svg" type="image/svg+xml" width="200%" height="200%" /&#62;
+</pre></font>
+
+In general, there can be incompatibilities between different browsers
+and different operating systems. Not all advanced features may work on all
+browsers. 
+
+<h4>2.1 Exercise</h4>
+
+4) Create an HTML page which contains one of the images you created above.
+
+<h3>3 Producing SVG from a script</h3>
+
+The advantage of using a script is that SVG code can be 
+dynamically generated. You can choose either the PHP or the Perl
+version of the following exercises.
+
+<h4>In PHP:</h4>
+
+PHP has a package for producing SVG images 
+(<a href="http://pear.php.net/package/XML_SVG">XML_SVG package</a>). But 
+it is not necessary to use this package for basic SVG files. 
+Even without using the XML_SVG package, any PHP script can produce SVG.
+It is important that the header says "image/svg+xml"
+at the very beginning of the file:
+
+<font color=blue><pre>
+&#60;?php
+  header('Content-Type: image/svg+xml');
+  echo '&#60;?xml version="1.0" standalone="no"?&#62;';
+?&#62;
+</pre></font>
+
+This should be followed by the DOCTYPE and the svg tags as 
+in the previous examples. 
+
+<h4>In Perl:</h4>
+
+Perl has a module for producing SVG images
+(<a href="http://search.cpan.org/search?query=svg&mode=all">
+SVG module</a>) which can be downloaded via CPAN (running
+"perl -MCPAN -e 'install SVG'" on the command-line). But using 
+this module probably does not make it much easier because all the
+attributes need to be produced in either case.
+
+<p>
+If a PHP or Perl/CGI script produces an SVG file, it is important
+that the header information is accurately produced.
+For Perl, don't use "print header();" but instead use this:
+
+<font color=blue><pre>
+print "Content-type: image/svg+xml\n\n";
+print '&#60;?xml version="1.0" standalone="no"?&#62;';
+</pre></font>
+
+This should be followed by printing the DOCTYPE and svg tags.
+
+<h4>3.1 Exercise</h4>
+
+5) Create a form which asks a user for a colour and write a script that
+generates an SVG response page which shows a circle in that colour.
+
+<h3>4 Using ImageMagick</h3>
+
+Download <a href="photo.jpg">this photograph</a>
+onto your I-drive. Save it under the name "photo.jpg".
+ImageMagick can be used to print metadata for this
+photograph or to convert it into a different format.
+
+<h4>4.1 Exercises</h4>
+
+6) Print all of the metadata of the image file 
+(<font color=blue>identify -verbose photo.jpg</font>).
+<p>
+7) Print selected values of the metadata. Try these:
+<ul>
+<font color=blue>
+<li>identify photo.jpg
+<li>identify -format "%m" photo.jpg
+<li>identify -format "%w %h" photo.jpg
+<li>identify -format "%[EXIF:DateTimeOriginal]\n" photo.jpg
+<li>identify -format "%f %[EXIF:DateTimeOriginal]\n" photo.jpg
+<li>identify -format "%[EXIF:Model]\n" photo.jpg
+</font>
+</ul>
+
+8) Convert the file into other formats or sizes. Try these:
+
+<ul>
+<font color=blue>
+<li>convert photo.jpg photo.gif
+<li>convert -resize 100 photo.jpg photoreduced.jpg
+<li>convert photo.jpg -resize 16x16! favicon.bmp
+</font>
+</ul>
+
+<h3>5 Using Graphviz</h3>
+
+Graphviz is installed on DCS. If you use a different computer, check
+whether Graphviz is installed (by typing "dot" on the command-line).
+You can install Graphviz from <a href="http://www.graphviz.org/Download.php">here</a>.
+<p>
+
+Graphviz has a number of command-line utilities for creating graph layouts:
+dot (for directed graphs), neato and fdp (for undirected graphs), and
+twopi and circo for different radial, circular layouts.
+
+The graph code is saved in files with a ".dot" extension. 
+
+<font color=blue><pre>
+digraph names { 
+node0 [label="John"] 
+node1 [label="Mary"] 
+node2 [label="Paul"] 
+node0 -> node1 
+node0 -> node2 
+node2 -> node1 
+} 
+</pre></font>
+
+An undirected graph uses the word "graph" instead of "digraph"
+and "--" instead of "->".
+
+<h4>5.1 Exercises</h4>
+
+9) Save the file as "example.dot".<br>
+Type <font color=blue>dot -Tgif -o example.gif example.dot</font>, then
+look at example.gif. <br>
+Type <font color=blue>circo -Tgif -o example.gif example.dot</font>, then
+look at example.gif. Try "twopi" instead of "circo".<br>
+Add a few more nodes and edges.
+<br>
+(<font color=red>There seems to be a problem with the PATH settings on DCS.
+If the commands above don't work, use</font><br><font color=blue>
+/usr/bin/dot -Tgif -o example.gif example.dot</font><br>
+<font color=blue>/usr/bin/circo -Tgif -o example.gif example.dot</font><br>
+<font color=red>etc</font>.)
+
+<p>
+10) Save the file as an undirected graph and use the "neato" and "fdp"
+layouts.
+<p>
+11) Have a look at the <a href="http://www.graphviz.org/Gallery.php">
+Graphviz gallery</a>. Each of the examples shows both the picture and
+the Graphviz file that was used. (In some cases, you need to click on the
+picture to see the code.)
+
+<h4>5.2 Using Graphviz from a script</h4>
+
+There are libraries for PHP and Perl that can be installed in order to use 
+Graphviz. Without installing these libraries it is still possible to use
+Graphviz via system calls. The code of the Graphviz file is produced
+by a script and then piped into the Graphviz process (dot, neato, ...).
+The output from the Graphviz process is sent to the browser as a 
+gif file. The PHP and Perl code examples below show the details.
+<p>
+It should be noted that sending user data to system calls is a potential
+security risk. The user data needs to be carefully checked. This will be 
+discussed in the Security lecture.
+<p>
+The following example shows a form that contains textfields for 
+names of people and their friends. The script in the next section then
+draws a graph for the social network of these people. 
+
+<font color=blue><pre>
+&#60;form action=" ... " method="post"&#62;
+Enter the names of a people and their friends. &#60;p&#62;
+
+Person: &#60;input type="text" size =10 name="person1"&#62; &#60;br&#62;
+Friends: &#60;input type="text" size=10 name="f11"&#62;&#60;br&#62;
+      &#60;input type="text" size=10 name="f12"&#62; &#60;br&#62;
+      &#60;input type="text" size=10 name="f13"&#62; &#60;p&#62;
+
+Person: &#60;input type="text" size=10 name="person2"&#62; &#60;br&#62;
+Friends: &#60;input type="text" size=10 name="f21"&#62;&#60;br&#62;
+      &#60;input type="text" size=10 name="f22"&#62; &#60;br&#62;
+      &#60;input type="text" size=10 name="f23"&#62; &#60;p&#62;
+
+Person: &#60;input type="text" size=10 name="person3"&#62; &#60;br&#62;
+Friends: &#60;input type="text" size=10 name="f31"&#62;&#60;br&#62;
+      &#60;input type="text" size=10 name="f32"&#62; &#60;br&#62;
+      &#60;input type="text" size=10 name="f33"&#62; &#60;p&#62;
+&#60;input type="submit" value="Draw it"&#62;
+</pre></font>
+
+<h4>5.3 PHP/Graphviz example</h4>
+
+(Use either the PHP or the Perl example below.)
+
+<font color=blue><pre>
+&#60;?php
+error_reporting(E_ALL ^ E_NOTICE);
+header("Content-type: image/svg+xml");
+
+$graphcontent = "digraph G {".
+"\"".$_REQUEST['person1']."\" -> \"".$_REQUEST['f11']."\"\n".
+"\"".$_REQUEST['person1']."\" -> \"".$_REQUEST['f12']."\"\n".
+"\"".$_REQUEST['person1']."\" -> \"".$_REQUEST['f13']."\"\n".
+"\"".$_REQUEST['person2']."\" -> \"".$_REQUEST['f21']."\"\n".
+"\"".$_REQUEST['person2']."\" -> \"".$_REQUEST['f22']."\"\n".
+"\"".$_REQUEST['person2']."\" -> \"".$_REQUEST['f23']."\"\n".
+"\"".$_REQUEST['person3']."\" -> \"".$_REQUEST['f31']."\"\n".
+"\"".$_REQUEST['person3']."\" -> \"".$_REQUEST['f32']."\"\n".
+"\"".$_REQUEST['person3']."\" -> \"".$_REQUEST['f33']."\"\n".
+"}";
+
+$descriptorspec = array(0 => array("pipe", "r"),1 => array("pipe", "w") );
+$process = proc_open('/usr/bin/dot -Tsvg',$descriptorspec,$pipes);               
+
+if (is_resource($process)) {
+
+fwrite($pipes[0],  "$graphcontent");
+fclose($pipes[0]);
+while (! feof($pipes[1])) {$retval .= fgets($pipes[1]);}
+echo $retval;
+fclose($pipes[1]);
+$return_value = proc_close($process);
+}
+?>
+</pre></font>
+
+
+<h4>5.4 Perl/Graphviz example</h4>
+
+<font color=blue><pre>
+#!/usr/bin/perl
+use CGI;
+my $cgi = new CGI;
+
+$filetype = "svg";
+$graphcontent = "digraph G {".
+        "\"".$cgi->param('person1')."\" -> \"".$cgi->param('f11')."\"\n".
+        "\"".$cgi->param('person1')."\" -> \"".$cgi->param('f12')."\"\n".
+        "\"".$cgi->param('person1')."\" -> \"".$cgi->param('f13')."\"\n".
+        "\"".$cgi->param('person2')."\" -> \"".$cgi->param('f21')."\"\n".
+        "\"".$cgi->param('person2')."\" -> \"".$cgi->param('f22')."\"\n".
+        "\"".$cgi->param('person2')."\" -> \"".$cgi->param('f23')."\"\n".
+        "\"".$cgi->param('person3')."\" -> \"".$cgi->param('f31')."\"\n".
+        "\"".$cgi->param('person3')."\" -> \"".$cgi->param('f32')."\"\n".
+        "\"".$cgi->param('person3')."\" -> \"".$cgi->param('f33')."\"\n".
+    "}";
+
+if ($filetype eq "svg") {
+    print "Content-type: image/svg+xml\n\n";
+    open(PIPE, "| dot -Tsvg   2>Errors.log");
+         print PIPE $graphcontent;
+         close PIPE;
+} else {
+     print "Content-type: text/html\n\n";
+     print $graphcontent;
+}
+</pre></font>
+
+
+<h4>5.5 Exercise</h4>
+
+12) Implement the example. Add one more person and their friends. Change
+it from a directed to an undirected graph.
+
+
+</body>
+</html>

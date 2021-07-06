@@ -1,0 +1,98 @@
+5) Add a checkbox to the form (such as "Do you want milk? Yes/No") and
+   a text area where customers can type in what kind of cake they
+   would like to order. Change your PHP script so that it includes
+   these in its reply, such as "you requested tea with milk", "sorry
+   we are out of chocolate cake". The checkbox and text area must have
+   distinct names in the form.
+
+
+<html>
+<head><title> Tea is served</title> </head><body>
+<hr><h1> Tea Room</h1><hr><p>
+<?php
+if ($_REQUEST['drink'] != "tea" and $_REQUEST['drink'] != "coffee" and
+    $_REQUEST['drink'] != "hot chocolate") {
+  echo "An error occurred.";
+  exit;
+}
+if ($_REQUEST['drink']) {
+  echo "You requested ", $_REQUEST['drink'];
+}
+if ($_REQUEST['milk'] == "yes") {
+  echo " with milk. ";
+} else {
+  echo " without milk. ";
+}
+if ($_REQUEST['cake']) {
+  echo "Sorry we are out of ", $_REQUEST['cake'], ".";
+}
+?>
+<p>Thank you for your visit. Please come again. <p><hr>
+</body></html>
+
+-------------------------------------------------------------------------
+
+6) For the greeting card example, write a PHP script that prints "you
+   have selected image ..." and the number of the image selected. Then
+   the PHP script prints textboxes for the recipient's email address,
+   the recipient's name and the message.
+
+
+
+<html>
+<head><title> Greeting Card</title> </head><body>
+<hr><h1> Your Card:</h1><hr><p>
+<?php
+  echo "You have selected image ", $_REQUEST['image'];
+  echo  " <img src='../image",$_REQUEST['image'],".jpg'>";
+  echo "<form action='http://www.student.soc.napier.ac.uk/~username/cgi-bin/card2'
+        method='post'>
+
+        Recipient's email: <input type='textbox' name='email'><br>
+        Recipient's name: <input type='textbox' name='name'><br>
+        Message: <br>
+        <TEXTAREA NAME='message' ROWS=6 COLS=40></TEXTAREA><p>
+
+        <input type='submit' value='Send Card'>
+        </form>";
+?>
+<p><hr>
+</body>
+</html>
+
+-------------------------------------------------------------------------
+
+7) The greeting card example shows that parameters can be added to a
+   URL (for example "greeting?image=3"). Try what happens if you enter
+   parameter values other than 1, 2, 3 or 4. Add an if statement to
+   your PHP script that prints "not an acceptable selection" if the
+   image number is not 1, 2, 3 or 4.
+
+
+
+<html>
+<head><title> Greeting Card</title> </head><body>
+<hr><h1> Your Card:</h1><hr><p>
+<?php
+if ($_REQUEST['image'] >= 1 and $_REQUEST['image'] <= 4) {
+  echo "You have selected image ", $_REQUEST['image'];
+  echo  " <img src='../image",$_REQUEST['image'],".jpg'>";
+  echo "<form action='http://www.student.soc.napier.ac.uk/~username/cgi-bin/card2'
+        method='post'>
+
+        Recipient's email: <input type='textbox' name='email'><br>
+        Recipient's name: <input type='textbox' name='name'><br>
+        Message: <br>
+        <TEXTAREA NAME='message' ROWS=6 COLS=40></TEXTAREA><p>
+
+        <input type='submit' value='Send Card'>
+        </form>";
+} else {
+  echo "Not an acceptable selection.";
+}
+
+?>
+<p><hr>
+</body>
+</html>
+

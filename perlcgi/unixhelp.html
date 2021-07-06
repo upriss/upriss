@@ -1,0 +1,73 @@
+<html>
+<title>Unix help</title>
+</html>
+<body>
+
+<h4>Running PHP etc on your PC or laptop</h4>
+
+It is possible to install a webserver with PHP, Mysql, (and Perl) on your PC/laptop.
+There are packages available, which are very easy to install and run (just
+a single file to download). <a href="http://en.wikipedia.org/wiki/Comparison_of_WAMPs">
+This page</a> provides an overview of such packages. One example is
+<a href="http://www.wampserver.com/en/">WAMP</a>. Because I don't use PCs,
+I have not tested any of these packages and cannot guarantee that they will be
+save to use.
+
+<p>
+
+If you happen to own a Linux or Mac OS X computer, you don't need to install
+anything because these tools should be preinstalled. You just need to start
+the webserver.
+
+<h4>Some hints for working in a SSH window</h4>
+
+<li>Editor: jpico (or pico or vi or nano).
+<li>Use the arrow keys to repeat a previous command.
+<li>Use the tab key to complete a filename.
+<li>If the arrow keys or the tab key do not work, type
+"setenv TERM vt100"  or "setenv TERM xterm". 
+(You would have to do this once during every session.)
+<li>In Pico, you can use Ctrl-K to delete/cut a line and Ctrl-U to 
+get it back (paste). You can cut/uncut several adjacent lines in one go.
+
+<h4>Connecting from a home computer to a remote webserver</h4>
+
+A secure shell (SSH) client is needed. On Linux and Mac OS X, such a client
+is usually preinstalled (type "ssh" at the command-line). For PCs there are several
+clients freely available for download, such as
+<a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/">PuTTY</a>. Please,
+note that using and installing PuTTY on your home computer is at your own risk.
+Please, further note that
+encryption software such as PuTTY may be illegal is some countries (but PuTTY
+seems to be legally ok in the UK at the moment).
+
+<h4>Some general Unix commands</h4>
+
+<table border=1 cellpadding=5>
+<tr><td>Change to mydirectory</td><td>cd mydirectory</td>
+<tr><td>Create newdirectory</td><td>mkdir newdirectory</td>
+<tr><td>Remove (delete) olddir</td><td>rmdir olddir</td>
+<tr><td>Move (rename) olddir to newdir</td><td>mv -i olddir newdir</td>
+<tr><td>Show name of current dir.</td><td>pwd</td>
+<tr><td>Allow others to read and execute files
+in current directory</td><td> chmod go+rx .</td>
+<tr><td>List files in current dir.</td><td>ls</td>
+<tr><td>List all (incl. hidden)files, with details</td><td>ls -la</td>
+<tr><td>Show contents of myfile</td><td> more myfile</td>
+<tr><td>Move (rename) oldfile to newfile</td><td>mv -i oldfile newfile</td>
+<tr><td>Copy origfile to 
+duplicatefile</td><td>cp -i origfile duplicatefile</td>
+<tr><td>Remove (delete) oldfile</td><td> rm -i oldfile</td>
+<tr><td>Allow others to
+read/change sharedfile</td><td>chmod go+rw sharedfile</td>
+<tr><td>Show the first few lines of largefile</td><td> head largefile</td>
+<tr><td>Show the last few lines of largefile</td><td>tail largefile</td>
+<tr><td>Edit a text file</td><td>pico or emacs or vi or nano</td>
+<tr><td>Find commands related to keyword</td><td>man -k keyword</td>
+<tr><td>Read manual for command</td><td> man command</td>
+<tr><td>Find true name of cmd</td><td>which cmd</td>
+<tr><td>Show environment variables</td><td>printenv</td>
+<tr><td>Change environvariable</td><td>setenv environvariable value
+</table>
+</body>
+</html>

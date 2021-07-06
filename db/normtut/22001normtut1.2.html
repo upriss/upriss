@@ -1,0 +1,33 @@
+
+<html>
+<head>
+<title>Relational Database Tutorials</title> 
+</head>
+<body>
+<h3>1.2 Exercise: Student details</h3>
+A college keeps the following details about a student and the various 
+modules the student studied:
+<p><ul>
+<li> regno - registration number
+<li> na - student name
+<li> add - student address
+<li> tno - tutor number
+<li> tna - tutor name
+<li> dc - diploma code
+<li> dn - diploma name
+<li> mc - module code
+<li> mn - module name
+<li> res - module exam result
+</ul>
+<p>in a relation: Student(<b>regno</b>, na, add, tno, tna, dc, dn, (mc, mn, res))
+<p>The functional dependencies are:
+<p><ul>
+<li> dc -> dn
+<li> tno -> tna
+<li> regno, mc -> res
+<li> mc -> mn
+</ul>
+<p>Which of the following is a normalisation of 
+the relation Student to first normal form?<br>
+Hint: remove the repeating group.
+<p><ol><li><a href='22001normtut1.31ans.html'>Student(<b>regno</b>, na, add, tno, tna, dc, dn) <br> Module(<b>regno, mc</b>, mn, res) </a><br>&nbsp;<li><a href='22001normtut1.32ans.html'>Student(<b>regno</b>, na, add, tno, tna, dc, dn, (mc, res)) <br> Module(<b>mc</b>, mn) </a><br>&nbsp;<li><a href='22001normtut1.33ans.html'>Student(<b>regno</b>, na, add, tno, tna, dc, (mc, mn, res)) <br> Diploma(<b>dc</b>, dn)</a><br>&nbsp;<li><a href='22001normtut1.34ans.html'>Student(<b>regno</b>, na, add, tno, tna, dc) <br> Module(<b>regno, mc</b>, mn, res) <br> Diploma(<b>dc</b>, dn)</a><br>&nbsp;</ol><p><a href='22001normtut_index.html'>Index</a>

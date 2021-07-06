@@ -1,0 +1,143 @@
+<HTML>
+<TITLE>Week 6</Title>
+
+<body>
+
+<h3>1 Environment Variables</h3>
+
+<font color=blue>
+#!/usr/local/bin/perl -w<br>
+<br>
+use CGI qw(:standard);<br>
+print header();<br>
+print "&#60;html&#62;&#60;head&#62;&#60;title&#62; Environment Variables
+&#60;/title&#62;&#60;/head&#62;&#60;body&#62;";<br>
+print "&#60;h3&#62;Environment variables script&#60;/h3&#62;";<br>
+print "&#60;p&#62; Here are the environment variables that this CGI 
+script has been  called with&#60;p&#62;&#60;hr&#62;";<br> 
+print "<br>
+&#60pre&#62<br>
+SERVER_SOFTWARE = $ENV{'SERVER_SOFTWARE'}<br>
+SERVER_NAME = $ENV{'SERVER_NAME'}<br>
+GATEWAY_INTERFACE = $ENV{'GATEWAY_INTERFACE'}<br>
+SERVER_PROTOCOL = $ENV{'SERVER_PROTOCOL'}<br>
+SERVER_PORT = $ENV{'SERVER_PORT'}<br>
+REQUEST_METHOD = $ENV{'REQUEST_METHOD'}<br>
+HTTP_ACCEPT = '$ENV{'HTTP_ACCEPT'}'<br>
+PATH_INFO = $ENV{'PATH_INFO'} <br>
+PATH_TRANSLATED = $ENV{'PATH_TRANSLATED'}<br>
+SCRIPT_NAME = $ENV{'SCRIPT_NAME'}<br>
+QUERY_STRING = $ENV{'QUERY_STRING'}<br>
+REMOTE_HOST = $ENV{'REMOTE_HOST'}<br>
+REMOTE_ADDR = $ENV{'REMOTE_ADDR'}<br>
+REMOTE_USER = $ENV{'REMOTE_USER'}<br>
+CONTENT_TYPE = $ENV{'CONTENT_TYPE'}<br>
+CONTENT_LENGTH = $ENV{'CONTENT_LENGTH'}<br>
+DOCUMENT_ROOT= $ENV{'DOCUMENT_ROOT'}  <br>
+HTTP_USER_AGENT =$ENV{'HTTP_USER_AGENT'}<br>
+HTTP_REFERER =$ENV{'HTTP_REFERER'} <br>
+&#60/pre&#62";<br>
+print "&#60;hr&#62;&#60;/body&#62;&#60;/html&#62;";<br>
+</font>
+
+<h4>1.1 Exercises</h4>
+
+1) You can also print all environment variables using the following 
+code (try it).<br>
+foreach $elem (keys %ENV) {<br>
+    print "$elem $ENV{$elem}&#60;br&#62;";<br>
+}  <br>
+<p>
+2) Use one of the CGI scripts that you have created earlier in this
+semester. Include a print statement in the CGI script that 
+prints the environment variables REQUEST_METHOD, QUERY_STRING 
+and CONTENT_LENGTH. Note: that some of these are only available if the
+method for sending the form is "get", others are only available if the
+method is "post". (Check the <br>
+&#60;form action=... method=... &#62; tag in your form.)
+REQUEST_METHOD and CONTENT_LENGTH can be used to 
+increase the security of your script. CONTENT_LENGTH
+should not be longer than a predefined maximum length. 
+
+<h3>2 Customize Pages with CGI</h3>
+
+CGI can show different pages to different users depending on user preferences.
+
+<h4>2.1 Exercises</h4>
+
+3) Ask a user to input their name into a textfield and 
+to choose a color from a popup menu. Then display a page with
+a short message (e.g. "Thank you $name for your request") in that color.
+
+<h3>3 Security on CGI Pages</h3>
+
+There are several security problems and error sources for CGI scripts
+such as the one above.
+<p>
+Here are some security tips:
+<UL>
+<li>
+If the script prints user input or html code that is retrieved from the
+web apply
+<br>
+<font color=blue>
+$text =~ s/&#60;/&#38#60;/g;
+$text =~ s/&#62;/&#38#62;/g;
+</font>
+to the text before printing it.
+<li>For input from radio buttons, menu selections, check boxes, check
+all possible values with an if statement. In case of unexpected
+values, print an error message and discontinue with the script.
+<li>Don't ask the user for a filename and then write to that file.
+<li>Files that are written to should not be in a directory  
+that allows server-side includes, active server pages, PHP 
+pages, or other HTML template systems.
+<li>Don't install CGI code from untrusted sources on your server.
+<li>If you use sendmail to email back to a user, apply<br>
+<font color=blue>
+unless ($email =~ /^[\w\.+-]+\@[\w\.+-]+$/) {<br>
+     die 'Address not in form foo@nowhere.com';<br>
+  }<br>
+
+</font>
+to the address and use "sendmail -t -oi"
+<li>Never allow user input into a system() or exec() call
+or into an expressions with backticks (`).
+<li>When using open() and calling a program,
+always check user input into this statement.
+<li>If your script writes to a file, lock the file so that two
+scripts cannot write to it at the same time. 
+<li>If you use Perl -T and system calls (or sendmail), you may need
+to include <font color=blue>
+$ENV{'PATH'} = '/bin:/usr/bin:/usr/local/bin';</font> at the beginning
+of your script and variables may need to be untainted using a pattern
+match.
+<li>Be careful with PATH_INFO. Validate its contents.
+<li>Check the REQUEST_METHOD variable to verify that the data
+was send by POST (or GET or ...)
+<li>Check the CONTENT-LENGTH variable to restrict amount of 
+input text.
+</UL>
+
+More information is available for security of
+<a href="http://www.w3.org/Security/Faq/wwwsf4.html">
+CGI scripts</a>, <a href="http://www.w3.org/Security/Faq/wwwsf5.html">
+Perl/CGI</a> and <a href="http://www.w3.org/Security/Faq/
+www-security-faq.html">general WWW security</a>
+
+<h4>3.1 Exercises</h4>
+
+4) In the previous script check whether the input is
+reasonable and not empty: <br>
+- check whether the name and color contain only word characters
+or -.<br>
+- check that neither name nor color is longer than 100 chars (use the 
+{100,} multiplier). <br> If the criteria are not fulfilled, do not 
+display the results page but instead show an error message.
+<p>
+5) For the $name variable replace HTML characters "&#60;" and "&#62;"
+with &#38#60; and &#38#62; before printing the name.<br>
+
+
+</body>
+</html>

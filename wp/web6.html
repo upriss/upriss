@@ -1,0 +1,188 @@
+<html>
+<title>Week 3</Title>
+
+<body>
+
+<h4>0.1 Exercises</h4>
+
+Try the HTML image map provided in the lecture.
+
+<h3>1 SVG - Scalable Vector Graphics</h3>
+
+SVG is an XML-based, W3C approved graphics standard. It facilitates creation 
+of vector graphics which can be incorporated into HTML files. All modern
+browsers support SVG. 
+
+<p>
+
+Below is an example of an SVG file, which draws a blue rectangle.
+
+<font color=blue><pre>
+&#60;?xml version="1.0" standalone="no"?&#62; 
+&#60;!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"&#62; 
+
+&#60;svg width="100%" height="100%" version="1.1" 
+xmlns="http://www.w3.org/2000/svg"&#62; 
+
+&#60;rect width="300" height="100" fill="blue"/&#62; 
+
+&#60;/svg&#62; 
+</pre></font>
+
+<h4>1.1 Exercises</h4>
+
+1) Save this as "example1.svg".
+Change the file so that the blue rectangle is a bit further
+in the middle of the page.<br>
+Hints:
+The first 5 lines of the example should not be changed.
+You can find details on the basic shapes
+<a href="http://www.w3.org/TR/SVG11/shapes.html">here</a>.
+(Don't read that whole page. Scroll down until you find
+an example of the shape you are looking for.)
+
+<p>
+2) Add a green circle and a yellow star to the example. 
+<p>
+3) Add some <a href="http://www.w3.org/TR/SVG11/text.html">text</a>.
+
+<h3>2 Embedding SVG into an HTML file</h3>
+
+An SVG image can be embedded into an HTML page using
+either the &#60;embed&#62; or the &#60;object&#62; tag.
+
+<font color=blue><pre>
+&#60;embed src="example.svg" type="image/svg+xml" width="400" height="300" /&#62;
+</pre></font>
+
+Or:
+
+<font color=blue><pre>
+&#60;object data="example.svg" type="image/svg+xml" width="400" height="300" /&#62;
+</pre></font>
+
+Browsers need to create scrollbars for large SVG images. Some browsers
+have problems with that. Creating a large
+object area will force the browser to produce adequate scrollbars:
+
+<font color=blue><pre>
+&#60;object data="example.svg" type="image/svg+xml" width="200%" height="200%" /&#62;
+</pre></font>
+
+In general, there can be incompatibilities between different browsers
+and different operating systems. Not all advanced features may work on all
+browsers. 
+
+<h4>2.1 Exercise</h4>
+
+4) Create an HTML page which contains one of the images you created above.
+
+<h3>3 Producing SVG from a script</h3>
+
+The advantage of using a script is that SVG code can be 
+dynamically generated. 
+
+<h4>In PHP:</h4>
+
+PHP has a package for producing SVG images 
+(<a href="http://pear.php.net/package/XML_SVG">XML_SVG package</a>). But 
+it is not necessary to use this package for basic SVG files. 
+Even without using the XML_SVG package, any PHP script can produce SVG.
+It is important that the header says "image/svg+xml"
+at the very beginning of the file:
+
+<font color=blue><pre>
+&#60;?php
+  header('Content-Type: image/svg+xml');
+  echo '&#60;?xml version="1.0" standalone="no"?&#62;';
+?&#62;
+</pre></font>
+
+This should be followed by the DOCTYPE and the svg tags as 
+in the previous examples. 
+
+<h4>3.1 Exercise</h4>
+
+5) Create a form which asks a user for a colour and write a script that
+generates an SVG response page which shows a circle in that colour.
+
+<h3>4 Using ImageMagick</h3>
+
+On Unix (Mac or Linux), ImageMagick tends to be pre-installed or easy to
+install. There is a version of ImageMagick installed with MoWes, but it is
+not so easy to use a command-line on Windows. Thus you could skip this section, if
+you are not working on a Unix machine. 
+<p>
+Download a photograph and save it under the name "photo.jpg".
+ImageMagick can be used to print metadata for this
+photograph or to convert it into a different format.
+
+<h4>4.1 Exercises</h4>
+
+6) Print all of the metadata of the image file 
+(<font color=blue>identify -verbose photo.jpg</font>).
+<p>
+7) Print selected values of the metadata. Try these:
+<ul>
+<font color=blue>
+<li>identify photo.jpg
+<li>identify -format "%m" photo.jpg
+<li>identify -format "%w %h" photo.jpg
+<li>identify -format "%[EXIF:DateTimeOriginal]\n" photo.jpg
+<li>identify -format "%f %[EXIF:DateTimeOriginal]\n" photo.jpg
+<li>identify -format "%[EXIF:Model]\n" photo.jpg
+</font>
+</ul>
+
+8) Convert the file into other formats or sizes. Try these:
+
+<ul>
+<font color=blue>
+<li>convert photo.jpg photo.gif
+<li>convert -resize 100 photo.jpg photoreduced.jpg
+<li>convert photo.jpg -resize 16x16! favicon.bmp
+</font>
+</ul>
+
+<h4>5 Other graphics software</h4>
+
+Have a look at the examples and demos on the following websites.
+
+<ul>
+<li><a href="http://sandbox.kidstrythisathome.com/erdos/">On-line viewer for
+Graphviz</a> (For more information about Graphviz, there is a tutorial
+at <a href="http://graphs.grevian.org/">this site</a>.)
+<li><a href="http://www.touchgraph.com/seo">TouchGraph website connections</a>
+</ul>
+
+Have a look at these Javascript examples. Have a look at the source code for
+some of them. Thanks to powerful libraries, the code for some of these examples
+is quite simple. Choose one, store the page on your computer and make
+some modifications to it. You can find the libraries by looking at the 
+"&#60;script src=".
+
+<ul>
+<li><a href="../awt/drawing.html">HTML5 Canvas Demo</a>
+<li><a href="http://www.graphdracula.net/showcase/">Dracula Javascript Graph Library</a>
+<li><a href="http://raphaeljs.com/easing.html">Raphael Javascript Vector Graphics Library</a>
+<li><a href="http://www.chartjs.org/docs/">Javascript Charts</a>
+<li><a href="http://www.kevs3d.co.uk/dev/phoria/">Javascript 3D-Graphics</a>
+</ul>
+
+<h4>5.1 Exercises</h4>
+
+7) For Graphviz, TouchGraph, Canvas Demo, Dracula, Raphael Charts, Javascript Charts
+and Javascript 3D-Graphics determine the following:
+
+<ul>
+<li>Is it vector graphics or raster graphics? In case of vector graphics:
+is it a general program or is it for drawing graphs?
+<li>What programming language is used?
+<li>Is it client-side or serve-side?
+<li>How could each tool be used in combination with PHP and a database?
+<li>Name one possible application for each of the tools.
+</ul>
+
+</body>
+</html>

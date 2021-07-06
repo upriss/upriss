@@ -1,0 +1,62 @@
+2.2) Write a program that asks two people for their names; stores the names 
+in variables called name1 and name2; says hello to both of them. 
+
+#!/usr/bin/env python
+#
+# A program for greeting people
+
+name1 = raw_input ("What is the first name? ")
+name2 = raw_input ("What is the second name? ")
+print "Hello, " + name1+ " and " + name2 + "! How are you?"
+
+--------------------------------------
+
+3.2) Write a script that asks a user for a number. The script adds 3 to 
+that number. Then multiplies the result by 2, subtracts 4, subtracts 
+twice the original number, adds 3, then prints the result. 
+
+1. Version:
+
+#!/usr/bin/env python
+#
+# Magically guessing a number
+
+number = input ("Please, type in a number: ")
+
+newresult = ((number + 3) * 2) - 4
+finalresult = newresult - (2 * number) + 3
+
+print "The result is", finalresult
+
+--------------------------------------------------
+
+2. Version:
+
+#!/usr/bin/env python
+#
+# Magically guessing a number
+
+number = input ("Please, type in a number: ")
+
+number2 = number + 3
+number2 = number2 * 2
+number2 = number2 - 4
+number2 = number2 - (2 * number)
+number2 = number2 + 3
+
+print "The result is", number2
+
+------------------------------------------------------
+
+3. Version:
+
+#!/usr/bin/env python
+#
+# Magically guessing a number
+
+number = input ("Please, type in a number: ")
+
+print "The result is",
+print ((number + 3) * 2) - 4 - (2 * number) + 3
+
+

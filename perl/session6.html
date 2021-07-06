@@ -1,0 +1,215 @@
+<HTML>
+<TITLE>L548: Session 6</Title>
+
+<body>
+<h3>CGI - Common Gateway Interface</h3>
+
+<h3>A simple CGI script</h3>
+
+CGI scripts do not run on any webserver. In SLIS, CGI scripts run
+on "ella". The following instructions are correct for ella.
+Other servers may be set up slightly differently.
+On ella you should create two directories: "www" and a subdirectory
+of "www" called "cgi". Both directories should be world readable
+and executable. All html files should be in the www directory,
+all cgi files in the cgi directory. The URL for
+the html files is<br>
+<font color=blue>http://ella.slis.indiana.edu/~username/filename</font>.
+The URL for cgi files is<br>
+<font color=blue>http://ella.slis.indiana.edu/~username/cgi/filename</font>
+<br>
+(Instead of putting the cgi files into the cgi directory they can
+also be located somewhere else. But then they must be given a
+".cgi" extension.)
+<p>
+
+<b>Exercises</b>
+<p>
+1) Save some simple html code such as
+<p>
+<font color=blue>
+&#60HTML&#62<BR>
+&#60HEAD&#62<BR>
+&#60TITLE&#62
+Hello World&#60/TITLE&#62<BR>
+&#60/HEAD&#62<BR>
+&#60BODY&#62<BR>
+&#60H1&#62Greetings&#60/H1&#62<BR>
+&#60/BODY&#62<BR>
+&#60/HTML&#62<BR>
+</font>
+as a file in your www directory on ella. Look at it through a browser.
+
+<p>
+
+2) Save some simple cgi code such as
+<p>
+<font color=blue>
+#!/usr/bin/perl -Tw<br>
+#<br>
+# CGI<br>
+#<br>
+use CGI qw(:standard);<br>
+print header();<br>
+print "&#60HTML&#62<BR>
+&#60HEAD&#62<BR>
+&#60TITLE&#62Hello World&#60/TITLE&#62<BR>
+&#60/HEAD&#62<BR>
+&#60BODY&#62<BR>
+&#60H1&#62Greetings&#60/H1&#62<BR>
+&#60/BODY&#62<BR>
+&#60/HTML&#62";<BR>
+</font>           
+in your cgi directory. Run "perl -T" on it to check the syntax.
+Change file permissions to executeable ("chmod 700 filename"
+or "chmod u+x filename").
+Look at it through your browser.
+<p>
+<font color=red>It is quite possible that you now see a page "Internal 
+Server Error". To find the problem: on ella you can run a script 
+called "checkcgi" that might give you hints. Otherwise go through
+the steps listed below.</font>
+<p>
+Notes: 1) "print header()" is the same as
+print "Content-type: text/html\n\n"; but it leads to fewer mistakes.<br>
+2) The -T switch in the commandline (#!/usr/bin/perl -Tw) is for
+security purposes. 
+
+<h3>Tips for dealing with an "Internal Server error":</h3>
+1) The first line of the script must contain the perl command 
+(#!/usr/bin/perl)<br>
+2) The line "use CGI qw(:standard);" must be somewhere at the beginning.<br>
+3) The very first print statement of your script must be 
+"print header();"<br>
+4) The file permissions must be set to executable (chmod u+x filename).<br>
+5) The script should be executed by typing "perl -T filename" on the 
+command line to check the syntax.<br>
+
+<h3>Processing forms with CGI</h3>
+
+Normal HTML:
+<p>
+<table border=1>
+
+<tr><td><b>browser</b><td><b>server</b>
+<tr><td>user requests <br>
+html document <td>
+<tr><td><td> server finds HTML file <br>
+ and sends page back
+</table>
+<p>
+CGI:
+<p>
+<table border =1>
+<tr><td><b>browser</b><td><b>server</b>
+<tr><td>user requests  <br> a form <td>
+<tr><td><td>      server finds the HTML form <br>
+ and sends it back to user
+<tr><td>user fills out form <td>
+<tr><td><td>         CGI application executes<br>
+ program and sends results<br>
+ back to user
+</table>
+<p>
+<b>Exercises</B>
+<p>
+
+A sample form looks like this:
+<p>
+<font color=blue>
+&#60form action="http://ella.slis.indiana.edu/~username/cgi/example" 
+method="post"&#62 <p>
+&#60input type="radio" name="drink" value="tea" checked &#62   
+Tea &#60br&#62 <br>
+&#60input type="radio" name="drink" value="coffee" &#62 Coffee &#60br&#62 <br>
+&#60input type="radio" name="drink" value="hot chocolate" &#62 Hot Chocolate
+&#60p&#62 <p>
+&#60input type="submit" value="Place order"&#62 <br>
+&#60/form&#62 <p>
+</font>
+
+3) Include the form in an html document on ella (don't forget to 
+change the URL of the form action so that it points to your 
+cgi directory).
+
+<p>
+This is the source code of a cgi file that processes the form:
+<p>
+<font color=blue>
+#!/usr/bin/perl -Tw<br>
+use CGI qw(:standard);<br>
+<br>
+print header();<br>
+print "&#60html&#62<br>
+&#60head&#62<br>
+        &#60title&#62 Tea is served&#60/title&#62<br>
+&#60/head&#62<br>
+&#60body&#62<br>
+&#60hr&#62&#60h1&#62 Tea&#60/h1&#62&#60hr&#62<br>
+&#60p&#62";<br><br>
+my $drink = param("drink");<br><br>
+if ($drink eq "tea") {print "You requested tea.";}<br>
+elsif ($drink eq "coffee"){print "You requested coffee.";}<br>
+elsif ($drink eq "hot chocolate"){print "You requested hot chocolate.";}<br>
+else {print "An error occured.";}<br>
+print "  <br>
+&#60p&#62<br>
+Thank you for your visit. Please come again. <br>
+&#60p&#62<br>
+&#60hr&#62<br>
+&#60/body&#62<br>
+&#60/html&#62<br>
+";<br>
+</font>
+<br>
+4) Save the cgi file. Run Perl on it to check
+for syntax errors. It will ask you to input parameters manually.
+Type "drink=tea" then "enter" and then hit Control-D.
+Then check to see if it works via the browser.
+<p>
+5) Add a checkbox to the form (such as "Do you want milk? Yes/No")
+and a text area where customers can type in what kind of cake they
+would like to order.
+Change your cgi script so that it includes these in its reply,
+such as "you requested tea with milk", "sorry we are out of
+chocolate cake". The checkbox and text area must have distinct
+names in the form. Their parameters are retrieved in the cgi file
+by using the "param()" function.
+
+<h3>CGI without forms</h3>
+
+The parameters that are passed to a CGI file do not need to come from
+a form. They can also be added to the URL in the following manner:
+<br>
+<font color=blue>
+&#60A HREF="http://ella.slis.indiana.edu/~upriss/cgi/example?drink=tea"&#62
+</font>
+<br>
+Several parameters can be passed to a CGI file. 
+They are separated by a &amp symbol. No space is allowed after the "?".
+Blanks should be represented by "+".
+<br>
+<font color=blue>
+&#60A HREF="http://ella.slis.indiana.edu/~upriss/cgi/example?drink=hot+chocolate"&#62
+</font>
+<p>
+
+<b>Exercises</b>
+<p>
+6) Try using your cgi file by adding the parameters to the URL.
+See what happens if the parameters are not tea or coffee or
+hot chocolate.
+<p>
+7) Write an HTML file that does not contain a form but 
+contains three links that send URLs with attached parameters
+"tea", "coffee", "hot chocolate" to the cgi file. (In this
+manner you can write cgi files that communicate with other 
+cgi files on the web.)
+<p>
+8) (optional) Choose a search engine on the web and analyse how
+they attach the search paramaters to the URL. Write a form that
+sends data to that search engine.
+
+</body>
+</HTML>
+

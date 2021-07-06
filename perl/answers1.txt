@@ -1,0 +1,31 @@
+2) Write a program that asks two people for their names; stores the 
+names in variables called $name1 and $name2; says hello to both of them. 
+
+#!/usr/local/bin/perl -w
+#
+# A program for greeting people
+#
+print "What is your name? ";
+$name1 = <STDIN> ;
+chomp ($name1);
+print "What is your name? ";
+$name2 = <STDIN> ;
+chomp ($name2);
+print "Hello, $name1 and $name2! How are you?\n";    
+
+3) Write a script that asks a user for a number. The script adds 3 to 
+that number. Then multiplies the result by 2, subtracts 4, subtracts 
+twice the original number, adds 3, then prints the result. 
+
+#!/usr/local/bin/perl -w
+#
+# Magically guessing a number
+#
+print "Please, type in a number: ";
+$number = <STDIN>;
+chomp ($number);
+
+$newresult = (($number + 3) * 2) - 4;
+$finalresult = $newresult - (2 * $number) + 3;
+
+print "The result is $finalresult.\n";

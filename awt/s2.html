@@ -1,0 +1,308 @@
+<html>
+<title>Week 2</Title>
+
+<body>
+
+<font color=green>Windows users: CGI files generated with DOS/Windows
+must have a first line which ends in "-w" (as in the examples below) 
+if they are executed on a Unix server.
+If you omit the "-w", Unix will stumble over the Windows newline character
+and return a server error.</font>
+
+<h3>1 CGI - Common Gateway Interface</h3>
+
+<h4>1.1 A simple CGI script</h4>
+
+A webserver must be CGI enabled for CGI scripts to run. The instructions
+below may have to be adapted to work on any particular webserver.
+<p>
+In general, you need two directories: "public_html" and a subdirectory
+of "public_html" called "cgi-bin". The public_html directory should
+be world readable and executable. The cgi-bin directory should be 
+executable but not readable. You may also need to change the permissions 
+for your top level directory. The following commands create the 
+directories and set the permissions. You should copy and paste the following
+commands
+at the Unix prompt (not as a Perl script). You need to do this only once.
+If you already have a public_html directory, skip the second line.
+<p>
+<font color=blue>
+cd; chmod 711 .; <br>
+mkdir public_html; chmod 755 public_html;<br>
+cd public_html; mkdir cgi-bin; chmod 711 cgi-bin;
+</font>
+<p>
+
+All html files should be in the public_html directory,
+all cgi files in the cgi-bin directory. The URL for
+the html files is<br>
+<font color=blue>http://www.student.soc.napier.ac.uk/~username/filename</font>.
+The URL for cgi files is<br>
+<font color=blue>http://www.student.soc.napier.ac.uk/~username/cgi-bin/filename
+</font>
+
+<h4>1.2 Exercises</h4>
+
+1) Save some simple html code such as
+<p>
+<font color=blue>
+&#60;html&#62;<br>
+&#60;head&#62;&#60;title&#62;Hello World&#60;/title&#62;&#60;/head&#62;
+&#60;body&#62;<BR>
+&#60;h1&#62;Greetings&#60;/h1&#62;<BR>
+&#60;/body&#62;&#60;/html&#62;<BR>
+</font>
+<p>
+as a file in your public_html directory on the webserver.
+The file permissions of this file should be -rw-r--r--. Type
+<font color=blue>ls -l</font> to check the file permissions.
+You can set the permissions with <font color=blue>chmod 644 filename</font>.
+Now, look at the file through your browser.
+
+<p>
+
+2) Save some simple cgi code such as
+<p>
+<font color=blue>
+#!/usr/local/bin/perl -w<br>
+########################<br>
+use CGI qw(:standard -debug);          <br>
+########################<br>
+print header();<br>
+print &#60;&#60;EOS;<br>
+&#60;html&#62;<br>
+&#60;head&#62;
+&#60;title&#62;Hello World&#60;/title&#62;
+&#60;/head&#62;
+&#60;body&#62;<BR>
+&#60;h1&#62;Greetings&#60;/h1&#62;<BR>
+&#60;/body&#62;&#60;/html&#62;<br>
+EOS<br>
+<br>
+# if you are editing this on a PC, you'll need this line after EOS
+<p>
+
+</font>       
+
+in your cgi-bin directory. Run "perl" on the file to check the syntax.
+(Hit Control-D if it asks you to enter the form values.)
+The file permissions should be -rwx------. You need to change the
+file permissions with <font color=blue>chmod 700 filename</font> or
+with <font color=blue>chmod 755 filename</font>, depending on how
+the webserver is setup.
+<p>
+<!--<font color=red>It is quite possible that you now see a page "Internal 
+Server Error". To find the problem: on the webserver you can run a script 
+called "checkcgi" that might give you hints. Otherwise go through
+the steps listed below.</font><p>-->
+Notes: 
+<li>"print header()" is the same as
+print "Content-type: text/html\n\n"; but it leads to fewer mistakes.<br>
+<li>It is safer to use <font color=blue>#!/usr/local/bin/perl -Tw</font>
+as the first line of your code. But then you need to type
+<font color=blue>perl -T</font> on the command-line to check the syntax.
+(Or add "alias perl 'perl -T'" to your .login file).
+<li>A string can be delimited using "&#60;&#60;SOMETHING; ...SOMETHING"
+instead of using double or single quotes. The advantage is that 
+quotes can be used within the string. But there must be no whitespace
+after SOMETHING. And there must be a blank line after SOMETHING if
+it occurs at the end of a file edited on a PC.
+<li>For security reasons the following lines should be added to any
+cgi file after the line with "use CGI ...".
+<p>
+<font color=blue>
+use CGI::Carp qw( fatalsToBrowser );
+&nbsp; &nbsp; &nbsp; &nbsp;
+######## for debugging info in the browser<br>
+$CGI::POST_MAX=1024 * 100;
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+########  max 100K posts<br>
+$CGI::DISABLE_UPLOADS = 1;
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+######## no uploads<br>
+</font>
+
+<li>"use strict" can be added to require all variables to be declared with "my".
+
+
+<h4>1.3 Tips for dealing with an "Internal Server error":</h4>
+1) The first line of the script must contain the perl command 
+(#!/usr/local/bin/perl -w). For CGI files generated on DOS/Windows: the "-w" is
+necessary!<br>
+2) The line
+"use CGI qw(:standard);" must be somewhere at the beginning.<br>
+3) The very first print statement of your script must be 
+"print header();"<br>
+4) The file permissions must be set to executable.<br>
+5) The script should be executed on the command line to check the syntax.<br>
+
+<h3>2 Processing forms with CGI</h3>
+
+Normal HTML:
+<p>
+<table border=1>
+
+<tr><td><b>browser</b><td><b>server</b>
+<tr><td>user requests <br>
+html document <td>
+<tr><td><td> server finds HTML file <br>
+ and sends page back
+</table>
+<p>
+CGI:
+<p>
+<table border =1>
+<tr><td><b>browser</b><td><b>server</b>
+<tr><td>user requests  <br> a form <td>
+<tr><td><td>      server finds the HTML form <br>
+ and sends it back to user
+<tr><td>user fills out form <td>
+<tr><td><td>         CGI application executes<br>
+ program and sends results<br>
+ back to user
+</table>
+
+<h4>2.1 A sample form</h4>
+
+<font color=blue>
+&#60;form action="http://www.student.soc.napier.ac.uk/~username/cgi-bin/example" 
+method="post"&#62; <p>
+&#60;input type="radio" name="drink" value="tea" checked &#62;   
+Tea &#60;br&#62; <br>
+&#60;input type="radio" name="drink" value="coffee" &#62; Coffee &#60;br&#62; 
+<br>
+&#60;input type="radio" name="drink" value="hot chocolate" &#62; Hot Chocolate
+&#60;p&#62; <p>
+&#60;input type="submit" value="Place order"&#62; <br>
+&#60;/form&#62; <p>
+</font>
+
+<h4>2.2 Exercises</h4>
+
+3) Include the form in an html document on the webserver (don't forget to 
+change the URL of the form action so that it points to your 
+cgi-bin directory).
+
+<h4>2.3 Source code of a form processing cgi file</h4>
+
+<font color=blue>
+#!/usr/local/bin/perl -w<br>
+########################<br>
+use CGI qw(:standard -debug);          <br>
+########################<br>
+print header();<br>
+print &#60;&#60;EOS;<br>
+&#60;html&#62;<br>
+&#60;head&#62;&#60;title&#62; Tea is served&#60;/title&#62;
+&#60;/head&#62;&#60;body&#62;<br>
+&#60;hr&#62;&#60;h1&#62; Tea Room&#60;/h1&#62;&#60;hr&#62;&#60;p&#62;<br>
+EOS<br>
+<br>
+my $drink = param("drink");<br><br>
+if ($drink eq "tea") {<br>
+&nbsp; &nbsp; &nbsp; print "You requested tea.";<br>
+}<br>
+elsif ($drink eq "coffee"){<br>
+&nbsp; &nbsp; &nbsp; print "You requested coffee.";<br>
+}<br>
+elsif ($drink eq "hot chocolate"){<br>
+&nbsp; &nbsp; &nbsp; print "You requested hot chocolate.";<br>
+} else {<br>
+&nbsp; &nbsp; &nbsp; print "An error occurred.";<br>
+}<br>
+print &#60;&#60;EOS;<br>
+&#60;p&#62;Thank you for your visit. Please come again. 
+&#60;p&#62;&#60;hr&#62;<br>
+&#60;/body&#62;&#60;/html&#62;<br>
+EOS<br>
+<br>
+</font>
+
+<h4>2.5 Exercises</h4>
+
+4) Save the cgi file. Run Perl on it to check
+for syntax errors. It will ask you to input parameters manually.
+Type "drink=tea" then "enter" and then hit Control-D.
+Then check to see if it works via the browser and with the form from
+the last exercise. Change the form action method from "post" to "get" 
+and observe how this changes the query string.
+<p>
+5) Add a checkbox to the form (such as "Do you want milk? Yes/No")
+and a text area where customers can type in what kind of cake they
+would like to order.
+Change your cgi script so that it includes these in its reply,
+such as "you requested tea with milk", "sorry we are out of
+chocolate cake". The checkbox and text area must have distinct
+names in the form. Their parameters are retrieved in the cgi file
+by using the "param()" function.
+<p>
+Optional Exercise:<br> 
+Incorporate both the form and the CGI into the same file.
+
+<h3>3 On-line greeting cards</h3>
+
+On-line greeting card services often involve several pages:
+An HTML page lets a user select an image for the greeting card.
+For example, the following HTML code, lets a user choose one out
+of four images:
+<p>
+<font color=blue>
+Select a picture:<br>
+&#60;p&#62;<br>
+&#60;A HREF="http://www.student.soc.napier.ac.uk/~username/cgi-bin/greeting?image=1"&#62;<br>
+&#60;img src="image1.jpg"&#62;&#60;/a&#62;&#60;p&#62;<br>
+&#60;A HREF="http://www.student.soc.napier.ac.uk/~username/cgi-bin/greeting?image=2"&#62;<br>
+&#60;img src="image2.jpg"&#62;&#60;/a&#62;&#60;p&#62;<br>
+&#60;A HREF="http://www.student.soc.napier.ac.uk/~username/cgi-bin/greeting?image=3"&#62;<br>
+&#60;img src="image3.jpg"&#62;&#60;/a&#62;&#60;p&#62;<br>
+&#60;A HREF="http://www.student.soc.napier.ac.uk/~username/cgi-bin/greeting?image=4"&#62;<br>
+&#60;img src="image4.jpg"&#62;&#60;/a&#62;&#60;p&#62;
+</font>
+<p>
+All four URLs link to the same CGI file ("greeting") which uses
+a parameter ("image") to distinguish between the four images.
+This cgi file should
+produce a form with textboxes for the recipient's email address,
+the recipient's name and the message.
+<p>
+Upon submitting this form a second CGI file is invoked, which sends
+an email to the recipient. The code below gives some indication about how
+to send an email. <font color=red>Note: sending email messages is a potential
+security risk. At Napier you can send emails from cgi scripts but only within
+the firewall. The code below is purposefully provided in a form which will
+not work on DCS. To use this code you need to know enough about Unix
+to make some modifications. All user input needs to be checked carefully
+before sending mail. There are Perl libraries (Mail::CheckUser or Mail::Verify),
+which you can download from cpan.org. If you don't know how to do this, then
+don't use email in cgi scripts.
+</font>
+<p>
+<font color=blue>
+open(SENDMAIL, "|/usr/lib/sendmail -oi -t)<br>
+&nbsp; &nbsp; &nbsp;  or die "Can't fork for sendmail: $!\n";<br>
+print SENDMAIL &#60;&#60;EOF;<br>
+To: somename\@napier.ac.uk<br>
+From: User Originating Mail &#60;yourname\@napier.ac.uk&#62;<br>
+Subject: A relevant subject line<br>
+<br>
+Body of the message goes here, in as many lines as you like.<br>
+EOF<br>
+close(SENDMAIL);
+</font>
+
+<h4>3.1 Exercises</h4>
+
+6) For the greeting card example, write a cgi script that
+prints "you have selected image ..." and the number of the
+image selected. Then the cgi script prints textboxes for
+the recipient's email address, the recipient's name and the message. 
+<p>
+7) The greeting card example shows that parameters can be added
+to a URL (for example "greeting?image=3"). Try what happens
+if you enter parameter values other than 1, 2, 3 or 4. 
+Add an if statement to your cgi script that prints "not an acceptable
+selection" if the image number is not 1, 2, 3 or 4. 
+
+</body>
+</html>
+

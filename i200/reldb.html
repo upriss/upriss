@@ -1,0 +1,116 @@
+<HTML>
+<HEAD>
+<TITLE>Q200 Week 9</title>
+</HEAD>
+<BODY>
+
+
+<h3>Relational Databases</h3>
+
+Example:<p>
+
+<table cellspacing=8><tr><td>
+Entity "Student"<br>
+
+<table cellpadding=2 border=1><tr><th>
+ID </th><th> first name </th><th> last name </th></tr><tr><td>
+123 </td><td> Peter </td><td> Miller </td></tr><tr><td>
+345 </td><td> Mary </td><td> Smith </td></tr><tr><td>
+456 </td><td> John </td><td> Brown 
+</td></tr></table>
+</td><td>
+Entity "Course"<br>
+
+<table cellpadding=2 border=1><tr><th>
+section nr </th><th> school </th><th> course nr </th></tr><tr><td>
+45 </td><td> informatics </td><td> Q200 </td></tr><tr><td>
+73 </td><td> comp. sci </td><td> C360 </td></tr><tr><td>
+84 </td><td> informatics </td><td> Q205 
+</td></tr></table>
+</td><td>
+
+Relationship "Enroll"<br>
+
+<table cellpadding=2 border=1><tr><th>
+ID </th><th> section nr </th></tr><tr><td>
+123 </td><td> 73 </td></tr><tr><td>
+123 </td><td> 84 </td></tr><tr><td>
+345 </td><td> 73 </td></tr><tr><td>
+456 </td><td> 45 
+</td></tr></table>
+</td></tr></table>
+<p>
+<li>
+<em>entity</em>: a table. 
+(called <em>class</em> in object-oriented design.)
+<li>
+<em>instance</em>: a row of a table.
+(called <em>object</em> in 
+object-oriented design, also called <em>record</em>.)
+<li>
+<em>attribute</em>: a column of a table.
+(called <em>property</em> in object-oriented design.)
+<li>
+<em>key attribute</em>: an attribute that uniquely identifies instances, 
+for example an ID.
+<li>
+<em>value</em>: a value of an attribute. For example, "firstname" can 
+have values "Peter", "Mary", "John".
+<li>
+<em>relationship</em>: a special kind of table that relates entities. It 
+has the key attributes of the entities as its attributes.
+
+<h4>Cardinality of relations</h4>
+
+Relations can be <em>one-to-one</em> (for example, car/driver),
+<em>one-to-many</em> (for example, instructor/course),
+or <em>many-to-many</em> (for example, student/course).
+
+<h4>Single table queries</h4>
+
+A single table can be queried using Boolean <em>AND</em>, <em>OR</em>,
+and <em>NOT</em>.
+<p>
+<li>
+<em>AND</em> is used for combining several (different) attributes.
+A selected instance must have the exact values for all requested
+attributes.
+For example, school=informatics AND course_nr=Q200. Answer: the
+first row in table "course".
+<li>
+<em>OR</em> is used for allowing for several possibilities among attribute
+values. A selected instance must have the exact value for at least
+one of the requested attributes.
+For example, school=informatics OR school=comp. sci. Answer:
+all rows in table "course".
+<li>
+<em>NOT</em> is usually used in the sense of <em>AND NOT</em>. 
+A selected instance must not have the exact values for the requested
+attributes. For example, school=informatics AND NOT course_nr=Q200.
+Answer: the last row in table "course".<br>
+
+<h4>Queries that involve relationships</h4>
+
+
+A query can <em>join</em> several entities via a relationship.
+<p>
+For example, "find the last names of students in Q200". This
+query contains three sub-queries:<P><FONT color=blue>
+Select section_nr from course where course_nr = Q200.<br>
+The answer is section_nr = 45.<br>
+Select ID from enroll where section_nr = 45.<br>
+The answer is ID = 456.<br>
+Select last_name from student where ID = 456.<br>
+The answer is last_name = Brown.<br></font>
+<br>
+This can be expressed in one query:<p>
+<font color=blue>
+Select last_name from student, enroll, course where <br>
+course_nr = Q200 AND <br>
+course.section_nr = enroll.section_nr AND <br>
+enroll.ID = student.ID</font> 
+</body>
+</html>
+
+
+

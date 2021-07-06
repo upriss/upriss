@@ -1,0 +1,149 @@
+<HTML>
+<TITLE>L548: Session 12</Title>
+
+<body>
+<h3>CGI III</h3>
+
+<h3>Environment Variables</h3>
+
+<font color=blue>
+#!/usr/local/bin/perl<br>
+<br>
+use CGI qw(:standard);<br>
+print header();<br>
+print "&#60;html&#62;&#60;head&#62;&#60;title&#62; Environment Variables
+&#60;/title&#62;&#60;/head&#62;&#60;body&#62;";<br>
+print "&#60;h3&#62;Environment variables script&#60;/h3&#62;";<br>
+print "&#60;p&#62; Here are the environment variables that this CGI 
+script has been  called with&#60;p&#62;&#60;hr&#62;";<br> 
+print "<br>
+&#60pre&#62<br>
+SERVER_SOFTWARE = $ENV{'SERVER_SOFTWARE'}<br>
+SERVER_NAME = $ENV{'SERVER_NAME'}<br>
+GATEWAY_INTERFACE = $ENV{'GATEWAY_INTERFACE'}<br>
+SERVER_PROTOCOL = $ENV{'SERVER_PROTOCOL'}<br>
+SERVER_PORT = $ENV{'SERVER_PORT'}<br>
+REQUEST_METHOD = $ENV{'REQUEST_METHOD'}<br>
+HTTP_ACCEPT = '$ENV{'HTTP_ACCEPT'}'<br>
+PATH_INFO = $ENV{'PATH_INFO'} <br>
+PATH_TRANSLATED = $ENV{'PATH_TRANSLATED'}<br>
+SCRIPT_NAME = $ENV{'SCRIPT_NAME'}<br>
+QUERY_STRING = $ENV{'QUERY_STRING'}<br>
+REMOTE_HOST = $ENV{'REMOTE_HOST'}<br>
+REMOTE_ADDR = $ENV{'REMOTE_ADDR'}<br>
+REMOTE_USER = $ENV{'REMOTE_USER'}<br>
+CONTENT_TYPE = $ENV{'CONTENT_TYPE'}<br>
+CONTENT_LENGTH = $ENV{'CONTENT_LENGTH'}<br>
+DOCUMENT_ROOT= $ENV{'DOCUMENT_ROOT'}  <br>
+HTTP_USER_AGENT =$ENV{'HTTP_USER_AGENT'}<br>
+HTTP_REFERER =$ENV{'HTTP_REFERER'} <br>
+&#60/pre&#62";<br>
+print "&#60;hr&#62;&#60;/body&#62;&#60;/html&#62;";<br>
+</font>
+<p>
+<b>Exercise</b>
+<p>
+1) You can also print all environment variables using the following 
+code (try it).<br>
+foreach $elem (keys %ENV) {<br>
+    print "$elem $ENV{$elem}&#60;br&#62;";<br>
+}  <br>
+<p>
+2) Use one of the CGI scripts that you have created earlier in this
+semester. Include a print statement in the CGI script that 
+prints the environment variables REQUEST_METHOD, QUERY_STRING 
+and CONTENT_LENGTH. Note: that some of these are only available if the
+method for sending the form is "get", others are only available if the
+method is "post". (Check the <br>
+&#60;form action=... method=... &#62; tag in your form.)
+REQUEST_METHOD and CONTENT_LENGTH can be used to 
+increase the security of your script. CONTENT_LENGTH
+should not be longer than a predefined maximum length. 
+
+<h3>Maintaining State</h3>
+
+If one form invokes another form, it is often the case that information
+from the first form must be send to the second form. This is part of 
+"maintaining state", i.e. maintaining accurate information between
+different CGI scripts invoked by one user. There are three possibilities
+to maintain state: <br>
+a) send hidden text, <br>
+b) write information to a file (on the server),<br>
+c) set cookies (on the client). <br>
+
+<h3>Hidden text</h3>
+
+<b>Exercise</b>:
+<p>
+3) Create a form that asks a user for his/her name and some comments.
+Then create two CGI scripts that create a response. The first script
+displays the information which the user has submitted ("Hello $name.
+These are your comments: $comments") and asks the user whether he/she
+really wants to submit the information. The second script is invoked
+by the first one and displays "Thank you $name. Your comments 
+have been submitted: $comments".
+<p>
+To implement this add a form and hidden tags to the first CGI script,
+such as
+<p><font color=blue>
+&#60;input type='hidden' name='hiddenname' value=\"$name\"&#62;<br>
+&#60;input type='hidden' name='hiddencomments' value=\"$comments\"&#62;
+</font><p>
+The second CGI script retrieves these strings via
+<p><font color=blue>
+my $name = param('hiddenname');<br>
+my $comments = param('hiddencomments');
+</font><p>
+
+<h3>Cookies</h3>
+
+<b>Exercise</b>
+<p>
+4) Use a cookie instead of hidden text in the previous exercise.
+<p>
+The following code in the first CGI script sets a cookie.
+
+<p><font color=blue>
+$cookiedata = $name."|".$comments;<br>
+$cookie = cookie(-name=>'nameandcomments',-value=>"$cookiedata",
+                     -expires=>'+1h');<br>
+print header(-cookie=>$cookie);  <br>
+</font><p>
+
+The second CGI script retrieves the cookie similarly to retrieving
+parameters:
+
+<p><font color=blue>
+$cookiedata = cookie(-name=>'nameandcomments');<br>
+($name, $comments) = split(/\|/,$cookiedata);
+<p></font>
+
+<h3>Writing to a file</h3>
+
+<b>Exercise (optional)</b>:
+<p>
+5) Instead of using hidden tags, save the information to a file. 
+<p>
+There are several problems involved with saving to a file because
+several users can look at the CGI script at the same time. To 
+keep track of which user wrote which comments, write user name
+and comments to the file; send the user name as hidden text and 
+use the name to retrieve the correct comments from the file.
+<p>
+A file that is written to should be locked to prevent the file from 
+getting corrupted.
+<p>
+<font color=blue>
+flock(FILEHANDLE,2) || die("cannot flock $!"); 
+</font>
+<p>
+<b>Exercise</b>:
+<p>
+6) A hit counter: create a file that contains
+only the number "0". Your CGI script must open that file for reading;
+read the first line of the file into a scalar variable; increase the 
+number by one; close the file; open the file again for writing (not
+appending); write the number to the file; close the file.
+
+</body>
+</html>

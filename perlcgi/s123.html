@@ -1,0 +1,433 @@
+<HTML>
+<HEAD>
+<TITLE>Unit 0</TITLE>
+</HEAD>
+<BODY>
+
+<h3>1 A first example "Hello World"</h3>
+
+<font color=blue>
+#!/usr/local/bin/perl -w<br>
+#<br>
+# This program says "hello" to the world<br>
+#<br>
+print "Hello World!\n";<br>
+</font>
+<p>
+
+Copy the blue text from the screen
+and paste it into a file. Save the file, for example, under the
+name "hello". Then type at the Unix prompt:
+
+<font color=blue>
+<p>
+perl hello
+<p>
+</font>
+
+<h4>1.1 Explanations</h4>
+
+<table border=1 cellpadding=3>
+<tr><td># </td><td>indicates a comment;  the line is ignored</td>
+<tr><td>print </td><td> a command; prints the string between the quotes</td>
+<tr><td>\n<td> newline character</td>
+<tr><td>; </td><td> indicates the end of a command</td>
+</table>
+
+<h4>1.2 Exercises</h4>
+
+* Add a second print statement to the script from the example.
+(For example print "How are you?".)
+What does adding or deleting "\n" change?
+
+<h3>2 A second example </h3>
+
+<font color=blue>
+#!/usr/local/bin/perl -w<br>
+#<br>
+# A program for greeting people<br>
+#<br>
+print "What is your name? ";<br>
+$name = &#60STDIN&gt ;<br>
+chomp ($name);<br>
+print "Hello, $name! How are you?\n";<br>
+</font>
+
+<h4>2.1 Explanations</h4>
+<table border=1>
+<tr><td>$name <td> a variable for a "name"
+<tr><td> = <td> an assignment operator
+<tr><td> &#60STDIN&#62  <td> reads from standard input (i.e. keyboard)
+<tr><td> chomp <td> deletes the newline character ("enter" key)
+</table>
+
+<h4>2.2 Exercises</h4>
+
+* What happens if you delete the line with "chomp"?
+<br>
+* Write a program that
+asks two people for their names; stores the names in variables
+called $name1 and $name2; says hello to both of them.
+
+<h3>3 Operators for Numbers</h3>
+
+<font color=blue>
+$a = 3 -4 +10;<br>
+$b = 5*6;<br>
+$c = 7/8;<br>
+print "These are the values: $a $b $c \n";<br>
+print "Increment $a by one: ";<br>
+$a++;<br>
+print $a;<br>
+print "\n";<br>
+print "Decrease $a by one: ";<br>
+$a--;<br>
+print $a;<br>
+print "\n";     
+</font>      
+
+<h4>3.1 Exercises</h4>
+
+* Execute the script. Make sure you understand every line.
+
+<h4>3.2 Example</h4>
+
+<font color=blue>
+#!/usr/local/bin/perl -w<br>
+# <br>
+# This program converts from US $ to Canadian $<br>
+# <br>
+print "Money value in US \$ ";<br>
+$us_money = &#60;STDIN&#62; ;<br>
+chomp $us_money;<br>
+$can_money = $us_money /0.6;<br>
+print "US\$ $us_money = Canadian \$ $can_money\n";<br>
+</font>
+
+<h4>3.3 Exercises</h4>
+
+* In analogy to the example, write a script that 
+asks users for the temperature in F
+and prints the temperature in C. (Conversion: 
+Celsius = (F - 32) * 5/9 )<br>
+
+<h3>4 Strings</h3>
+
+A string is delimited by double quotes (""). Certain special characters
+can be used, such as "\n" and "\t". Variables are interpreted, i.e.
+'print "$name"' prints the value of '$name' and not $-sign followed by
+'name'. To print the characters $, ", \, @, they must be preceded
+by a backslash (\). 
+<p>
+<font color=blue>
+print "hello\n";<br>
+print "hello\\n";<br>
+print "\$5.00\n";<br>
+print "She said: \"hello\"\n"; <br>
+print "\tThis is indented\n"; <br>
+$a = "apples"; $b = "pears"; <br>
+print "$a and $b\n"; <br>
+</font>
+
+<h4>4.1 Exercises</h4>
+
+* Write Perl print statements for 
+the following text (with the same linebreaks, etc):
+<p>
+Snoopy bought a CD called "Greatest Hits" on the WWW for <br>
+$10.00. To buy the CD he had to send an email message to <br>
+orders@hits-online.net. This is what the design on the CD <br>
+cover looked like:
+<p>
+<pre>
+       \  |  /
+         @ @
+          *
+        \---/
+</pre>
+
+<h4>4.2 Operators and functions for strings</h4>
+
+<table border=1 cellpadding=3>
+<tr><td>chop $a; </td><td># removes the last character</td>
+<tr><td>chomp $a; </td><td>
+# removes the last character if it is a newline character</td>
+<tr><td>$a = $b . $c; </td><td># concatenate $b and $c</td>
+<tr><td>$a = $b x $c; </td><td># $b repeated $c times</td>
+</table>
+
+<h4>4.3 Example</h4>
+
+<font color=blue>
+#!/usr/local/bin/perl -w <br>
+# <br>
+# program that demonstrates operating with strings<br>
+#<br>
+print "Please, type your favorite color: ";<br>
+$color= &#60;STDIN&#62;;<br>
+chomp $color;<br>
+$color = $color . "***";<br>
+chop $color; chop $color;<br>
+$color = $color . "!";<br>
+$color = $color x 5;<br>
+print "$color\n";
+</font>
+<p>
+(If you are unsure what this program does,
+add 'print "$color\n";' after every line so that you can see how
+the content of the variable is changed at each step.) 
+
+<h3>5 Logical expressions</h3>
+
+<font color=blue>
+#!/usr/local/bin/perl -w<br>
+#<br>
+# if statement<br>
+#<br>
+print "Input first value:";<br>
+$a = &#60STDIN&gt ;<br>
+chomp $a;<br>
+print "Input second value:";<br>
+$b = &#60STDIN&gt ;<br>
+chomp $b;<br>
+if ($a and $b){<br>
+&nbsp; &nbsp; &nbsp; print "True\n";<br>
+} else {<br>
+&nbsp; &nbsp; &nbsp; print "False\n";<br>
+}
+<p>
+</font>
+
+<h4>5.2 Exercises</h4>
+
+* Write a script that asks someone to input their first name,
+last name and phone number. If the user does not type at least
+some characters for each of these, print "Do not leave any fields
+empty" otherwise print "Thank you". (Hint: if a variable is empty,
+its value will be "false".) <br>
+
+<h4>5.3 Other logical expressions for if statements</h4>
+
+<table border=1>
+<tr><td>$a eq $b </td><td># Is $a equal to $b?</td>
+<tr><td>$a ne $b </td><td># Is $a not equal to $b?</td>
+<tr><td>$a == $b </td><td># Is $a numerically equal to $b?</td>
+<tr><td>$a != $b </td><td># Is $a numerically unequal to $b?</td>
+<tr><td>$a <= $b </td><td># Is $a smaller or equal to $b?</td>
+<tr><td>$a >= $b </td><td># Is $a larger or equal to $b?</td>
+<tr><td>$a < $b </td><td># Is $a smaller than $b?</td>
+<tr><td>$a > $b </td><td># Is $a larger than $b?</td>
+<tr><td>$a le $b </td><td># 
+Does $a come before $b in the alphabet or is equal to $b?</td>
+<tr><td>$a ge $b </td><td># 
+Does $a come after $b in the alphabet or is equal to $b?</td>
+<tr><td>$a lt $b </td><td># Does $a come before $b in the alphabet? </td>
+<tr><td>$a gt $b </td><td># Does $a come after $b in the alphabet? </td>
+</table>
+<p>
+Note: usually "eq" and "ne" work even for numbers. So, you can use them
+instead of "==" and "!=".
+
+<h4>5.4 Exercises</h4>
+
+* Write a program that asks a user to input a color.
+If the color is black or white, output "The color
+was black or white". If it starts with a letter
+that comes after "k" in the alphabet,
+output "The color starts with a letter that comes after "k" in the 
+alphabet". 
+
+<h3>6 Control structures: if</h3>
+
+<font color=blue>
+#!/usr/local/bin/perl -w<br>
+#<br>
+# if statement<br>
+#<br>
+print "Do you like Perl? ";<br>
+$answer = &#60;STDIN&#62;;<br>
+chomp $answer;<br>
+if ($answer eq "yes"){<br>
+&nbsp; &nbsp; &nbsp; print "That is great!\n";<br>
+} else {<br>
+&nbsp; &nbsp; &nbsp; print "That is disappointing!\n";<br>
+}
+</font>
+
+<h4>6.1 Exercises</h4>
+
+5) Modify the program so that it answers "That is great!" if the
+answer was "yes", "That is disappointing"
+if the answer was "no" and "That is not an answer to my question."
+otherwise. Use "if ... elsif ... else ...". Note that "if" and
+"elsif" are followed by an expression in parenthesis () and then
+a statement in curly brackets {}, "else" is followed only by a statement
+in curly brackets.
+
+<h4>6.2 While</h4>
+
+<font color=blue>
+#!/usr/local/bin/perl -w<br>
+#<br>
+# while statement<br>
+#<br>
+$answer = "no";<br>
+while ($answer ne "yes"){<br>
+&nbsp; &nbsp;print "Do you like Perl? ";<br>
+&nbsp; &nbsp;$answer = &#60STDIN&#62;;<br>
+&nbsp; &nbsp;chomp $answer;<br>
+&nbsp; &nbsp;if ($answer eq "yes") {<br>
+&nbsp; &nbsp;&nbsp; &nbsp;print "That is great!\n"; <br>
+&nbsp; &nbsp;} else {<br>
+&nbsp; &nbsp;&nbsp;&nbsp;print "That is not the right answer! Try again.\n";
+<br>
+&nbsp; &nbsp;}<br>	
+	}<br>	
+</font>
+
+
+<h4>6.3 Exercises</h4>
+
+* Modify the program from above so that it asks users to "guess the lucky 
+number". If the correct number is guessed the program stops,
+otherwise it continues forever.
+
+<h4>6.4 Using a counter</h4>
+
+* Write a program that asks five times to guess the lucky number.
+Use a while loop and a counter, such as
+<p>
+<font color=blue>
+$counter = 1;<br>
+while ($counter <= 5) {<br>
+&nbsp; &nbsp;print "Type in the $counter number\n";<br>
+&nbsp; &nbsp;$counter++;<br>
+}</font>
+<p>
+The program asks for five guesses (no matter whether the correct
+number was guessed or not).
+If the correct number is guessed, the program outputs
+"Good guess!\n", otherwise it outputs "Try again!\n". 
+After the fifth guess it stops and prints "Game over.\n".
+
+<h4>6.5 Last</h4>
+
+* In the previous example, insert "last;" after the "Good guess!\n"
+print statement. "last" will terminate the while loop so that
+users do not have to continue guessing after they found the number. 
+
+<h3>7 Arrays</h3>
+
+Arrays in Perl are lists. It should be noted that 
+arrays in PHP correspond to hashs in Perl, which are
+lists of index/value or key/value pairs. Hashs are also called 
+"associative arrays", "maps", "lookup tables" or "dictionaries".
+
+<p>
+<font color=blue>
+#!/usr/local/bin/perl -w<br>
+#<br>
+# animals in a zoo<br>
+#<br>
+@zoo=("monkey", "tiger", "eagle");<br>
+print "The zoo has the following ".@zoo." animals: @zoo\n";<br>
+print "Which animal would you like to add? ";<br>
+$new_animal = &#60STDIN&gt ;<br>
+chomp $new_animal;<br>
+push(@zoo, $new_animal);<br>
+$length = @zoo;<br>
+print "The zoo now has the following $length animals: @zoo\n";<br>
+print "The 3rd animal in the list is $zoo[2]\n";        
+</font>
+
+<h4>7.1 Array operators and functions</h4>
+
+<table border =2>
+<tr><td>@zoo = ("monkey", "tiger", "eagle");</td><td>defining an array</td>
+<tr><td>push(@zoo,"parrot"); </td><td>add elements at end of array</td>
+<tr><td>@zoo = ("zebra","lion", @zoo);</td><td>add elements at beginning</td>
+<tr><td>$length = @zoo; </td><td> length of @zoo</td>
+<tr><td>$animal = $zoo[0]; </td><td> the first element of @zoo</td>
+<tr><td>$animal = $zoo[2]; </td><td> the third element of @zoo</td>
+<tr><td>$animal = $zoo[@zoo-1]; </td><td> the last element of @zoo</td>
+<tr><td>$lastelement = pop(@zoo); </td><td> remove last element from @zoo</td>
+<tr><td>@other_zoo = reverse(@zoo); </td><td> new array with reverse order 
+  </td>
+<tr><td>@other_zoo = sort(@zoo); </td><td> new array in alphabetical order</td>
+
+</table>
+
+<h4>7.2 Exercises</h4>
+
+* Create an array that contains the names of 5 students of this class.
+(You don't need a loop to do that. Simply assign the 5 values.)
+Print the array. Remove (pop) the last name from the array.
+Print the array.
+Ask a user to type in her/his name. Add (push) that name to the array.
+Print the array.
+Ask a user to input a number. Print the name that has that number as
+index.
+Add "John Smith" and "Mary Miller" at the beginning of the array.
+Print the array.
+Print the array in alphabetical and in reverse order.<p>
+
+<h3>8 Foreach</h3>
+
+<font color=blue>
+#!/usr/local/bin/perl -w<br>
+#<br>
+# if statement<br>
+#<br>
+@zoo = ("tiger", "elephant", "monkey");<br>
+foreach $animal (@zoo){<br>
+&nbsp; &nbsp; $animal = "_".$animal."_";<br>
+&nbsp; &nbsp; print "$animal";<br>
+}<br>
+print "\n";<br>
+</font>
+
+<h4>8.1  Exercises</h4>
+
+* Create a second copy of the array in reverse order.
+Add a second foreach loop that
+prints the reverse copy.
+
+<h3>9 Input from a file</h3>
+
+Click <a href="alice.txt">here</a> and save the file in your 
+current directory under the name "alice.txt".
+<p>
+<font color=blue>
+#!/usr/local/bin/perl<br>
+#<br>
+# Program to read and print a file <br>
+#<br>
+open(ALICE, "alice.txt");<br>
+@lines = &#60ALICE&gt ;<br>
+close(ALICE);<br>
+print @lines;<br>
+
+</font>
+<h4>9.1 File handling</h4>
+
+<table border=2>
+<tr><td>open(FILEHANDLE, "alice.txt"); <br>
+open(FILEHANDLE, "&#60;alice.txt"); </td><td> open for input </td>
+<tr><td>open(FILEHANDLE, "&#62;alice.txt"); </td><td> open for output </td>
+<tr><td>open(FILEHANDLE, "&#62;&#62;alice.txt"); 
+  </td><td> open for appending </td>
+<tr><td>print FILEHANDLE "Some text.\n"; </td><td> print to an open file </td>
+<tr><td>open(FILEHANDLE, "alice.txt") || die "cannot open file";
+  </td><td> open file, print error message</td>
+</table>
+
+<h4>9.2 Exercises</h4>
+
+* Modify the program so that
+the lines are printed in reverse order. <p>
+* Write a Perl script that copies one file to another file. 
+Then change the script so that it appends one file to another file.<p>
+
+</body>
+</html>
+

@@ -1,0 +1,213 @@
+<HTML>
+<TITLE>L548: Session 11</Title>
+
+<body>
+
+<h3>Customize Pages with CGI</h3>
+
+CGI can show different pages to different users depending on user preferences.
+<p>
+<b>Exercise:</b>
+<p>
+1) Ask a user to input their name into a textfield and 
+to choose a color from a popup menu. Then display a page with
+a short message (e.g. "Thank you $name for your request") in that color.
+
+<h3>Security on CGI Pages</h3>
+
+There are several security problems and error sources for CGI scripts
+such as the one above.
+<p>
+Here are some security tips:
+<UL>
+<li>
+If the script prints user input or html code that is retrieved from the
+web apply
+<br>
+<font color=blue>
+$text =~ s/&#60;/&#38#60;/g;
+$text =~ s/&#62;/&#38#62;/g;
+</font>
+to the text before printing it.
+<li>For input from radio buttons, menu selections, check boxes, check
+all possible values with an if statement. In case of unexpected
+values, print an error message and discontinue with the script.
+<li>Don't ask the user for a filename and then write to that file.
+<li>Files that are written to should not be in a directory  
+that allows server-side includes, active server pages, PHP 
+pages, or other HTML template systems.
+<li>Don't install CGI code from untrusted sources on your server.
+<li>If you use sendmail to email back to a user, apply<br>
+<font color=blue>
+unless ($email =~ /^[\w\.+-]+\@[\w\.+-]+$/) {<br>
+     die 'Address not in form foo@nowhere.com';<br>
+  }<br>
+
+</font>
+to the address and use "sendmail -t -oi"
+<li>Never allow user input into a system() or exec() call
+or into an expressions with backticks (`).
+<li>When using open() and calling a program,
+always check user input into this statement.
+<li>If your script writes to a file, lock the file so that two
+scripts cannot write to it at the same time. 
+</UL>
+The following tips are listed here for completeness. You'll
+understand them when environment variables are discussed 
+in a couple of weeks.
+
+<UL>
+<li>If you use Perl -T and system calls (or sendmail), you may need
+to include <font color=blue>
+$ENV{'PATH'} = '/bin:/usr/bin:/usr/local/bin';</font> at the beginning
+of your script and variables may need to be untainted using a pattern
+match.
+<li>Be careful with PATH_INFO. Validate its contents.
+<li>Check the REQUEST_METHOD variable to verify that the data
+was send by POST (or GET or ...)
+<li>Check the CONTENT-LENGTH variable to restrict amount of 
+input text.
+</UL>
+
+More information on security of 
+<a href="http://www.w3.org/Security/Faq/wwwsf4.html">
+CGI scripts</a>, <a href="http://www.w3.org/Security/Faq/wwwsf5.html">
+Perl/CGI</a> and <a href="http://www.w3.org/Security/Faq/
+www-security-faq.html">general WWW security</a>
+
+<p>
+<b>Exercises</b>
+<p>
+2) In the previous script check whether the input is
+reasonable and not empty: <br>
+- check whether the name and color contain only word characters
+or -.<br>
+- check that neither name nor color is longer than 100 chars (use the 
+{100,} multiplier). <br> If the criteria are not fulfilled, do not 
+display the results page but instead show an error message.
+<br>
+3) For the $name variable replace HTML characters "&#60;" and "&#62;"
+with &#38#60; and &#38#62; before printing the name.<br>
+
+<h3>Searching a Webpage</h3>
+
+The following CGI script expects a URL and a keyword as input from
+a form. 
+<p>
+<font color=blue>
+#!/usr/local/bin/perl -w<br>
+use IO::Socket;<br>
+use CGI qw(:standard);<p>
+############# beginning of main routine ####################<br>
+<br>
+my $url = param("url");<br>
+my $keyword = param("keyword");<br>
+<br>
+start_webpage();<br>
+($host, $document) = parse_input($url);<br>
+@page_content= read_page($host,$document);<br>
+search($keyword, @page_content);<br>
+<br>
+############## end of main routine ###########################<br>
+<br>
+sub start_webpage{<br>
+print header();<br>
+print "&#60;HTML&#62;<br>
+&#60;HEAD&#62;<br>
+&#60;TITLE&#62;Search Results&#60;/TITLE&#62;<br>
+&#60;/HEAD&#62;<br>
+&#60;BODY&#62;     <br>   
+&#60;H3&#62;Search Results&#60;/h3&#62;"<br>
+}<br>
+<br>
+##############################################################<br>
+<br>
+sub parse_input {<br>
+&nbsp; &nbsp;    $current_url = $_[0];<br>
+&nbsp; &nbsp;    $current_url =~ /(http:\/\/)?([^\/]*)(.*)/;<br>
+&nbsp; &nbsp;    $host = $2;<br>
+&nbsp; &nbsp;    $document = $3;<br>
+&nbsp; &nbsp;    if ($document eq "") {$document = "/";}<br>
+&nbsp; &nbsp;    return ($host, $document);  <br>
+}<br>
+<br>
+########################################################################<br>
+<br>
+sub read_page{<br>
+&nbsp; &nbsp;        my $current_host=$_[0];<br>
+&nbsp; &nbsp;        my $current_doc=$_[1];<br>   
+&nbsp; &nbsp;       $remote =IO::Socket::INET->new(Proto => "tcp",<br>
+&nbsp; &nbsp;        PeerAddr => $current_host,<br>
+&nbsp; &nbsp;        PeerPort => "http(80)",<br>
+&nbsp; &nbsp;        );<br>
+&nbsp; &nbsp;        if (!$remote) { die "cannot connect to http daemon on $host"}<br>
+&nbsp; &nbsp;        $remote->autoflush(1);<br>
+&nbsp; &nbsp;        print $remote "GET $current_doc HTTP/1.0\n\n";<br>
+&nbsp; &nbsp;        @output = <$remote> ;<br>
+&nbsp; &nbsp;        close $remote;<br>
+&nbsp; &nbsp;        return @output;<br>
+}<br>
+<br>
+##################################################################<br>
+sub search{<br>
+    
+&nbsp; &nbsp;     ($term,@text) = @_;<br>
+&nbsp; &nbsp;     print "&#60;p&#62;The results for $term are:";<br>
+&nbsp; &nbsp;     print @text;<br>
+}   <br>
+</font>
+<p>
+
+<b>Exercises</b>
+<p>
+4) Write a form that lets users input a URL and a keyword and 
+invokes the CGI script.<br>
+5) Change the subroutine "search" so that it actually searches for 
+the keyword and prints the lines that contain the keyword.
+
+
+
+<h3>Optional: Less typing</h3>
+
+The CGI.pm module provides standard subroutines for printing certain
+HTML code fragments. For example,
+<font color=blue> print h1("Tea");
+</font> prints an h1 header.
+To use these subroutines, the script must contain the line
+"use CGI qw(:standard);".
+<p>
+<b>Abbreviations for writing HTML tags</b>
+<p>
+<font color=red>
+<li>print header();  <br><li>
+print start_html(-title=>"title_goes_here",-BGCOLOR=>'yellow');   <br><li>
+print h1("some heading"); <br><li>
+print hr(); <br><li>
+print p("text");<br><li>
+print start_form(); <br><li>
+print a({href=>"url_goes_here.html"},"link text goes here"); <br><li>
+print textfield(-name=>'field_name',-default=>'starting value',
+-size=>50,-maxlength=>80);<br><li>
+print textarea(-name=>'foo',-default=>'starting value',-rows=>10,
+-columns=>50);<br><li>
+print password_field(-name=>'secret',-value=>'starting value',
+-size=>50, -maxlength=>80);<br><li>
+print popup_menu(-name=>'menu_name',-values=>['one','two','three'],
+-default=>'two');<br><li>
+print scrolling_list(-name=>'list_name',-values=>['one','two','three'],
+-default=>['one','three'];-size=>3, -multiple=>'true',
+-labels=>\%labels);<br><li>
+print checkbox_group(-name=>'group_name',-values=>['one','two','three'],
+ -default=>['one','three'],-linebreak=>'true',-labels=>\%labels);<br><li>
+print checkbox(-name=>'checkbox_name',   -checked=>'checked',
+ -value=>'TURNED ON', -label=>'Turn me on'); <br><li>
+print radio_group(-name=>'group_name',-values=>['one','two','three'],
+ -default=>'one',     -linebreak=>'true', -labels=>\%labels);<br><li>
+print submit(-name=>'button_name',        -value=>'value');<br><li>
+print hidden(-name=>'hidden_name', -default=>['value1','value2']);<br><li>
+print reset(); <br><li>
+print end_form(); 
+</font>
+
+</body>
+</html>

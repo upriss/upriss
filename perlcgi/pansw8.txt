@@ -1,0 +1,181 @@
+1) Create a form that asks a user for his/her name and some comments. 
+Then create two PHP scripts that create a response. The first script 
+displays the information which the user has submitted ("Hello $name. 
+These are your comments: $comments") and asks the user whether he/she 
+really wants to submit the information. The second script is invoked by 
+the first one and displays "Thank you $name. Your comments have been 
+submitted: $comments". 
+
+Form:
+
+<form action='yourfile.php' method='post'>
+Name: <input type='text' name='name' ><p>
+Comments: <input type='text' name='comments' ><p>
+<input type='submit' value='next'>
+</form>      
+
+-----------------------------------------------------------------
+
+First PHP Script:
+
+<HTML><HEAD><TITLE>Maintaining State</TITLE></HEAD><BODY>
+
+<?php
+$name = $_REQUEST['name'];
+$comments = $_REQUEST['comments'];
+
+if ($comments == "" or $name == "" or
+    preg_match("/[^\w- ]/i", $comments) or preg_match("/[^\w- ]/i", $name) or
+    preg_match("/.{100,}/i", $comments) or preg_match("/.{100,}/i", $name)) {
+  echo "<BODY>Invalid Input";
+  exit;
+}
+echo "
+<form action = 'yourfile2.php' method='post'>
+Hello $name! Do you really want to submit these comments?<p> $comments
+<input type='hidden' name='hiddenname' value='$name'><p>
+<input type='hidden' name='hiddencomments' value='$comments'><p>
+<input type='submit' value='yes'>
+</form> ";
+?>
+</body></html>
+
+-----------------------------------------------------------------
+
+2) Use a cookie instead of hidden text in the previous exercise
+
+First PHP file:
+
+<?php
+$name = $_REQUEST['name'];
+$comments = $_REQUEST['comments'];
+if ($comments == "" or $name == "" or
+    preg_match("/[^\w- ]/i", $comments) or
+    preg_match("/[^\w- ]/i", $name) or
+    preg_match("/.{100,}/i", $comments) or
+    preg_match("/.{100,}/i", $name)) {
+  echo "<HTML><HEAD><TITLE>Maintaining State</TITLE></HEAD><BODY>";
+  echo "<BODY>Invalid Input";
+  exit;
+}
+
+$cookiedata = $name."|".$comments;
+setcookie("nameandcomments", $cookiedata, time()+3600);
+echo "
+<HTML><HEAD><TITLE>Maintaining State</TITLE></HEAD><BODY>
+<form action = 'yourfile2.php' method='post'>
+Hello $name! Do you really want to submit these comments?<p> $comments
+<input type='hidden' name='name' value='$name'><p>
+<input type='hidden' name='comments' value='$comments'><p>
+<input type='submit' value='yes'>
+</form> ";
+?>
+</body></html>
+
+-----------------------------------------------------------------
+
+Second PHP file:
+
+<HTML><HEAD><TITLE>Maintaining State</TITLE></HEAD><BODY>
+<H3>Reply</h3>
+
+<?php
+
+$array = preg_split('/\|/',$_COOKIE['nameandcomments']);
+$name = $array[0];
+$comments = $array[1];
+
+if ($comments == "" or $name == "" or
+    preg_match("/[^\w- ]/i", $comments) or
+    preg_match("/[^\w- ]/i", $name) or
+    preg_match("/.{100,}/i", $comments) or
+    preg_match("/.{100,}/i", $name)) {
+  echo "<BODY>Invalid Input";
+  exit;
+}
+
+echo "<p> Hello $name. Here are your comments: <p> $comments";
+?>
+
+</body></html>
+
+-----------------------------------------------------------------
+
+3) Use PHP session handling functions for the previous exercise
+
+First PHP file:
+
+<?php
+session_start();
+
+$name = $_REQUEST['name'];
+$comments = $_REQUEST['comments'];
+if ($comments == "" or $name == "" or
+    preg_match("/[^\w- ]/i", $comments) or
+    preg_match("/[^\w- ]/i", $name) or
+    preg_match("/.{100,}/i", $comments) or
+    preg_match("/.{100,}/i", $name)) {
+  echo "<HTML><HEAD><TITLE>Maintaining State</TITLE></HEAD><BODY>";
+  echo "<BODY>Invalid Input";
+  exit;
+}
+
+$_SESSION['name'] = $name;
+$_SESSION['comments'] = $comments;
+
+echo "
+<HTML><HEAD><TITLE>Maintaining State</TITLE></HEAD><BODY>
+Hello $name! These are your comments:<p> $comments <p>"; ?>
+Click <a href='yourfile2.php' method='get'>here</a> to submit them.
+
+</body></html>
+
+-----------------------------------------------------------------
+Second PHP file:
+
+<HTML><HEAD><TITLE>Maintaining State</TITLE></HEAD><BODY>
+<H3>Reply</h3>
+
+<?php
+session_start();
+
+$name = $_SESSION['name'];
+$comments = $_SESSION['comments'];
+// No security needed on these variables because 
+// they are coming from the server!
+
+echo "<p> Hello $name. Here are your comments: <p> $comments";
+?>
+
+</body></html>
+
+
+
+-----------------------------------------------------------------
+
+
+4) Hit counter: create a file that contains only
+the number "0". Your PHP script must open that file for reading; read
+the first line of the file into a scalar variable; increase the number by
+one; close the file; open the file again for writing (not appending); write
+the number to the file; close the file. 
+
+Because of permissions, first, you need to create and save the file 
+manually. Then you need to change the file permissions to 666 on the
+command-line.
+
+<HTML><HEAD><TITLE>Hit Counter</TITLE></HEAD><BODY>
+
+<?php
+$counter = file('output.txt');
+
+$counter[0] = $counter[0] +1;
+
+$handle = fopen('output.txt','w');
+fwrite($handle, $counter[0]);
+fclose($handle);
+
+echo "You are the ", $counter[0], " visitor of this page";
+?>
+</body></html>
+

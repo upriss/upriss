@@ -1,0 +1,276 @@
+
+<html>
+<head>
+<title>Unix</title> 
+</head>
+<body>
+<H1>Tutorial: Basic Unix</h1>
+<br>
+<p><hr><p><h3>1.1 Linux desktop </h3>
+1. If you have never used Linux before, spent a few minutes familiarising
+yourself with the Desktop environment. 
+<ul>
+<li> Try right- and left-clicking on different components (eg. on the background). 
+<li> Find out how to open a terminal window; 
+<li> how to navigate through directories;
+<li> how to open an editor;
+<li> how to logout; 
+<li> how to read help
+<li> how to customise the desktop (change colours etc).
+</ul>
+<p><p><hr><p><h3>1.2 Editing files</h3>
+2. Editing a file in Unix with pico: 
+<ul>
+<li> Open a terminal window. 
+<li> Edit a file with 
+</ul>
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   pico FILENAME<br>
+</font>
+<p>where "FILENAME" is the name of a new file
+containing just letters and numbers, no spaces.
+<ul>
+<li> Type a few lines. 
+<li> Delete a line with Ctrl-k (that is the control key and k). Use the arrows to
+navigate to the end of the file. Then type Ctrl-u to paste the line.
+<li> Use Ctrl-x to exit pico. 
+<li> Open the same file again. (Note: depending on your shell, you may be able to
+use arrow keys to re-execute a previous command and the tab key for filename or 
+command completion. Type pico and then the first letter of your file, then press
+the tab key to see if name completion works.)
+</ul>
+<p><p><hr><p><h3>1.3 Working with files</h3>
+3. Viewing existing files:
+<p><ul>
+<li> Type the following commands one at a time 
+(where FILENAME is the name of the file you edited in the last exercise).
+</ul>
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   more FILENAME <br>
+&nbsp; &nbsp; &nbsp;   cat FILENAME <br>
+</font>
+<p>Most likely you won't see much difference between "more" and "cat". You'll
+need a larger file to see what the difference is. 
+<p><ul>
+<li> Type
+</ul>
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   man man > fileX<br>
+</font>
+<p>(This creates a larger file called "fileX" which has
+the manual page for "man" as content.)
+<ul>
+<li> Type the following commands one at a time and observe what they do:
+</ul>
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   more fileX<br>
+&nbsp; &nbsp; &nbsp;   cat fileX<br>
+&nbsp; &nbsp; &nbsp;   head fileX<br>
+&nbsp; &nbsp; &nbsp;   tail fileX<br>
+</font>
+<p>4. Renaming, copying and comparing files
+<p>"ls" is used to list all the files in your current directory; "mv" is used
+for renaming; "cp" for copying; 
+<p><ul>
+<li> Type the following commands one at a time and observe what they do:
+</ul>
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   ls<br>
+&nbsp; &nbsp; &nbsp;   mv fileX fileY<br>
+&nbsp; &nbsp; &nbsp;   ls<br>
+&nbsp; &nbsp; &nbsp;   more fileX<br>
+&nbsp; &nbsp; &nbsp;   more fileY<br>
+&nbsp; &nbsp; &nbsp;   cp fileY fileZ<br>
+&nbsp; &nbsp; &nbsp;   ls<br>
+&nbsp; &nbsp; &nbsp;   more fileY<br>
+&nbsp; &nbsp; &nbsp;   more fileZ<br>
+</font>
+<p><ul>
+<li> Now edit fileZ and change the first line. Type
+</ul>
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   diff fileY fileZ<br>
+</font>
+<p>5. Viewing file properties
+<p>The following two commands show file properties
+<p><ul>
+<li> Type
+</ul>
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   ls -l<br>
+&nbsp; &nbsp; &nbsp;   file *<br>
+</font>
+<p>6. Removing files
+<p>"rm: is used to remove files. Several of the Unix commands have a "-i"
+option, which inquires if you really want to execute the command before
+it executes it.
+<p><ul>
+<li> Type 
+</ul>
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   rm -i fileZ<br>
+</font>
+<p>7. Review question
+<p><ul>
+<li> So far you learned the commands "pico, more, cat, head, tail, ls, mv, cp, rm,
+diff". Most of the functionality of these commands, such as editing, viewing,
+renaming, copying, deleting can easily be achieved in any GUI environment. 
+But there is one command, which is not available in every GUI environment.
+In fact, you may not even know how to do this on a PC. Which command is that?
+</ul>
+<p><p><hr><p><h3>1.4 Working with directories</h3>
+8. Try the following commands. If you cannot determine what these do
+type "man ls" and scroll down to where the options "-l", "-t" and "-a"
+are explained. To exit a manual page type "q". Type "man pwd" for information
+about "pwd". 
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   ls<br>
+&nbsp; &nbsp; &nbsp;   ls -l<br>
+&nbsp; &nbsp; &nbsp;   ls -l -a<br>
+&nbsp; &nbsp; &nbsp;   ls -l -t<br>
+&nbsp; &nbsp; &nbsp;   pwd<br>
+</font>
+<p>9. Searching for information
+<p>The following commands can be used for finding files, programs and file content.
+(This exercise assumes that you still have a copy of the man man page saved as
+fileY, see exercise 3.)
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   find . -name 'fileY'<br>
+&nbsp; &nbsp; &nbsp;   which ls<br>
+&nbsp; &nbsp; &nbsp;   grep 'manual pages' fileY<br>
+</font>
+<p>10. Creating and deleting directories
+<p>Directories can be created with "mkdir" and deleted with "rmdir". By default
+all activities apply to the current directory. "pwd" shows the current 
+directory. "cd" is used to change to a user's home directory. With 
+"cd DIRECTORYNAME" one can change to the directory named DIRECTORYNAME;
+with "cd .." one can move to the parent directory of the current directory.
+The current directory is referred to by "."; the parent directory by "..".
+<p><ul>
+<li> Create the following directory structure under your home directory:
+</ul>
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   letters<br>
+&nbsp; &nbsp; &nbsp;   work<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+     progs<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+     tutorial<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+     misc<br>
+&nbsp; &nbsp; &nbsp;   script<br>
+</font>
+<p><ul>
+<li> Copy the file "fileY" from your home directory 
+to the misc directory, and use the ls command from your home directory 
+to verify the move. (You can use "ls directory1/directory2" to view a directory
+which is further down in the hierarchy under your current directory.)
+</ul>
+<p><ul>
+<li> Make the misc directory your current directory and move "fileY" 
+from the misc directory to the progs directory. (You can use a combination of
+"..", "/", and the directory name to create a relative pathname for 
+the progs directory while you are in the misc directory.) 
+</ul>
+<p><ul>
+<li> Verify that you are still in the misc directory. List the contents of the progs
+directory without leaving the misc directory. Copy the file "fileY" from your home 
+directory to the tutorial directory and rename it "file2".
+</ul>
+<p><ul>
+<li> Make the directory "work" your current directory and 
+copy the file "file2" in the tutorial directory to the scripts directory.
+</ul>
+<p><ul>
+<li> Use the rmdir command to remove the tutorial directory. If it fails, what 
+other command with options could you use? Try it.
+</ul>
+<p><ul>
+<li> Go to your home directory and type "ls -R".
+</ul>
+<p><p><hr><p><h3>1.6 Summary</h3>
+Below is a list of all the commands you learned so far. Read through
+the list and check that you understand what each command does. 
+<p><ul>
+<li> displaying information
+<ul>
+<li> pwd (present working directory show which directory you are in)
+<li> ls (list directory contents)
+<li> find (search for directories and files)
+<li> which (search for programs)
+<li> grep (search for file content)
+<li> man (viewing manual pages)
+</ul>
+</ul>
+<ul>
+<li> navigating and manipulating the directory tree
+<ul>
+<li> cd (change to a new directory) 
+<li> mkdir (create a new directory) 
+<li> rmdir (delete a directory) 
+</ul>
+</ul>
+<ul>
+<li> manipulating files and directories
+<ul>
+<li> mv (move)
+<li> cp (copy)
+<li> rm (remove)
+</ul>
+</ul>
+<ul>
+<li> viewing and editing files
+<ul>
+<li> pico (an editor)
+<li> cat (display file content)
+<li> more (display file content a page at a time)
+<li> head (display first lines of file)
+<li> tail (display last lines of file)
+<li> diff (compare different files or directories)
+<li> file (show file properties)
+</ul>
+</ul>
+<p><hr><p><h3>1.7  Users and System Information</h3>
+Here are a few more Unix commands. These are useful for displaying information.
+Execute each of these commands and see if you can figure out what they mean
+(if not have a look at the corresponding man pages). There is much more to 
+Unix administration than these commands, but viewing information about the
+system and its users is an important first step.
+<p><ul>
+<li> users (list current users)
+<li> who (display who is logged in)
+<li> w (display who is logged in and they are doing)
+<li> last | more (display last logins of users)
+<li> logname (display logname of current user)
+<li> hostname (display hostname)
+<li> printenv (print current user's environment)
+<li> quota (display current user's quota)
+<li> df (display free disk space)
+<li> du (display disk usage statistics)
+<li> top (show system usage information)
+<li> ps (display process information)
+</ul>
+<h1> Unix Challenge </h1>
+<p>
+Here are some questions for those people in need of a more difficult
+challenge. Do not worry if at this state you are struggling to reach here,
+as in later tutorials even questions like these will become obvious to you.
+</p>
+<ol>
+<li>
+List the commands which have been recently executed and
+contain 'rm'.</li>
+<li>
+Write a Unix command that prints all files (not directories) which
+have been changed during the last 24 hours. (More difficult:
+Write a Unix command that copies all files (not directories) which
+have been changed during the last 24 hours to a directory called
+"backup").</li>
+<li>
+Change the 'rm' command so that instead of removing files it
+moves them to a hidden directory called 'trashcan'
+under the user's home directory. 
+</li>
+</ol>
+
+<p><p><p><p><p><p>

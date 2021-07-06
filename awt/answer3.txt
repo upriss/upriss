@@ -1,0 +1,39 @@
+1) Save this as "example1.svg". Change the file so that the blue rectangle is a 
+bit further in the middle of the page.
+
+<rect width="300" height="100" x="50" y ="50" fill="blue"/>
+
+2) Add a green circle and a yellow star to the example.
+
+<circle cx="150" cy="200" r="100" fill="green"/>
+
+<polygon fill="yellow" points="350,75  379,161 469,161 397,215
+                    423,301 350,250 277,301 303,215
+                    231,161 321,161" />
+
+3) Add some text.
+
+<text x="250" y="90" font-family="Times" font-size="55" fill="darkred" > 
+    Hello, World!   
+  </text>
+
+5) Create a form which asks a user for a colour and write a script 
+that generates an SVG response page which shows a circle in that colour.
+
+<?php
+  header('Content-Type: image/svg+xml');
+  echo '<?xml version="1.0" standalone="no"?>';
+?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<svg width="100%" height="100%" version="1.1"
+xmlns="http://www.w3.org/2000/svg">
+<circle cx="700" cy="200" r="100" fill="<?php echo $_REQUEST['colour'] ?>"/>
+</svg>
+
+
+12) ... Change it from a directed to an undirected graph.
+
+- change "digraph" to "graph"
+- change "->" to "--"

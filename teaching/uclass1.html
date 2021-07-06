@@ -1,0 +1,330 @@
+<HTML>
+<HEAD>
+<TITLE>Unix Workshop</TITLE>
+</HEAD>
+<BODY>
+
+<h1>Unix Workshop</h1>
+
+<font color=red>Note: please be careful with commands such as "rm" or commands 
+that you not fully understand. Don't execute such commands in a 
+directory that contains important files. The instructor will not
+be responsible for lost or damaged files.
+<p>
+In general it is a good idea to create a .trash directory and to
+alias rm as "mv !^ /home/user_name/.trash". To empty the .trash 
+directory you need to reset the alias of rm to rm. 
+Other simpler options are aliasing cp, mv, rm by their -i options
+and safety features in the login files, such as
+"set noclobber" in .cshrc.
+</font> 
+
+<h3>1) Files, Processes and Users</h3>
+
+<h4>Users: sessions and communication</h4>
+
+<table border=1>
+<tr><td> logname <td>
+<tr><td> who [am I]  <td>
+<tr><td> quota -v  <td>
+<tr><td> write  <td> write username terminal
+<tr><td> mesg   <td> 
+<tr><td> script   <td> 	
+	<li> script filename
+	<li> creates a logfile for the session, exit with "exit"
+</table>
+<p>
+<b>Exercise</b>
+<p>
+Login to the computer of your neighbor and write to him/her.
+
+<h4>Common tools</h4>
+
+<table border=1>
+<tr><td> man   <td> 
+	examples: man man; man -k calendar; man 5 man
+<tr><td> cal   <td>
+<tr><td> calendar  <td> (a reminder service)
+<tr><td> look <td> look word (dictionary look-up)
+<tr><td> ispell  <td> a spell check (an elaborate version of "spell")
+<tr><td> date   <td>
+</table>
+
+<h4>File structure</h4>
+
+<table border=1>
+<tr><td> .    <td> The current directory
+<tr><td> ..   <td> The next higher directory
+<tr><td> cd <td>  
+	<li> cd
+	<li> cd name
+	<li> cd /name
+	<li> cd ./name
+	<li> cd ../name
+<tr><td> pwd  <td>
+<tr><td> mkdir <td>
+	mkdir -p -m "a=r" this_level/next_level/last_level
+<tr><td> rmdir  <td>
+	rmdir [-i] -p this_level/next_level/last_level
+<tr><td> cp   <td>
+	<li> cp [-i] old_file new_file
+	<li> cp [-i] file1 [file2 ...] dest_dir
+	<li> cp -r [-i] dir_tree1 [dir_tree2 ...] dest_dir  
+<tr><td> mv   <td>
+	<li> mv [-i]  old_file new-file
+	<li> mv [-i]  file1 [file2 ...] dest_dir
+      <li> mv [-i]  dir_tree1 [dir_tree2 ...] dest_dir 
+<tr><td> rm  <td>
+	<li> rm [-i] [-r] file ...   
+	<li> rm -i file1 file2
+	<li> rm -i directory/*
+<tr><td> ln   <td>
+	<li> ln [-i] old_file new_file (hard link)
+	<li> ln [-i] -s old_file new_file (symbolic link)
+<tr><td> dircmp   <td>
+	dircmp dir1 dir2   
+</table>
+<p>
+<b>Exercises</b>
+<p>
+Do the following things using as few commands as possible!
+(Write down the commands you use.)
+Create one directory called abe
+with a subdirectory homer that contains the files bart, lisa and maggie.
+Create another directory called marge that contains files that are
+called bart, lisa and maggie and that are linked to homer's files.
+Write a sentence into each of the three files (use "echo" to do this). 
+Create another directory called simpson and move everything else there.
+Compare marge and homer to see whether their files are identical. 
+Remove everything except an empty directory "marge". 
+
+<h4>Displaying information about files</h4>
+
+<table border=1>
+<tr><td> ls   <td>
+	<li> ls -a (show hidden files)
+	<li> ls -l (long listing)
+	<li> ls -ld (directory without contents)
+	<li> ls -i (inode: shows hard links) 
+	<li> ls -R (recursive)
+	<li> ls -ct (sort by last time modified)
+	<li> ls -ut (sort by last time accessed)
+	<li> ls -p (adds / after directories)
+	<li> ls -F (adds /, *, @)
+<tr><td> file   <td> (shows file type (sometimes)) 
+<tr><td> wc   <td> (counts lines words characters)
+<tr><td> which <td> (finds programs according to paths and aliases)
+<tr><td> find   <td>
+	<li> p 309
+	<li> find pathname expression
+	<li> find . -name "*.txt" -print
+	<li> find . ! -name "*.???" -print
+	<li> find . \( -name "*.??" -o -name "*.???" \) -print
+	<li> find . -size +2 -print  (more than 2 blocks)
+	<li> find . -exec ls -ld {} \;
+	<li> find . -name "*.bak" -exec rm {} \; (dangerous!)
+	<li> find . -name "*.bak" -ok rm {} \;  (safer)
+	<li> find . -atime -n -print (accessed less than n days ago)
+	<li> find . -mtime -n -print (modified less than n days ago)
+	<li> find . -ctime -n -print (accessed or modified less than n days ago)
+	<li> find $HOME -ctime -7 -type f -print 
+	<li> (shows regular files that were accessed or modified less than 7 days ago)
+	<li> find / -user "stan" -print
+	<li> find / -user 25 -print
+	<li> find / -group "sys" -print
+	<li> find / -type f - perm 0744 -print
+</table>
+
+<p>
+<b>Exercises</b>
+<p>
+a) Try all of the options for ls mentioned above. When were your
+last files accessed/changed? Execute "ls -lut" then "ls -R" and then one
+miute later "ls -lut" again: what do you notice? 
+<br>
+b) Which of your files in one directory contains the most characters?
+<br>
+c) What is the full path name of "ls"?
+<br>
+d) List all files in any subdirectory under your current directory 
+that have an "html" extension using "ls". Do the same using "find".
+<br>
+e) Do a long list of the current directory.
+<br>
+f) Compare (find . -name "*d*" -print) and (ls *d*).
+<p>
+a) Find all files in /etc that have a "d" extension.<br>
+b) Find all files in the current directory that have an extension. <br>
+c) Find all files in the current directory that don't have an extension. <br>
+d) Find all files of block size smaller than 1 or larger than 3. <br>
+e) Find all files of block size larger 2 and list them in a long listing. <br>
+f) Find all files that were modified today. <br>
+g) Find all directories on the system that are owned by you. <br>
+h) Find all files on which everybody has write permit. <br>
+
+<h4>Displaying file content</h4>
+
+<table border=1>
+<tr><td> cat   <td>
+	<li> cat file1 file2 > file3
+	<li> cat -n  (prints line numbers)
+	<li> cat -r  (don't print multiple blank lines)
+	<li> cat -v  (prints control characters visibly)
+<tr><td> more   <td>
+<tr><td> head   <td> 
+	head [-count] [file1 file2 ...]
+<tr><td> tail   <td> 
+	<li> tail +|-[count][lbc] file
+	<li> tail -f file (used to check on a file being built)
+</table>
+
+<p>
+<b>Exercises</b>
+<p>
+Display the last 15 lines of a file. Display the first 5 lines
+of a file first using head, then using tail. Display the first 5
+lines with line numbers. 
+
+<h4>Comparing and manipulating file content</h4>
+
+Chapter 14
+<p>
+<table border=1>
+<tr><td> sort   <td>
+	<li> sort file1 file2 ... > new_file
+	<li> sort file -o file
+	<li> sort -r (reverse order)
+	<li> sort -f (fold lowercase letters to uppercase)
+	<li> sort -d (dictionary order)
+	<li> sort -n (numeric order)
+	<li> sort -b (leading blanks ignored)
+	<li> sort -u (unique: suppress duplicates)	
+<tr><td> uniq   <td>
+	<li> uniq input_file output_file (omits adjacent duplicate lines)
+	<li> uniq -d (output one copy of each duplicate)
+	<li> uniq -c (count how many duplicates found)
+<tr><td> crypt   <td>
+	<li> crypt <plain >encrypted  (encryption)
+	<li> crypt <encrypted >plain  (decryption)
+<tr><td> cmp   <td>
+	<li> cmp file1 file2
+	<li> (char and line where files first differ)
+<tr><td> diff   <td>
+	<li> diff file1 file2
+	<li> (detailed list of differences)
+<tr><td> split <td>
+	<li> split -n input_file output_file
+	<li> (n denotes the number of lines)
+<tr><td> tr <td>
+	<li> tr a A <file
+	<li> tr '[a-z]' '[A-Z]' < file
+	<li> tr '[A-Z]' ' ' < file
+</table>
+<p>
+<b>Exercise</b>
+<p>
+Replace all blanks in a textfile by newline characters (newline
+characters can be represented as '\012'). Sort the output and then 
+display it counting the duplicates. Sort it again so that the most
+frequent words are displayed first. Display only the first ten
+lines of that result. 
+
+<h4>Command terminators</h4>
+<table border=1>
+<tr><td> newline (enter) <td>
+<tr><td> ; <td>
+<tr><td> & <td>
+	<li> child process runs in background
+	<li> typing ^z in some applications has the same effect
+</table>
+
+<p>
+<b>Exercise</b>
+<p>
+Execute the following: a) date RETURN who RETURN<br>
+b) date; who<br>
+c) date & who
+<p>
+
+<h4>Processes</h4>
+
+Chapter 9
+<p>
+<table border=1>
+<tr><td> ps   <td>
+	<li> ps (all processes of terminal)
+	<li> ps -d (all processes except group leaders)
+	<li> ps -e (all processes)
+	<li> ps -u ulist (all processes of users in ulist)
+	<li> ps -f (full listing)
+	<li> ps -l (long listing)
+<tr><td> top   <td> shows top processes in the system
+<tr><td> jobs  <td> shows background jobs
+<tr><td> bg  <td> 
+	<li> bg [[job]] 
+	<li> puts specified job into background
+<tr><td> fg  <td> 
+	<li> fg [[job]] 
+	<li> puts specified job into foreground
+<tr><td> kill <td>
+	<li> kill [-signo] pid1 ... 
+	<li> sends signal to process
+	<li> default for signo: -15 (usually terminates process)
+	<li> -9 (always terminates process)
+<tr><td> sleep <td>
+	example: (sleep 5; echo "Hello")&
+<tr><td> at <td>
+	<li> at time (scheduling processes at a certain time)
+	<li> example: at 4:30am tomorrow RETURN bigjob RETURN ^D
+<tr><td> nice <td>
+	<li> nice command &
+	<li> (executes command at a lower priority, useful for batch jobs)
+<tr><td> wait <td> 
+	<li> wait [pid] 
+	<li> (waits for termination of child process)
+<tr><td> nohup <td>
+	<li> nohup bigjob &
+	<li> job keeps running after logout
+</table>
+<p>
+<b>Exercise</b>
+<p>
+a) Try the different ps options. Type "more &" then "pico &"
+then "ps -l". Which of the
+processes is the parent? What is the id of the parent process?
+In what states are the processes?
+<p>
+b) Type "jobs". Then bring the "more" process into the foreground.
+Find the process id of the "pico" process and kill it.
+<p>
+c) Type "emacs". Then put the process into the background using a 
+second terminal window. Then kill the emacs process.
+<p>
+d) Find out what the current time is. Using "at" echo "hello" to
+a new file to be executed exactly 2 minutes later.
+
+<h4>XWindows</h4>
+
+Chapter 19: pages 504 - 508
+
+<table border=1>
+<tr><td> xterm<td>
+	<li> xterm options:  
+	<li> bg, fg, fn (background, foreground, font)
+	<li> e (execute)
+	<li> help
+	<li> sb (scroll bar)
+	<li> sl (lines in text buffer)
+<tr><td> xhost   <td>
+<tr><td> xclock   <td>
+<tr><td> xcalendar  <td>
+<tr><td> xkill <td>
+<tr><td> xman  <td>
+</table>
+<p>
+<b>Exercise</b>
+<p>
+Open xterm window with black background and white foreground that 
+runs in the background. 
+</BODY>
+</HTML>

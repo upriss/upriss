@@ -1,0 +1,80 @@
+<HTML>
+<TITLE>L548: Session 13</Title>
+
+<body>
+<h3>Object-oriented programming I</h3>
+
+Notes: 1) The exercises on this page use the pseudo-code "ezperl". Currently
+ezperl is only available on ella. Click <a href="session13a.html">here</a>
+if you would like to see the Perl code and optional materials.
+<p>
+2) Type "ezperl filename" on ella. Ezperl creates a perl file called
+filename.plx and executes it. If you should get error messages, they
+refer to the perl file and not the pseudo-code. That means line numbers
+may be incorrect. (Ask the instructor for help.)
+<p>
+3) Ezperl expects one command per line. If you want to extend a command
+over several lines add a backward slash (\) at the end of every line to
+be continued.
+
+<p>
+<font color=blue>
+<pre>
+class Student
+    properties
+        $name
+        @courses
+    /properties
+
+    method printDetails
+        print "Name: Student.name\n"
+        print "Courses: Student.courses\n"
+    /method
+
+    method enroll in $course
+        push (Student.courses, $course)
+    /method
+/class
+#########################################
+main
+
+    $student1 = new Student (name "Fred", courses "L548" "L505")
+
+    print "Input the courses which $student1.name is enrolled in.\n"
+    print "When finished, type X.\n"
+    $newcourse = &#60;STDIN&#62;
+    chomp $newcourse
+
+    while ($newcourse ne "X" && $newcourse ne "x")
+        $student1.enroll(in $newcourse)
+        $newcourse = &#60;STDIN&#62;
+        chomp $newcourse
+    /while
+
+    $student1.printDetails
+/main                     
+</pre>
+</font>
+<p>
+
+<b>Exercises</b>
+<p>
+Add further attributes to the  student class (phone number, email address, 
+degree, etc). Note: you need "\@" instead of "@" in the email address.
+(That's Perl's fault not Ezperl's!)
+<p>
+Create an array of students. Let users add new students to the array.
+Ask the user for the name of a student and then print his/her details.
+<p>
+Create a method creditHours  that computes the number of credit hours
+for a student assuming that every class is a three credit class.
+(Note: Ezperl does not support special variables such as $#array.
+The length of an array can be obtained by using it in a scalar
+context - same as in Perl.)
+<p>
+Create a class Employee that contains information
+about names, ages and positions. What could be useful methods
+for the class? 
+
+</body>
+</HTML>

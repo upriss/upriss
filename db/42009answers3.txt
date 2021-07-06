@@ -1,0 +1,138 @@
+Exercise 20
+
+CREATE OR REPLACE TYPE job2 AS OBJECT (
+      jobtitle varchar(20),
+      job_id int,
+      salary_amount int,
+      years_of_experience int,
+  MEMBER FUNCTION salary_fraction (n REAL) RETURN REAL,
+  MEMBER FUNCTION evaluate_qualification RETURN STRING
+);
+
+CREATE OR REPLACE TYPE BODY job2 AS
+   MEMBER FUNCTION salary_fraction(n REAL) RETURN REAL IS
+   BEGIN
+       RETURN self.salary_amount/n;
+   END salary_fraction;
+   MEMBER FUNCTION evaluate_qualification RETURN STRING IS
+   BEGIN
+      IF self.years_of_experience < 2 THEN
+         RETURN 'too bad';
+      ELSIF self.years_of_experience = 2 THEN
+         RETURN 'OK';
+      ELSE
+         RETURN 'great!';
+      END IF;
+   END evaluate_qualification;
+END;
+
+---
+
+Exercise 21
+
+CREATE TABLE job_table2 OF job2;
+INSERT INTO job_table2 VALUES('engineer',0,20000,1);
+INSERT INTO job_table2 VALUES('db programmer',1,30000,2);
+INSERT INTO job_table2 VALUES('analyst',2,40000,5);
+
+SELECT j.evaluate_qualification(), j.salary_fraction(12) 
+FROM job_table2 j;
+
+SELECT * FROM job_table2 j 
+WHERE j.evaluate_qualification() = 'OK' and j.salary_fraction(2) > 10000
+
+---
+
+Exercise 22
+
+
+ALTER TYPE person
+   ADD MEMBER FUNCTION print_name RETURN STRING
+   CASCADE;
+
+
+CREATE OR REPLACE TYPE BODY person AS
+   MEMBER FUNCTION print_name RETURN STRING IS
+   BEGIN
+       RETURN self.pname.last || ', ' || self.pname.first 
+       || ' ' || self.pname.middle;
+   END print_name;
+END;
+
+select p.print_name() from person_table p;
+
+---
+
+Exercise 23
+
+ALTER TYPE person
+   ADD MEMBER FUNCTION count_phone RETURN NUMBER
+   CASCADE;
+
+
+CREATE OR REPLACE TYPE BODY person AS
+   MEMBER FUNCTION print_name RETURN STRING IS
+   BEGIN
+       RETURN self.pname.last || ', ' || self.pname.first
+       || ' ' || self.pname.middle;
+   END print_name;
+   MEMBER FUNCTION count_phone RETURN NUMBER IS 
+   N REAL;
+   BEGIN
+      N:= 0;
+      IF self.pphone.businessph IS NOT NULL THEN
+          N:= N+1;
+      END IF;      
+      IF self.pphone.homeph IS NOT NULL THEN
+          N:= N+1;
+      END IF;      
+      IF self.pphone.mobileph IS NOT NULL THEN
+          N:= N+1;
+      END IF;      
+      RETURN N;
+   END count_phone;
+END;
+
+select p.print_name(), p.count_phone() from person_table p;
+
+---
+
+Exercise 24
+
+
+ALTER TYPE person
+   ADD MAP MEMBER FUNCTION sorting RETURN STRING
+   CASCADE;
+
+
+CREATE OR REPLACE TYPE BODY person AS
+   MEMBER FUNCTION print_name RETURN STRING IS
+   BEGIN
+       RETURN self.pname.last || ', ' || self.pname.first
+       || ' ' || self.pname.middle;
+   END print_name;
+   MEMBER FUNCTION count_phone RETURN NUMBER IS
+   N REAL;
+   BEGIN
+      N:= 0;
+      IF self.pphone.businessph IS NOT NULL THEN
+          N:= N+1;
+      END IF;
+      IF self.pphone.homeph IS NOT NULL THEN
+          N:= N+1;
+      END IF;
+      IF self.pphone.mobileph IS NOT NULL THEN
+          N:= N+1;
+      END IF;
+      RETURN N;
+   END count_phone;
+   MAP MEMBER FUNCTION sorting RETURN STRING  IS
+   BEGIN 
+       RETURN self.pname.last || ', ' || self.pname.first
+       || ' ' || self.pname.middle;
+   END sorting;
+END;
+
+
+
+

@@ -1,0 +1,223 @@
+1.1 Retrieve all lines from alice.txt that do not contain "the ". 
+
+Note: if you express "not" by using 
+	not keyword.search (line)
+then the line with 
+        print result.group(), ":", line,
+will produce an error message. (Because there is no result, therefore
+Python gets confused when you try to print it.) Therefore for this
+exercise you must use the first example that was given on the webpage.
+All other exercises can be done using the second example.
+
+#!/usr/bin/env python
+import re
+
+# open a file
+file = open("alice.txt","r")
+text = file.readlines()
+file.close()
+
+# searching the file content line by line:
+keyword = re.compile(r"the ")
+
+for line in text:
+    if not keyword.search (line):
+       print line,
+
+
+----
+
+Retrieve all lines that contain "the" with lower or upper case letters.
+
+#!/usr/bin/env python
+import re
+
+# open a file
+file = open("alice.txt","r")
+text = file.readlines()
+file.close()
+
+# searching the file content line by line:
+keyword = re.compile(r"the ", re.I)
+
+for line in text:
+    result = keyword.search (line)
+    if result:
+       print result.group(), ":", line,
+
+-----
+
+2.1 Retrieve lines that have two consecutive o's.
+
+#!/usr/bin/env python
+import re
+
+# open a file
+file = open("alice.txt","r")
+text = file.readlines()
+file.close()
+
+# searching the file content line by line:
+keyword = re.compile(r"oo")
+
+for line in text:
+    result = keyword.search (line)
+    if result:
+       print result.group(), ":", line,
+
+---
+
+2.2 Retrieve lines that contain a three letter string consisting of "s", 
+then any character, then "e", such as "she". 
+
+keyword = re.compile(r"s.e")
+
+---
+
+2.3 Retrieve lines with a three letter word that starts with s and ends 
+with e.
+
+keyword = re.compile(r"\bs\we\b")
+
+---
+
+2.4 Retrieve lines that contain a word of any length that starts with s 
+and ends with e. Modify this so that the word has at least four characters. 
+
+Any length: 
+keyword = re.compile(r"\bs\w*e\b")
+
+At least four characters:
+keyword = re.compile(r"\bs\w\w+e\b")
+
+---
+
+2.5 Retrieve lines that start with a. Retrieve lines that start with a and 
+end with n.
+
+Start with a:
+keyword = re.compile(r"^a")
+
+Start with a and end with n:
+keyword = re.compile(r"^a.*n$")
+
+---
+
+2.6 Retrieve blank lines. Think of at least two ways of doing this.
+
+keyword = re.compile(r"^$")
+
+The second method uses "not" and thus cannot use the result.group()
+statement:
+
+# searching the file content line by line:
+keyword = re.compile(r".")
+for line in text:
+     if not keyword.search(line):
+         print line,
+
+---
+
+2.7 Retrieve lines that do not contain the blank space character. 
+
+# searching the file content line by line:
+keyword = re.compile(r" ")
+for line in text:
+     if not keyword.search(line):
+         print line,
+
+---
+
+2.8 Retrieve lines that contain more than one blank space character. 
+
+keyword = re.compile(r" .* ")
+
+---
+
+3 Add a few lines with numbers etc. to the end of the alice.txt file so 
+that you can search for the following regular expressions: 
+
+3.1 an odd digit followed by an even digit (eg. 12 or 74) 
+
+keyword = re.compile(r"[13579][02468]")
+
+---
+
+3.2 a letter followed by a non-letter followed by a number 
+
+keyword = re.compile(r"[A-Za-z][^A-Za-z]\d")
+
+---
+
+3.3 a word that starts with an upper case letter 
+
+keyword = re.compile(r"\b[A-Z]\w*\b")
+
+---
+
+3.4 the word "yes" in any combination of upper and lower cases letters 
+
+keyword = re.compile(r"\byes\b", re.I)
+
+or 
+
+keyword = re.compile(r"\b[Yy][Ee][Ss]\b")
+
+---
+
+3.5 one or more times the word "the" 
+
+keyword = re.compile(r"(the )+")
+
+---
+
+3.6 a date in the form of one or two digits, a dot, one or two digits, a 
+dot, two digits 
+
+keyword = re.compile(r"\d\d?\.\d\d?\.\d\d")
+
+---
+
+3.7 a punctuation mark 
+
+keyword = re.compile(r"[\.,\?\!:;]")
+
+---
+
+4.1 Write a script that asks users for their name, address and phone 
+number. Test each input for accuracy, for example, there should be no 
+letters in a phone number. A phone number should have a certain length. 
+An address should have a certain format, etc. Ask the user to repeat the 
+input in case your script identfies it as incorrect. 
+
+#!/usr/bin/env python
+import re
+
+# the forbidden characters for names are:
+# characters that are not letters, spaces or .
+name_check = re.compile(r"[^A-Za-z\s\.]")
+
+name = raw_input ("Please, enter your name: ")
+while name_check.search(name):
+    print "Please enter your name correctly!"
+    name = raw_input ("Please, enter your name: ")
+
+# the forbidden characters for addresses are:
+# characters that are not word characters, spaces, "," or "."
+address_check = re.compile(r"[^\w\s\.,]")
+
+address = raw_input ("Please, enter your address: ")
+while address_check.search(address):
+    print "Please enter your address correctly!"
+    address = raw_input ("Please, enter your address: ")
+
+# the forbidden characters for phone numbers are:
+# characters that are not numbers, parentheses, spaces or hyphen
+phone_check = re.compile(r"[^0-9\s\-\(\)]")
+
+phone = raw_input ("Please, enter your phone: ")
+while phone_check.search(phone):
+    print "Please enter your phone correctly!"
+    phone = raw_input ("Please, enter your phone: ")
+
+

@@ -1,0 +1,115 @@
+<HTML>
+<HEAD>
+<TITLE>L548 Session 3</TITLE>
+</HEAD>
+<BODY>
+
+<b>Logical expressions</b>
+
+<p>
+<font color=blue>
+#!/usr/local/bin/perl -w<br>
+#<br>
+# if statement<br>
+#<br>
+print "Input first value:";<br>
+$a = &#60STDIN&gt ;<br>
+chomp $a;<br>
+print "Input second value:";<br>
+$b = &#60STDIN&gt ;<br>
+chomp $b;<br>
+if ($a and $b){<br>
+print "True\n";<br>
+}<br>
+else {<br>
+print "False\n";<br>
+}
+<p>
+</font>
+
+In the following expressions, input '1' (for 'true') and '0' (for
+'false') as values for $a and $b. Which expressions are true?
+Which expressions are logically equivalent?
+(To find out you can draw truth tables and/or use the program
+from above.)
+<p>
+1a) ($a and $b)<br>
+b) (not $a and $b)<br>
+c) (not ($a and $b))<br>
+d) ($a or $b)<br>
+e) ($a or not $b)<br>
+f) (not ($a or $b))<br>
+g) (not (not $a or not $b))<br>
+h) ($a and ($a or $b)) &#160; Does this really depend on $b?<br>
+2a) ($a and $b and $c)<br>
+b) ($a and $b or $c)<br>
+c) ($a and ($b or $c))<br>
+d) (($a and $b) or $c)<br>
+<p>
+3a) Write a script that asks someone to input their first name,
+last name and phone number. If the user does not type at least
+some characters for each of these, print "Do not leave any fields
+empty" otherwise print "Thank you". (Hint: if a variable is empty,
+its value will be "false".) <br>
+3b) Change the script so that the script prints "Thank you" if either
+the first name or the last name or the phone number is supplied.
+Print "Do not leave all fields empty" otherwise. <br>
+3c) Change the script so that only first name and last name are required.
+The phone number is optional. 
+<p>
+<b>Other logical expressions for if statements</b>
+<p>
+<font color=red>
+$a eq $b ##### Is $a equal to $b?<br>
+$a ne $b ##### Is $a not equal to $b?<br>
+$a == $b ##### Is $a numerically equal to $b?<br>
+$a != $b ##### Is $a numerically unequal to $b?<br>
+$a <= $b ##### Is $a smaller or equal to $b?<br>
+$a >= $b ##### Is $a larger or equal to $b?<br>
+$a < $b ##### Is $a smaller than $b?<br>
+$a > $b ##### Is $a larger than $b?<br>
+$a le $b ##### Does $a come before $b in the alphabet or is equal to $b?<br>
+$a ge $b ##### Does $a come after $b in the alphabet or is equal to $b?<br>
+$a lt $b ##### Does $a come before $b in the alphabet? <br>
+$a gt $b ##### Does $a come after $b in the alphabet? <br>
+<p>
+</font>
+Note: usually "eq" and "ne" work even for numbers. So, you can use them
+instead of "==" and "!=".
+<p>
+<b>Exercises:</b>
+<p>
+Write a program that asks a user to input a color.
+If the color is black or white, output "The color
+was black or white". If it starts with a letter
+that comes after "k" in the alphabet,
+output "The color starts with a letter that comes after "k" in the 
+alphabet". (Optional: consider both capitalized and non-capitalized
+words. Note: the order of the alphabet in Unix and Perl 
+is: symbols, numbers, upper case letters, lower case letters.)
+<p>
+Write a program that asks a user to input a number.
+If the number equals "5",
+output "My lucky number". 
+If the number is larger than 10, output "What a large number!". 
+In all other cases, output "That's not my lucky number." 
+<p>
+
+<b>Optional Material:</b>
+<p>
+Perl evaluates expressions from left to right. Consider the 
+following expressions:
+<p>
+a) if ($a++ and $b++) {}<br>
+b) if ($a++ or $b++) {}<br>
+<br>
+If you print the values of $a and $b after the if statement is finished
+then in some cases only the value of $a is increased, in some cases
+both are. Try it! What is the underlying rule?
+The conlusion is that programming languages can
+behave somewhat differently than plain logic would suggest.
+<p>
+
+
+</BODY>
+</HTML>

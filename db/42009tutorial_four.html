@@ -1,0 +1,174 @@
+<html>
+<!-- DO NOT EDIT DO NOT EDIT DO NOT EDIT DO NOT EDIT DO NOT EDIT -->
+<head>
+<title>OODB</title> 
+</head>
+<body>
+Tutorial 4
+<h3>4.1 About attribute and type names</h3>
+There seems to be a difference between tables
+and types with respect to attribute names. It is not possible
+to create types where an attribute name is the same as the
+name of its type. For example,
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   CREATE TYPE somename (person person);<br>
+</font>
+<p>causes an error message. But 
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   CREATE TABLE somename (person person);<br>
+</font>
+<p>is ok. The same problem holds for references (person REF person). 
+<p>To be on the safe side, it is probably always a good idea to choose
+distinctive, meaningful names for attributes and types and to 
+use different names for types, tables and attributes. 
+<p><p><hr><p><h3>4.2 Collection Types</h3>
+Oracle supports two collection datatypes: varrays and nested tables.
+Varrays are variable-length ordered lists (or arrays).
+A maximum size of the varray must be specified but can be changed later.
+Nested tables are tables within tables. In contrast to varrays,
+nested tables are unordered lists. Varrays and nested tables are
+defined differently but very similar to use. 
+<p>For example, people can have several phone numbers. Different 
+categories of phone numbers, such as mobile phone versus home phone,
+should be stored in different columns. But different numbers
+of the same category (e.g., if someone has two mobile phones)
+could be stored in a single column in a varray or nested table.
+<p>Using varrays, a list of phone numbers can be stored in a column
+"phone" of a table company1. Assuming that no company would 
+have more than 10 numbers, the varray is limited to 10 elements
+(VARRAY(10)).
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   CREATE TYPE phone_array AS VARRAY(10) OF VARCHAR2(12);<br>
+&nbsp; &nbsp; &nbsp;   CREATE TABLE company1 (<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      name VARCHAR2(20),<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      phone phone_array<br>
+&nbsp; &nbsp; &nbsp;   );<br>
+&nbsp; &nbsp; &nbsp;   INSERT INTO company1 VALUES (<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      'abc', phone_array('243-4758','485-2534')<br>
+&nbsp; &nbsp; &nbsp;   );<br>
+</font>
+<p><table border=1>
+<tr><td>name<td>phone
+<tr><td>'abc'<td> 
+<table border =1> 
+<tr><td>'243-4758'
+<tr><td>'485-2534'
+</table>
+</table>
+<p>The following code shows the same example but uses a nested table.
+In the nested table, there is no limit of 10 numbers. But it 
+has to be declared that the column "phone" of "company2" is a
+nested table. A storage table phone_nr_table, which stores the
+actual values, must be named (although this table cannot be used
+for anything). In this case, phone_nested is a table of just
+one column (VARCHAR). But types with multiple columns can also be nested
+(see Exercise 25).
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   CREATE TYPE phone_nested AS TABLE OF VARCHAR2(12); <br>
+&nbsp; &nbsp; &nbsp;   CREATE TABLE company2 (<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      name VARCHAR2(20),<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      phone phone_nested<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      )<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      NESTED TABLE phone STORE AS phone_nr_table;<br>
+&nbsp; &nbsp; &nbsp;   INSERT into company2 VALUES (<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      'abc', phone_nested('243-4758','485-2534')<br>
+&nbsp; &nbsp; &nbsp;   );<br>
+</font>
+<p><b>Exercises</b>
+<p><ul>
+<li> 25. Create a type phone_code that has area_code and local_number
+as attributes. Create a type phone_numbers as a table of phone_code.
+Create a table company3 that has the attributes name and phone,
+where phone is of type phone_numbers. 
+</ul>
+<p><table border=1>
+<tr><td>name<td>phone
+<tr><td>'abc'<td> 
+<table border =1> 
+<tr><th>area_code<th>localnumber
+<tr><td>'0131'<td>'243-4758'
+<tr><td>'0131'<td>'485-2534'
+</table>
+</table>
+<p><ul>
+<li> 26. Insert several rows into company3.
+Note that in contrast to the insert statement for company2,
+you now have one more level "phone_code" which must be used when
+constructing the values. 
+</ul>
+<p><ul>
+<li> 27. Some questions to think about:
+Which Normalform is violated when using varrays or nested tables?
+An <a href="http://www.dba-oracle.com/art_9i_denormal.htm">Oracle consulting
+website</a> discusses "planned data denormalization". It claims 
+that the only purpose of normalization is saving disk space. 
+What are other purposes that are sometimes attributed to normalization?
+Do they still pose a problem?
+</ul>
+<p><p><hr><p><h3>4.3 Multi-level collection types and other advanced features</h3>
+<ul>
+<li> Nesting and varrays can be applied repeatedly and form so-called "multilevel
+collection types". That means that varrays of nested tables, 
+nested tables of nested tables, varrays of user types that may
+have collection types as attributes and so on can all be created.
+(This will not be discussed further in this tutorial.)
+</ul>
+<p><ul>
+<li> It is possible to use references within nested tables. But in that
+case insertion of rows requires some advanced functions, which have not
+yet been discussed in this tutorial. A simple trick is not to use
+references within nested tables but instead to use standard relational
+techniques (i.e., foreign keys).
+</ul>
+<p><ul>
+<li> The NESTED TABLE statement is only used for tables not for types
+because it refers to the storage requirements for the data. Thus if
+a type has an attribute which is a nested table, the NESTED TABLE statement
+is not mentioned in the creation of the type but instead in the
+creation of its object table.
+</ul>
+<p><b>Optional Exercise</b>:
+<p><ul>
+<li> Why is it difficult to insert rows into a nested table which has references?
+</ul>
+<p><p><hr><p><h3>4.4 Select statements for nested tables</h3>
+There are two types of queries:
+queries that retrieve objects in a nested format showing all their
+types and queries that show the data in an un-nested format (just the
+data, not the types).
+<p>The following examples work for both company1 (using varrays) and
+company2 (using nested tables). To select all data and types:
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   SELECT * from company1;<br>
+</font>
+<p>The SQL function TABLE() un-nests the nested table. In the following
+example, "c" is an alias for company1, "c.phone" is the nested table
+in company1. The un-nested c.phone table is assigned its own alias "t".
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   SELECT c.name, t.* from company1 c, TABLE(c.phone) t;<br>
+</font>
+<p>An equivalent version is 
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   SELECT name, t.* from company1, TABLE(SELECT phone FROM company1) t;<br>
+</font>
+<p>Oracle provides a default column name, COLUMN_VALUE, for the column
+of a nested table that does not have a name:
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   SELECT t.COLUMN_VALUE from company1 c, TABLE (c.phone) t;<br>
+</font>
+<p><b>Exercises</b>
+<p><ul>
+<li> 28. Use the table company3 from the previous exercises. Write
+SQL statements for the following: <br>
+Select all phone numbers which belong to a given company name. Select
+all companies which have a certain area_code. Select all localnumbers.
+</ul>
+<p><p>

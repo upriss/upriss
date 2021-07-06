@@ -1,0 +1,219 @@
+<html>
+<title>Exercises</Title>
+
+<body>
+
+<li><a href="#graphics">Graphics Exercises</a>
+<li><a href="#security">Security Exercises</a>
+<li><a href="#xml1">XML Exercise</a>
+<li><a href="#xml2">XML Exercise</a>
+<li><a href="#dom">DOM/SAX Exercises</a>
+<li><a href="#regular">Regular Expression exercises</a>
+<li><a href="#unicode">Unicode questions</a>
+
+<a name="graphics">
+<h3>Graphics Exercises</h3>
+
+1) A company wants to generate ER diagrams from their databases and
+wants to publish them on the web. What graphics format could be used
+to display the diagrams on web pages? What software tools would be
+involved in creating the diagrams: list all required tools starting
+with the database software.
+
+<p>
+
+2) Write SVG-like tags for a stop sign. Since you don't have the SVG
+documentation available, you are allowed to invent the tag names and
+attributes used in the tags. You can leave the attribute values empty
+apart from the colour attributes. Include only the tags for the stop
+sign, not the general tags that are at the start of every SVG
+document.
+
+
+<a name="security">
+<h3>Security Exercises</h3>
+
+1) Below are two adjacent lines from a server-side script. 
+<pre>
+$user = param("user"); 
+$db->prepare("SELECT $user from this_table;"); 
+</pre>
+Is this code secure? Provide a reason for your answer. 
+
+<p>
+
+2) An inexperienced web developer installs a script from CPAN on a webserver. 
+Because of this web developer's action, a few weeks later the security of the 
+webserver is compromised. What is a likely possibility for the break-in? How did the 
+hacker find out about the security problem on the server? 
+
+<p>
+
+3) In PHP the directive "register globals" means that all sorts of
+variables are automatically inserted into a script. For example, if
+"register globals" is "on", a variable "username" from an HTML form,
+can simply be printed as "$username" without using "$_REQUEST[]". In
+early versions of PHP, the default for "register globals" was set to
+"on".  But starting with version 4.2, the default for "register
+globals" has been set to "off". Provide one argument for why "register
+globals" should be "on" and one argument for why it is better to turn
+this directive off. If PHP were to require all variables to be
+initialised, would it then be secure to leave "register globals" on?
+
+
+<a name="xml1">
+<h3>XML Exercise</h3>
+
+Create an XML format for a cooking recipe. It should contain:
+
+<ul>
+<li>A list of ingredients. Each ingredient should have a name and an amount
+(e.g. "100g").
+<li>A list of cooking instructions (e.g. "Bring water to a boil",
+"Add sugar", "Stir for 2 minutes"). Each cooking instruction should
+be numbered, so that the instructions can be processed in sequence. 
+</ul>
+
+If an ingredient is used in a cooking instruction, this relationship
+should be marked-up.
+<p>
+The example used in this exercise should be:
+"Cooking pasta with tomato sauce".
+
+<a name="xml2">
+<h3>XML Exercise</h3>
+
+Which of the following XML documents are well-formed:
+
+<p>1) 
+&#60;module&#62;&#60;/module&#62;
+
+<p>2) 
+&#60;module&#62;&#60;lecture&#62;&#60;/lecture&#62;&#60;/lecture&#62;
+&#60;lecture&#62;&#60;/module&#62;
+
+<p>3) 
+&#60;module&#62;&#60;lecture&#62;&#60;/lecture&#62;&#60;lecture/&#62;
+&#60;practical /&#62;&#60;/module&#62;
+
+<p>4) 
+&#60;module&#62;
+&#60;/lecture&#62;&#60;lecture/&#62;&#60;practical&#62;&#60;/module&#62;
+
+<p>5) 
+&#60;module&#62;&#60;lecture&#62;&#60;slide Nr="1"/&#62;&#60;/lecture&#62;
+&#60;/module&#62;
+
+<p>6) 
+&#60;module&#62;&#60;lecture&#62;&#60;slide Nr=1&#62;&#60;/lecture&#62;
+&#60;/slide&#62;&#60;/module&#62;
+
+<p>7) 
+&#60;module&#62;
+&#60;lecture&#62;
+&#60;slide Nr="1"/&#62;
+&#60;image&#62;&#60;jpg/&#62;&#60;/image&#62;
+&#60;/lecture&#62;<br>
+&#60;practical&#62;&#60;slide Nr="2" size="12" &#62;
+&#60;/slide&#62;
+&#60;/practical&#62;
+&#60;/module&#62;
+
+<p>8) 
+&#60;module&#62;&#60;lecture&#62;First lesson with &#60;exercise&#62;
+One&#60;/exercise&#62;
+&#60;/lecture&#62;&#60;/module&#62;
+
+<p>9) 
+&#60;module&#62;&#60;lecture&#62;&#60;lecture&#62;
+&#60;/lecture&#62;&#60;/lecture&#62;&#60;/module&#62;
+
+<p>10) 
+&#60;module&#62;&#60;lecture&#62;This is a square bracket: &amp;#60;
+&#60;/lecture&#62;&#60;/module&#62;
+
+<p>11) 
+&#60;module&#62;C &amp; IT&#60;/module&#62;
+
+<p>12) 
+&#60;html&#62;&#60;h3&#62;Hello&#60;p&#62; World!
+&#60;/h3&#62;&#60;/html&#62;
+
+<p>13) 
+&#60;html&#62;&#60;img src="file.gif"&#62;&#60;/html&#62;
+
+<p>14) 
+&#60;html&#62;&#60;font color=blue&#62;Hello&#60;/font&#62;&#60;/html&#62;
+
+<a name="dom">
+<h3>DOM/SAX Exercises</h3>
+
+With respect to an XHTML document, write the DOM/SAX statements that retrieve ...
+
+<ol>
+<li>all level 3 headings
+<li>all URLs that are linked to
+<li>the link text of the A tags
+<li>all child nodes of the first paragraph
+<li>all child nodes of the second paragraph
+<li>all attributes and their values of an image tag
+</ol>
+
+Optional: 
+outline a pseudocode sequence that parses a complete XHTML document and
+stores it in a tree data structure.
+
+<a name="regular">
+<h3>Regular Expression exercises</h3>
+
+Write a regular expression for
+
+<ol>
+<li>email addresses
+<li>phone numbers (with area code)
+<li>punctuation marks: ?, !, .
+<li>a three word sentence
+<li>a string that contains at least one word character and at least
+one non-word character <br> (note: the pipe symbol "|" means "or")
+<li>nouns in a sentence (i.e. words preceded by "the" or "a")
+<li>a sequence of 0's and 1's that is exactly 10 characters long
+<li>all filenames other than ones with extension ".txt"
+<li>a word that is repeated (e.g. "the the")
+</ol>
+
+Write the split/implode statements that split a sentence into words
+and then join the words with a comma between.
+
+<p>
+
+XML processing with regular expressions: <br>
+(Note: "+?" means "any number of characters, but as little as possible")
+<ol>
+<li>level 3 headings
+<li>URLs that are linked to
+<li>the link text of the A tags
+<li>all attributes and their values of an image tag
+</ol>
+
+<a name="unicode">
+<h3>Unicode questions</h3>
+
+<ol>
+<li>What is the Unicode code for happy faces? What is the HTML numeric
+character reference for happy faces?
+<li>Can users define their own Unicode characters (for things such as 
+a company logo)?
+<li>What is the difference between Unicode and UTF8?
+<li>How much more space is required to represent ASCII characters in
+UTF32 compared to UTF8? What about characters outside the basic 
+multilingual plane?
+<li>Are fonts, spell checkers and formatting instructions part of Unicode?
+<li>There is a one-to-one correspondence between which two out of these
+three:<br> code point, glyph, code element.
+<li>In future versions of the Unicode standard, will any of the existing
+code points be reassigned for new purposes?
+</ol>
+
+</body>
+</html>
+

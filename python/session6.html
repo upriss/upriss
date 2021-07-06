@@ -1,0 +1,286 @@
+<HTML>
+<TITLE>L548: Session 6</Title>
+
+<body>
+<h4>CGI - Common Gateway Interface</h4>
+
+<h4>1) A simple CGI script</h4>
+
+CGI scripts do not run on any webserver. In SLIS, CGI scripts run
+on "ella". The following instructions are correct for ella.
+Other servers may be set up slightly differently.
+On ella you should create two directories: "www" and a subdirectory
+of "www" called "cgi". Both directories should be world readable
+and executable. All html files should be in the www directory,
+all cgi files in the cgi directory. The URL for
+the html files is<br>
+<font color=blue>http://ella.slis.indiana.edu/~username/filename</font>.
+The URL for cgi files is<br>
+<font color=blue>http://ella.slis.indiana.edu/~username/cgi/filename</font>
+<br>
+(Instead of putting the cgi files into the cgi directory they can
+also be located somewhere else. But then they must be given a
+".cgi" extension.)
+
+<h4>Exercises</h4>
+
+1.1) Save some simple html code such as
+<p>
+<font color=blue>
+&#60;HTML&#62;<BR>
+&#60;HEAD&#62;<BR>
+&#60;TITLE&#62;
+Hello World&#60;/TITLE&#62;<BR>
+&#60;/HEAD&#62;<BR>
+&#60;BODY&#62;<BR>
+&#60;H1&#62;Greetings&#60;/H1&#62;<BR>
+&#60;/BODY&#62;<BR>
+&#60;/HTML&#62;<BR>
+</font>
+as a file in your www directory on ella. Look at it through a browser.
+
+<p>
+
+1.2) Save some simple cgi code such as
+<p>
+<font color=blue>
+#!/usr/bin/env python<br>
+<br>
+import cgi<br>
+print "Content-Type: text/html\n"<br>
+<br>
+print """<br>
+&#60;HTML&#62;<BR>
+&#60;HEAD&#62;<BR>
+&#60;TITLE&#62;Hello World&#60;/TITLE&#62;<BR>
+&#60;/HEAD&#62;<BR>
+&#60;BODY&#62;<BR>
+&#60;H1&#62;Greetings&#60;/H1&#62;<BR>
+&#60;/BODY&#62;<BR>
+&#60;/HTML&#62;<BR>
+"""<br>
+</font>           
+in your cgi directory. Run it on the command-line to check the syntax.
+Change file permissions to executeable ("chmod 700 filename"
+or "chmod u+x filename").
+Look at it through your browser.
+<p>
+
+<h4>2) Tips for dealing with an "Internal Server error":</h4>
+1) The first line of the script must contain the python command 
+(#!/usr/bin/env python). There must not be a blank line (or anything
+else) before the first line.<br>
+2) The line <font color="blue">import cgi</font> 
+must be somewhere at the beginning.<br>
+3) The very first print statement of your script must be 
+<font color="blue">print "Content-Type: text/html\n"</font><br>
+4) The file permissions must be set to executable (chmod u+x filename).<br>
+5) The script should be executed on the 
+command line to check the syntax before looking at it through the
+browser.<br>
+
+<h4>3) Processing forms with CGI</h4>
+
+Normal HTML:
+<p>
+<table border=1>
+
+<tr><td><b>browser</b><td><b>server
+<tr><td>user requests <br>
+html document <td>
+<tr><td><td> server finds HTML file <br>
+ and sends page back
+</table>
+<p>
+CGI:
+<p>
+<table border =1>
+<tr><td><b>browser</b><td><b>server
+<tr><td>user requests  <br> a form <td>
+<tr><td><td>      server finds the HTML form <br>
+ and sends it back to user
+<tr><td>user fills out form <td>
+<tr><td><td>         CGI application executes<br>
+ program and sends results<br>
+ back to user
+</table>
+
+<h4>Exercises</h4>
+
+A sample form looks like this:
+<p>
+<font color=blue>
+&#60;form action="http://ella.slis.indiana.edu/~username/cgi/example" 
+method="post"&#62; <p>
+&#60;input type="radio" name="drink" value="tea" checked &#62;   
+Tea &#60;br&#62; <br>
+&#60;input type="radio" name="drink" value="coffee" &#62; Coffee &#60;br&#62; <br>
+&#60;input type="radio" name="drink" value="hot chocolate" &#62; Hot Chocolate
+&#60;p&#62; <p>
+&#60;input type="submit" value="Place order"&#62; <br>
+&#60;/form&#62; <p>
+</font>
+
+3.1) Include the form in an html document on ella. Don't forget to 
+change the URL of the form action so that it points to your 
+cgi directory. (Other form elements can be found in this
+<a href="http://www.htmlgoodies.com/tutors/forms.html">HTML forms 
+tutorial</a>)
+
+<p>
+This is the source code of a cgi file that processes the form:
+<p>
+<font color=blue>
+#!/usr/bin/env python<br>
+#<br>
+######### don't change the following three lines: ###########<br>
+import cgi<br>
+print "Content-Type: text/html\n"<br>
+form = cgi.FieldStorage()<br>
+<br>
+## add a form.getvalue for each of the names in your form: ##<br>
+drink = form.getvalue("drink")<br>
+<br>
+########## start of HTML code ###########<br>
+print """ <br>
+&#60;html&#62;<br>
+&#60;head&#62;
+        &#60;title&#62;What would you like to drink&#60;/title&#62;
+&#60;/head&#62;<br>
+&#60;body&#62;<br>
+&#60;h4&#62;Your drink: &#60;/h4&#62;&#60;p&#62;<br>
+""" <br>
+############ end of HTML code #############<br>
+<br>
+if drink == "tea":<br>
+&nbsp; &nbsp;        print "You requested tea."<br>
+elif drink == "coffee":<br>
+&nbsp; &nbsp;        print "You requested coffee."<br>
+elif drink == "hot chocolate":<br>
+&nbsp; &nbsp;        print "You requested hot chocolate."<br>
+else:<br>
+&nbsp; &nbsp;        print "You need to select a drink!"<br>
+<br>
+########### start of HTML code ###########<br>
+print """  <br>
+&#60;p&#62;Thank you for your visit. Please come again. &#60;p&#62;<br>
+&#60;/body&#62;&#60;/html&#62;<br>
+""" <br>
+############# end of HTML code ##############<br>
+</font>
+<br>
+3.2) Save the cgi file. Run it on the command line to check for 
+syntax errors. 
+<p>
+3.3) Change the form method (in the html file) to "get". Reload the
+form in your browser. Then submit the form.
+Can you notice a difference in the address field of the browser? 
+<p>
+3.4) Add a checkbox to the form (such as "Do you want milk? Yes/No")
+and a text area where customers can type in what kind of cake they
+would like to order.
+Change your cgi script so that it includes these in its reply,
+such as "you requested tea with milk", "sorry we are out of
+chocolate cake". The checkbox and text area must have distinct
+names in the form. You need a line with form.getvalue() in your cgi file
+for each name in your html form.
+
+<h4>4) CGI without forms</h4>
+
+The parameters that are passed to a CGI file do not need to come from
+a form. They can also be added to the URL in the following manner:
+<br>
+<font color=blue>
+&#60;A HREF="http://ella.slis.indiana.edu/~upriss/cgi/example?drink=tea"&#62;
+</font>
+<br>
+If the form uses the "get" method, you can see the parameters.
+Several parameters can be passed to a CGI file. 
+They are separated by a &amp symbol. No space is allowed after the "?".
+Blanks should be represented by "+".
+<br>
+<font color=blue>
+&#60;A HREF="http://ella.slis.indiana.edu/~upriss/cgi/example?drink=hot+chocolate"&#62;
+</font>
+
+<h4>Exercises</h4>
+
+4.1) Try using your cgi file by adding the parameters to the URL.
+See what happens if the parameters are not tea or coffee or
+hot chocolate.
+<p>
+4.2) Write an HTML file that does not contain a form but 
+contains three links that send URLs with attached parameters
+"tea", "coffee", "hot chocolate" to the cgi file. (In this
+manner you can write cgi files that communicate with other 
+cgi files on the web.)
+<p>
+4.3) (optional) Choose a search engine on the web and analyse how
+they attach the search paramaters to the URL. Write a form that
+sends data to that search engine.
+
+<h4>5) Optional: Debugging</h4>
+
+While it is easy to catch syntax errors (because the script can be
+executed from the command line), it can be difficult to catch runtime
+errors, such as missing input, missing files etc. The following example
+shows how "try" can be put around a block of code. Any runtime errors
+in this block will be caught by python and will be displayed on the
+browser.
+<p>
+<font color=blue>
+#!/usr/bin/env python<br>
+#<br>
+######### don't change the following six lines: ###########<br>
+import cgi<br>
+print "Content-Type: text/html\n"<br>
+form = cgi.FieldStorage()<br>
+import sys<br>
+import traceback<br>
+sys.stderr = sys.stdout<br>
+<br>
+## add a form.getvalue for each of the names in your form: ##<br>
+drink = form.getvalue("drink")<br>
+<br>
+########## start of HTML code ###########<br>
+print """<br>
+&#60;html&#62;<br>
+&#60;head&#62; &#60;title&#62;What would you like to drink?
+&#60;/title&#62; &#60;/head&#62;<br>
+&#60;body&#62;<br>
+&#60;h4&#62;Your drink: &#60;/h4&#62;&#60;p&#62;<br>
+"""<br>
+########## end of HTML code ###########<br>
+<br>
+try:<br>
+&nbsp; &nbsp;    if drink == "tea":<br>
+&nbsp; &nbsp;&nbsp; &nbsp;    print "You requested tea."<br>
+&nbsp; &nbsp;        elif drink == "coffee":<br>
+&nbsp; &nbsp;&nbsp; &nbsp;    print "You requested coffee."<br>
+&nbsp; &nbsp;        elif drink == "hot chocolate":<br>
+&nbsp; &nbsp;&nbsp; &nbsp;    print "You requested hot chocolate."<br>
+&nbsp; &nbsp;        else:<br>
+&nbsp; &nbsp;&nbsp; &nbsp;    print "You must choose a drink"<br>
+<br>
+except:<br>
+&nbsp; &nbsp;    print "\n\n&#60;PRE&#62;"<br>
+&nbsp; &nbsp;    traceback.print_exc()<br>
+&nbsp; &nbsp;    print "&#60;/PRE&#62;"<br>
+<br>
+########## start of HTML code ###########<br>
+<br>
+print """<br>
+&#60;p&#62;Thank you for your visit. Please come again. &#60;p&#62;<br>
+&#60;/body&#62;&#60;/html&#62;<br>
+"""<br>
+########## end of HTML code ###########<br>
+</font>
+<p>
+Change 'elif drink == "hot chocolate":' to 
+'elif drink1 == "hot chocolate":' and see what happens.
+
+
+
+</body>
+</HTML>
+

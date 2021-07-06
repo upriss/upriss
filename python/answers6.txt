@@ -1,0 +1,81 @@
+3.4) Add a checkbox to the form (such as "Do you want milk? Yes/No")
+and a text area where customers can type in what kind of cake they
+would like to order. Change your cgi script so that it includes these
+in its reply, such as "you requested tea with milk", "sorry we are out
+of chocolate cake". The checkbox and text area must have distinct
+names in the form. You need a line with form.getvalue() in your cgi
+file for each name in your html form.
+
+#!/usr/bin/env python
+#
+######### don't change the following three lines: ###########
+import cgi
+print "Content-Type: text/html\n"
+form = cgi.FieldStorage()
+
+## add a form.getvalue for each of the names in your form: ##
+drink = form.getvalue("drink")
+milk = form.getvalue("milk")
+cake = form.getvalue("cake")
+
+########## start of HTML code ###########
+print """
+<html>
+<head> <title>What would you like to drink</title> </head>
+<body>
+<h4>Your drink: </h4><p>
+"""
+############ end of HTML code #############
+
+if drink == "tea":
+    print "You requested tea"
+elif drink == "coffee":
+    print "You requested coffee"
+elif drink == "hot chocolate":
+    print "You requested hot chocolate"
+else:
+    print "You need to select a drink!"
+
+if milk == "yes":
+    print " with milk.<br>"
+else:
+    print ".<br>"
+
+if cake:
+    print "Sorry, we are out of", cake+ "."
+
+
+########### start of HTML code ###########
+print """
+<p>Thank you for your visit. Please come again. <p>
+</body></html>
+"""
+############# end of HTML code ##############
+
+
+
+-----
+
+4.2) Write an HTML file that does not contain a form but contains three 
+links that send URLs with attached parameters "tea", "coffee", "hot 
+chocolate" to the cgi file. 
+
+<html>
+<head>
+<title>File that connects to a CGI program</title>
+</head>
+<body>
+
+<h3>What would you like to drink?</h3>
+
+<a href="http://shakti.lib.indiana.edu/~upriss/cgi/example1?drink=tea">
+Tea</a>
+<br>
+<a href="http://shakti.lib.indiana.edu/~upriss/cgi/example1?drink=coffee">
+Coffee</a>
+<br>
+<a href="http://shakti.lib.indiana.edu/~upriss/cgi/example1?drink=hot+chocolate">
+Hot Chocolate</a>
+
+
+</body>

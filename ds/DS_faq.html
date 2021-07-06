@@ -1,0 +1,44 @@
+<HTML lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/*html*; charset=UTF-8" />
+<title>Tipps</title>
+</head>
+<body>
+
+<h3>Tipps für SetlX in LON-CAPA</h3>
+
+Verwenden Sie keine Umlaute.
+
+
+<h3>Tipps für SetlX auf Windows-Computern</h3>
+
+<ul>
+<li>Wenn load() nicht funktioniert: Im Pfad benötigen Sie eventuell jeweils 
+doppelte Schrägstriche (C:\\Users\\Public\\setlx\\truthtable.stlx). 
+Außerdem sollten Sie darauf achten, ob die Datei eventuell eine nicht-sichtbare
+Endung ".txt" hat.
+<li>Wenn Copy/Paste nicht funktioniert: Haben Sie multiLineMode(true);
+ausgeführt?
+</ul>
+
+<h3>Tipps für SetlX auf Mac-Computern</h3>
+
+Öffnen Sie ein Terminal-Fenster (in Programme/Dienstprogramme).
+Tippen Sie in das Terminal-Fenster <font color=blue>cd</font> gefolgt von dem Pfad zu Ihrem setlX-Ordner. Also
+z.B. <font color=blue>cd Desktop/setlx</font>. Danach führen Sie setlX aus mit <font color=blue>./setlX -m</font>.
+Wenn Sie in setlX die Pfeiltasten verwenden wollen um vorhergehende Befehle ändern zu können, müssen
+Sie das Programm <font color=blue>rlwrap</font> installieren.
+
+<p>
+
+Wenn Sie <font color=blue>rlwrap</font> nicht installiert haben, ist am einfachsten, wenn Sie Ihren Code in einer Datei 
+(z.B. als <font color=blue>code.stlx</font>) in dem gleichen Ordner speichern, wo setlX installiert ist. 
+Sie können die Datei mit <font color=blue>./setlX -m DATEINAME</font>, also z.B. <font color=blue>./setlX -m code.stlx</font>
+ausführen. Bei Dateiausführung sehen Sie aber nur Ergebnisse, wenn Sie print-Befehle angeben, z.B. 
+<font color=blue>5+6;</font> zeigt nichts an. <font color=blue>print(5+6);</font> zeigt etwas an.
+
+<p>Achten Sie darauf, dass Ihnen das Betriebssytem eventuell nicht den vollen Dateinamen anzeigt. Wenn setlX Ihre
+Datei nicht finden kann, geben Sie <font color=blue>ls</font> im Terminal-Fenster
+in dem Ordner ein, wo Ihre Datei gespeichert ist, um
+zu sehen, welches der tatsächlich gespeicherte Dateiname ist. Mit <font color=blue>mv ALTERDATEINAME NEUERDATEINAME</font>
+können Sie Ihre Datei umbenennen.

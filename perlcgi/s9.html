@@ -1,0 +1,287 @@
+<HTML>
+<TITLE>Part 9</Title>
+
+<body>
+
+<h3>1 Perl modules(libraries)</h3>
+
+<h4>1.1 Modules</h4>
+
+A (Perl) module is a Perl script stored in a file by itself and 
+named "packagename.pm". The last executed line in a module must be 
+<font color=blue>return 1;</font>. A package can be used in a different 
+file by including <font color=blue>use packagename;</font> at the beginning 
+of the file. Examples of modules are CGI.pm and IO.pm.
+The path for modules is stored in the <font color=blue>@INC</font> array. 
+Directories can be added to this path via the PERL5LIB environment variable
+or via <font color=blue>use lib '/home/username/somedirectory'</font>.
+
+<h4>1.2 Exercises</h4>
+
+1) Create a module called 'Hello.pm' and save it in a directory 'perl_lib' under
+your home directory. Write a subroutine called 'sayhello' within Hello.pm,
+which prints "Hello World". Write a perl script in a different directory
+that uses this subroutine.
+
+<h4>1.3 CPAN</h4>
+
+A large set of freely available modules (or libraries) exist for Perl
+at CPAN (see <a href="http://www.cpan.org">CPAN</a>).
+If a module does not already exist in a local installation, it can be 
+downloaded from CPAN. The command for downloading and installing modules is<br>
+<font color=blue>perl -MCPAN -e 'install MODULENAME'</font>.<br>
+(If you do not have root access to the machine, you'll need something
+like<br>
+<font color=blue>
+perl Makefile.PL LIB=/home/username/somedir PREFIX=/home/username/somedir<br>
+make test<br>
+make<br>
+make install<br>
+</font>
+where "username" is your username and "somedir" is some directory.
+You may also need to set the PERL5LIB environment variable to your
+local directory, but you can try it without first.
+<p>
+Modules exist for almost everything, such as database connections,
+HTML parsing (HTML.pm, LWP.pm), operating system specific features,
+networking, mail, encryption, language processing and graphics.
+Most of the modules use object-oriented Perl (see week 12).
+
+<h4>1.4 Exercises</h4>
+
+2) Have a look at CPAN. You can browse through the modules at 
+<a href="http://search.cpan.org">CPAN Search</a>. Can you find the 
+CGI::Session module? Can you find out from the FAQ, how to check
+for locally installed modules? 
+
+<h3>2 DBI</h3>
+
+Perl modules for databases normally consist of two parts:
+a database independent interface (DBI.pm) and a 
+database specific database driver (DBD.pm for generic use;
+Mysql.pm for Mysql; Pg.pm for Postgres, Oracle.pm for Oracle etc). 
+<p>
+Database interfaces support the following tasks: 
+<li>connect to the database, 
+<li>prepare a query (as a string),
+<li>execute the query, 
+<li>fetch the results (either row by row or as an array)
+<li>finish the query (so that the database can clean up its buffers, 
+this is optional)
+<li>disconnect from the database 
+<p>
+Below are examples for accessing a Mysql database (without or with HTML
+Templates) and for Postgres. There are no exercises for this section
+because not all students have database accounts. 
+
+<h4>2.1 Mysql without HTML Templates</h4>
+
+Note: This example expects a database called "yourdb" for a user "u123",
+a password "password" and a table "this_table". 
+<p>
+<font color=blue>
+#!/usr/local/bin/perl -w<br>
+########################<br>
+use CGI qw(:standard -debug); <br>
+use Mysql;<br>
+use DBI;<br>
+########################<br>
+print header();<br>
+print &#60;&#60;EOS;<br>
+&#60;html&#62;<br>
+&#60;head&#62; &#60;title&#62;DB&#60;/title&#62; 
+&#60;/head&#62; &#60;body&#62;<br>
+EOS<br>
+<br>
+$db = DBI->connect('dbi:mysql:yourdb;host=zeus.napier.ac.uk',
+                   'u123', 'password') || die "Cannot connect to database";<br>
+$query = $db->prepare( qq { SELECT * from this_table;} );<br>
+$query->execute();<br>
+<br>
+print "&#60;table border=1&#62; &#60;tr&#62;";<br>
+foreach $i (@{$query->{NAME}}) {<br>
+    print "&#60;th&#62; $i ";<br>
+}<br>
+while (@row = $query->fetchrow()) {<br>
+    print "&#60;tr&#62;";<br>
+    foreach $col (@row) {<br>
+        if ($col eq "") { $col = '&nbsp;'; }<br>
+        print " &#60;td&#62;$col ";<br>
+    }<br>
+    print "&#60;br&#62;\n";<br>
+}<br>
+$db->disconnect;
+</font>
+
+<h4>2.2 Mysql with HTML Templates</h4>
+
+Note: This example expects a database called "yourdb" for a user "u123"
+and a password "password". The database has two columns: name and job
+in a table this_table.
+<p>
+<font color=blue>
+#!/usr/local/bin/perl -Tw<br>
+####################################################################<br>
+use CGI qw(:standard -debug); <br>
+use HTML::Template; <br>
+use Mysql;<br>
+use DBI;<br>
+<br>
+####################################################################<br>
+my $template_text = &#60;&#60;EOS;<br>
+&#60;html&#62;<br>
+&#60;head&#62;&#60;title&#62; Database&#60;/title&#62; <br>
+&#60;/head&#62;&#60;body&#62;<br>
+<br>
+The Database results are:&#60;p&#62;<br>
+<br>
+&#60;table border=1&#62;<br>
+&#60;tr&#62;&#60;th&#62;Name &#60;th&#62;Job<br>
+&#60;TMPL_LOOP NAME="EMPLOYEE_DATA"&#62;<br>
+&#60;tr&#62;&#60;td&#62;&#60;TMPL_VAR NAME="name"&#62; &#60;br&#62;<br>
+&#60;td&#62;&#60;TMPL_VAR NAME="job"&#62;  &#60;p&#62;<br>
+&#60;/TMPL_LOOP&#62;<br>
+&#60;/table&#62;<br>
+EOS<br>
+<br>
+################## CGI and Template start #########################<br>
+my $cgi = CGI->new();<br>
+my $template = HTML::Template->new(scalarref => \$template_text );<br>
+print $cgi->header();<br>
+<br>
+###################### Database commands ###########################<br>
+$db = DBI->connect('dbi:mysql:yourdb;host=zeus.napier.ac.uk', 
+                   'u123', 'password') || die "Cannot connect to database";<br>
+$query = $db->prepare( qq { SELECT * from this_table;} );<br>
+$query->execute();<br>
+while ($row = $query->fetchrow_hashref()) {<br>
+    push(@loop_data, $row);<br>
+}<br>
+$db->disconnect;<br>
+<br>
+################## Template is printed to browser ################<br>
+<br>
+$template->param(EMPLOYEE_DATA => \@loop_data);<br>
+print $template->output();
+</font>
+
+<h4>2.3 Postgres</h4>
+
+<font color=blue>
+#!/usr/local/bin/perl<br>
+<br>
+use CGI;<br>
+use Pg;<br>
+<br>
+$db = Pg::connectdb("dbname = user");<br>
+<br>
+$column = param("value1");<br>
+$query = "Select $column from test";<br>
+$result = $db->exec($query);<br>
+<br>
+for ($i = 0; $i < $result->nfields; $i++) {<br>
+&nbsp; &nbsp; &nbsp;  print $result->fname($i);<br>
+}<br>
+<br>
+for ($i = 0; $i < $result->ntuples; $i++) {<br>
+&nbsp; &nbsp; &nbsp;  for ($j = 0; $j < $result->nfields; $j++) {<br>
+&nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; print $result->getvalue($i, $j);<br>
+&nbsp; &nbsp; &nbsp;  }<br>
+}<br>
+</font>
+
+<h3>3 Graphics</h3>
+
+Perl modules exist for VRML, Flash and Scalable Vector Graphics (SVG). 
+SVG is a graphics standard that has been suggested by the W3C during
+the last few years. It facilitates creation of vector graphics which
+can be incorporated into HTML files but in contrast to Flash (which
+is binary), SVG uses XML. SVG is ideal for Perl/CGI pages,
+but unfortunately so far only a subset of SVG is cross-platform
+compatible. Currently SVG can only be viewed using plug-ins.
+In the JKCC you should be able to install an SVG viewer from the
+menu. 
+<p>
+(If you want to install a free SVG viewer on your home computer
+you can find one on <a href="http://www.w3.org/Graphics/SVG/SVG-Implementations">
+this page</a>. As far as I know, both the Adobe Viewer and the Java-based
+Batik/Squiggle SVG browser are reasonably good at displaying SVGs.
+I have heard rumours about the Adobe viewer causing problems with IE or
+the windows registry. Not sure if that's true - but you might want
+to read about possible problems on the WWW before installing it.)
+<p>
+The following example reads a color parameter from a form and
+then paints a circle in that color.
+<p>
+<font color=blue>
+#!/usr/local/bin/perl -w<br>
+use SVG;<br>
+use CGI qw(:standard -debug);<br>
+<br>
+my $color = param("color");<br>
+<br>
+# the next line should be uncommented for some security checking<br>
+# if ($color !~ /^\w+$/) {die;}<br>
+<br>
+# create an SVG object<br>
+my $svg= SVG->new(width=>200,height=>200);<br>
+<br>
+# draw a circle at position (100,100) with ID 'this_circle'<br>
+# which is filled in $color<br>
+$svg->circle(id=>'this_circle',cx=>100,cy=>100,r=>50,
+             style =>{fill =>"$color"});<br>
+<br>
+# create and print the SVG code<br>
+print "Content-type: image/svg+xml\n\n";<br>
+my $out = $svg->xmlify(-dtd =>
+'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd');<br>
+print $out;<br>
+</font>
+
+<h4>3.1 Exercises</h4>
+
+3) Try the SVG example. (If SVG.pm is not installed, you need to first
+download it from CPAN and install it.)
+Create a form which asks a user for a colour.
+The SVG CGI script will then draw a circle in that colour.
+
+<h3>4 Information Architecture and Design</h3>
+
+While so far all of this tutorial has been devoted to Perl, it
+should be pointed out that professional server-side web programming
+has many more aspects apart from the coding of the scripts. Some
+aspects (such as security) were discussed in this tutorial.
+Other aspects (such as debugging, testing and documentation) are
+standard software engineering practice. Last but not least, some
+aspects (such as HCI and information architecture) should be standard
+practice but, in fact, are often underestimated. Information architecture
+in particular is not yet very well known. 
+
+<p>
+
+"Information architecture is the art and science of structuring 
+and organising information environments to help people achieve their
+goals" (Argus, 2000). Information architecture attempts to balance
+the technical requirements with user requirements and information
+system requirements. Some examples where information architecture
+can help are:
+
+<li>Systems analysis techniques can be applied to information design.
+
+<li>A variety of common practices (such as use of metaphors, common
+elements of websites) can be identified and gathered in informal
+guidelines.
+
+<li>Example: While it may be technically sensible to store the content of 
+a large website in a database, it may not be best for users if
+the whole website has the look and feel of a database interface.
+
+<li>Example: Search engines must overcome the differences between the logical
+Boolean operators (AND, OR, NOT) and the common sense, natural language
+uses of operators in searches. 
+
+<li>Example: Shopping carts: see the 
+<a href="http://argus-acia.com/white_papers/shopping_cart_ia.html">
+         Argus</a> white paper.
+</body>
+</html>

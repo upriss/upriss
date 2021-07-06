@@ -1,0 +1,161 @@
+1.1 Add a second subroutine to the example that prints all tags that
+are not closing tags. Before the subroutines are called, let the main
+routine print a heading "these are the opening tags" and
+"these are the closing tags".
+
+#!/usr/bin/env python
+
+######### modules and global variables ############################
+import re
+closing_tag = re.compile(r"</.*?>")
+opening_tag = re.compile(r"<[^/].*?>")
+
+######### subroutines #############################################
+def find_closing_tags(line):
+    result = closing_tag.search(line)
+    if result:
+       print result.group()
+
+def find_opening_tags(line):
+    result = opening_tag.search(line)
+    if result:
+       print result.group()
+
+######### main program ############################################
+file = open("example.html","r")
+text = file.readlines()
+file.close()
+
+print "these are the closing tags"
+
+for line in text:
+    find_closing_tags(line)
+
+print "these are the opening tags"
+
+for line in text:
+    find_opening_tags(line)
+
+---
+
+2.1 Write a third function for the script. The function is called 
+get_input. It takes filecontent as argument and also returns it. The
+function asks a user to input some text. The text is inserted at the 
+end of the file. Optional: the user is also asked for the line
+where the text will be inserted. 
+
+#!/usr/bin/env python
+
+import os
+
+######### functions #############################################
+def read_file(filename):
+    file = open(filename, "r")
+    text = file.readlines()
+    file.close()
+    return text
+
+def write_file(filename,text):
+    file = open(filename, "w")
+    file.writelines(text)
+    file.close()
+
+def get_input(text):
+    user_input = raw_input("Please type something ")
+    text.append(user_input + "\n")
+    return text
+
+######### main program ############################################
+filecontent = read_file("example.html")
+filecontent = get_input(filecontent)
+write_file("example.html", filecontent)
+
+os.system("more example.html")
+
+---
+
+2.2 Modify the previous example so that the user is asked for his/her 
+first name, last name, email address. The information is stored in the 
+file in the following format:
+Mary | Smith | mary@somecompany.com
+John | Miller | miller@somecompany.com
+
+#!/usr/bin/env python
+
+import os
+
+######### functions #############################################
+def read_file(filename):
+    file = open(filename, "r")
+    text = file.readlines()
+    file.close()
+    return text
+
+def write_file(filename,text):
+    file = open(filename, "w")
+    file.writelines(text)
+    file.close()
+
+def get_input(text):
+    fname = raw_input("Enter your first name ")
+    lname = raw_input("Enter your last name ")
+    email = raw_input("Enter your email ")
+    text.append(fname + "|" + lname + "|"+ email + "\n")
+    return text
+
+
+######### main program ############################################
+filecontent = read_file("example.html")
+filecontent = get_input(filecontent)
+write_file("example.html", filecontent)
+
+os.system("more example.html")
+
+
+---
+
+2.3 A fourth function is added that asks a user for her/his last name 
+and retrieves the email address from the file. To do that every line 
+of the file is split into a list. The second element in the list is 
+compared to the current user's last name. 
+
+#!/usr/bin/env python
+# note:
+# this script only works if the input file is of the correct format:
+# something | something | something
+
+import os
+import re
+
+######### functions #############################################
+def read_file(filename):
+    file = open(filename, "r")
+    text = file.readlines()
+    file.close()
+    return text
+
+def write_file(filename,text):
+    file = open(filename, "w")
+    file.writelines(text)
+    file.close()
+
+def get_input(text):
+    fname = raw_input("Enter your first name ")
+    lname = raw_input("Enter your last name ")
+    email = raw_input("Enter your email ")
+    text.append(fname + "|" + lname + "|"+ email + "\n")
+    return text
+
+def find_email(text):
+    lname = raw_input("Please, enter your last name ")
+    pipe_symbol = re.compile(r"\|")
+    for line in text:
+        current_list = pipe_symbol.split(line)
+        if current_list[1] == lname:
+             print "Your email address is", current_list[2],
+
+######### main program ############################################
+filecontent = read_file("example.html")
+filecontent = get_input(filecontent)
+write_file("example.html", filecontent)
+find_email(filecontent)

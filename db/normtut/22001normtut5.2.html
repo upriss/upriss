@@ -1,0 +1,25 @@
+
+<html>
+<head>
+<title>Relational Database Tutorials</title> 
+</head>
+<body>
+<h3>5.2 Exercise: Tour operator</h3>
+The table below shows an extract from a tour operator's data on travel
+agent bookings. Derive the third normal form of the data, showing all the
+intermediate steps.
+<table border="1">
+<tr><th>batchno</th><th>agentno</th><th>agent name</th><th>holiday code</th><th>cost</th><th>quantity booked</th><th>airport code</th><th>airport name</th></tr>
+<tr><td rowspan="3">1</td><td rowspan="3">76</td><td rowspan="3">Bairns travel</td> <td>B563</td><td>363</td><td>10</td><td>1</td><td>Luton</td></tr>
+<tr><td>B248</td><td>248</td><td>20</td><td>12</td><td>Edinburgh</td></tr>
+<tr><td>B428</td><td>322</td><td>18</td><td>11</td><td>Glasgow</td></tr>
+<tr><td rowspan="4">2</td><td rowspan="4">142</td><td rowspan="4">Active Holidays</td> <td>B563</td><td>363</td><td>15</td><td>1</td><td>Luton</td></tr>
+<tr><td>C930</td><td>568</td><td>2</td><td>14</td><td>Newcastle</td></tr>
+<tr><td>A270</td><td>972</td><td>1</td><td>14</td><td>Newcastle</td></tr>
+<tr><td>B728</td><td>248</td><td>5</td><td>12</td><td>Edinburgh</td></tr>
+<tr><td rowspan="2">3</td><td rowspan="2">76</td><td rowspan="2">Bairns travel</td> <td>C930</td><td>568</td><td>11</td><td>1</td><td>Luton</td></tr>
+<tr><td>A430</td><td>279</td><td>15</td><td>11</td><td>Glasgow</td></tr>
+</table>
+<p>Copy the relation into a text editor and normalise it. When you are finished
+ask a lecturer or demonstrator to check your result.
+<p>&nbsp; <a href='22001normtut5.3.html'>Next</a><p><a href='22001normtut_index.html'>Index</a>

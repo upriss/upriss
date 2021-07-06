@@ -1,0 +1,21 @@
+
+<html>
+<head>
+<title>Relational Database Tutorials</title> 
+</head>
+<body>
+<h3>4.1 Reduce to BCNF: Supplier Database</h3>
+Reduce the following to BCNF, showing all the steps involved.
+<pre>
+Supplier(sno,sname,saddress,(partno, partdesc,(custid,custname,custaddr,quantity)))
+  sno -> sname,saddr
+  partno -> partdesc
+  sno,partno,custid -> quantity
+  sname -> sno
+  custid -> custname,custaddr
+</pre>
+Suppliers supply many parts to many customers. Each customer deals with only
+one supplier. Supplier names are unique. Customer names are not unique.
+<p>
+Which of the following is a normalisation to 1NF?
+<ol><li><a href='22001normtut4.21ans.html'>Supplier(<b>sno</b>,sname,saddress,(<b>partno</b>,partdesc))<br>Cust-supp(<b>partno,custid,sno</b>,custname,custaddr,quantity)</a><br>&nbsp;<li><a href='22001normtut4.22ans.html'>Supplier(<b>sno</b>,sname,saddress,(<b>partno</b>,partdesc))<br>Cust-supp(<b>partno,custid</b>,sno,custname,custaddr,quantity)</a><br>&nbsp;<li><a href='22001normtut4.23ans.html'>Supplier(<b>sno</b>,sname,saddress)<br>Supp-part(<b>sno,partno</b>,partdesc)<br>Cust-supp(<b>partno,custid,sno</b>,custname,custaddr,quantity)</a><br>&nbsp;<li><a href='22001normtut4.24ans.html'>Supplier(<b>sno</b>,sname,saddress)<br>Supp-part(<b>sno,partno</b>,partdesc)<br>Cust-supp(<b>partno,custid</b>,sno,custname,custaddr,quantity)</a><br>&nbsp;</ol><p><a href='22001normtut_index.html'>Index</a>

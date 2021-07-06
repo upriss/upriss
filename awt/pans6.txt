@@ -1,0 +1,121 @@
+1) Change the program so that instead of using "childNodes" 
+it uses "nextSibling" for looping through the nodes.
+
+
+$node = $doc->documentElement->firstChild;
+while ($node) {
+    if ($node->nodeType == 1) {
+       echo $node->tagName. " : ";
+       $innerNode = $node->firstChild;                  
+       while ($innerNode) {  
+          if ($innerNode->nodeType == 1) {  
+             echo $innerNode->tagName ." = ". $innerNode->nodeValue ."; ";  
+          }  
+          $innerNode = $innerNode->nextSibling;  
+       }  
+       echo "<br/>";
+    }
+    $node = $node->nextSibling;   
+}
+
+
+-----------------------------------------
+
+2) Print all the titles of the movies by looping through the nodes 
+which have "title" as their tag name and printing their "textContent".
+
+$titles = $doc->getElementsByTagName("title");
+foreach($titles as $node) {
+   print $node->textContent . " ";
+}
+
+OR:
+
+$titles = $doc->getElementsByTagName("title");
+for ($i = 0; $i < $titles->length; $i++) {
+   print $titles->item($i)->textContent . " ";
+} 
+
+
+
+-----------------------------------------
+
+3) Find the movie from the year "1998" and print the 
+textContent of its parentNode.
+
+$year = $doc->getElementsByTagName("year");  
+foreach($year as $node) {  
+   if ($node->textContent == "1998") {
+      print $node->parentNode->textContent . " ";                         
+   }
+}
+
+-----------------------------------------
+
+4) Read the contents of the XML file into a data structure that 
+contains the movies and their titles, actor and years.
+
+$topElem = $doc->documentElement;
+$movies = array();
+foreach ($topElem->childNodes AS $item) {
+  if ($item->nodeType == 1) {
+     $temp = array();
+     foreach ($item->childNodes AS $bottomItem) {
+        if ($bottomItem->nodeType == 1) {
+            $temp[$bottomItem->tagName] = $bottomItem->nodeValue;
+        }
+     }
+     array_push($movies,$temp);
+  }
+}    
+echo "<pre>";
+print_r($movies);
+echo "</pre>";
+
+
+-----------------------------------------
+
+6) Change the code so that tag names are printed in italics and the 
+ID attributes are printed in bold face.
+
+In the startElement function change the echo statement to:
+
+echo "<i>$name</i>: <b>{$attrs["ID"]}</b>";
+
+-----------------------------------------
+
+7) Print only the titles of the movies.
+
+In the startElement function:
+
+    global $istitle;
+    ...
+    if ($name == "TITLE") {
+    echo "$name: ";
+        $istitle = true;
+    } else {
+        $istitle = false;  
+    }
+
+In the handler function:
+
+    global $istitle;
+    if ($istitle == true) {
+      echo "$data";
+    }
+
+-----------------------------------------
+
+8) Print only the movie titles.
+
+<?php
+$filecontent = implode('', file('movies.xml'));
+$p = xml_parser_create();
+xml_parse_into_struct($p, $filecontent, $vals, $index);
+xml_parser_free($p);
+foreach ($vals AS $item) {
+    if ($item['tag'] == 'TITLE') {
+        echo $item['value']."<br>";      
+    }
+}
+?>

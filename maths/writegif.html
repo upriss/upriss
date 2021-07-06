@@ -1,0 +1,74 @@
+<HTML>
+<HEAD>
+<TITLE>Graphviz</TITLE>
+</HEAD>
+<BODY>
+
+<h3>Using Graphviz</h3>
+
+In order to produce gif files (or other formats) from NetworkX
+<a href="http://www.graphviz.org">Graphviz</a> and 
+<a href="http://networkx.lanl.gov/pygraphviz/">PyGraphviz</a> need to
+be installed.
+<p>
+The "dot" files can be converted into gif files using different
+layouts on the Unix command-line:
+
+<font color=blue><pre>
+dot -Tgif -o filename.gif filename.dot
+circo -Tgif -o filename.gif filename.dot
+neato -Tgif -o filename.gif filename.dot
+</pre></font>
+
+If Graphviz is installed, but not PyGraphviz, the 
+following module which creates gif files directly from NetworkX
+can be used
+without PyGraphviz. It has limited functionality, but seems to be
+sufficent for the exercises.
+
+<font color=blue><pre>
+"""
+This is a hack for using Graphviz without installing PyGraphviz.
+NetworkX 1.0 or newer is required.
+
+"""
+__all__ = ['write_gif']
+
+import networkx
+import subprocess
+from subprocess import Popen, PIPE
+from networkx.utils import _get_fh
+
+def write_gif(G, path, prgr="dot"):
+    """
+    Write the graph G in gif format using Graphviz
+    """
+
+    pathgif = path + ".gif"
+    pathdot = path + ".dot"
+
+    fh=_get_fh(pathdot,mode='w')        
+
+    count=iter(range(G.number_of_nodes()))
+    node_id={}
+
+    if G.is_directed():
+        fh.write("digraph G{node [ ];\n")
+    else :
+        fh.write("graph G{node [ ];\n")
+    for n in G:
+        nid=G.node[n].get('id',count.next())
+        node_id[n]=nid
+        fh.write("%s ["%nid)
+        fh.write("label = \"%s\"];\n"%n)
+    for u,v,edgedata in G.edges_iter(data=True):
+        if G.is_directed():
+           fh.write("%s ->"%node_id[u])
+        else:
+           fh.write("%s --"%node_id[u])
+        fh.write("%s\n"%node_id[v])
+    fh.write("}\n")
+    cmd = prgr + ' -Tgif -o ' + pathgif + ' ' + pathdot
+    pipe = Popen(cmd, shell=True, stdin=PIPE).stdin
+</pre>
+</font>

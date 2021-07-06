@@ -1,0 +1,21 @@
+
+<html>
+<head>
+<title>Relational Database Tutorials</title> 
+</head>
+<body>
+<h3>1.4 Exercise: Student details (continued)</h3>
+The two relations Student and Module are in 1NF.
+<p>Student(<b>regno</b>, na, add, tno, tna, dc, dn) <br> 
+Module(<b>regno, mc</b>, mn, res) 
+<p>The functional dependencies are still:
+<p><ul>
+<li> dc -> dn
+<li> tno -> tna
+<li> regno, mc -> res
+<li> mc -> mn
+</ul>
+<p>Which of the following is a normalisation of 
+the relations Student and Module to second normal form?<br>
+Hint: check for partial key dependencies.
+<p><ol><li><a href='22001normtut1.51ans.html'>Student(<b>regno</b>, na, add, tno, tna, dc) <br> Diploma(<b>dc</b>, dn) <br> Module(<b>regno, mc</b>, mn, res) </a><br>&nbsp;<li><a href='22001normtut1.52ans.html'>Student(<b>regno</b>, na, add, tno, dc, dn) <br> Tutor(<b>tno</b>, tna) <br> Module(<b>regno, mc</b>, mn, res)</a><br>&nbsp;<li><a href='22001normtut1.53ans.html'>Student(<b>regno</b>, na, add, tno, tna, dc, dn) <br> Module(<b>mc</b>, mn) <br> Result (<b>regno, mc</b>, res)</a><br>&nbsp;<li><a href='22001normtut1.54ans.html'>Student(<b>regno</b>, na, add, tno, tna, dc, dn) <br> Module(<b>mc</b>, mn) <br> Result (<b>regno</b>, res) </a><br>&nbsp;</ol><p><a href='22001normtut_index.html'>Index</a>

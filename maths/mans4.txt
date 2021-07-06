@@ -1,0 +1,78 @@
+1) Write a recursive function fibo(x) that calculates the Fibonacci
+   numbers. 
+
+def fibo(x): 
+  if x == 1: 
+    return 0 
+  elif x == 2: 
+    return 1
+  elif x <= 0: 
+    print "The number must be > 0" 
+  else: 
+    return (fibo(x-1) + fibo(x-2))
+   
+for n in range(1,20):
+   print fibo(n)
+
+
+--------------------------------
+
+2) Write a recursive function that determines whether a word is a
+   palindrome.
+
+def palindrome(word): 
+  if len(word) == 0 or len(word) == 1: 
+    return "This word is a palindrome"
+  elif word[0] != word[len(word)-1]:
+    return "The word is not a palindrome"
+  else: 
+    return palindrome(word[1:len(word)-1])
+   
+print "radar:", palindrome("radar")
+print "abba:", palindrome("abba")
+print "top:", palindrome("top")
+print "Python:", palindrome("Python")
+
+--------------------------------
+
+3) Calculate the greatest common divisor of two integers using the
+   Euclidean algorithm.
+
+def euclid(m,n):
+   if n == m :
+      return n
+   elif n < m:
+      return euclid(n,m)
+   elif m < n:
+      if m == 0 :
+         return n
+      else:
+         return euclid(m, n%m)
+
+print euclid(26,26)
+print euclid(26,39)
+print euclid(89,13)
+
+--------------------------------
+
+4) Optional exercise: write a recursive function that checks whether
+   an expression contains matching, nested brackets.
+
+def brackets(x):
+   if x == "":
+     return "OK"
+   elif len(x) == 1 and (x[0] == "(" or x[0] == ")"):
+     return "Error"
+   elif (x[0] == ")") or (x[len(x)-1] == "("):
+     return "Error"
+   elif x[0] != "(":
+     return brackets(x[1:])
+   elif x[len(x)-1] != ")":
+     return brackets(x[0:len(x)-1])
+   elif x[0] == "(" and x[len(x)-1] == ")":
+     return brackets(x[1:len(x)-1])
+
+print ")n" ,brackets(")n")
+print ")n()" ,brackets(")n()")
+print "(c(()b))" ,brackets("(c(()b))")
+print "(())()" ,brackets("(())()")

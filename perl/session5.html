@@ -1,0 +1,213 @@
+<HTML>
+<HEAD>
+<TITLE>L548: Session 5</TITLE>
+</HEAD>
+<BODY>
+
+<h3>Arrays</h3>
+
+<font color=blue>
+#!/usr/local/bin/perl -w<br>
+#<br>
+# animals in a zoo<br>
+#<br>
+@zoo=("monkey", "tiger", "eagle");<br>
+print "The zoo has the following ".@zoo." animals: @zoo\n";<br>
+print "Which animal would you like to add? ";<br>
+$new_animal = &#60STDIN&gt ;<br>
+chomp $new_animal;<br>
+push(@zoo, $new_animal);<br>
+$length = @zoo;<br>
+print "The zoo now has the following $length animals: @zoo\n";<br>
+print "The 3rd animal in the list is $zoo[2]\n";        
+<p>
+</font>
+
+<b>Array operators and functions</b>
+<p>
+a) Important ones
+<p>
+<table border =2>
+<tr><td>
+@zoo = ("monkey", "tiger", "eagle");
+<td>defining an array
+<tr><td>push(@zoo,"parrot"); <td>add elements at end of array
+<tr><td>@zoo = ("zebra","lion", @zoo);<td>add elements at beginning
+<tr><td>$length = @zoo; <td> length of @zoo
+<tr><td>$animal = $zoo[0]; <td> the first element of @zoo
+<tr><td>$animal = $zoo[2]; <td> the third element of @zoo
+<tr><td>$animal = $zoo[@zoo-1]; <td> the last element of @zoo
+<tr><td>$lastelement = pop(@zoo); <td> remove last element from @zoo
+<tr><td>@other_zoo = reverse(@zoo); <td> new array with reverse order 
+<tr><td>@other_zoo = sort(@zoo); <td> new array in alphabetical order
+
+</table>
+<p>
+b) Optional ones
+<p>
+<table border =2>
+<tr><td>
+@zoo = qw(monkey tiger eagle);<br>
+@numbers = (1 .. 5);
+<td>defining an array
+<tr><td>$number = $#zoo;	<td> index of the last element
+<tr><td>$animal = $zoo[-1]; <br>
+$animal = $zoo[$#zoo];	<td> the last element of @zoo
+<tr><td>@zoo[0,1] = @zoo[1,0]; <td> swap the first two elements
+</table>
+<p>
+<b>Exercises</b>
+<p>
+1) Create an array that contains the names of 5 students of this class.
+(You don't need a loop to do that. Simply assign the 5 values.)
+Print the array. Remove (pop) the last name from the array.
+Print the array.
+Ask a user to type in her/his name. Add (push) that name to the array.
+Print the array.
+Ask a user to input a number. Print the name that has that number as
+index.
+Add "John Smith" and "Mary Miller" at the beginning of the array.
+Print the array.
+Print the array in alphabetical and in reverse order.<br>
+2) (Optional exercise) Add <br>
+$"="!"; <br>
+after the line that starts with "push" in the zoo program
+. How does it change the output?
+<p>
+
+<h3>Foreach</h3>
+
+<font color=blue>
+#!/usr/local/bin/perl -w<br>
+#<br>
+# if statement<br>
+#<br>
+@zoo = ("tiger", "elephant", "monkey");<br>
+foreach $animal (@zoo){<br>
+&nbsp; &nbsp; $animal = "_".$animal."_";<br>
+&nbsp; &nbsp; print "$animal";<br>
+}<br>
+print "\n";<br>
+<p>
+</font>
+
+<b>Exercise</b>
+<p>
+3) Create a second copy of the array in reverse order.
+Add a second foreach loop that
+prints the reverse copy.
+<p>
+4) Use the array of student names from exercise 1.
+Create a foreach loop that prints for each student
+"hello $student, how are you?".
+
+<h3>Input from a file</h3>
+
+Click <a href="alice.txt">here</a> and save the file in your 
+current directory under the name "alice.txt".
+<p>
+<font color=blue>
+#!/usr/local/bin/perl<br>
+#<br>
+# Program to read and print a file <br>
+#<br>
+open(ALICE, "alice.txt");<br>
+@lines = &#60ALICE&gt ;<br>
+close(ALICE);<br>
+print @lines;<br>
+<p>
+</font>
+<b>File handling</b>
+<p>
+
+<table border=2>
+<tr><td>open(FILEHANDLE, "alice.txt"); <br>
+open(FILEHANDLE, "&#60;alice.txt"); <td> open for input 
+<tr><td>open(FILEHANDLE, "&#62;alice.txt"); <td> open for output 
+<tr><td>open(FILEHANDLE, "&#62;&#62;alice.txt"); <td> open for appending 
+<tr><td>print FILEHANDLE "Some text.\n"; <td> print to an open file 
+<tr><td>open(FILEHANDLE, "alice.txt") || die "cannot open file";
+<td> open file, print error message
+</table>
+<p>
+
+<b>Exercises</b>
+<P>
+5) Modify the program so that
+the lines are printed in reverse order. <br>
+6) Output to another file instead of the screen. First, let
+your script overwrite the output file, then change the 
+script so that it appends the output to an existing file.<br>
+7) Optional: Modify the program so that 
+each line is printed with a line number at the beginning.
+(Hint: use a foreach loop and a counter.)<br>
+8) Optional: Print the lines with a # character
+at the beginning. Hints: a) what does adding "chomp @lines" change?
+b) Use the $" variable.
+c) You need to escape "#" so that it is not interpreted as a comment.
+d) There is a difference between 'print @lines' and 'print "@lines"'.
+As usual, the double quotes cause Perl to interpret the variables,
+such as the $" variable.
+
+<h3>Optional: Hashs</h3>
+
+Hashs are like arrays whose indices are arbitrary scalars or like
+relational database tables with two columns (a "key" and a "value"
+column).
+<p>
+<font color=blue>
+# defining a hash<br>
+%relatives =("Lisa" =&#62; "daughter", "Bart" =&#62; "son", "Marge" =&#62;
+ "mother", "Homer" =&#62; "father", "Santa" =&#62; "dog");<br>      
+<br>
+# to print a single element: <br>
+print "Lisa is a $relatives{Lisa}\n";<br>
+<br>
+# to print an entire hash it should be converted into an array<br>
+@array = %relatives;<br>
+print "@array\n"; <br>
+</font>
+<p>
+<b>Exercise</b>
+<p>
+9) Create a second hash (such as "age") and print it.
+
+<h3>Optional Materials</h3>
+
+Input from STDIN can also be read into an array. The user has 
+to type Ctrl-D (the end-of-file character) to terminate the input.
+<p>
+<font color=blue>
+<p>
+#!/usr/local/bin/perl -w<br>
+# <br>
+# input into an array from standard input<br>
+#<br>
+print "Type something ";<br>
+@something = &#60STDIN&gt ;<br>
+print "@something \n";<br>
+<p>
+</font>
+
+Alternative method of reading a file. This method should be used
+for files that are too large to be read into an array at once.
+<p>
+
+<font color=blue>
+<p>
+#!/usr/local/bin/perl<br>
+#<br>
+# Program to read and print a file<br>
+#<br>
+open(ALICE, "alice.txt");<br>
+while (&#60ALICE&gt){<br>
+    print $_;<br>
+}<br>
+close(ALICE);  <br>               
+<p>
+</font>
+
+
+</body>
+</html>
+

@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/*html*; charset=UTF-8" />
+<title>Mengenlehre - Motivation</title>
+</head>
+<body>
+
+<h3>Logik mit SetlX</h3>
+
+Speichern Sie den folgenden Code in einer Datei "truthtable.stlx".
+
+<pre>
+tabelle := procedure(s) {
+    t := parse(s);
+    v := vars(t);
+    print (v);
+    return { [[var in vi : var in [] + v], evalTerm(t, vi) ] : vi in 2**v};
+};
+
+vars := procedure(t) {
+    match(t) {
+        case ^variable(v) : return {v};
+        default : return +/{ vars(tt): tt in args(t)};
+    }
+};
+
+evalTerm := procedure(t, v){
+    match(t) {
+        case ^variable(var) | var in v: return true;
+        case ^variable(var) | var notin v: return false;
+        case a && b: return evalTerm(a, v) && evalTerm(b, v);
+        case a || b: return evalTerm(a, v) || evalTerm(b, v);
+        case a &lt;==> b: return evalTerm(a, v) &lt;==> evalTerm(b, v);
+        case a == b: return evalTerm(a, v) == evalTerm(b, v);
+        case a &lt;!=> b: return evalTerm(a, v) &lt;!=> evalTerm(b, v);
+        case a != b: return evalTerm(a, v) != evalTerm(b, v);
+        case a => b: return evalTerm(a, v) => evalTerm(b, v);
+        case !a: return !evalTerm(a, v);
+        default: print("fixme: t = $t$");
+    }
+};
+</pre>
+
+Starten Sie SetlX, geben Sie <font color="blue">multiLineMode(true);</font> und
+danach <font color="blue">load("truthtable.stlx")</font> ein. (Falls das Laden
+nicht funktioniert, können Sie den Code auch mit Copy/Paste einfügen.)
+Mit der Funktion
+tabelle() können Sie sich jetzt Wahrheitstabellen anzeigen lassen. Zum Beispiel:
+<font color="blue">tabelle("(a || b) && c ");</font>.
+
+<p>
+
+1) Finden Sie für jeden Ausdruck auf der linken Seite, den dazu äquivalenten
+auf der rechten Seite. Überprüfen Sie Ihre Ergebnisse mit SetlX. Bei einer
+Äquivalenz müssen alle Zeilen der Wahrheitstabelle "true" ergeben.
+
+<p>
+<center><table cellpadding=5>
+<tr><td> a || a <td>!(a || !b)
+<tr><td> a && b <td> !b || !a
+<tr><td> !a && b <td> a && (a || b)
+<tr><td> !(a && b) <td>(!a) && (!b)
+<tr><td> !(a || b) <td> !(!a || !b)
+<tr><td> a && b && c &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<td> (c && a)||(a && b)
+<tr><td> a && (b || c) <td>(a || c) && (b || c)
+<tr><td> (a && b) || c <td> c && a && b
+</table>
+</center>
+<p>
+
+2) Ein Logik-Rätsel: wen laden Sie ein?
+<p>
+<li> Wenn Sie Susanne einladen, müssen Sie auch John einladen.
+<li> Sie dürfen nur entweder John oder Marie einladen, aber nicht beide.
+<li> Sie müssen entweder Susanne oder Marie oder beide einladen.
+<li> Wenn Sie Marie einladen, müssen Sie auch Susanne einladen.
+<p>
+Schreiben Sie eine Formel, welche alle diese Bedingungen mit && verbindet.
+Lassen Sie sich die Wahrheitstabelle mit SetlX anzeigen. Suchen Sie sich
+die Zeilen heraus, welche "true" ergeben und lesen Sie daraus die Lösung ab.
+(Was bedeutet es für Ihre Lösung, wenn mehr als eine Zeile "true" ergibt?)
+
+<hr>
+
+<h3>Eine Datenstruktur</h3>
+
+A) Finden Sie eine Beschreibung f&uuml;r jede dieser Beispiele von Elementen:
+
+<ul>
+<li>1, 3, 5, 7, ...
+<li>1, 2, 5, 10
+<li>50, 25, 1, 2, 5, 10
+<li>"Aachen", "Augsburg", "Athen", ...
+<li>&#9829;, &#9830; &#9824;, &#9827;
+<li>&#9824;, &#9827;, &#9829;, &#9830;, &#9819;, &#9820;, &#9821;, &#9822;, ...   
+</ul>
+
+<p>
+
+B) Welche Elemente passen zu diesen Beschreibungen?
+
+<ul>
+<li>Die Potenzen von 2.
+<li>Logische Symbole
+<li>Nat&uuml;rliche Zahlen zwischen 1 und 5.
+<li>W&ouml;rter mit 3 Buchstaben oder nat&uuml;rliche Zahlen zwischen 1 und 5.
+<li>Teiler von 100
+</ul>
+
+Was ist der Zusammenhang zwischen Elementen (wie in A) und Beschreibungen
+(wie in B)?
+
+<p>
+
+C) Wenn Sie nur die Elemente 1, 2, 3 haben, wieviele M&ouml;glichkeiten gibt es,
+davon Elemente auszuw&auml;hlen?
+
+<p>
+
+Betrachten Sie Elemente und Beschreibungen wie in A und B als eine Datenstruktur.<br>
+Wie w&uuml;rden Sie diese Datenstruktur definieren?<br>
+Welche Eigenschaften spielen eine Rolle, was kann man ignorieren?<br>
+Was bedeuten die Punkte (...) in einigen der Beispielen?<br>
+Gibt es Zusammenh&auml;nge zwischen einigen der Beispiele? <br>
+Was f&uuml;r verschiedene M&ouml;glichkeiten f&uuml;r Zusammenh&auml;nge gibt es?<br>
+Was f&uuml;r Gr&uuml;nde (Anwendungen) k&ouml;nnte es geben, so eine Datenstruktur
+zu formalisieren? 
+<p>
+Falls Sie schon etwas Programmiererfahrung haben: welche Datenstruktur
+w&uuml;rden Sie verwenden, um mehrere Elemente zusammenzufassen und in einer Variablen
+zu speichern? Unterscheidet sich die mathematische Datenstruktur in den Beispielen
+eventuell von der, die Sie aus Programmiersprachen kennen?
+<p>
+
+
+

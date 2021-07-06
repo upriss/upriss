@@ -1,0 +1,115 @@
+<HTML>
+<TITLE>L548: Session 12</Title>
+
+<body>
+<h4>1) Python and Networking</h4>
+
+Protocols<p>
+Bottom layers: physical network, IP, TCP <br>
+Top layers: FTP, telnet, http<p>
+Type of connection: connection-oriented vs. packet-oriented
+
+<h4>Downloading a page from the web</h4>
+
+<font color=blue>
+#!/usr/bin/env python<br>
+<br>
+import urllib<br>
+import sys<br>
+<br>
+url = "http://www.slis.indiana.edu/"<br>
+<br>
+##################### connect to remote page #################<br>
+try:<br>
+
+&nbsp; &nbsp;   remote = urllib.urlopen(url)<br>
+except:<br>
+&nbsp; &nbsp;   print "cannot open URL"<br>
+&nbsp; &nbsp;   sys.exit()<br>
+<br>
+#################### read the content of the remote page ####<br>
+content = remote.read()<br>
+print remote.info()<br>
+print content
+</font>
+<P>
+Comments: <br>
+1) "remote" supports the same commands as a file handle. 
+"remote.readlines()" reads the content line by line
+into a list. "remote.read()" reads all of the lines into a single string.
+Unless a for loop is used to print the content, remote.read() is 
+usually more useful. <p>
+2) remote.info() contains the MIME headers
+
+<h4>Exercises</h4>
+
+1.1 Try the script using pages you know. 
+What happens if the hostname is incorrect or if the file does
+not exist?
+<p>
+1.2 Create a form that asks the user to submit a URL. Write 
+a CGI script that opens the URL, reads the content and displays
+it to the user. (There are all kinds of applications for such scripts,
+for example, they can serve as meta-search engines or
+could filter content, such as images or advertisements,
+out from a web page.) 
+<p>
+1.3 Create a form that asks the user to submit a URL and a 
+search term. Write a CGI script that opens the URL and displays
+all the lines that contain the search term.
+<p> 
+1.4 (Optional)
+Write a script that determines whether a 404 File Not Found message 
+is displayed. You should use remote.read() and regular expressions.
+
+<h4>2) Parsing HTML</h4>
+
+Web crawlers (see p. 654 - 656 in the Core
+Python Programming book) navigate the web searching for links.
+The following example shows how to display the links of a page.
+<p>
+<font color=blue>
+#!/usr/bin/env python<br>
+<br>
+import urllib<br>
+import sys<br>
+import htmllib<br>
+import formatter<br>
+<br>
+url = "http://www.slis.indiana.edu/"<br>
+<br>
+##################### connect to remote page #################<br>
+try:<br>
+&nbsp; &nbsp;   remote = urllib.urlopen(url)<br>
+except:<br>
+&nbsp; &nbsp;   print "cannot open URL"<br>
+&nbsp; &nbsp;   sys.exit()<br>
+<br>
+#################### read the content of the remote page ####<br>
+content = remote.read()<br>
+<br>
+#################### parse the HTML of the page #############<br>
+parser = htmllib.HTMLParser(formatter.NullFormatter())<br>
+parser.feed(content)<br>
+parser.close()<br>
+<br>
+#################### get the links (anchors) ##################<br>
+links = parser.anchorlist<br>
+for eachlink in links:<br>
+&nbsp; &nbsp;   print eachlink
+</font>
+
+<h4>Exercise</h4>
+
+2.1 Modify your script from 1.3  so that it only searches the links
+of a document not the document itself. 
+<p>
+2.2 (Optional) You can combine the example above and 
+1.4 to check for broken links. To simplify matters
+only check the links that actually start with html://.
+
+
+
+
+</body>
+</html>

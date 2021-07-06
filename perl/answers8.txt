@@ -1,0 +1,90 @@
+1a) Replace all upper case letters by lower case letters;
+
+open(ALICE, "alice.txt");
+@lines = <ALICE> ;
+close(ALICE);
+foreach $line (@lines){
+$line =~ s/A/a/g;
+print $line;
+} # end of foreach 
+
+1b) Replace the word "Alice" by "ALICE".
+
+s/Alice/ALICE/g; 
+
+1c) Delete all words with more than 3 characters.
+
+s/\b\w\w\w+\b//g; 
+
+1d) Print two blank space characters after the "." at the end of a 
+sentence. (Optional: Don't do this if the "." is the last character in a line.)
+
+s/\. /.  /g;  
+
+or
+
+s/\.[^\n]/.  /g;  
+
+1e) Replace single quotes (' or `) by double quotes. 
+
+s/[`']/"/g;
+
+
+2) Write a replace statement that deletes all HTML mark-up from a file. 
+
+s/<.*>//g;
+
+But this doesn't work if there are several tags in one line because
+* is greedy. Better solution:
+
+s/<.*?>//g; 
+
+3b) Insert a newline character after each punctuation mark (.,!). If 
+you chomp each line before inserting the newline characters 
+you can print each sentence in one line. 
+
+s/([\.,!])/\1\n/g;
+
+Or:
+
+chomp $line;
+$line =~ s/([\.,!])/\1\n/g; 
+
+
+3c) Print double characters within parenthesis "()". For example, replace 
+"arrived" by "a(rr)ived". 
+
+s/(.)\1/(\1\1)/g;
+
+
+4) Read the alice.txt file into an array. Chomp it. Using join concatenate 
+it into one string. Then split it into words (or sentences) and print it 
+one word (sentence) per line. 
+
+open(ALICE, "alice.txt");
+@lines = <ALICE> ;
+close(ALICE);
+
+chomp @lines;
+$bigstring = join(" ",@lines);
+@words = split(/\b/, $bigstring);
+
+foreach $word (@words){
+print "$word\n";
+}
+                 
+
+5) Write a script that takes an HTML source file as input and prints it so 
+that a newline follows only "closing tags", i.e. tags that are of the 
+form </...>. 
+
+open(HTML, "file.html");
+@lines = <HTML> ;
+close(HTML);
+chomp @lines;
+foreach $line (@lines){
+$line =~ s/(<\/.*?>)/\1\n/g;
+print $line;
+} # end of foreach
+close(HTML);  
+

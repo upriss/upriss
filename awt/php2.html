@@ -1,0 +1,227 @@
+<html>
+<title>Week 2</Title>
+
+<body>
+
+<h4>1.1 Directories</h4>
+
+A webserver must be PHP enabled for PHP scripts to run. The instructions
+below work for Napier, but, in general there can be 
+differences between the setup of servers.
+<p>
+In general, you need two directories: "public_html" and a subdirectory
+of "public_html" called "php". The public_html and the php directory should
+both be world readable and executable. You may also need to change the permissions 
+for your top level directory. The following commands create the 
+directories and set the permissions. You should copy and paste the following
+commands at the Unix prompt. You need to do this only once.
+If you already have a public_html directory, skip the second line.
+<p>
+<font color=blue>
+cd; chmod 711 .; <br>
+mkdir public_html; chmod 755 public_html;<br>
+cd public_html; mkdir php; chmod 755 php;
+</font>
+<p>
+
+All html files should be in the public_html directory, all 
+php files in the php directory. The php files must have an extension ".php".
+The URL for the html files is<br>
+<font color=blue>http://www.student.soc.napier.ac.uk/~username/filename.html</font>.
+The URL for PHP files is<br>
+<font color=blue>http://www.student.soc.napier.ac.uk/~username/php/filename.php
+</font>
+
+<h4>1.2 Exercises</h4>
+
+1) Save some simple html code such as
+<p>
+<font color=blue>
+&#60;html&#62;<br>
+&#60;head&#62;&#60;title&#62;Hello World&#60;/title&#62;&#60;/head&#62;
+&#60;body&#62;<BR>
+&#60;h1&#62;Greetings&#60;/h1&#62;<BR>
+&#60;/body&#62;&#60;/html&#62;<BR>
+</font>
+<p>
+as a file in your public_html directory on the webserver.
+The file permissions of this file should be -rw-r--r--. Type
+<font color=blue>ls -l</font> to check the file permissions.
+You can set the permissions with <font color=blue>chmod 644 filename</font>.
+Now, look at the file through your browser.
+
+<p>
+
+2) Now save the same html file as above in your php directory under the
+name greetings.php. 
+The file permissions should be -rwxr-xr-x. You can set the 
+file permissions with <font color=blue>chmod 755 greetings.php</font>.
+Look at the file through your browser.
+
+<h3>2 Processing forms with PHP</h3>
+
+Normal HTML:
+<p>
+<table border=1>
+
+<tr><td><b>browser</b><td><b>server</b>
+<tr><td>user requests <br>
+html document <td>
+<tr><td><td> server finds HTML file <br>
+ and sends page back
+</table>
+<p>
+PHP:
+<p>
+<table border =1>
+<tr><td><b>browser</b><td><b>server</b>
+<tr><td>user requests  <br> a form <td>
+<tr><td><td>      server finds the HTML form <br>
+ and sends it back to user
+<tr><td>user fills out form <td>
+<tr><td><td>         PHP application executes<br>
+ program and sends results<br>
+ back to user
+</table>
+
+<h4>2.1 A sample form</h4>
+
+<font color=blue>
+&#60;form action="http://www.student.soc.napier.ac.uk/~username/php/example.php" 
+method="post"&#62; <p>
+&#60;input type="radio" name="drink" value="tea" checked &#62;   
+Tea &#60;br&#62; <br>
+&#60;input type="radio" name="drink" value="coffee" &#62; Coffee &#60;br&#62; 
+<br>
+&#60;input type="radio" name="drink" value="hot chocolate" &#62; Hot Chocolate
+&#60;p&#62; <p>
+&#60;input type="submit" value="Place order"&#62; <br>
+&#60;/form&#62; <p>
+</font>
+
+<h4>2.2 Exercises</h4>
+
+3) Include the form in an html document on the webserver (don't forget to 
+change the URL of the form action so that it points to your 
+php directory).
+
+<h4>2.3 Source code of a form processing PHP file</h4>
+
+<font color=blue>
+&#60;html&#62;<br>
+&#60;head&#62;&#60;title&#62; Tea is served&#60;/title&#62; 
+&#60;/head&#62;&#60;body&#62;<br>
+&#60;hr&#62;&#60;h1&#62; Tea Room&#60;/h1&#62;&#60;hr&#62;&#60;p&#62;<br>
+&#60;?php<br>
+if ($_REQUEST['drink'] != "tea" and $_REQUEST['drink'] != "coffee" and<br>
+    $_REQUEST['drink'] != "hot chocolate") {<br>
+  echo "An error occurred.";<br>
+  exit;<br>
+}<br>
+if ($_REQUEST['drink']) {<br>
+  echo "You requested ", $_REQUEST['drink'];<br>
+}<br>
+?&#62;<br>
+&#60;p&#62;Thank you for your visit. Please come again. &#60;p&#62;&#60;hr&#62;<br>
+&#60;/body&#62;&#60;/html&#62;<br>
+</font>
+<p>
+Note: in older or less secure installations of PHP, it is possible to
+use a variable $drink instead of $_REQUEST['drink']. This is a very
+insecure practise because in that way your script can't tell whether
+$drink is an internal variable of the script or whether it comes
+from a form. See the 
+<a href="http://www.php.net/manual/en/security.globals.php">PHP manual</a>
+for more information about register globals.
+
+<h4>2.4 A PHP file that contains both the form and the reply</h4>
+
+<font color=blue>
+&#60;html&#62;<br>
+&#60;head&#62;&#60;title&#62; Tea is served&#60;/title&#62; 
+&#60;/head&#62;&#60;body&#62;<br>
+&#60;hr&#62;&#60;h1&#62; Tea Room&#60;/h1&#62;&#60;hr&#62;&#60;p&#62;<br>
+&#60;?php<br>
+if ($_REQUEST['drink'] != "tea" and $_REQUEST['drink'] != "coffee" and<br>
+    $_REQUEST['drink'] != "hot chocolate" and $_REQUEST['drink']) {<br>
+  echo "An error occurred.";<br>
+  exit;<br>
+}<br>
+if ($_REQUEST['drink']) {<br>
+  echo "You requested ", $_REQUEST['drink'];<br>
+}<br>
+?&#62;<br>
+&#60;p&#62;Thank you for your visit. Please come again. &#60;p&#62;&#60;hr&#62;<br>
+&#60;form action="example.php" method="post"&#62; <br>
+&#60;input type="radio" name="drink" value="tea" checked &#62; Tea &#60;br&#62; <br>
+&#60;input type="radio" name="drink" value="coffee" &#62; Coffee &#60;br&#62; <br>
+&#60;input type="radio" name="drink" value="hot chocolate" &#62; 
+Hot Chocolate &#60;p&#62; <br>
+&#60;input type="submit" value="Place order"&#62; <br>
+&#60;/form&#62;<br>
+&#60;/body&#62;&#60;/html&#62;<br>
+</font>
+
+<h4>2.5 Exercises</h4>
+
+4) Save the PHP  file, change permissions and 
+check to see if it works via the browser and with the form from
+the last exercise. Change the form action method from "post" to "get" 
+and observe how this changes the query string.
+<p>
+5) Add a checkbox to the form (such as "Do you want milk? Yes/No")
+and a text area where customers can type in what kind of cake they
+would like to order.
+Change your PHP script so that it includes these in its reply,
+such as "you requested tea with milk", "sorry we are out of
+chocolate cake". The checkbox and text area must have distinct
+names in the form. 
+
+
+<h3>3 On-line greeting cards</h3>
+
+On-line greeting card services often involve several pages:
+An HTML page lets a user select an image for the greeting card.
+For example, the following HTML code, lets a user choose one out
+of four images:
+<p>
+<font color=blue>
+Select a picture:<br>
+&#60;p&#62;<br>
+&#60;A HREF="http://www.student.soc.napier.ac.uk/~username/php/greeting.php?image=1"&#62;<br>
+&#60;img src="image1.jpg"&#62;&#60;/a&#62;&#60;p&#62;<br>
+&#60;A HREF="http://www.student.soc.napier.ac.uk/~username/php/greeting.php?image=2"&#62;<br>
+&#60;img src="image2.jpg"&#62;&#60;/a&#62;&#60;p&#62;<br>
+&#60;A HREF="http://www.student.soc.napier.ac.uk/~username/php/greeting.php?image=3"&#62;<br>
+&#60;img src="image3.jpg"&#62;&#60;/a&#62;&#60;p&#62;<br>
+&#60;A HREF="http://www.student.soc.napier.ac.uk/~username/php/greeting.php?image=4"&#62;<br>
+&#60;img src="image4.jpg"&#62;&#60;/a&#62;&#60;p&#62;
+</font>
+<p>
+All four URLs link to the same PHP file ("greeting.php") which uses
+a parameter ("image") to distinguish between the four images.
+This PHP file should
+produce a form with textboxes for the recipient's email address,
+the recipient's name and the message.
+<p>
+Upon submitting this form a second PHP file is invoked, which sends
+an email to the recipient. Because sending email from a form can be a security
+risk, you should not attempt this before security has been discussed in the
+lecture.
+
+<h4>3.1 Exercises</h4>
+
+6) For the greeting card example, write a PHP script that
+prints "you have selected image ..." and the number of the
+image selected. Then the PHP script prints textboxes for
+the recipient's email address, the recipient's name and the message. 
+<p>
+7) The greeting card example shows that parameters can be added
+to a URL (for example "greeting?image=3"). Try what happens
+if you enter parameter values other than 1, 2, 3 or 4. 
+Add an if statement to your PHP script that prints "not an acceptable
+selection" if the image number is not 1, 2, 3 or 4. 
+
+</body>
+</html>
+

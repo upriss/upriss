@@ -1,0 +1,25 @@
+
+<html>
+<head>
+<title>Relational Database Tutorials</title> 
+</head>
+<body>
+<h3>4.4 2NF</h3>
+Supplier(<b>sno</b>,sname,saddress)<br>
+Supp-part(<b>sno,partno</b>)<br>
+Cust-supp(<b>partno,custid</b>,quantity)<br>
+Part(<b>partno</b>,partdesc)<br>
+Cust(<b>custid</b>,custname,custaddr,sno)
+<p>
+<pre>
+  sno -> sname,saddr
+  partno -> partdesc
+  partno,custid -> quantity
+  sname -> sno
+  custid -> custname,custaddr
+  custid -> sno
+</pre>
+<p>The relations are now in 2NF.
+<p>
+Which of the following is true?
+<p><ol><li><a href='22001normtut4.51ans.html'>There are no transitive dependencies. Thus the relation is in 3NF.</a><br>&nbsp;<li><a href='22001normtut4.52ans.html'>The relation is not in 3NF.</a><br>&nbsp;<li><a href='22001normtut4.53ans.html'>The relation is not in 3NF because sname -> sno is a transitive dependency.</a><br>&nbsp;<li><a href='22001normtut4.54ans.html'>There are several transitive dependencies. </a><br>&nbsp;</ol><p><a href='22001normtut_index.html'>Index</a>

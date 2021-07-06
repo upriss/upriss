@@ -1,0 +1,95 @@
+Print the output to a file and then view the file through your browser.
+
+#!/usr/local/bin/perl
+use IO::Socket;
+open (OUTPUT, ">output.txt");
+
+$current_host = "www.slis.indiana.edu";
+$current_doc = "/";
+
+$remote =IO::Socket::INET->new(Proto => "tcp",
+PeerAddr => $current_host,
+PeerPort => "http(80)",
+);
+if (!$remote) {die "cannot connect to http daemon on $current_host"}
+$remote->autoflush(1);
+print $remote "GET $current_doc HTTP/1.0\n\n";
+$line = <$remote> ;
+while ($line) {
+print OUTPUT "$line";
+$line = <$remote> ;
+}
+close $remote;
+
+
+Using a regular expression omit the header information and print only 
+the lines that follow the "<html>" tag. 
+
+#!/usr/local/bin/perl
+use IO::Socket;
+
+$current_host = "www.slis.indiana.edu";
+$current_doc = "/";
+
+$remote =IO::Socket::INET->new(Proto => "tcp",
+PeerAddr => $current_host,
+PeerPort => "http(80)",
+);
+if (!$remote) {die "cannot connect to http daemon on $current_host"}
+$remote->autoflush(1);
+print $remote "GET $current_doc HTTP/1.0\n\n";
+$line = <$remote> ;
+while ($line) {
+    if ($line =~ /<html>/i) {last}
+$line = <$remote> ;
+}
+while ($line) {
+print "$line";     
+$line = <$remote> ;
+}
+close $remote;
+
+Turn the script into a subroutine. In a main routine save three hostnames 
+and document names each into an array. Let the main routine call the 
+subroutine three times using each hostname/document name pair once. 
+Don't use global variables but instead pass $current_host and $current_doc 
+as arguments to the subroutine. 
+
+#!/usr/local/bin/perl
+use IO::Socket;
+
+@hosts=("www.slis.indiana.edu","www.indiana.edu",
+"www.slis.indiana.edu");
+@docs=("/","/iub/index.html","/Courses/");
+
+$counter=0;
+while ($counter < 3){
+        print "Next page:\n";
+        read_page($hosts[$counter],$docs[$counter]);
+        $counter++;
+}
+
+sub read_page {
+        my $current_host = $_[0];
+        my $current_doc = $_[1];
+
+        $remote =IO::Socket::INET->new(Proto => "tcp",
+        PeerAddr => $current_host,
+        PeerPort => "http(80)",
+        );
+        if (!$remote) {die "cannot connect to http daemon on $current_host"}   
+        $remote->autoflush(1);
+        print $remote "GET $current_doc HTTP/1.0\n\n";
+	$line = <$remote> ; 
+	while ($line) {
+	    if ($line =~ /<a href="(.*?)">/i){
+        	print "$1\n";
+ 	    }
+	    $line = <$remote> ; 
+        } #end of while
+        close $remote;
+} # end of sub                
+
+
+
+

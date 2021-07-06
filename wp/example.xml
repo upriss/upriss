@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>XHTML Example </title>
+</head>
+<body>
+
+<h3>This is a level 3 heading</h3>
+
+<p>
+Hello Student! Here is a 
+<a href="http://www.ostfalia.de">link to the Ostfalia website</a>
+and to the <a href="http://www.ostfalia.de/cms/de/i">Computer Science site</a>
+
+<br />
+The Ostfalia Logo is:
+<img src="http://www.ostfalia.de/cms/system/modules/sonia.ostfalia/resources/images/logo.jpg" />
+<br />
+</p>
+
+<p>The second paragraph of this example has two child nodes:
+
+<ul>
+<li>A list of items</li>
+</ul>
+
+and another 
+<a href="http://www.google.de">link</a>.
+</p>
+
+</body>
+</html>

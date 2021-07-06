@@ -1,0 +1,16 @@
+<movies>
+  <movie id="1">
+    <title>The Quest</title>
+    <actor>Tom Smith</actor>
+    <year>2007</year>
+  </movie>
+  <movie id="2">
+    <title>Summer</title>
+    <year>1998</year>
+    <actor>Susie Black</actor>
+    <actor>Paul White</actor>
+  </movie>
+  <movie id="3">
+    <title>Hello World</title>
+  </movie>
+</movies>

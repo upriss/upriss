@@ -1,0 +1,75 @@
+<HTML>
+<HEAD>
+<TITLE>I200 Week 14</title>
+</HEAD>
+<BODY>
+
+<h3>Knowledge Discovery and Data Mining</h3>
+
+<b>Knowledge discovery in databases (KDD)</b> and 
+<b>data mining</b> attempt to extract useful information from
+databases, heterogeneous data sources and 
+<b>very large databases (VLDB)</b>.
+<p>
+To be distinguished from:
+<ul>
+<li><b>information retrieval</b>: search for known items
+<li><b>data analysis</b>: usually just traditional statistics
+<li>most <b>traditional statistics</b>: prove or disprove hypotheses;
+calculate a fixed set of statistical indicators (such as mean, variance);
+correlate a few variables; etc
+<li><b>machine learning</b>: automated computer learning process,
+usually based on a fixed, carefully constructed database
+</ul>
+Tasks:
+<ul>
+<li>identify new relationships and global patterns in the data
+<li>identify hidden knowledge
+<li>identify trends that can be used for prediction
+<li>identify influential variables (main factors)
+<li>classification or clustering of items into meaningful groups
+<li>identify association rules, ie. attributes or factors that are 
+associated with each other
+</ul>
+
+<h4>Association Rules</h4>
+
+Example: "People who buy beer also buy newspapers."
+<p>
+This is not a logical "inference" because it is not true for all
+people. It is only true for people <i>in general</i>.
+<p>
+Rule: beer -> newspapers<br>
+Rule: X -> Y
+<p>
+<b>support</b>: number of people who buy X and Y / all people<p>
+<b>confidence</b>: number of people who buy X and Y / 
+number of people who buy X
+<p>
+For example: if out of 1000 people there are 2 people who buy beer
+and these 2 also buy newspapers, then the support for 
+beer->newspapers is low (0.2%) but the confidence is high (100%).<br>
+On the other hand, if out of 1000 people 100 buy beer and newspapers
+and another 500 buy beer but no newspapers, then the 
+support for beer->newspaper is higher (10%) but the confidence is 
+lower (20%).
+
+<h4>Applications</h4>
+<ul>
+<li>human genome project and similar applications in bioinformatics
+<li>economy, business intelligence
+<li>pharmaceutical industry: search for new drugs
+<li>global systems: eg environmental issues, weather data
+<li>market analyses
+</ul>
+
+<h4>Major Challenge</h4>
+
+It is fairly easy to disvover new information. The questions is 
+which discovered rules, trends, factors are
+<b>novel, interesting, plausible and 
+understandable</b>.
+
+</body>
+</html>
+

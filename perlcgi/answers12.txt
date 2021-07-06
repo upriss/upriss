@@ -1,0 +1,140 @@
+Note: For each script I included only the parts of the script that are 
+directly relevant to the exercise.
+
+1) Add further attributes to the student class (phone number, email address, 
+degree, etc). 
+
+#!/usr/local/bin/perl
+#########################################
+package Student;
+sub new {
+my $self = {};
+bless $self;
+$self->{name} = $_[1];
+$self->{courses} = $_[2];
+$self->{email} = $_[3];
+$self->{phone} = $_[4];
+return $self;
+}
+sub printDetails {
+my $self = $_[0];
+print "Name: $self->{name}\n";
+print "Courses: @{$self->{courses}}\n";
+print "Email: $self->{email}\n";
+print "Phone: $self->{phone}\n";
+}
+#########################################
+package main;  
+my($student1) = new Student("Fred", ["L548"], "fred\@somewhere.edu",
+     "123-4567");
+
+$student1->printDetails();  
+
+---------------------------------------------------------------
+
+2) Create an array of students. Let users add new students to the array. Ask 
+the user for the name of a student and then print his/her details. 
+
+#!/usr/local/bin/perl
+#########################################
+package Student;
+sub new {
+my $self = {};
+bless $self;
+$self->{name} = $_[1];
+$self->{courses} = $_[2];
+$self->{email} = $_[3];
+$self->{phone} = $_[4];
+return $self;
+}
+sub printDetails {
+my $self = $_[0];
+print "Name: $self->{name}\n";
+print "Courses: @{$self->{courses}}\n";
+print "Email: $self->{email}\n";
+print "Phone: $self->{phone}\n";
+}
+#########################################
+package main;      
+my @students=();    # this creates an empty array
+
+print "Would you like to add a new student?\n";
+$addmore = <STDIN>;
+chomp $addmore;
+
+while ($addmore =~ /y/i) {
+
+    print "Please input the student's name\n";
+    $name = <STDIN>;
+    chomp $name;
+
+    print "Please input one course for the student\n";
+    print "To add more courses, use 'enroll' later\n";
+    $course = <STDIN>;
+    chomp $course;
+
+    print "Please input the student's email address\n";   
+    $email = <STDIN>;
+    chomp $email;
+
+    print "Please input the student's phone number\n";
+    $phone = <STDIN>;
+    chomp $phone;
+
+    $newstudent= new Student($name, [$course], $email, $phone);
+    push (@students, $newstudent);
+
+    print "Would you like to add another new student?\n";
+    $addmore = <STDIN>;
+    chomp $addmore;
+}
+
+    print "Whose details would you like to see?\n";
+    $who = <STDIN>;
+    chomp $who;    
+
+foreach $object (@students) {
+    if ($object->{name} eq $who ) {
+        $object->printDetails();
+    }
+}
+
+---------------------------------------------------------------
+
+3) Create a method creditHours that computes the number of credit hours for a 
+student assuming that every class is a three credit class. 
+
+
+#!/usr/local/bin/perl
+#########################################
+package Student;
+sub new {
+my $self = {};
+bless $self;
+$self->{name} = $_[1];
+$self->{courses} = $_[2];
+$self->{email} = $_[3];
+$self->{phone} = $_[4];
+return $self;
+}
+sub printDetails {
+my $self = $_[0];
+print "Name: $self->{name}\n";
+print "Courses: @{$self->{courses}}\n";
+print "Email: $self->{email}\n";
+print "Phone: $self->{phone}\n";
+}
+sub creditHours {
+my $self = $_[0];
+$number_of_courses = @{$self->{courses}};   # the length of the array
+$hours = $number_of_courses * 3;
+print "Credit hours: $hours\n";
+}
+#########################################
+
+package main;
+my($student1) = new Student("Fred", ["L548", "L575", "L542"],
+"fred\@somewhere.edu", "123-4567");
+
+$student1->creditHours();
+

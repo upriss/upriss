@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>L548 Session 4</TITLE>
+</HEAD>
+<BODY>
+
+<b>Flowcharts: if</b>
+<p>
+<IMG src="s21.jpg">
+<p> 
+
+<b>While</b>
+<p>
+<img src="s22.jpg">
+<p>
+<font color=blue>
+#!/usr/local/bin/perl -w<br>
+#<br>
+# while statement<br>
+#<br>
+$answer = "no";<br>
+while ($answer ne "yes"){<br>
+&nbsp; &nbsp;print "Do you like Perl? ";<br>
+&nbsp; &nbsp;$answer = &#60STDIN&#62;;<br>
+&nbsp; &nbsp;chomp $answer;<br>
+&nbsp; &nbsp;if ($answer eq "yes") {<br>
+&nbsp; &nbsp;&nbsp; &nbsp;print "That is great!\n"; <br>
+&nbsp; &nbsp;} else {<br>
+&nbsp; &nbsp;&nbsp;&nbsp;print "That is not the right answer! Try again.\n";
+<br>
+&nbsp; &nbsp;}<br>	
+	}<br>	
+</font>
+<p>
+
+<b>Exercise</b>
+<p>
+Modify the program from above so that it asks users to "guess the lucky 
+number". If the correct number is guessed the program stops,
+otherwise it continues forever.
+<p>
+Modify the program so that it asks users whether they want to 
+guess again each time. Use two variables, $number for the number
+and $answer for the answer to the question whether they want to
+continue guessing. 
+The program stops if the user guesses the correct number or
+answers "no". (In other words, 
+the program continues as long as a user has not answered "no" and 
+has not guessed the correct number.)
+<p>
+<b>Using a counter</b>
+<p>
+Write a program that asks five times to guess the lucky number.
+Use a while loop and a counter, such as
+<p>
+<font color=blue>
+$counter = 1;<br>
+while ($counter <= 5) {<br>
+&nbsp; &nbsp;print "Type in the $counter number\n";<br>
+&nbsp; &nbsp;$counter++;<br>
+}</font>
+<p>
+The program asks for five guesses (no matter whether the correct
+number was guessed or not).
+If the correct number is guessed, the program outputs
+"Good guess!\n", otherwise it outputs "Try again!\n". 
+After the fifth guess it stops and prints "Game over.\n".
+<p>
+<b>Last</b>
+<p>
+In the previous example, insert "last;" after the "Good guess!\n"
+print statement. "last" will terminate the while loop so that
+users do not have to continue guessing after they found the number. 
+<p>
+<b>Setting a flag</b>
+<p>
+Let users again guess five numbers but this time do not tell
+them immediately whether they were successful or not. After the
+while loop is finished print "The correct number was guessed\n"
+if the number was among the five guesses and "The correct number
+was not among them\n" otherwise. To implement this use a variable
+called $flag that is set to true (or 1) as soon as the number is guessed.
+After the while loop is finished,
+the truthvalue of $flag is evaluated in an if statement.
+
+<p>
+<b>For </b>
+<p>
+<img src="s23.jpg">
+<p>
+<font color=blue>
+#!/usr/local/bin/perl -w<br>
+#<br>
+# for statement<br>
+#<br>
+for ($i =1; $i <= 10; $i++){<br>
+	print "$i ";<br>
+	}<br>
+</font>
+<p>
+
+<b>Exercise</b>
+<p>
+Modify the counter program from above using a for loop
+so that it asks the user for five guesses and 
+then stops. Use "last" to terminate the for loop as soon as the
+correct number is guessed.
+<p>
+
+</BODY>
+</HTML>

@@ -1,0 +1,89 @@
+Exercise 4:
+
+create type job as object (
+    jobtitle varchar(20),
+    job_id int,
+    salary_amount int,
+    years_of_experience int );
+    /
+
+create table job_table of job;
+
+insert into job_table values ('engineer', 0, 30000,4);
+insert into job_table values ('programmer', 1, 35000,3);
+insert into job_table values ('data analyst', 2, 20000,15);
+insert into job_table values ('designer', 3, 25000,2);
+insert into job_table values ('engineer', 4, 33000,5);
+
+---
+
+Exercise 6:
+
+CREATE TYPE street AS OBJECT (
+            sname VARCHAR2(30),
+            snumber NUMBER,
+            flatnumber VARCHAR2(5));
+      /
+
+CREATE TYPE address AS OBJECT (
+            street_and_number street,
+            city VARCHAR2(30),
+            postal_code VARCHAR2(8));
+      /
+
+CREATE TYPE int_address AS OBJECT (
+            local_address address,
+            country VARCHAR2(30));
+      /
+
+---
+
+Exercise 8:
+
+CREATE TYPE phone AS OBJECT (
+            homeph VARCHAR(15),
+            businessph VARCHAR(15),
+            mobileph VARCHAR(15));
+      /
+CREATE TYPE name AS OBJECT (
+            first VARCHAR(15),
+            middle VARCHAR(6),
+            last VARCHAR(15));
+      /
+
+CREATE TYPE person AS OBJECT (
+            pname name,
+            pphone phone,
+            paddress int_address);
+      /
+
+---
+
+Exercise 9:
+
+CREATE TABLE person_table OF person;
+
+---
+
+Exercise 10:
+
+INSERT INTO person_table VALUES (
+   name('John', 'R', 'Smith'), 
+   phone('123-4567', NULL,'73746-56'), 
+   int_address(address(street('Morningside', 342, '2F2'), 
+               'Edinburgh', 'EH10 5DT'),'UK'));
+
+INSERT INTO person_table VALUES (
+   name('Mary', NULL, 'Miller'),
+   phone('354-5643', '453-5746','73346-56'),
+   int_address(address(street('Princess St.', 6, NULL),
+                'Edinburgh', 'EH1 3AB'),'UK'));
+
+INSERT INTO person_table VALUES (
+   name('Mary', 'S', 'Miller'),
+   phone('322-8484', NULL,'645-2929'),
+   int_address(address(street('Merchiston Ave', 3, '1F5'),
+         'Edinburgh', 'EH10 5DT'),'UK'));
+
+---
+

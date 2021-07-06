@@ -1,0 +1,151 @@
+1.1 Create a form that asks a user to input their name into a 
+textfield and to choose a color from a selection of radio buttons. 
+Create a CGI script that displays a page with a short message (e.g. 
+"Thank you", name, "for your request") in the color which the user 
+chose.
+
+
+#!/usr/bin/env python
+#
+######### CGI header #######################################
+import cgi
+print "Content-Type: text/html\n"
+form = cgi.FieldStorage()
+
+######### get form values ##################################
+color = form.getvalue("color")
+name = form.getvalue("name")
+
+########## HTML header ######################################
+print """
+<html><head><title>Your favorite color</title> </head><body>
+"""
+########## print name and color #############################
+if name and color:
+    print "<font color =", color, ">"
+    print "Thank you", name , "for your request"
+    print "</font>"
+else:
+    print "You need to enter a color and a name"
+
+########### HTML footer  ####################################
+print """
+</body></html>
+"""
+
+----
+
+2.2 You can use CONTENT_LENGTH to increase the security of your
+CGI script (by ensuring that the user is not attempting to overload
+your script with large amounts of data). Insert an if statement
+into your script that prints a warning if 
+os.environ["REQUEST_METHOD"] is set to POST and
+int(os.environ["CONTENT_LENGTH"]) is larger than 10.
+
+
+#!/usr/bin/env python
+#
+######### CGI header #######################################
+import cgi
+print "Content-Type: text/html\n"
+form = cgi.FieldStorage()
+
+######### import the operating system module ###############
+import os
+
+######### get form values ##################################
+color = form.getvalue("color")
+name = form.getvalue("name")
+
+########## HTML header ######################################
+print """
+<html><head> <title>Your favorite color</title> </head><body>
+"""
+
+########## check CONTENT_LENGTH ############################
+if os.environ["REQUEST_METHOD"] == "POST" and \
+int(os.environ["CONTENT_LENGTH"]) < 20:
+    print "Content length is larger than 10<p>"
+
+########## print name and color #############################
+if name and color:
+    print "<font color =", color, ">"
+    print "Thank you", name , "for your request"
+    print "</font>"
+else:
+    print "You need to enter a color and a name"
+
+########### HTML footer  ####################################
+print """
+</body></html>
+"""
+
+
+----
+
+3.1 Apply all the security measures mentioned above under
+"b) Check user input" to your script from exercise 1.1.
+For example, check that neither name nor color are empty,
+check that the name and color contain only word characters, space
+or hyphen (-) and check that neither name nor color is longer 
+than 50 chars.
+If your script encounters any security problem, print
+an error message and exit the script using sys.exit().
+
+#!/usr/bin/env python
+#
+######### CGI header #######################################
+import cgi
+print "Content-Type: text/html\n"
+form = cgi.FieldStorage()
+
+########## import the system module #############################
+import sys
+
+########## import the regular expr module #######################
+import re
+
+############### this replaces <> with HTML meta characters ######
+open_tag = re.compile(r"<")
+close_tag = re.compile(r">")
+for item in form.keys():
+    form[item].value = open_tag.sub ("&#60;", form[item].value)
+    form[item].value = close_tag.sub ("&#62;", form[item].value)
+
+######### get form values ##################################
+color = form.getvalue("color")
+name = form.getvalue("name")
+
+########## HTML header ########################################
+print """
+<html><head> <title>Your favorite color</title> </head><body>
+"""
+
+########## main part of the script ############################
+if not name or not color:
+   print "Please enter a name and a color"
+   sys.exit()
+
+if color == "blue" or color == "red" or color == "green":
+   if len(name) > 50:
+       print "No one has such a long name! This is wrong."
+       sys.exit()
+   name_check = re.compile(r"^[\w\-\s]+$")
+   result = name_check.search(name)
+   if not result:
+       print "These are not normal characters"
+       sys.exit()
+   print "<font color =", color, ">"
+   print "Thank you", name , "for your request"
+   print "</font>"
+else:
+   print "You did not select an appropriate color!"
+   sys.exit()
+
+
+########### HTML footer ########################################
+print """
+</body></html>
+"""
+
+

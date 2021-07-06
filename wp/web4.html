@@ -1,0 +1,85 @@
+<HTML>
+<HEAD>
+<TITLE>Week 4</TITLE>
+</HEAD>
+<BODY>
+
+<h3>Viewing HTTP Headers</h3>
+
+Use one of these tools to look at the HTTP headers of some websites:
+
+<p>
+<a href="http://web-sniffer.net/">HTTP Web Sniffer</a><br>
+<a href="http://www.rexswain.com/httpview.html">Rex Swain's HTTP Viewer</a><br>
+<a href="http://www.metamend.com/seo-tools/http-header-request-viewer.html">
+HTTP Head Request Viewer</a>
+<p>
+
+<h3>Some questions:</h3>
+
+Check the headers for "ostfalia.de". What does 302 mean? Where is the
+actual ostfalia website located? What webserver and 
+content management system software does Ostfalia use?
+<p>
+Is there a difference between "www.google.de" and "google.de"?
+How many cookies does Google send with each page?
+What webserver software does Google use?
+<p>
+What webserver software does W3C (www.w3.org) use? Where is their main
+page located?
+
+<h3>Information sent to the server</h3>
+
+Fill the blanks in the table:
+<p>
+
+<table border=1 cellpadding=5>
+<tr><th>parameter<th>example<th>description<th>PHP environment variable
+<tr><td><input type='text' size=15><td>GET<td>request type
+<td><input type='text' size=15>
+<tr><td>ACCEPT<td><input type='text' size=15><td><input type='text' size=15>
+<td>HTTP_ACCEPT
+<tr><td><input type='text' size=15><td>word=question<td><input type='text' size=15>
+<td><input type='text' size=15>
+<tr><td><input type='text' size=15><td><input type='text' size=15>
+<td>length in case of POST<td><input type='text' size=15>
+<tr><td><input type='text' size=15><td>HEAD<td><input type='text' size=15>
+<td><input type='text' size=15>
+<tr><td><input type='text' size=15><td>Mozilla/4.0<td><input type='text' size=15>
+<td><input type='text' size=15>
+<tr><td><input type='text' size=15><td>DELETE<td><input type='text' size=15>
+<td><input type='text' size=15>
+<tr><td><input type='text' size=15><td>/index.html<td><input type='text' size=15>
+<td><input type='text' size=15>
+<tr><td>REFERER<td><input type='text' size=15><td><input type='text' size=15>
+<td><input type='text' size=15>
+<tr><td>HOST<td><input type='text' size=15><td><input type='text' size=15>
+<td><input type='text' size=15></table>
+
+<h3>Information received from the server</h3>
+
+<table border=1 cellpadding=5>
+
+<tr><th>parameter<th>example<th>environment variable
+<tr><td><input type='text' size=15><td>HTTP/1.1<td><input type='text' size=15>
+<tr><td>Cookie<td><input type='text' size=15><td><input type='text' size=15>
+<tr><td><input type='text' size=15><td>Apache/2<td><input type='text' size=15>
+<tr><td>Content-Type<td><input type='text' size=15><td><input type='text' size=15>
+</table>
+
+<h3>Sessions</h3>
+
+A user searches for a hat, a book and a watch on an on-line shopping website.
+The user selects the first item and then searches for the next one. After selecting
+the three items, the user clicks on the shopping cart page, views the items
+and pays. How is this implemented? The user can go back and forth between searches
+and viewing the shopping cart. How does the server keep track of what the user
+has already put in the cart? What information is sent between client and 
+server/what is stored on the server/client ...
+
+
+<ul>
+<li>when the user first enters the site
+<li>when the user selects an item
+<li>when the user checks out and pays?
+</ul>

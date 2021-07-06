@@ -1,0 +1,126 @@
+3) Implement the AJAX script using the two files from 
+exercise 2) following the instructions provided above.
+
+
+<html><head>
+<script type='text/javascript'>
+var request
+var param 
+  
+function rewriter(parameter,content) {
+  param = parameter 
+  request=GetXmlHttpObject()
+  if (request==null) {
+    alert ("Browser does not support HTTP Request")
+    return
+    }
+  request.open("GET", "ajaxinput.php?action="+content, true)
+  request.send(null)
+  request.onreadystatechange=stateChanged
+}
+
+function stateChanged() {
+ if (request.readyState==4 || request.readyState=="complete") {
+    javascript:document.getElementById(param).innerHTML = request.responseText;
+    }
+  }
+
+function GetXmlHttpObject() {
+  var objXMLHttp=null
+  if (window.XMLHttpRequest) {
+    objXMLHttp=new XMLHttpRequest()
+  } else if (window.ActiveXObject) {
+    objXMLHttp=new ActiveXObject("Microsoft.XMLHTTP")
+  }
+  return objXMLHttp
+}
+</script>
+</head>
+<body>
+I would like some <span id="flavour">what kind of flavour</span> ice cream.
+<p>
+<input type='button' 
+       onclick='rewriter("flavour","one")' 
+       value='chocolate'/>
+
+<input type='button' 
+       onclick='rewriter("flavour","two")' 
+       value='strawberry'/>
+
+<input type='button' 
+       onclick='rewriter("flavour","three")' 
+       value='peach'/>
+
+
+</body></html>
+
+4) Change the script from the previous exercise so that it reads
+the content from an XML file, which contains a tag for each
+flavour.
+
+The XML file:
+
+<?xml version="1.0" ?>
+<icecream>
+<one>chocolate</one>
+<two>strawberry</two>
+<three>peach</three> 
+</icecream>
+
+The AJAX file:
+
+<html><head>
+<script type='text/javascript'>
+var request
+var param 
+var choice 
+
+function rewriter(parameter,content) {
+  param = parameter 
+  choice = content
+  request=GetXmlHttpObject()
+  if (request==null) {
+    alert ("Browser does not support HTTP Request")
+    return
+    }
+  request.open("GET", "ajax.xml", true)
+  request.send(null)
+  request.onreadystatechange=stateChanged
+}
+
+function stateChanged() {
+  if (request.readyState==4) {
+    var xmldoc = request.responseXML;
+    var root_node = xmldoc.getElementsByTagName(choice).item(0);
+    document.getElementById(param).innerHTML = root_node.firstChild.data
+  }
+}
+
+function GetXmlHttpObject() {
+  var objXMLHttp=null
+  if (window.XMLHttpRequest) {
+    objXMLHttp=new XMLHttpRequest()
+  } else if (window.ActiveXObject) {
+    objXMLHttp=new ActiveXObject("Microsoft.XMLHTTP")
+  }
+  return objXMLHttp
+}
+</script>
+</head>
+<body>
+I would like some <span id="flavour">what kind of flavour</span> ice cream.
+<p>
+<input type='button' 
+       onclick='rewriter("flavour","one")' 
+       value='chocolate'/>
+
+<input type='button' 
+       onclick='rewriter("flavour","two")' 
+       value='strawberry'/>
+
+<input type='button' 
+       onclick='rewriter("flavour","three")' 
+       value='peach'/>
+
+
+</body></html>

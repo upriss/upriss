@@ -1,0 +1,108 @@
+Note: below I am only printing the parts from the sample scripts
+on the exercise page that need to be modified.
+
+1) if (!preg_match("/the /i", $line, $matches)) {
+
+2) a) ) Retrieve lines that have a word of any length that starts with t and 
+ends with e. 
+/\bt\w*e\b/
+
+Modify this so that the word has at least three characters. 
+/\bt\w+e\b/
+
+b) Retrieve lines that start with a. 
+/^a/
+
+Retrieve lines that start with a and end with n.
+/^a.*n$/
+
+c) Retrieve blank lines. Think of at least two ways of doing this.
+  if (preg_match("/^$/", $line, $matches)) {    
+or
+  if (!preg_match("/./", $line, $matches)) {  
+
+d) a word that starts with an upper case letter 
+/\b[A-Z]\w*/
+
+---------------------------------------------------------------------------
+
+3) What is the difference between the following expressions?
+
+b) !preg_match("/yes/"...)  and /[^y][^e][^s]/ <br>
+
+!preg_match matches lines that do not contain the string "yes".
+
+/[^y][^e][^s]/ matches lines that contain three characters so that
+the first one is not "y", the second one is not "e", and the third one
+is not "s". Eg. "yes" or "yeS" or "yyy" are not matched, but
+"YES" or "yes!" are matched (because "es!" does not equal "yes"). 
+
+---------------------------------------------------------------------------
+
+6a) Replace all upper case letters A by lower case letters a;
+
+$line = preg_replace("/A/", 'a', $line);
+
+6b) Delete all words with more than 3 characters.
+
+$line = preg_replace("/\b\w\w\w+\b/", '', $line);
+
+---------------------------------------------------------------------------
+
+5) Write a replace statement that deletes all HTML mark-up from a file. 
+
+$line = preg_replace("/<.*>/", '', $line);  
+
+But this doesn't work if there are several tags in one line because
+* is greedy. Better solution:
+
+$line = preg_replace("/<.*?>/", '', $line);  
+
+---------------------------------------------------------------------------
+
+
+6) Print double characters within parenthesis "()". For example, replace 
+"arrived" by "a(rr)ived". 
+
+$line = preg_replace("/(.)\\1/", '(\1\1)', $line); 
+
+---------------------------------------------------------------------------
+
+7) Read the alice.txt file into an array. Chomp it. Using join concatenate 
+it into one string. Then split it into words (or sentences) and print it 
+one word (sentence) per line. 
+
+<html><head>
+<title>Displaying a file word by word</title> 
+</head><body>
+<hr><h1>Results:</h1><hr><p>
+<?php
+$lines = file('alice.txt');
+$bigstring = implode(' ',$lines);
+$words = preg_split("/\b/", $bigstring);
+
+foreach ($words as $word_num => $word) {
+  echo "Line ",$word_num,": ",$word, "<br>\n";
+}
+?>
+<p><hr></body></html>
+
+                 
+---------------------------------------------------------------------------
+
+8) Write a script that takes an HTML source file as input and prints it so 
+that a newline follows only "closing tags", i.e. tags that are of the 
+form </...>. 
+
+<html><head>
+<title>Reformated HTML</title>
+</head><body>
+<hr><h1>Results:</h1><hr><p>
+<?php
+$lines = file('somefile.html');
+$line = implode(' ',$lines);
+$line = preg_replace("/[\n\r]/", '', $line);
+$line = preg_replace("/(<\/.*?>)/", "\\1\n", $line); 
+echo $line;
+?>
+<p><hr></body></html>

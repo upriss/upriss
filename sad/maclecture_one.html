@@ -1,0 +1,279 @@
+
+<html>
+<head>
+<title>Unix</title> 
+</head>
+<body>
+The Apple OS X Operating System
+<br>
+<p><hr><p><h3>1.1 Apple OS X compared to Microsoft Windows</h3>
+<table border =1>
+<tr><th>OS X<th>MS Windows
+<tr><td> commercial <td>commercial
+<tr><td>Darwin source code available for developers<td>source code is secret
+<tr><td>commercial focus on multimedia
+<td>commercial focus on personal and business use
+<tr><td>iLife Suite (Music, Photo, Movie) 
+<td>MS Office (database, spreadsheet, word processing)
+<tr><td>small user group<td>huge user group
+<tr><td>requires specialist hardware<td>multiple hardware vendors
+<tr><td>more expensive (at low end)<td>cheaper
+<tr><td>crashes less<td>crashes more, but hardware is better tested
+</table>
+<p><p><hr><p><h3>1.2 Apple OS X compared to Linux</h3>
+<table border =1>
+<tr><th>OS X<th>Linux
+<tr><td>commercial<td>free and commercial versions
+<tr><td>Darwin source code available for developers<td>open source
+<tr><td>requires specialist hardware<td>multiple hardware vendors
+<tr><td>more expensive<td>cheap hardware, free OS
+<tr><td>user contributed code<td>user contributed code
+<tr><td>Fink, Sourceforge<td>dpkg, rpm, Sourceforge
+</table>
+<p>But they are very different flavours of Unix!
+<p><p><hr><p><h3>1.3 Apple OS X compared to Linux - continued</h3>
+About 50% of what you learned about Linux this semester 
+is different for OS X!
+<p><table border=1>
+<tr><th>Linux<th>OS X
+<tr><td>/etc/init.d<td>Library/StartupItems<br>/etc/mach_init.d since 10.3
+<tr><td>/proc<td>different tools
+<tr><td>iptables<td>ipfw
+<tr><td>/etc/passwd<td>netinfo
+</table>
+<p><ul>
+<li> The options for many commands are different.
+</ul>
+<p><p><hr><p><h3>1.4 Unix software</h3>
+OS X comes preinstalled with apache, perl, python, java, etc.
+<p>Apple provides free downloads for Xcode (Developer Tools with 
+compilers, debuggers, Java tools, Project Builder, Documentation 
+etc.), X11, etc.
+<p>fink.sourceforge.net is an open source OS X software repository with
+binaries for many Unix tools (Gnome, KDE, Perl libraries, PDF and Postscript
+tools, databases, etc).
+<p>Installation of any other Unix software from source code is possible
+but can be difficult if the software does not explicitly support OS X. 
+<p><p><hr><p><h3>2.1 OS X internals</h3>
+<ul>
+<li> Aqua: user interface (including Desktop and Finder)
+</ul>
+<p><ul>
+<li> Classic, Carbon, and Cocoa: application environments
+</ul>
+<p><ul>
+<li> Quartz: windows + graphics (including OpenGL, QuickDraw, 
+  QuickTime, native PDF!)
+</ul>
+<p><ul>
+<li> Darwin: operating system core (Mach 3.0, 4.4 BSD)
+</ul>
+<p><p><hr><p><h3>2.1.1 Remark: Microkernel vs. Monolithic System</h3>
+In the famous "Tanenbaum vs Linus" email, Tanenbaum criticises Linux
+because Linux uses a <b>monolithic kernel</b>, as opposed to a 
+modular <b>microkernel</b>. Mach is a microkernel.
+<p>Tanenbaum concluded in 1992 that "Linux is obsolete" ...
+<p><p><hr><p><h3>2.2 Application environments</h3>
+<ul>
+<li> Classic emulator: legacy OS 9 code
+</ul>
+<p><ul>
+<li> Carbon: procedural C-based APIs which run both on OS X and OS 9
+</ul>
+<p><ul>
+<li> Cocoa: object-oriented API for developing in Objective-C and Java
+</ul>
+<p><ul>
+<li> BSD commands
+</ul>
+<p><p><hr><p><h3>2.3 Processes</h3>
+BSD processes (with PID) are different from Carbon processes (with PSN).
+<p>"ps -axw" shows both numbers.
+<p>If the Classic emulator is run, all its PSNs correspond to one PID.
+<p><p><hr><p><h3>2.4 Applications, Frameworks and Extensions</h3>
+<ul>
+<li> Traditional applications are bundled into one directory (with .app 
+extension).<br> 
+(In the GUI these look like a single executable.)
+</ul>
+<p><ul>
+<li> Frameworks are collections of libraries (with .framework extension).
+</ul>
+<p><ul>
+<li> Kernel Extensions (Plugins): dynamic loading of code into the kernel without
+recompilation.
+</ul>
+<p><p><hr><p><h3>2.5 AppleScript</h3>
+Script language for writing macros that interact with applications.
+<p><pre>
+tell application "Finder"
+beep
+    get the name of the first item in the desktop
+end tell
+</pre>
+<p><p><hr><p><h3>3.1 OS X file system</h3>
+HFS+, Hierarchical File System Plus, Mac OS Extended Format 
+<p><ul>
+<li> data fork: contains the actual user data
+</ul>
+<p><ul>
+<li> resource fork: contains additional information, e.g. type and creator
+codes, thumbnail images, comments
+</ul>
+<p><p><hr><p><h3>3.2 Other features of HFS+</h3>
+<ul>
+<li> HFS+ is a case preserving, case insensitive filesystem
+</ul>
+<p><ul>
+<li> Each file and directory has a unique, persistent ID.
+</ul>
+<p><ul>
+<li> Supports both creation and modification dates.
+</ul>
+<p><ul>
+<li> Does not support sparse files, but zero-fills 
+all bytes allocated for a file until end-of-file.
+</ul>
+<p><p><hr><p><h3>3.3 Aliases versus symbolic links</h3>
+Symbolic links are implemented as a reference to a path in the file system.
+If a file is moved the link breaks; but if the file is replaced with a
+new version, the link remains valid.
+<p>Aliases are references to an ID. They always refer to the same file even
+if it is moved. But they break if the file is replaced with a new version.
+<p><p><hr><p><h3>3.4 Working with the resource fork</h3>
+GUI commands (cut, copy, paste, drag) automatically affect both forks.
+<p>Some BSD commands do not work with the resource fork!
+<p><p><hr><p><h3>3.5 Viewing the resource fork</h3>
+For file SOMEFILE, the resource fork can be listed with
+<p><ul>
+<li> ls SOMEFILE/rsrc
+</ul>
+<p><p><hr><p><h3>3.6 BSD commands affected by the resource fork</h3>
+"mv" affects both forks, "cp" and "tar" do not
+<p><ul>
+<li> use "ditto" instead of "cp"
+</ul>
+<p><ul>
+<li> use "hfstar" instead of "tar"
+</ul>
+<p><p><hr><p><h3>3.7 Other file systems (supported by OS X)</h3>
+<table border=1>
+<tr><th>acronym<th>name<th>explanation
+<tr><td>HFS<td>Hierarchical File System<td>
+Mac OS Standard Format  for OS 8 and OS 9
+<tr><td>UFS <td>Unix File System<td>most Unix systems
+<tr><td>UDF<td>Universal Disk Format<td> for DVD volumes
+<tr><td> <td>ISO 9660<td>standard format for CD-ROM volumes
+</table>
+<p>From a GUI view, there is no difference between these. 
+<p><p><hr><p><h3>4.1 OS X System Startup</h3>
+1) Open Firmware
+<p>2) /System/Library/CoreServices/BootX  (boot loader)
+<p>3) /sbin/mach_init (mach service naming)
+<p>4) /sbin/init (BSD init; PID 1; determines runlevel)
+<p>5) /etc/rc.boot (single user; netboot in case of network boot; fsck)
+<p>6) /etc/rc (multi-user startup; mount file system; cleanup; sysctl variables;
+        syslogd; kextd; read mach_init.d; portmap; netinfo; update; vm;
+        dynamic_pager )
+<p>7) /sbin/SystemStarter (/System/Library/StartupItems; /Library/StartupItems)
+<p>8) CoreGraphics; WindowServer; loginwindow
+<p><p><hr><p><h3>4.2 Startup items</h3>
+OS X 10.2 and prior uses 
+/System/Library/StartupItems (for system startup items)
+and /Library/StartupItems (for locally installed items).
+<p>Since OS 10.3: /etc/mach_init.d for system startup items and
+/etc/mach_init_per_user.d for user startup items. (Both are directories
+containing .plist files.)
+<p><p><hr><p><h3>5.1 Users and Groups</h3>
+/etc/passwd and /etc/group are only read in single-user mode.
+<p>It is easiest to add users and groups using the GUI utilities.
+<p><ul>
+<li> On the command-line, users can be added with niload passwd.
+<li> On the command-line, the home directories can be created with 
+</ul>
+<p>sudo ditto -rsrc /System/Library/User\ Template/English.lproj /Users/username
+<p><p><hr><p><h3>5.2 Remark: OS X Server</h3>
+There are two versions of OS X: one for workstations and one for 
+servers. 
+<p>The server version has special GUI and command-line tools 
+(such as serversetup and serveradmin) for all kinds of admin tasks.
+<p><p><hr><p><h3>5.3 Directory Services</h3>
+<ul>
+<li> maintain information about all users (names, passwords, and preferences),
+printers and other resources on a network in a single location 
+</ul>
+<p><ul>
+<li> users can login to a computer on the network with their personal
+preferences
+</ul>
+<p><p><hr><p><h3>5.4 OS X's Open Directory </h3>
+OS X uses either 
+<p><ul>
+<li> LDAP or 
+</ul>
+<p><ul>
+<li> Netinfo (for local database)
+</ul>
+<p><ul>
+<li> can be configured to act as client to Active Directory (Microsoft)
+</ul>
+<p><p><hr><p><h3>5.5 Open Directory Architecture (built into any Mac)</h3>
+<ul>
+<li> Directory and authentication frameworks
+<ul>
+<li> Open Directory API
+<li> lookupd
+<li> PAM 
+</ul>
+</ul>
+<ul>
+<li> Directory services
+<ul>
+<li> BSD flatfiles (/etc)
+<li> Netinfo (local database + schema)
+<li> NIS (client)
+<li> LDAPv3 (client and custom map of OS X Server)
+<li> Active directory (client)
+<li> Crypt, kerberos, SASL (client)
+</ul>
+</ul>
+<p><hr><p><h3>5.6 Legacy Network Products that are supported</h3>
+<ul>
+<li> AppleTalk: networking before OS X
+</ul>
+<p><ul>
+<li> Rendezvous: zero configuration network for file sharing, printers, etc
+</ul>
+<p><ul>
+<li> SLP: file and print services over IP
+</ul>
+<p><ul>
+<li> SMB: Server Message Block (Microsoft)
+</ul>
+<p><p><hr><p><h3>5.7 lookupd: information broker and cache</h3>
+<ul>
+<li> for user accounts, groups, printers, e-mail aliases, computer names, 
+IP addresses
+</ul>
+<p><ul>
+<li> keeps a cache of recently requested items to improve system performance.
+</ul>
+<p><ul>
+<li> search strategy for DNS, for NIS, for flat files 
+</ul>
+<p><ul>
+<li> query directory services, Netinfo etc
+</ul>
+<p><ul>
+<li> categories are users, groups, hosts, networks, services, protocols, rpcs,
+     mounts, printers, bootparams, bootp, aliases, and netgroups.
+</ul>
+<p><p><hr><p><h3>6.1 Summary: OS X</h3>
+Modern commercial Unix system + multimedia enhanced personal computer
+in one box.
+<p>OS X supports a variety of file system formats, networking protocols,
+directory access, etc. 
+<p>OS X also supports pre-OS X legacy code which is not Unix-like at all.
+<p>Maybe: because Apple is not the market leader, OS X has to strive for
+compatibility with other systems.
+<p><p><p><p><p>

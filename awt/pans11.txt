@@ -1,0 +1,110 @@
+client with two methods:
+
+<?php
+ini_set("soap.wsdl_cache_enabled", "0"); // disabling WSDL cache 
+
+try {
+  $client = new SoapClient("http://www.student.soc.napier.ac.uk/~cs170/php/helloworld.wsdl");
+  $result = $client->answerMe("1");  
+  print($result); 
+  echo "<br>";
+  $result = $client->niceDay("1");
+  print($result); 
+} catch (SoapFault $exception) {
+  echo $exception;
+}
+?>
+
+
+server:
+
+<?php
+class WorldService {
+private $worldattributes = array("1" => "brave", "2" => "new");
+
+function answerMe($whatKindOfWorld) {
+  return "Hello ".$this->worldattributes[$whatKindOfWorld]." World";
+}
+
+function niceDay($have) {
+  return "Have a ".$this->worldattributes[$have]." day!";
+}
+}
+
+ini_set("soap.wsdl_cache_enabled", "0"); // disabling WSDL cache 
+$server = new SoapServer("helloworld.wsdl");
+$server->setClass("WorldService");
+$server->handle();
+?>
+
+
+
+WSDL with two methods
+
+<?xml version ='1.0' encoding ='UTF-8' ?> 
+<definitions name='HelloWorld' 
+  targetNamespace='http://example.org/HelloWorld' 
+  xmlns:tns=' http://example.org/HelloWorld ' 
+  xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' 
+  xmlns:xsd='http://www.w3.org/2001/XMLSchema' 
+  xmlns:soapenc='http://schemas.xmlsoap.org/soap/encoding/'
+  xmlns:wsdl='http://schemas.xmlsoap.org/wsdl/' 
+  xmlns='http://schemas.xmlsoap.org/wsdl/'> 
+
+<message name='getHelloWorldRequest'> 
+  <part name='whatKindOfWorld' type='xsd:string'/>
+</message> 
+<message name='getHelloWorldResponse'> 
+  <part name='Result' type='xsd:string'/> 
+</message> 
+
+<message name='getniceDayRequest'> 
+  <part name='whatKindOfDay' type='xsd:string'/>
+</message> 
+<message name='getniceDayResponse'> 
+  <part name='Result' type='xsd:string'/> 
+</message> 
+
+<portType name='HelloWorldPortType'> 
+  <operation name='answerMe'> 
+    <input message='tns:getHelloWorldRequest'/> 
+    <output message='tns:getHelloWorldResponse'/> 
+  </operation> 
+  <operation name='niceDay'> 
+    <input message='tns:getniceDayRequest'/> 
+    <output message='tns:getniceDayResponse'/> 
+  </operation> 
+</portType> 
+
+<binding name='HelloWorldBinding' type='tns:HelloWorldPortType'> 
+  <soap:binding style='rpc' transport='http://schemas.xmlsoap.org/soap/http'/> 
+  <operation name='answerMe'> 
+    <soap:operation soapAction='urn:localhost-HelloWorld#answerMe'/> 
+    <input> 
+      <soap:body use='encoded' namespace='urn:localhost-HelloWorld' 
+        encodingStyle='http://schemas.xmlsoap.org/soap/encoding/'/> 
+    </input> 
+    <output> 
+      <soap:body use='encoded' namespace='urn:localhost-HelloWorld' 
+        encodingStyle='http://schemas.xmlsoap.org/soap/encoding/'/> 
+    </output> 
+  </operation> 
+  <operation name='niceDay'> 
+    <soap:operation soapAction='urn:localhost-HelloWorld#niceDay'/> 
+    <input> 
+      <soap:body use='encoded' namespace='urn:localhost-HelloWorld' 
+        encodingStyle='http://schemas.xmlsoap.org/soap/encoding/'/> 
+    </input> 
+    <output> 
+      <soap:body use='encoded' namespace='urn:localhost-HelloWorld' 
+        encodingStyle='http://schemas.xmlsoap.org/soap/encoding/'/> 
+    </output> 
+  </operation> 
+</binding> 
+
+<service name='HelloWorldService'> 
+  <port name='HelloWorldPort' binding='HelloWorldBinding'> 
+    <soap:address location='http://www.student.soc.napier.ac.uk/~cs170/php/helloserver.php'/> 
+  </port> 
+</service>
+</definitions>

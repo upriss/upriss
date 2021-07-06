@@ -1,0 +1,366 @@
+<HTML>
+<HEAD>
+<TITLE>Week 5</TITLE>
+</HEAD>
+<BODY>
+
+<h4>Note:</h4>
+
+<li>This week contains more or less everything there is to be known
+about regular expressions. That is usually more than needed in any
+single project. You don't need to do all of the exercises listed below.
+But try to get an overview of the kinds of things
+one can do with regular expressions. 
+<li>Don't skip exercises 7, 10 and 11. They are important for processing
+HTML files. 
+
+<h3>1 Regular Expressions</h3>
+
+A regular expression is a pattern that a string is searched for.
+Unix commands such as "ls *.*" are similar to regular expressions,
+but the syntax of regular expressions is more elaborated.
+Several Unix programs (grep, sed, awk, ed, vi, emacs) use regular
+expressions and many modern programming languages (such as
+Java) also support them.
+
+<p>
+
+$line =~/the /<br>
+
+searches for the occurrence of the four character sequence "the " in the
+string in $line. If "!~" was used instead of "=~" then the script
+would search for strings that do not contain the four character
+sequence "the ".
+
+<h4>1.1 Example:</h4>
+
+<font color=blue>
+#!/usr/local/bin/perl <br>
+#<br>
+# Regular expressions <br>
+#<br>
+# reading a file: <br>
+open(ALICE, "alice.txt");<br>
+@lines = &#60ALICE&gt ;<br>
+close(ALICE);<p>
+# searching the file content line by line:<br>
+foreach $line (@lines){<br>
+&nbsp; &nbsp; if ($line =~/the /){<br>
+&nbsp; &nbsp; &nbsp; &nbsp; print $line;<br>
+&nbsp; &nbsp; } # end of if <br>
+} # end of foreach <br>
+</font>
+
+<h4>1.2 Exercises</h4>
+
+<font color=red>Unix versus DOS/Windows:</font>
+For the exercises you can use the <a href="alice.txt">alice.txt file</a>.
+It is best to save this file by copying and pasting
+it into a Unix editor. If you save the file under DOS/Windows, each
+line ends with "\r\n" instead of "\n". You need two chop commands
+instead of one chomp command if you want to remove these characters. 
+
+<p>
+
+<a href="#chars">List of special characters</a>
+<p>
+1) Retrieve all lines from alice.txt that do not contain /the /. 
+Retrieve all lines that contain "the" with lower or upper case
+letters (hint: inserting an "i" after the
+expression means "ignore case":<font color=blue>/the /i</font>).
+
+<p> 
+2)
+a) Retrieve lines that contain a three letter string consisting of
+"t", then any character,
+then "e", such as "the dog", "tree", "not ever". <br>
+b) Retrieve lines with a three letter word that starts with t and 
+ends with e.<br>
+c) Retrieve lines that contain a word of any length that starts with
+t and ends with e. Modify this so that the word has at least 
+three characters.
+<br>
+d) Retrieve lines that start with a. Retrieve lines that start with a and 
+end with n.<br>
+e) Retrieve blank lines. Think of at least two ways of doing this.<br>
+f) Retrieve lines that have two consecutive o's.<br>
+g) Retrieve lines that do not contain the blank space character. <br>
+h) Retrieve lines that contain more than one blank space character. 
+<p>
+3) 
+For the following regular expressions write a script that lets a user
+input a string. The string is then compared to a regular expression
+(using =~). A message is printed to the screen if the match was 
+successful. (Alternatively you could keep using the alice.txt file
+and simply add a couple of lines to it that contain these patterns.)
+<p>
+Match the following patterns:
+<p>
+a) an odd digit followed by an even digit (eg. 12 or 74) <br>
+b) a letter followed by a non-letter followed by a number <br>
+c) a word that starts with an upper case letter <br>
+d) the word "yes" in any combination of upper and lower cases letters <br>
+e) one or more times the word "the" <br>
+f) a date in the form of one or two digits, a dot, one or two digits,
+a dot, two digits <br>
+g) a punctuation mark <br>
+<p>
+
+4) What is the difference between the following expressions?<br>
+
+<p>
+a) abc*  and (abc)* <br>
+b) !/yes/  and /[^y][^e][^s]/ <br>
+c) [A-Z][a-z]* and [A-Z][a-z]+ <p>
+
+5) Write a script that asks users for their name, address and phone 
+number. Test each input for accuracy, for example, there should be no letters
+in a phone number.
+A phone number should have a certain length. An address should
+have a certain format, etc. Ask the user to repeat the input in case
+your script identifies it as incorrect.
+
+<h4>1.3 Optional: using the $_ variable</h4>
+
+An alternative to the search script from above uses the $_ variable for 
+the current line. It reads the file line by line (as opposed to 
+storing it in an array). In this case the negation would be
+expressed as !/the /.
+<p>
+<font color=blue>
+#!/usr/local/bin/perl <br>
+#<br>
+# Regular expressions <br>
+#<br>
+open(ALICE, "alice.txt");<br>
+while (&#60ALICE&gt){<br>
+&nbsp; &nbsp; if (/the /){<br>
+&nbsp; &nbsp; &nbsp; &nbsp; print $_;<br>
+&nbsp; &nbsp; } # end of if <br>
+} # end of while <br>
+close(ALICE);<br>        
+</font>
+
+<h3>2 Substitution and Transliteration</h3>
+
+Using 
+<font color=red>$string_variable =~ s/search_pattern/replace_string/ 
+</font>
+<br>
+a search_pattern in $string_variable can be replaced by a replace_string.
+<br><font color=red>s/search_pattern/replace_string/g</font>
+<br>
+stands for global replacement, i.e. not only the first occurrence is
+replaced.
+<br><font color=red>s/search_pattern/replace_string/i</font>
+<br>
+stands for ignore case. "gi" stands for global replacement, ignore case.
+
+<h4>2.1 Examples</h4>
+
+a) s/[Ll][Oo][Nn][Dd][Oo][Nn]/London/g <br>
+replaces LOndoN or loNDON etc by London.
+This is equivalent to s/london/London/gi.<br>
+b) s/Alice/Mary/ <br>
+ replaces every occurrence of Alice by Mary.
+
+<h4>2.2 Optional: Transliteration</h4> 
+
+There is also something called "transliteration" which replaces
+single characters not strings.
+<br>
+$string_variable =~ tr/character_sequence/character_sequence/
+<br>
+Most of the regular expression 
+special characters are not valid for transliteration but "-" can 
+be used as in tr/a-z// which would delete all letters.
+
+<h4>2.3 The script to be used for the exercises below</h4>
+
+<font color=blue>
+#!/usr/local/bin/perl <br>
+#<br>
+# Regular expressions <br>
+#<br>
+# reading a file: <br>
+open(ALICE, "alice.txt");<br>
+@lines = &#60ALICE&gt ;<br>
+close(ALICE);<p>
+# searching the file content line by line:<br>
+foreach $line (@lines){<br>
+$line =~s/T/t/g;<br>
+print $line;<br>
+} # end of foreach <br>
+</font>
+
+<h4>2.4 Exercises</h4>
+
+6) Using the alice.txt file replace
+<br>
+a) all upper case A by lower case a. <br>
+b) the word "Alice" by "ALICE".<br>
+c) Delete all words with more than 3 characters.<br>
+d) Print two blank space characters after the "." at the end of a sentence.
+(Optional: Don't do this if the "." is the last character in a line.)<br>
+e) Replace single quotes (' or `) by double quotes.
+
+<h4>2.5 Non-greedy Multipliers</h4>
+
+By default the multipliers * and + are "greedy" which means they
+match as many characters as possible. For example, 
+/(\b.+\b)/ matches any non-empty line.
+A question mark behind a multiplier forces it to be non-greedy.
+Therefore /(\b.+?\b)/ matches the first word in a line.
+
+<h4>2.6 Exercise</h4>
+
+7) Write a replace statement that deletes all HTML markup from a file.
+You need non-greedy multipliers because otherwise
+the text between tags may be deleted 
+in a line that contains several tags. 
+
+<h4>2.7 Remembering Patterns</h4>
+
+Patterns within parentheses are remembered. Using \1, \2, etc they can 
+be referred to within the same regular expression (or search expression) 
+and using $1, $2, etc they can be referred to in a print statement (or 
+replace string). 
+
+<h4>2.8 Examples</h4>
+
+/(t.*e)/;<br>
+print "$1";<br>
+prints strings that start with "t" and end with "e".
+<p>
+s/(t.*e)/:$1:/g;<br>
+places a ":" in front and behind each string t...e.
+<p>
+/(...)\1/<br>
+matches a three character string that is repeated.
+<p>
+s/^(.)(.*)(.)$/$3$2$1/<br>
+switches the first and last character of a line.
+
+<h4>2.9 Exercises</h4>
+
+8) Insert a newline character after each punctuation mark (.,!).
+If you chomp each line (or the array of lines)
+before inserting the newline characters
+you can print each sentence in one line.
+<br>
+9) Print double characters within parenthesis "()".
+For example, replace "arrived" by "a(rr)ived".
+
+<h4>2.10 Optional: Special variables:</h4>
+
+<table border=1 cellpadding=3>
+<tr><td>$` </td><td>contains the string before the pattern</td>
+<tr><td>$& </td><td>contains the pattern that is matched</td>
+<tr><td>$' </td><td>contains the string after the pattern</td>
+</table>
+<p>
+For example:<br>
+$line="The cat that sat on the mat.";<br>
+$line =~ /c.t/;<br>
+$` contains "The "<br>
+$& contains "cat"<br>
+$' contains " that sat on the mat."<br>
+
+<h4>2.11 Split and Join</h4>
+
+Using <font color=red>@personal = split(/:/, $line); </font><br>
+a string such as 
+$line = "Caine:Michael:Actor:14, Leafy Drive"; <br>
+can be split into an array such as
+@personal = ("Caine", "Michael", "Actor", "14, Leafy Drive");<br>
+Other examples:<br>
+<font color=red>
+@chars = split(//, $word);<br>
+@words = split(/ /, $sentence);<br>
+@sentences = split(/\./, $paragraph);<br>
+</font><br>
+"join" does the opposite of "split":
+<br><font color=red>
+$bigstring = join(":",@personal);
+</font>   
+
+<h4>2.12 Exercises</h4>
+
+10) Read the alice.txt file into an array. Chomp it. Using "join"
+concatenate it into one string. Then split it into 
+words (or sentences) and print it one word (sentence) per line. 
+<p>
+11) Write a script that takes an HTML source file as input and prints
+it so that a newline follows only "closing tags", i.e. tags that are 
+of the form &#60/...&#62.
+<p>
+12) Optional: Parsing web pages
+<br>
+If a CGI script downloads a page from the web, it will retrieve the
+HTML source code. Look at several html pages on the web. 
+Think about the following questions: How would you
+extract information from them? How would you store that information in 
+an array? How would a script search for words
+(or regular expressions) in web pages? Besides the fact that you don't
+know yet how a CGI script can download pages from the web, have you
+learned enough so far that you could write such a script? 
+
+<hr>
+
+<h4><a name = "chars">Special Characters</a></h4>
+
+<table border=1>
+<tr><td>.	<td> Any single character except a newline
+<tr><td>^	<td> The beginning of the line or string
+<tr><td>$	<td> The end of the line or string (Use "\r$" 
+instead of "$" for end of line in DOS/Windows.)
+<tr><td>*	<td> Zero or more of the last character
+<tr><td>+	<td> One or more of the last character
+<tr><td>?	<td> Zero or one of the last character
+<tr><td>{5,10}	<td> Five to ten times the previous character
+<tr><td>    <td> for example: * equals {0, }; + equals {1, }
+<tr><td>    <td> ? equals {0,1}
+</table>
+
+<h4>More special characters</h4>
+
+<table border=1>
+<tr><td>[qjk]		<td> Either q or j or k
+<tr><td>[^qjk]		<td> Neither q nor j nor k
+<tr><td>[a-z]		<td> Anything from a to z inclusive
+<tr><td>[^a-z]		<td> No lower case letters
+<tr><td>[a-zA-Z]	<td> Any letter
+<tr><td>[a-z]+		<td> Any non-zero sequence of lower case letters
+<tr><td>jelly|cream	<td> Either jelly or cream
+<tr><td>(eg|le)gs	<td> Either eggs or legs
+<tr><td>(da)+		<td> Either da or dada or dadada or...
+<tr><td>\n		<td> A newline
+<tr><td>\t		<td> A tab
+<tr><td>\w		<td> Any alphanumeric (word) character.
+<tr><td>		<td> The same as [a-zA-Z0-9_]
+<tr><td>\W		<td> Any non-word character.
+<tr><td>		<td> The same as [^a-zA-Z0-9_]
+<tr><td>\d		<td> Any digit. The same as [0-9]
+<tr><td>\D		<td> Any non-digit. The same as [^0-9]
+<tr><td>\s		<td> Any whitespace character: space,
+<tr><td>		<td> tab, newline, etc
+<tr><td>\S		<td> Any non-whitespace character
+<tr><td>\b		<td> A word boundary, outside [] only
+<tr><td>\B		<td> No word boundary
+</table>
+
+<h4>Escapes for special characters</h4>
+
+<table border=1>
+<tr><td>\|		<td> Vertical bar
+<tr><td>\[		<td> An open square bracket
+<tr><td>\)		<td> A closing parenthesis
+<tr><td>\*		<td> An asterisk
+<tr><td>\^		<td> A carat symbol
+<tr><td>\/		<td> A slash
+<tr><td>\\		<td> A backslash
+</table>
+
+</body>
+
+</HTML>

@@ -1,0 +1,577 @@
+
+<html>
+<!-- DO NOT EDIT DO NOT EDIT DO NOT EDIT DO NOT EDIT DO NOT EDIT -->
+<head>
+<title>OODB</title> 
+</head>
+<body>
+<h3>Object Oriented Database Systems</h3>
+<br>
+<p><hr><p><h3>1.1 Modern Database Applications involve complex, specialised data structures</h3>
+<ul>
+<li> design (CAD), engineering examples:
+<ul>
+<li> building layout
+<li> mechanics
+<li> electronics (VLSI)
+<li> software production
+<li> chemical structures
+</ul>
+</ul>
+<ul>
+<li> cartography (GIS: Geographic Information Systems)
+<ul>
+<li> maps 
+<li> land registers
+</ul>
+</ul>
+<ul>
+<li> image processing
+<li> knowledge engineering
+<li> industrial production (CAM, CIM)
+<li> others, e.g. office automation
+</ul>
+<p><p><hr><p><h3>1.2 Characteristics of Design Applications</h3>
+<ul>
+<li> revolve around artifacts
+<li> objects built out of other objects
+<li> iterative
+<li> multiple levels of abstraction
+<li> tasks are shared among designers
+</ul>
+<p><p><hr><p><h3>1.3 What Object-Oriented Design is good at:</h3>
+cf. OODB System Manifesto (Atkinson et al., 1989)
+<p><ul>
+<li> O1 complex objects
+<li> O2 object identity
+<li> O3 encapsulation
+<li> O4 types or classes
+<li> O5 inheritance
+<li> O6 overriding, overloading and late binding
+<li> O7 computational completeness
+<li> O8 extensibility
+</ul>
+<p><p><hr><p><h3>1.4 What Relational Databases are good at:</h3>
+cf. OODB System Manifesto (Atkinson et al., 1989)
+<p><ul>
+<li> D1 Persistence
+<li> D2 Storage Management
+<li> D3 Concurrency
+<li> D4 Recovery
+<li> D5 Ad Hoc Query Facility
+</ul>
+<p><p><hr><p><h3>1.5 Requirements of Modern Database Applications</h3>
+<ul>
+<li> complex data structures: modeling, maintenance, access (O1, O2, O3, O6, D1)
+<li> extensible type system (O4, O5, O8)
+<li> navigation and query (D5)
+<li> high performance (O7, D2, D3, D4)
+</ul>
+<p>If only relational databases were used, then the complex
+data structures and the type system would have to be maintained by 
+external programs. These would have to be specially written for 
+each new application.
+<p>If object oriented programming languages (without databases) were used,
+then special procedures would have to be written to store, access,
+navigate and query the data. Storage management, concurrency and 
+recovery mechanisms would have to be specially written for 
+each new application.
+<p><p><hr><p><h3>1.6 Relational Database Issues:</h3>
+Because the relational model is so simple, relational databases ...
+<p><ul>
+<li> are fast and efficient
+<li> have a "simple" formal model and semantics
+<li> support data independence (physical & logical)
+</ul>
+<p>But users cannot ...
+<p><ul>
+<li> define types (only fixed number of built-in types is available)
+<li> express nested relationships: e.g. ((Street, Number) City)
+<li> represent/manipulate complex entities as a single unit
+<li> sufficiently express data that does not map well to tables
+<li> write methods (database cannot represent behavior)
+</ul>
+<p>Users must explicitly ...
+<p><ul>
+<li> manage various types of relationships (e.g. is-a, association, aggregation)
+<li> define keys (integrity problems)
+<li> write procedures for versioning
+<li> write procedures for long duration transactions
+</ul>
+<p>Because SQL is not computationally complete ...
+<p><ul>
+<li> some computations are not possible, e.g. find all rooms near the location 
+of room B2
+<li> transitive closure is not computable (parts explosion problem)
+<li> some applications require external programming language
+</ul>
+<p><p><hr><p><h3>1.7 Semantic Data Models</h3>
+<ul>
+<li> Entity Relationship Model
+<li> Extended Relational Model
+<li> Semantic Data Model
+<li> Functional Data Model
+<li> Object Oriented Model
+</ul>
+<p><p><hr><p><h3>2.1 Object identity (O2)</h3>
+Entities may not have identifiers:
+<p><ul>
+<li> an entity may not have a unique name (e.g., literals versus objects)
+<li> an entity may have more than 1 unique name (e.g., references) 
+<li> an entity may change its name over a period of time 
+</ul>
+<p><p><hr><p><h3>2.2 Examples</h3>
+1> a:= 5
+<p>2> b:= 5
+<p>3> c:= a
+<p>4> a:= 6
+<p>5> b:= "Hello World"
+<p><p><hr><p><h3>2.3 Examples - continued</h3>
+<ul>
+<li> equal values: a:= 5 and b:= 5
+<li> equal variable names but different values: a:= 5 and a:= 6
+<li> different variables: b:= 5 and b:= "Hello World"
+<li> c:= a either means deep copy or shallow copy
+</ul>
+<p><p><hr><p><h3>2.4 Identity versus Value (or State)</h3>
+<ul>
+<li> different objects can have the same value
+<li> identity: objects are identical if they have the same identifier
+<li> equality: objects are equal if they have the same value(s)
+<li> identity neither implies equality nor equality implies identity
+<li> deep equality (all levels down must be checked) and shallow equality 
+(pointer to first level)
+</ul>
+<p>The Relational Model is Value-Based:
+<p><ul>
+<li> instances (rows) are identified by primary keys
+<li> keys are user-defined and can be changed by users
+<li> results in the need for referential integrity
+</ul>
+<p><p><hr><p><h3>2.5 Object Identity</h3>
+<ul>
+<li> object identity is independent of value and updates
+<li> no misleading references to objects
+<li> there is a function I that maps an object into its identity
+</ul>
+<p>Object Identifiers ...
+<p><ul>
+<li> are (system-wide) unique 
+<li> are managed by the system
+<li> never change during object-lifetime
+<li> are never reused after object deletion
+<li> do not carrying any semantics
+</ul>
+<p><p><hr><p><h3>2.6 Object Sharing</h3>
+Example: 
+<p><ul>
+<li> employee database - two employees live in the same suburb
+<li> suburb: equal value or identical object?
+</ul>
+<p>In Relational Databases:
+<p><ul>
+<li> reference by foreign key for entity instances
+<li> reference by value for attributes
+</ul>
+<p>Object Identity implies:
+<p><ul>
+<li> different structures can refer to the same object
+<li> avoids ambiguity and redundancy
+</ul>
+<p><p><hr><p><h3>2.7 Advantages of Object Identity:</h3>
+<ul>
+<li> facilitates object sharing 
+<li> users do not need to worry about it, managed by the system
+<li> objects can still have additional user-controlled names, these names 
+can be different in different applications and can be changed freely
+<li> semantics of retrieval and manipulation clear
+<li> consistency rules can be easily specified
+</ul>
+<p>But the system has more to do:
+<p><ul>
+<li> operations for object assignment, deep and shallow copy needed
+<li> tests for equality needed
+<li> complex objects can be graphs: need to be managed by the system
+<li> the semantics of the system is more complicated
+</ul>
+<p><p><hr><p><h3>3.1 Complex Objects (O1)</h3>
+Complex objects are built from simple objects using constructors:
+<p><ul>
+<li> data abstraction: types 
+<ul>
+<li> a type defines a representation and a set of operations
+<li> representation = any other type
+<li> operation = program (method) that can access the representation
+</ul>
+</ul>
+<ul>
+<li> type constructors: tuple, set, array
+<ul>
+<li> orthogonality of objects and constructors:
+constructors can be used for any object 
+</ul>
+</ul>
+<p><hr><p><h3>3.2 Object Description</h3>
+Attributes vs. Properties
+<ul>
+<li> Properties => Unidirectional
+<li> Attributes => Bidirectional
+<ul>
+<li> Can be modeled as a pair of properties with inverse.
+</ul>
+</ul>
+Attribute Values
+<ul>
+<li> simple types (literals, strings, integers) versus abstract data types
+<li> single-valued versus multi-valued (set-values)
+</ul>
+<p>Attribute Domain
+<ul>
+<li> set of values of similar type
+</ul>
+<p>Class Attributes
+<ul>
+<li> associate a value with a type/class which applies to
+class as a whole, e.g. minimum salary of class employee
+</ul>
+<p><p><hr><p><h3>3.3 Association and Aggregation</h3>
+Association: is-associated-to relationship
+<p><ul>
+<li> associate objects from several independent classes
+<li> when an association instance is deleted, the
+participating objects continue to exist
+</ul>
+<p>Aggregation: has-attribute and is-part-of relationships
+<p><ul>
+<li> building composite objects from their component objects
+<li> e.g. aggregate attribute values of an object to form the whole object
+<li> e.g. aggregate objects that are related by a particular relationship
+instance into a higher level aggregate object
+<li> if an aggregate instance is deleted the component objects are also deleted
+</ul>
+<p><p><hr><p><h3>3.4 Operations for Complex Objects</h3>
+<ul>
+<li> retrieve object and subobjects
+<ul>
+<li> subject to retrieval predicates
+<li> restricted to attributes/components of interest
+</ul>
+</ul>
+<ul>
+<li> create and delete objects/subobjects (structure-building operations)
+<ul>
+<li> deletion with/without components
+</ul>
+</ul>
+<ul>
+<li> copy objects
+</ul>
+<p><ul>
+<li> navigation within object structure
+</ul>
+<p><p><hr><p><h3>3.5 Sharing Revisited</h3>
+<ul>
+<li> object identity facilitates object sharing
+<li> objects have independent existence
+<li> but parts of objects may not have independent existence
+<li> dependent parts only exist while container exists
+</ul>
+<p>Sharing parts is dangerous if parts do not have independent existence!
+<p><table border =1>
+<tr><th>&nbsp;<th>independent (own existence)<th>dependent (no own existence)
+<tr><td>sharable<td> e.g. module, class <td>e.g. public method
+<tr><td>not sharable<td>e.g. private class<td>e.g. private method
+</table>
+<p><p><hr><p><h3>4.1 Encapsulation (O3)</h3>
+2 Levels in Object-Oriented Programming:
+<p><ul>
+<li> 1) specification is visible for application programs
+<ul>
+<li> interface describes allowable operations
+</ul>
+</ul>
+<ul>
+<li> 2) implementation is encapsulated, hidden 
+<ul>
+<li> data part (state, values, attributes) 
+<li> procedural part (operations, methods)
+</ul>
+</ul>
+-> encapsulation, logical data independence
+<ul>
+<li> application programs are protected from implementation details
+</ul>
+<p>2 Levels in Relational Databases:
+<p><ul>
+<li> 1) data
+<li> 2) program (ad hoc query language + programming language)
+</ul>
+<p>-> data independent from programming 
+<ul>
+<li> allows ad hoc queries
+<li> but table-specific methods cannot be defined
+</ul>
+<p><p><hr><p><h3>4.2 Encapsulation: Pros and Cons </h3>
+Pros:
+<ul>
+<li> extensibility, software engineering
+</ul>
+<p>Cons:
+<ul>
+<li> ad hoc queries and similar operations are not allowed
+(not all ad hoc queries raise maintainability issues thus there is no
+reason to prohibit these)
+<li> optimization, lack of a theory
+</ul>
+<p><p><hr><p><h3>4.3 Overriding, Overloading and Late Binding (O6)</h3>
+<ul>
+<li> operations written at top level and overridden by subclasses
+<li> overloading: different programs under same name depending on context
+<li> late-binding: at run-time not compile-time
+</ul>
+<p>-> hides complexity from application programs
+<p><p><hr><p><h3>4.4 Computational Completeness (O7)</h3>
+<ul>
+<li> programming languages are usually complete
+<li> SQL is not complete, but SQL + programming language is complete
+<li> different from "resource completeness"
+</ul>
+<p><p><hr><p><h3>4.5 Extensibility (O8)</h3>
+<ul>
+<li> users can define their own types, methods, etc
+<li> no distinction in usage between user-defined and system types
+<li> there may be performance difference between user-defined and system types
+</ul>
+<p><p><hr><p><h3>5.1 Types or Classes (O4)</h3>
+Types (e.g. C++, Java)
+<p><ul>
+<li> summarize common features of a set of objects
+<li> type-checking at compile-time for consistency
+</ul>
+<p>Classes (e.g. Smalltalk)
+<p><ul>
+<li> similar to types but can be manipulated at run-time
+<li> object factory (for creating new objects)
+<li> object warehouse (extension = all instances of a class)
+</ul>
+<p><p><hr><p><h3>5.2 Natural Types versus Role Types</h3>
+natural types: e.g. gender, species
+<p><ul>
+<li> object belongs to at most one class of each natural type
+<li> "classification"
+</ul>
+<p>role types: e.g. role of employee, customer, family relationships
+<p><ul>
+<li> object can have different roles, simultaneously or at different times
+</ul>
+<p><p><hr><p><h3>5.3 Classes/Types: Pros and Cons</h3>
+Pros:
+<p><ul>
+<li> simplification, modularization, encapsulation
+<li> operations/attributes can apply to instance or to all class members
+simultaneously
+<li> user-definable
+</ul>
+<p>Cons:
+<p><ul>
+<li> role types imply that objects can be members of different classes
+<li> class library: large vocabulary of classes and methods
+</ul>
+<p><p><hr><p><h3>6.1 Class Hierarchy</h3>
+Hierarchy of Classes, Subclasses and Superclasses
+<p><ul>
+<li> e.g. programmer -> computer scientist -> employee
+<li> is-a relationship between subclass/class
+<li> member-of relationship: objects are members of a class and its superclasses
+</ul>
+<p>Specialisation/Generalisation
+<p><ul>
+<li> facilitates incremental design
+<li> specialisation: top-down conceptual refinement
+<ul>
+<li> separation based on differentiating features
+</ul><li> generalisation: bottom-up conceptual synthesis
+<ul>
+<li> grouping based on suppressing differences
+</ul><li> normally a combination of both specialisation and
+generalisation processes are employed
+</ul>
+<p><p><hr><p><h3>6.2 Multiple and Flexible Hierarchies</h3>
+<ul>
+<li> tree hierarchy: each class has one immediate superclass
+<li> poly-hierarchy: class can have several immediate superclasses
+<ul>
+<li> because of role types: class may belong to different superclasses
+<li> different contexts may require different hierarchies
+</ul><li> type lattice: unique smallest common superclass and unique largest
+common subclass exist for each set of classes (i.e., multiple paths
+exists but it can be calculated where they intersect)
+</ul>
+<p><p><hr><p><h3>6.3 Inheritance (O5)</h3>
+Attribute Inheritance
+<p><ul>
+<li> object has specific class attributes 
+<li> object inherits attributes from superclasses
+</ul>
+<p>Complexity of Inheritance
+<p><ul>
+<li> simple inheritance (in tree hierarchies)
+<li> multiple inheritance (in type lattices and poly-hierarchies)
+<ul>
+<li> can lead to name conflicts
+</ul>
+</ul>
+Degree of Inheritance
+<p><ul>
+<li> selective inheritance
+<li> default inheritance: can be overridden at lower levels
+</ul>
+<p><p><hr><p><h3>6.4 Types of Inheritance</h3>
+<ul>
+<li> substitution inheritance
+<ul>
+<li> based on behavior not values
+<li> an instance of A can be used in any context in which an instance of B
+is expected
+</ul>
+</ul>
+<ul>
+<li> inclusion inheritance
+<ul>
+<li> based on classification structure
+<li> an instance of A is also an instance of B
+</ul>
+</ul>
+<ul>
+<li> constraint inheritance
+<ul>
+<li> subcase of inclusion inheritance
+<li> instance of A has the same operations and fields as instance of B
+<li> but: instance of A fulfills certain further constraints 
+<li> e.g. teenager -> person
+</ul>
+</ul>
+<ul>
+<li> specialization inheritance
+<ul>
+<li> subcase of inclusion inheritance 
+<li> but: instance of A has some extra fields compared to instance of B
+</ul>
+</ul>
+<p><hr><p><h3>6.5 Pros and Cons of Inheritance</h3>
+Pros:
+<p><ul>
+<li> code reutilisation
+<li> additional semantics are represented
+<li> modeling discipline
+</ul>
+<p>Cons:
+<p><ul>
+<li> ambiguity and name conflicts in multiple inheritance
+<li> maintenance
+</ul>
+<p><p><hr><p><h3>6.6 OO Typing System</h3>
+<ul>
+<li> substitutability
+<li> static type checking
+<li> mutability
+<li> subtyping by specialisation
+</ul>
+<p>Can't build a type system with all 4, can choose any 3 -
+which ever are the most important
+<p><p><hr><p><h3>7.1 Comparison</h3>
+<table border=1 cellpadding=3>
+<tr>
+<th> &nbsp; 
+<th> Pros, <br> Why is it useful 
+<th> Cons, <br> Why is it difficult
+<th> How is it implemented in <br> Object-Oriented Programming 
+<th> How is it implemented in <br> Relational Databases 
+<tr>
+<td>O1 complex objects 
+<td>modularity, <br> object sharing
+<td>operations needed
+<td>attributes, constructors
+<td>only system-defined <br>types (e.g. date)
+<tr>
+<td>O2 object identity 
+<td>consistency
+<td>system must <br>maintain it
+<td>object ID
+<td>keys,<br> referential integrity
+<tr>
+<td>O3 encapsulation 
+<td>extensibility <br> software engineering
+<td>optimization <br> no ad hoc queries
+<td>implementation, specification
+<td>data separate from program
+<tr>
+<td>O4 types or classes 
+<td>modularization, <br>user-definable
+<td>role types, <br>maintenance
+<td>is implemented
+<td>tables, no methods,<br>no pointers
+<tr>
+<td>O5 inheritance 
+<td>code reutilisation
+<td>name conflicts <br>maintenance
+<td>attribute and method <br>inheritance
+<td> ---
+<tr>
+<td>O6 overriding,<br> overloading and <br> late binding 
+<td>simplification <br> for user
+<td>no compile time <br>type checking
+<td>via class hierarchy
+<td> ---
+<tr>
+<td>O7 computational <br> completeness 
+<td>Church Turing <br>hypothesis
+<td> ---
+<td>is complete
+<td>needs programming <br>language
+<tr>
+<td>O8 extensibility 
+<td>hide complexity 
+<td>optimization
+<td>user defined types
+<td> ---
+<tr>
+<td>D1 persistence 
+<td>easier for programmer
+<td>difficult for<br> complex structures, <br> some data must<br>be transient
+<td> ---
+<td> is implemented
+<tr>
+<td>D2 storage <br>management 
+<td>easier for programmer
+<td> ---
+<td>memory allocation
+<td> is implemented
+<tr>
+<td>D3 concurrency 
+<td>multiple users
+<td>many possible application programs
+<td>threads
+<td>is implemented
+<tr>
+<td>D4 recovery 
+<td>stability, security
+<td>many possible application programs
+<td>---
+<td>is implemented
+<tr>
+<td>D5 ad hoc <br>query facility 
+<td>direct data access
+<td>difficult for <br>complex structures
+<td> ---
+<td>is implemented
+</table>
+<p><p><hr><p><h3>7.2 Summary</h3>
+<ul>
+<li> Relational model and OO model have conflicting advantages/disadvantages
+<li> There may never be a single widely accepted OODB model (such as
+Relational Algebra is for relational databases)
+<li> Different approaches (OO, Relational DB or OODB) may be necessary
+for different applications
+</ul>
+<p><p><p><p>

@@ -1,0 +1,146 @@
+<HTML>
+<TITLE>L548: Session 13</Title>
+
+<body>
+<h3>Object-oriented programming II</h3>
+
+Use "ezperl" for these exercises. (Click <a href="session14a.html">
+here</a> if you should be interested in the Perl code.)
+
+<p>
+<font color=blue>
+<pre>
+class Cat
+   properties
+        $name
+        $color
+   /properties
+
+   method meow
+        print "meow\n"
+   /method
+
+   method printDetails
+        print "Cat.name\n"
+        print "Cat.color\n"
+   /method
+/class
+###################################
+main
+
+$cat = new Cat (name "Fred", color "white")
+$cat.meow
+$cat.printDetails
+
+/main 
+</pre>
+</font>
+<p>
+<ul>
+<li>object or instance: $cat
+<li>class: Cat
+<li>attributes: name, color
+<li>behaviour or methods: new(), meow(), printDetails()
+<li>constructor method: new()
+<li>instance method: printDetails()
+<li>class method: meow()
+</ul>
+<p>
+<b>Exercise</b>
+<p>In analogy to the example above, create a class for another
+type of pet besides cat or dog (see below).
+
+<h3>Encapsulation, inheritance, and polymorphism</h3>
+
+<font color=blue>
+<pre>
+class Animal
+    properties
+        $name
+        $color
+    /properties
+
+    method printDetails
+        print "Animal.name\n"
+        print "Animal.color\n"
+    /method
+/class
+###################################
+class Cat
+    ISA Animal
+    properties
+        $name
+        $color
+    /properties
+
+    method speak
+        print "meow\n"
+    /method
+/class            
+###################################
+class Dog
+    ISA Animal
+    properties
+        $name
+        $color
+    /properties
+
+    method speak
+        print "woof\n"
+    /method
+/class
+###################################
+main
+
+    $cat = new Cat(name "Fred", color "white")
+    $dog = new Dog(name "Max", color "black")
+    @pets = ($cat,$dog)
+
+    foreach $pet (@pets)
+        $pet.printDetails
+        $pet.speak  
+    /foreach
+/main 
+</pre>
+</font>
+<p>
+<ul>
+<li>encapsulation: the implementation of printDetails() is hidden from
+Cat and Dog
+<li>inheritance: Cat and Dog inherit printDetails()
+<li>polymorphism: $pet refers to instances of different types() 
+</ul>
+<p>
+<b>Exercises</b>
+<p>
+Add your pet from the previous exercise to the Animal class.
+<p>
+Let users input a type of animal (Cat, Dog, etc) and then print
+the sound they make. Hint: "ref $pet" returns the class to which
+$pet belongs ("ref" stands for "reference" or "refers to"). For example, 
+if $pet is a cat then "ref $pet" equals
+Cat. But the user has to ask for "Cat" not "cat". Of course, you could use
+a regular expression with "ignore case" to compare the user input with
+ref $pet...
+
+<h3>Optional: Modules</h3>
+
+Use Perl for these exercises not "ezperl". Use the code from the 
+last exercise in the file (file.plx) that ezperl generated.
+<p>
+A module is a class (or "package" in Perl terminology)
+ stored in a file by itself and named 
+"class.pm". The last executed line in a module should be
+"return 1;". A class can be used in a different file by including
+"use class;" at the beginning of the file.
+<p>
+<b>Exercise</b>
+<p>
+Save Animal, Cat, Dog and the additional pet 
+as modules by themselves. To use them you can 
+either include "use" statements for all four of them in the main file
+or you use Cat, Dog and the other pet in the main file and Animal 
+in Cat, Dog and the other pet.
+Try both possibilities.
+</body>
+</HTML>

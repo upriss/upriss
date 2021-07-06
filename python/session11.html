@@ -1,0 +1,113 @@
+<HTML>
+<TITLE>L548: Session 11</Title>
+
+<body>
+<h4>CGI III: Maintaining State</h4>
+
+If one form invokes another form, it is often the case that information
+from the first form must be send to the second form. This is part of 
+"maintaining state", i.e. maintaining accurate information between
+different CGI scripts invoked by one user. There are three possibilities
+to maintain state: <br>
+a) send hidden text, <br>
+b) write information to a file (on the server),<br>
+c) set cookies (on the client). <br>
+
+<h4>1) Hidden text</h4>
+
+<h4>Exercise</h4>
+
+1.1 Create a form that asks a user for his/her name and some comments.
+Then create two CGI scripts that create a response. The first script
+displays the information which the user has submitted ("Hello", name, ".
+These are your comments:", comments) and asks the user whether he/she
+really wants to submit the information. The second script is invoked
+by the first one and displays "Thank you", name, ". Your comments 
+have been submitted:", comments.
+<p>
+To implement this add a form and hidden tags to the first CGI script,
+such as
+<p><font color=blue>
+print "&#60;input type='hidden' name='hiddenname' value='",name,"'&#62;"<br>
+print "&#60;input type='hidden' name='hiddencomments' value='",
+comments,"'&#62;"
+</font><p>
+The second CGI script retrieves these strings via
+<p><font color=blue>
+name = form.getvalue('hiddenname')<br>
+comments = form.getvalue('hiddencomments')
+</font><p>
+
+<h4>2) Cookies</h4>
+
+<h4>Exercise</h4>
+
+2.1 Use a cookie instead of hidden text in the previous exercise.
+<p>
+The following code in the first CGI script sets a cookie. Note that
+the cookie needs to be set before printing the Content-Type line but
+after reading the form values. 
+
+<p><font color=blue>
+import Cookie<br>
+C = Cookie.SimpleCookie()<br>
+C["cookie_name"] = name<br>
+C["cookie_comments"] = comments<br>
+print C<br>
+print "Content-Type: text/html\n"
+</font><p>
+
+The second CGI script retrieves the cookie:
+
+<p><font color=blue>
+import Cookie<br>
+import os<br>
+<br>
+C = Cookie.SimpleCookie()<br>
+C.load(os.environ["HTTP_COOKIE"])<br>
+<br>
+name = C["cookie_name"].value<br>
+comments = C["cookie_comments"].value
+
+<p></font>
+
+(Note: The example above refers to session cookies that are not
+permanently stored on the computer. I could not get the code above
+to work for cookies that are stored on the computer, mainly because
+on a PC the newline character is "\r\n" instead of "\n" and because
+stored cookies need an expiration time. Something like the
+following should work:
+<p>
+import time<br>
+temp = time.strftime("%a, %d-%b-%Y ", time.gmtime()) <br>
+hour = time.strftime("%H", time.gmtime()) <br>
+hour = str(int(hour) + 1)<br>
+if len(hour) <2 : hour = "0" + hour<br>
+temp = temp + hour + time.strftime(":%M:%S GMT", time.gmtime()) <br>
+<br>
+cookiedata = name + "|" + comments<br>
+print "Set-Cookie: nameandcomments="+cookiedata+"; expires=" + temp +"\r"<br>
+print "Content-Type: text/html\r\n\r"
+
+
+<h4>3) Writing to a file</h4>
+
+<h4>Exercise</h4>
+
+3.1 A hit counter: create a file that contains
+only the number "0". Your CGI script must open that file for reading;
+read the first line of the file into an integer; increase the 
+number by one; close the file; open the file again for writing (not
+appending); write the number to the file; close the file.
+<p>
+3.2 (Optional) Create yet another version of exercise 1.1 but
+this time save the information to a file.
+<p>
+There are several problems involved with saving to a file because
+several users can look at the CGI script at the same time. To 
+keep track of which user wrote which comments, write user name
+and comments to the file; send the user name as hidden text and 
+use the name to retrieve the correct comments from the file.
+
+</body>
+</html>

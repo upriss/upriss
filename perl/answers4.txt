@@ -1,0 +1,148 @@
+Modify the program from above so that it asks users to "guess the lucky 
+number". If the correct number is guessed the program stops, otherwise it 
+continues forever. 
+
+#!/usr/local/bin/perl -w
+#
+# guess the lucky number
+#
+$number = 0;
+while ($number ne 5){
+   print "Please, guess the lucky number!\n";
+   $number = <STDIN>;
+   chomp $number;
+   if ($number eq 5) {
+      print "Great guess!\n";
+   } else {
+     print "That is not the right number! Try again.\n";
+   }
+}  
+
+Here is an alternative version:
+
+#!/usr/local/bin/perl -w
+#
+# guess the lucky number
+#
+print "Guess the lucky number: ";
+$number = <STDIN> ;
+chomp $number;
+while ($number ne "5"){
+	print "That is not the right number! Try again.\n";
+	$number = <STDIN> ;
+	chomp $number;
+}     
+
+Modify the program so that it asks users whether they want to guess again 
+each time. The program stops if users answer "no" or if the correct number 
+is guessed. 
+
+#!/usr/local/bin/perl -w
+#
+# while statement
+#
+$number = 0;
+$answer = "yes";
+while ($number ne "5" and $answer ne "no"){
+	print "Guess the lucky number: ";
+	$number = <STDIN> ;
+	chomp $number;
+	if ($number ne "5") {
+		print "That is not the right answer\n";
+		print "Would you like to try again?";
+		$answer = <STDIN>;
+		chomp $answer;
+	}
+}    
+
+Write a program that asks five times to guess the lucky number. 
+If the correct number is guessed, the program outputs "Good guess!\n" 
+otherwise it outputs "Try again!\n". After the fifth guess it stops and 
+prints "Game over.\n". 
+
+#!/usr/local/bin/perl -w
+#
+# while statement
+#
+$counter = 1;
+while ($counter <= 5) {
+    print "Guess the $counter number\n";
+    $answer = <STDIN> ;
+    chomp $answer;
+    if ($answer ne "5"){
+        print "Try again.\n";
+    } else {
+        print "Good guess!\n";
+    }
+    $counter++;
+}   
+print "Game over!\n";
+
+In the previous example, insert "last;" after the "Good guess!\n" print 
+statement. "last" will terminate the while loop so that users do not have 
+to continue guessing after they found the number. 
+
+#!/usr/local/bin/perl -w
+#
+# while statement
+#
+$counter = 1;
+while ($counter <= 5) {
+    print "Guess the $counter number\n";
+    $answer = <STDIN> ;
+    chomp $answer;
+    if ($answer ne "5"){
+        print "Try again.\n";
+    } else {
+        print "Good guess!\n";
+        last;
+    }
+    $counter++;
+}
+   
+Let users again guess five numbers but this time do not tell them 
+immediately whether they were successful or not. After the while loop is 
+finished print "The correct number was guessed\n" if the number was among 
+the five guesses and "The correct number was not among them\n" otherwise. 
+
+#!/usr/local/bin/perl -w
+#
+# while statement
+#
+$counter = 1;
+$flag = 0;
+while ($counter <= 5) {
+    print "Guess the $counter number\n";
+    $answer = <STDIN> ;
+    chomp $answer;
+    if ($answer eq "5"){
+        $flag = 1;
+    }
+    $counter++;
+}
+if ($flag == 1) {
+    print "The correct number was guessed\n";
+} else {
+    print "The correct number was not among them\n";
+}   
+
+Modify the counter program from above using a for loop so that it asks the 
+user for five guesses and then stops. Use "last" to terminate the for loop 
+as soon as the correct number is guessed. 
+
+#!/usr/local/bin/perl -w
+#
+# while statement
+#
+for ($counter = 1; $counter <= 5; $counter++) {
+    print "Guess the $counter number\n";
+    $answer = <STDIN> ;
+    chomp $answer;
+    if ($answer ne "5"){
+        print "Wrong number.\n";
+    } else {
+        print "Good guess!\n";
+        last;
+    }
+}  
+

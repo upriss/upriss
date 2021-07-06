@@ -1,0 +1,125 @@
+<HTML>
+<TITLE>L548: Session10</Title>
+<body>
+<h4>Programming in the large</h4>
+
+<h4>1) Functions (Subroutines)</h4>
+
+<font color=blue>
+#!/usr/bin/env python<br>
+<br>
+######### modules and global variables ############################<br>
+import re<br>
+closing_tag = re.compile(r"&#60;/.*?&#62;")<br>
+<br>
+######### functions ###############################################<br>
+def find_closing_tags(line):<br>
+&nbsp; &nbsp;     result = closing_tag.search(line)<br>
+&nbsp; &nbsp;     if result:<br>
+&nbsp; &nbsp;&nbsp; &nbsp;          print result.group()<br>
+<br>
+######### main program ############################################<br>
+file = open("example.html","r")<br>
+text = file.readlines()<br>
+file.close()<br>
+<br>
+for line in text:<br>
+&nbsp; &nbsp;    find_closing_tags(line)
+</font>
+
+<h4>Exercise</h4>
+
+1.1 Add a second function to the example that prints all tags that
+are not closing tags. Before the functions are called, let the main 
+program print a heading "these are the opening tags" and 
+"these are the closing tags". (Note: this script only finds the
+first tag in every line. To change that so that it finds all tags
+you would have to insert line breaks after the tags as shown
+in exercise 4.2 from week 8.)
+
+<h4>2) Passing arguments to and from a function</h4>
+
+<font color=blue>
+#!/usr/bin/env python<br>
+<br>
+import os<br>
+<br>
+######### functions #############################################<br>
+def read_file(filename):<br>
+&nbsp; &nbsp;    file = open(filename, "r")<br>
+&nbsp; &nbsp;    text = file.readlines()<br>
+&nbsp; &nbsp;    file.close()<br>
+&nbsp; &nbsp;    return text<br>
+<br>
+def write_file(filename,text):<br>
+&nbsp; &nbsp;   file = open(filename, "w")<br>
+&nbsp; &nbsp;   file.writelines(text)<br>
+&nbsp; &nbsp;   file.close()<br>
+<br>
+######### main program ############################################<br>
+filecontent = read_file("example.html")<br>
+filecontent.append("this is the last line\n")<br>
+write_file("example.html", filecontent)<br>
+<br>
+os.system("more example.html")
+</font>
+<p>  
+The main program sends the file name as argument
+to the function read_file and receives
+filecontent from it as return value. <p>
+The arguments in the function call and function declaration must 
+appear in the same order.
+
+<h4>Exercises</h4>
+
+2.1 Write a third function for the script. The function is called
+get_input. It takes filecontent as argument and also returns it. 
+The function asks a user to input some text. The text is inserted
+at the end of the file. Optional: the user is also asked for the
+line where the text will be inserted.
+<p>
+2.2 Modify the previous example so that the user is asked for his/her
+first name, last name, email address. The information is stored
+in the file in the following format:<br>
+Mary | Smith | mary@somecompany.com<br>
+John | Miller | miller@somecompany.com<br>
+<br>
+2.3 A fourth function is added that asks a user for her/his last name and 
+retrieves the email address from the file. To do that every line of the
+file is
+split into a list. The second element in the list is compared to
+the current user's last name.
+
+<h4>Optional material: Keyword arguments in the function call</h4>
+
+If the argument names from the function declarations are used
+in the function call, the arguments can be provided in any order.
+For example, a function <br>
+<font color="blue">def write_file(filename,text):</font><br>
+can be called with <br>
+<font color="blue">
+write_file(text =filecontent, filename= "example.html")</font><p>
+
+<h4>Optional material: Default arguments in the function declaration</h4>
+
+Default arguments can be provided in a function declaration.
+But these must be listed after non-default arguments. For example,
+the write_file function can be declared as<br>
+<font color="blue">
+def write_file(text,filename = "defaultfile.html"):<br>
+</font> and be called with<br>
+<font color="blue">
+write_file(text =filecontent)
+</font>
+
+<h4>Optional material: Local and Global Variables</h4>
+
+Each function should use its own, local set of variables so that
+the different functions do not interfere with each other.
+"Global variables" are variables that are used in the main part.
+These are available in all functions. In the script under 1),
+a global variable was used: closing_tag. The use of global variables
+should be avoided. 
+
+</body>
+</html>

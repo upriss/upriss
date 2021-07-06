@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/*html*; charset=UTF-8" />
+<title>Boolesche Algebra - Motivation</title>
+</head>
+<body>
+
+<h4>Boolesche Algebra mit SetlX</h4>
+
+Dieser Code prüft, ob eine Operation auf einer Menge kommutativ ist: 
+<pre>
+istKommutativ := procedure(set,operation) {
+   if (forall(x in set, y in set | operation(x,y) == operation(y,x))) {
+      return true;
+   } else {
+      print ("nicht kommutativ");
+      return false;
+   }
+};
+</pre>
+Man kann folgendermaßen Operationen definieren:
+
+<pre>
+und := procedure(a,b) { return a && b; };
+oder := procedure(a,b) { return a || b; };
+nicht := procedure(a) { return ! a; };
+ifThen := procedure(a,b) { return !a || b; };
+</pre>
+
+und dann testen, ob diese bezüglich einer Menge kommutativ sind, z.B.:
+
+<pre>
+istKommutativ({false,true},und);
+istKommutativ({false,true},oder);
+</pre>
+
+Vervollständigen Sie den folgenden Code, so dass auch Assoziativität, Distributivität
+und Absorption überprüft werden.  Testen Sie, ob Ihr Code die Rechenregeln für 
+<font color=blue>und</font> und <font color=blue>oder</font> richtig erkennt und 
+für <font color=blue>ifThen</font> 
+ausgibt, dass es nicht assoziativ, nicht absorptiv und nicht distributiv ist.
+
+<hr>
+
+<font color=blue>
+<pre>
+istKommutativ := procedure(set,operation) {
+   if (forall(x in set, y in set | operation(x,y) == operation(y,x))) {
+      return true;
+   } else {
+      print ("nicht kommutativ");
+      return false;
+   }
+};
+
+istAssoziativ := procedure(set,operation) {
+};
+
+istDistributiv := procedure(set,operation1,operation2) {
+};
+
+istAbsorptiv := procedure(set,operation1,operation2) {
+};
+</pre>
+</font>
+
+<hr>
+
+Dieser Code prüft, ob eine Operation bezüglich einer Menge ein neutrales Element 
+(oder Identität) enthält. (Ein neutrales Element verändert den Wert des anderen 
+Operanden nicht. Zum Beispiel ist 0 das neutrale Element der Addition, da x + 0 = x gilt.)
+<pre>
+hatIdentitaet := procedure(set,operation,element) {
+   if (forall(x in set | operation(x,element) == x)) {
+      return true;
+   } else {
+      print ("keine Identitaet",set,operation,element);
+      return false;
+   }
+};
+</pre>
+
+Man kann den Code so einsetzen:
+
+<pre>
+hatIdentitaet({false,true},oder,false);
+hatIdentitaet({false,true},und,true);
+</pre>
+
+Vervollständigen Sie den Code um einen Test für komplementäre (oder negierte) Elemente,
+der überprüft, dass x + &not; x = 1 und x &middot; &not; x = 0.
+
+Testen Sie, ob Ihr Code die Komplemente für
+<font color=blue>und</font> und <font color=blue>oder</font> richtig erkennt und 
+für <font color=blue>ifThen</font> mit <font color=blue>nicht</font> ausgibt, dass es keine
+Komplemente sind.
+
+
+<hr>
+<font color=blue>
+<pre>
+hatIdentitaet := procedure(set,operation,element) {
+   if (forall(x in set | operation(x,element) == x)) {
+      return true;
+   } else {
+      print ("keine Identitaet",set,operation,element);
+      return false;
+   }
+};
+
+hatKomplement := procedure(set,operation,unary_operation,element) {
+};
+</pre>
+</font>
+<hr>
+
+Eine Boolesche Algebra kann jetzt so definiert werden:
+
+<font color=blue>
+<pre>
+istBooleanAlgebra:= procedure(set,eins,null,operat1,operat2,unary_operat){
+    return eins in set && null in set &&
+     istKommutativ(set,operat1) &&
+     istKommutativ(set,operat2) &&
+     istAssoziativ(set,operat1) &&
+     istAssoziativ(set,operat2) &&
+     istDistributiv(set,operat2,operat1) &&
+     istDistributiv(set,operat1,operat2) &&
+     istAbsorptiv(set,operat2,operat1) &&
+     istAbsorptiv(set,operat1,operat2) &&
+     hatIdentitaet(set,operat1,null) &&
+     hatIdentitaet(set,operat2,eins) &&
+     hatKomplement(set,operat1,unary_operat,eins) &&
+     hatKomplement(set,operat2,unary_operat,null);
+};
+</pre>
+</font>
+
+Überprüfen Sie, dass die Menge {true,false} mit den Operationen <font color=blue>und, oder, nicht</font> tatsächlich eine Boolesche Algebra ist.

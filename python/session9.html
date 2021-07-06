@@ -1,0 +1,187 @@
+<HTML>
+<TITLE>L548: Session 9</Title>
+
+<body>
+
+<h4>1) Customize Pages with CGI</h4>
+
+CGI can show different pages to different users depending on user 
+preferences.
+
+<h4>Exercise:</h4>
+
+1.1 Create a form that asks a user to input their name into a 
+textfield and to choose a color from a selection of radio buttons. 
+Create a CGI script that displays a page with a 
+short message (e.g. "Thank you", name, "for your request") in the color
+which the user chose.
+
+<h4>2) Environment Variables</h4>
+
+<font color=blue>
+#!/usr/bin/env python<br>
+#<br>
+######### CGI header #######################################<br>
+import cgi<br>
+print "Content-Type: text/html\n"<br>
+form = cgi.FieldStorage()<br>
+<br>
+#########  import the operating system module ###############<br>
+import os<br>
+<br>
+########## HTML header ######################################<br>
+print """<br>
+&#60;html&#62;
+&#60;head&#62; &#60;title&#62;Environment Variables
+&#60;/title&#62; &#60;/head&#62;<br>
+&#60;body&#62;
+&#60;h2&#62;Here are all the environment variables:&#60;/h2&#62;<br>
+"""<br>
+<br>
+############ print the environment variables ########<br>
+keys = os.environ.keys()<br>
+keys.sort()<br>
+for item in keys:<br>
+&nbsp; &nbsp; print item, ":  ", os.environ[item], "&#60;br&#62;"<br>
+<br>
+########## HTML footer ######################################<br>
+print """<br>
+&#60;/body&#62;&#60;/html&#62;<br>
+"""<br>
+</font>
+
+<h4>Exercises</h4>
+
+2.1 Insert the code for printing environment variables into
+your CGI script from the previous exercise. In the HTML
+form first set the form method to GET, then to POST. You'll
+notice that some environment variables, such as CONTENT_LENGTH
+are only available for one of the two methods.
+<p>
+2.2 You can use CONTENT_LENGTH to increase the security of your
+CGI script (by ensuring that the user is not attempting to overload
+your script with large amounts of data). Insert an if statement
+into your script that prints a warning if 
+os.environ["REQUEST_METHOD"] is set to POST and 
+int(os.environ["CONTENT_LENGTH"]) is larger than 10.
+(Note: int() is used to convert the string value of the
+environment variable into a number. The value 10 is too 
+small for most scripts. If you are going to use this in your
+project, you need to adjust the value.)
+
+<h4>3) Security on CGI Pages</h4>
+
+Because CGI scripts run on a server that is accessed by remote clients,
+there are security risks for the server!
+<p>
+Here are some security tips:
+
+<h4>a) General tips</h4>
+
+<ul>
+<li>Don't install CGI code from untrusted sources on your server.
+<li>Using cookie data involves the same security risks as using
+form data.
+<li>If you have several forms and CGI scripts that communicate among
+each other, each script requires the same security checks. 
+It is not sufficient to only make the first script secure.
+<li>It is always a good idea to 
+check the CONTENT-LENGTH variable to restrict amount of 
+data that a script accepts from a form.
+<li>A fairly rigid security measure is to use 
+HTTP_REFERER to restrict the forms that can access your CGI script.
+But this is not usually a good idea because users sometimes want
+to link to a page that is dynamically created by a CGI script.
+Furthermore, hackers can manipulate the HTTP_REFERER variable.
+</ul>
+
+<h4>b) Check user input!</h4>
+
+<UL>
+<li>For input from <b>radio buttons, menu selections, check boxes</b>, 
+check all possible values with an if statement. In case of unexpected
+values, print an error message and discontinue with the script.
+To terminate the script use
+<font color=blue><br>
+import sys<br>
+sys.exit()<br>
+</font>
+<li>For input from <b>text areas</b>, check for unusual characters and
+check the length of the input (either using CONTENT_LENGTH for
+all input or using len() for each text area).
+<li>Before <b>printing</b> any user input, HTML tags need to be removed.
+Insert the following piece of code after the line with
+form = cgi.FieldStorage()<p>
+<font color=blue>
+############### this replaces <> with HTML meta characters ######<br>
+import re<br>
+open_tag = re.compile(r"&#60;")<br>
+close_tag = re.compile(r"&#62;")<br>
+for item in form.keys():<br>
+&nbsp; &nbsp; form[item].value = 
+open_tag.sub ("&#38;#60;", form[item].value)<br>
+&nbsp; &nbsp; form[item].value = 
+close_tag.sub ("&#38;#62;", form[item].value)<br>
+</font>
+</ul>
+
+<h4>c) File handling</h4>
+<ul>
+<li>Don't ask the user for a filename and then write to that file.
+<li>Files that are written to should not be in a directory  
+that allows server-side includes, active server pages, PHP 
+pages, or other HTML template systems.
+<li>If your script writes to a file, lock the file so that two
+scripts cannot write to it at the same time. 
+</ul>
+
+<h4>d) System calls (Using the os module)</h4>
+<ul>
+<li>Never pass user input to a system() or exec() call
+or any other function in the os module.
+<li>For example, don't write a script that asks a user to enter
+the name of an environment variable and then prints the value
+of that variable.
+<li>If you use sendmail to send 
+email to a user, apply something like<br>
+<font color=blue>
+email_check = re.compile(r"^[\w\.+-]+\@[\w\.+-]+$")<br>
+result = email_check.search(email)<br>
+if not result:<br>
+&nbsp; &nbsp; print "Wrong email address"<br>
+&nbsp; &nbsp; sys.exit()<br>
+</font>
+to the address and use "sendmail -t -oi"
+</ul>
+
+<h4>e) Passwords</h4>
+
+<ul>
+<li>All passwords are completely insecure unless the whole connection
+is encrypted using a secure channel.
+<li>Don't use knowledge of a parameter name as a security mechanism
+(eg. a "secret" parameter such as 
+xyssx=true). This was the cause of the Hotmail security 
+problem!
+</UL>
+
+More information on security is available from 
+<a href="http://www.w3.org/Security/Faq/www-security-faq.html">this W3C
+page</a>. Even though the CGI examples in section 6 of that page 
+refer to Perl, the security problems for Python are similar.
+
+<h4>Exercise</h4>
+
+3.1 Apply all the security measures mentioned above under
+"b) Check user input" to your script from exercise 1.1.
+For example, check that neither name nor color are empty,
+check that the color is one of the radio button choices from your form,
+check that name contains only word characters, space
+or hyphen (-),  and 
+check that the  name  is not longer than 50 chars.
+<br>
+If your script encounters any security problem, print
+an error message and exit the script using sys.exit(). 
+
+</body>
+</html>

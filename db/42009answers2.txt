@@ -1,0 +1,152 @@
+Exercise 11:
+
+ALTER TYPE person NOT FINAL CASCADE;
+
+CREATE TYPE employee UNDER person
+    (emp_id INT) NOT FINAL;
+
+Note: you need to logout of SQL and login again so that Orcale
+processes the type alteration properly.
+
+---
+
+Exercise 12:
+
+create table employee_table of employee;
+
+INSERT INTO employee_table VALUES (
+   name('Paul', 'R', 'Miller'),
+   phone('123-4587', '838-4536','73556-12'),
+   int_address(address(street('High St', 3, NULL),
+              'Edinburgh', 'EH3 4RF'),'UK'),
+   0);
+
+INSERT INTO employee_table VALUES (
+   name('Sally', NULL, 'Jones'),
+   phone('322-5643', NULL,'744-6-56'),
+   int_address(address(street('Princess St.', 17, NULL),
+               'Edinburgh', 'EH1 3AB'),'UK'),
+   1);
+
+INSERT INTO employee_table VALUES (
+   name('Mary', NULL, 'Edwards'),
+   phone('322-8444', NULL,'64523-2929'),
+   int_address(address(street('Andrews Pl', 4, '1F1'),
+   'Glasgow', 'GA2 5TT'),'UK'),
+   2);
+
+---
+
+Exercise 13:
+
+ALTER TABLE job_table
+   ADD (CONSTRAINT jobID PRIMARY KEY (job_ID));
+
+ALTER TABLE employee_table
+   ADD (CONSTRAINT empID PRIMARY KEY (emp_ID));
+
+---
+
+Exercise 14:
+
+CREATE TABLE employment (
+     employee REF employee SCOPE IS employee_table,
+     position REF job SCOPE IS job_table);
+
+INSERT INTO employment
+     SELECT REF(e), REF(j)
+     FROM job_table j, employee_table e
+     WHERE e.emp_ID = 2
+     AND j.job_ID = 1;
+
+INSERT INTO employment
+     SELECT REF(e), REF(j)
+     FROM job_table j, employee_table e
+     WHERE e.emp_ID = 1
+     AND j.job_ID = 3;
+
+INSERT INTO employment
+     SELECT REF(e), REF(j)
+     FROM job_table j, employee_table e
+     WHERE e.emp_ID = 0
+     AND j.job_ID = 2;
+
+---
+
+Exercise 15:
+
+select DEREF(p.employee), DEREF(p.position) from employment p;
+
+select p.employee.pname.first, p.employee.pname.middle, p.employee.pname.last,
+p.employee.pphone.homeph, p.employee.pphone.businessph,
+p.employee.pphone.mobileph,
+p.employee.paddress.local_address.street_and_number.sname,
+p.employee.paddress.local_address.street_and_number.snumber,
+p.employee.paddress.local_address.street_and_number.flatnumber,
+p.employee.paddress.local_address.city,
+p.employee.paddress.local_address.postal_code, p.employee.paddress.country,
+p.position.jobtitle, p.position.job_id, p.position.salary_amount,
+p.position.years_of_experience
+from employment p;
+
+---
+Exercise 16:
+
+select p.employee.pname.first, p.employee.pname.middle, p.employee.pname.last
+from employment p where p.position.salary_amount > 20000;
+
+select p.position.jobtitle from employment p
+where p.employee.paddress.local_address.city = 'Edinburgh';
+
+---
+
+Exercise 18:
+
+CREATE TYPE project AS OBJECT (
+   project_id INT,
+   project_leader REF person,
+   project_title VARCHAR2(20)
+);
+
+CREATE TABLE project_table OF project;
+
+ALTER TABLE project_table
+   ADD (CONSTRAINT projID PRIMARY KEY (project_ID));
+
+INSERT INTO project_table
+   SELECT 0, REF(p), 'Redesign' FROM
+   employee_table p where p.emp_ID = 1;
+
+INSERT INTO project_table
+   SELECT 1, REF(p), 'Interface' FROM
+   employee_table p where p.emp_ID = 1;
+
+INSERT INTO project_table
+   SELECT 2, REF(p), 'Documentation' FROM
+   employee_table p where p.emp_ID = 2;
+
+---
+
+Exercise 19
+
+CREATE TABLE project_membership (
+   project_ID REF project SCOPE IS project_table,
+   member REF person SCOPE IS employee_table);
+
+INSERT INTO project_membership
+   SELECT REF(pr), REF(pe) FROM project_table pr, employee_table pe
+   WHERE pr.project_id = 0 and pe.emp_ID = 1;
+
+INSERT INTO project_membership
+   SELECT REF(pr), REF(pe) FROM project_table pr, employee_table pe
+   WHERE pr.project_id = 1 and pe.emp_ID = 2;
+
+INSERT INTO project_membership
+   SELECT REF(pr), REF(pe) FROM project_table pr, employee_table pe
+   WHERE pr.project_id = 0 and pe.emp_ID = 2;
+
+SELECT DEREF (p.project_ID), DEREF (p.member) from project_membership p;
+
+
+
+

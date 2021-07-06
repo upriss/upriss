@@ -1,0 +1,131 @@
+<HTML>
+<HEAD>
+<TITLE>Session 4</TITLE>
+</HEAD>
+<BODY>
+
+<h3>1 Recursive functions</h3>
+
+Try the following two function definitions. Note: you need a blank
+line at the end of a function definition. 
+<p>
+Calculating the sign (-1,1 or 0) of a number:
+
+<font color=blue><pre>
+def sign_function(x): 
+&nbsp; if x < 0: 
+&nbsp; &nbsp; return -1 
+&nbsp; elif x == 0: 
+&nbsp; &nbsp; return 0 
+&nbsp; else: 
+&nbsp; &nbsp; return 1 
+&nbsp; &nbsp;
+print sign_function(8) 
+</pre></font>
+
+The sign function is a function, but <b>not a recursive</b> function.
+The <b>following function is recursive</b> because it calls itself.
+This means that the name of the function shows up in a return statement.
+<p>
+Calculating factorials:
+
+<font color=blue><pre>
+def fact(n): 
+&nbsp; if n == 0 or n == 1: 
+&nbsp; &nbsp; return 1 
+&nbsp; else: 
+&nbsp; &nbsp; return (n * fact(n-1)) 
+&nbsp;
+print fact(7) 
+</pre></font>
+
+<h4>1.1 Exercises</h4>
+
+1) Write a recursive function fibo(x) that calculates the Fibonacci numbers.
+The conditions should be: 
+<li>fibo(1) returns 0
+<li>fibo(2) returns 1
+<li>fibo(x) for x < 1 returns a message saying that x must be > 0
+<li>fibo(x) for x > 2 contains a recursive call to fibo(x-1) and fibo(x-2)
+
+<p>
+
+2) Write a recursive function that determines whether a word is a 
+palindrome (i.e. it reads the same in either direction, such as
+radar, civic, rotator). Hints: 
+<li>write conditions for words of length 0 and 1
+<li><font color=blue>len(word)</font>  returns the length of word
+<li><font color=blue>word[0]</font>  shows the first character;
+<li><font color=blue>word[len(word)-1]</font>  shows the last character
+<li><font color=blue>word = word[1:len(word)-1]</font> 
+removes the first and last character.
+
+<p>
+
+3) Calculate the greatest common divisor of two integers using the
+Euclidean algorithm: 
+<li>using numbers m and n;
+<li>if n = m, you are finished;
+<li>otherwise, sort them so that m < n;
+<li>if m = 0, return n; 
+<li>otherwise, return the greatest common divisor of (m, n % m).
+<p>
+For example: find the greatest common divisor of 26 and 14.<br>
+m = 14; n = 26<br>
+26 % 14 = 12<br>
+find the greatest common divisor of (14, 12)<br>
+m = 12; n = 14<br>
+14 % 12 = 2<br>
+find the greatest common divisor of (12, 2)<br>
+m = 2; n = 12<br>
+12 % 2 = 0<br>
+find the greatest common divisor of (2, 0)<br>
+m = 0; n = 2<br>
+return 2
+
+<p>
+
+4) Optional exercise: write a recursive function that checks whether an
+expression contains matching, nested brackets. For example, the
+expression "(c(()b))" is ok, whereas ")n()" is not. The brackets must
+be nested one inside the other, thus, "()()" is not ok.
+
+<h3>2 Properties of functions</h3>
+
+Many mathematical properties and points of functions can be read from the 
+graph of a function:
+<p>
+<table border=1 cellpadding=5>
+<tr><th>properties/points<th>graph
+<tr><td>domain<td>x-values for which the function is defined
+<tr><td>range/image (a subset of the co-domain)
+<td>y-values which the function actually takes
+<tr><td>symmetric<td>mirrored along y-axis
+<tr><td>continuous<td>can be drawn in one line without stopping 
+<tr><td>bijective/strictly monotonous<td>
+graph is strictly increasing or strictly decreasing
+<tr><td>bounded<td>values don't approach infinity
+<tr><td>root/zero<td>point where the graph intersects with x-axis 
+<tr><td>local maximum or minimum<td>point where graph changes between rising/falling
+<tr><td>global maximum or minimum<td>highest/lowest point of the graph
+<tr><td>inflection point<td>graph changes its concavity
+</table>
+<p>
+
+Use <a href="http://www.wolframalpha.com/">Wolfram Alpha</a> to check
+the properties of the following functions based on their graphs:
+
+<ul>
+<li>x**3
+<li>x**2 * sin(x)
+<li>(x**2 + y**2 -1)**3 - x**2 * y**3 = 0
+<li>zeta(x)
+</ul>
+
+You can also use an on-line version of <a href="http://www.sagenb.org/">sage</a>
+for this exercise, but it is more complicated. I have created a 
+<a href="http://www.sagenb.org/home/pub/1496/">worksheet</a> which
+shows the solution to this exercise using sage.
+
+</BODY>
+</HTML>

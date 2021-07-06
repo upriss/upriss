@@ -1,0 +1,103 @@
+3) Ask a user to input their name into a textfield and to choose a color from 
+a popup menu. Then display a page with a short message (e.g. "Thank you 
+$name for your request") in that color. 
+
+a) Form:
+
+<form action="color.cgi">
+Type in your name, please:
+<input type="text" name="name"><br>
+<SELECT NAME="color" SIZE="1">
+<OPTION SELECTED>Blue
+<OPTION>Red
+<OPTION>Yellow
+<OPTION>Green
+<OPTION>Black
+</SELECT><br>
+<input type="submit" name="submit">
+</form>
+</body>
+</html>
+
+b) CGI Script:
+
+#!/usr/local/bin/perl -w
+use CGI qw(:standard);
+
+$name = param("name");
+$color = param("color");
+
+print header();
+print "<HTML><HEAD><TITLE>User Preferences</TITLE></HEAD>
+<BODY bgcolor='$color'>
+Thank you $name for your request.
+</body></html>";
+
+------------------------------------------------------------------
+
+4) In the previous script check whether the input is reasonable and not empty: 
+- check whether the name and color contain only word characters or -.
+- check that neither name nor color is longer than 100 chars 
+(use the {100,} multiplier). 
+If the criteria are not fulfilled, do not display the results page but 
+instead show an error message. 
+
+if ($name =~ /[^\w-]/ or $color =~ /[^\w-]/ or
+    $name =~ /.{100,}/ or $color =~ /.{100,}/ or
+    $name eq "" or $color eq "") {
+    print header();
+    print "<HTML>Invalid input</HTML>";
+    die;
+}
+
+------------------------------------------------------------------
+
+5) For the $name variable replace HTML characters "<" and ">" 
+with &#60; and &#62; before printing the name.
+
+(Note: if this is combined with exercise 4, the regular expression for
+$name must be changed to $name =~ /[^&#;\w-]/ otherwise it would die anyway
+if it sees HTML tags.)
+
+#!/usr/local/bin/perl -w
+use CGI qw(:standard);
+
+$name = param("name");
+$color = param("color");
+
+$name =~ s/</&#60;/g; 
+$name =~ s/>/&#62;/g; 
+
+if ($name =~ /[^&#;\w-]/ or $color =~ /[^\w-]/ or
+    $name =~ /.{100,}/ or $color =~ /.{100,}/ or
+    $name eq "" or $color eq "") {
+    print header();
+    print "<HTML>Invalid input</HTML>";
+    die;
+}
+
+print header();
+print "<HTML><HEAD><TITLE>User Preferences</TITLE></HEAD>
+<BODY bgcolor='$color'>
+Thank you $name for your request.
+</body></html>";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

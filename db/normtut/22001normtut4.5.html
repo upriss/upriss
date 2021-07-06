@@ -1,0 +1,25 @@
+
+<html>
+<head>
+<title>Relational Database Tutorials</title> 
+</head>
+<body>
+<h3>4.5 3NF</h3>
+Supplier(<b>sno</b>,sname,saddress)<br>
+Supp-part(<b>sno,partno</b>)<br>
+Cust-supp(<b>partno,custid</b>,quantity)<br>
+Part(<b>partno</b>,partdesc)<br>
+Cust(<b>custid</b>,custname,custaddr,sno)
+<p>
+<pre>
+  sno -> sname,saddr
+  partno -> partdesc
+  partno,custid -> quantity
+  sname -> sno
+  custid -> custname,custaddr
+  custid -> sno
+</pre>
+<p>The relations are now in 3NF.
+<p>
+Which of the following is true?
+<p><ol><li><a href='22001normtut4.61ans.html'>The relations are not in BCNF.</a><br>&nbsp;<li><a href='22001normtut4.62ans.html'>The relations are in BCNF. The dependency sname -> sno isn't a problem because sname is a candidate key (because it was stated that the supplier names are unique).</a><br>&nbsp;<li><a href='22001normtut4.63ans.html'>The relations are in BCNF because there are no candidate keys other than the actual keys.</a><br>&nbsp;<li><a href='22001normtut4.64ans.html'>The relations are not in BCNF because there are transitive dependencies.</a><br>&nbsp;</ol><p><a href='22001normtut_index.html'>Index</a>

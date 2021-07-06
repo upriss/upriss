@@ -1,0 +1,100 @@
+1) For each expression on the left, can you find the one on the right
+   that is equivalent?
+
+f = propcalc.formula("(a|a) <-> (a & (a | b))")
+f.is_tautology()
+
+f = propcalc.formula("(a&b) <-> ~ (~ a | ~ b)")
+f = propcalc.formula("(~a&b) <-> (~ (a | ~ b))")
+f = propcalc.formula("(~a&b) <-> (~ (a | ~ b))")
+f = propcalc.formula("~(a&b) <-> (~ b | ~ a)")
+f = propcalc.formula("~(a|b) <-> ((~ a) & (~ b))")
+f = propcalc.formula("(a & b & c) <-> (c & a & b)")
+f = propcalc.formula("(a & (b | c)) <-> ((c & a)|(a & b))")
+f = propcalc.formula("((a & b) | c) <-> ((a | c) & (b | c))")
+
+--------------------------------------------
+
+2) A logic puzzle: Whom to invite for the party? 
+
+f = propcalc.formula("(s->j)&(j^m)&(s|m)&(m->s)")
+f.truthtable().true_rows()
+
+The result is:
+['s', 'j', 'm', 'value']
+[True, True, False, True]
+
+This means that Susan and John should be invited.
+
+--------------------------------------------
+
+3) Another logic puzzle: 
+
+f = propcalc.formula("(~a|~l)&(~d->~m)&(l->(p|j))&~(j&m)& ~p & l ")
+f.truthtable().true_rows()
+
+The result is:
+['a', 'l', 'd', 'm', 'p', 'j', 'value']
+[False, True, False, False, False, True, True]
+[False, True, True, False, False, True, True]
+
+This means that Lisa and John must be invited. You can
+invite Diana, but this is optional.
+
+--------------------------------------------
+
+4) Knights and Knaves: 
+
+f = propcalc.formula("(at->bt)&(af->bf)&(bt->af)&(bf->af)&(at^af)&(bt^bf)")
+(The last two conditions state that true and false exclude each other.)
+
+f.truthtable().true_rows()
+
+The result is:
+['at', 'bt', 'af', 'bf', 'value']
+[False, False, True, True, True]
+This means that they are both knaves.
+
+--------------------------------------------
+
+5) A logic grid puzzle: 
+
+f = propcalc.formula("(p60^p70^p80)&~(p60&p70&p80)&(pg^pb^pr)&~(pg&pb&pr)&\
+(j60^j70^j80)&~(j60&j70&j80)&(jg^jb^jr)&~(jg&jb&jr)&~p80&j80&pg&(p70<->pr)&\
+(j70<->jr)&~(pg&jg)&~(pb&jb)&~(pr&jr)")
+f.truthtable().true_rows()
+
+Comment: The formula uses "j80: John weighs 80" which is implied by
+"John is heavier than Sue" and "Paul is not the heaviest". This is a
+little bit cheating. A truthtable with 12 variables has 4096 rows.
+Without this trick you would need 6 more variables for Sue, which
+would mean 262144 rows in the truthtable!
+
+--------------------------------------------
+
+6) Can you find a verbal description for each of the sets? 
+
+Verbal descriptions:
+
+- Numbers between 1 and 10.
+- Even numbers between 2 and 10.
+- Multiples of 6 below 40.
+- Square roots of numbers between 1 and 6
+- Numbers up to 10 which are not prime numbers
+
+--------------------------------------------
+
+7) a) Numbers between 1 and 100 which are divisible by 2, 3 and 7.
+
+from sets import Set
+Set([x for x in range(1,100) if x%2 == 0 and x%3 == 0 and x%7 == 0])
+
+b) Rational numbers (fractions) with a numerator between 1 and 10 and
+a denominator between 1 and 5. 
+
+Set([Rational(x,y) for x in range(1,11) for y in range(1,6)])
+
+c) Prime numbers below 10. 
+
+A = Set([x for x in range(1,11) for y in range(2,x) if x % y == 0])
+Set([x for x in range(1,11)]) - A 

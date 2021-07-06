@@ -1,0 +1,228 @@
+<HTML>
+<HEAD>
+<TITLE>Week 5</TITLE>
+</HEAD>
+<BODY>
+
+<h3>1 Regular Expressions</h3>
+
+A regular expression is a pattern that a string is searched for.
+Unix commands such as "ls *.*" are similar to regular expressions,
+but the syntax of regular expressions is more elaborated.
+Several Unix programs (grep, sed, awk, ed, vi, emacs) use regular
+expressions and many modern programming languages (such as
+Java) also support them.
+
+<p>
+
+$line =~/the /<br>
+
+searches for the occurrence of the four character sequence "the " in the
+string in $line. If "!~" was used instead of "=~" then the script
+would search for strings that do not contain the four character
+sequence "the ".
+
+<p>
+The <a href="regexchars.html">list of special characters</a> summarises
+characters that have special meanings or need to be escaped in regular expressions.
+
+<h4>1.1 Example:</h4>
+
+<font color=blue>
+#!/usr/local/bin/perl <br>
+#<br>
+# Regular expressions <br>
+#<br>
+# reading a file: <br>
+open(ALICE, "alice.txt");<br>
+@lines = &#60ALICE&gt ;<br>
+close(ALICE);<p>
+# searching the file content line by line:<br>
+foreach $line (@lines){<br>
+&nbsp; &nbsp; if ($line =~/the /){<br>
+&nbsp; &nbsp; &nbsp; &nbsp; print $line;<br>
+&nbsp; &nbsp; } # end of if <br>
+} # end of foreach <br>
+</font>
+
+<h4>1.2 Exercises</h4>
+
+For the exercises you can use the <a href="../perlcgi/alice.txt">alice.txt file</a>.
+(<font color=red>Note for MS Windows users:</font>
+It is best to save this file by copying and pasting
+it into a Unix editor. If you save the file under DOS/Windows, each
+line ends with "\r\n" instead of "\n". You need two chop commands
+instead of one chomp command if you want to remove these characters. )
+
+<p>
+1) Retrieve all lines from alice.txt that do not contain /the /. 
+Retrieve all lines that contain "the" with lower or upper case
+letters (hint: inserting an "i" after the
+expression means "ignore case":<font color=blue>/the /i</font>).
+
+<p> 
+2) a) Retrieve lines that contain a word of any length that starts with
+t and ends with e. Modify this so that the word has at least 
+three characters.
+<br>
+b) Retrieve lines that start with a. Retrieve lines that start with a and 
+end with n. Hint: You need to specify the beginning of the line,
+"a", any number of any characters in the middle, "n", end of line.
+<br>
+c) Retrieve blank lines. Think of at least two ways of doing this.<br>
+d) Retrieve lines that contain a word that starts with an upper case letter.<br>
+<p>
+
+3) What is the difference between the following expressions?<br>
+
+<p>
+a) abc*  and (abc)* <br>
+b) !/yes/  and /[^y][^e][^s]/ <br>
+c) [A-Z][a-z]* and [A-Z][a-z]+ <p>
+
+<h3>2 Substitution and Transliteration</h3>
+
+Using 
+<font color=red>$string_variable =~ s/search_pattern/replace_string/ 
+</font>
+<br>
+a search_pattern in $string_variable can be replaced by a replace_string.
+<br><font color=red>s/search_pattern/replace_string/g</font>
+<br>
+stands for global replacement, i.e. not only the first occurrence is
+replaced.
+<br><font color=red>s/search_pattern/replace_string/i</font>
+<br>
+stands for ignore case. "gi" stands for global replacement, ignore case.
+
+<h4>2.1 Examples</h4>
+
+a) s/[Ll][Oo][Nn][Dd][Oo][Nn]/London/g <br>
+replaces LOndoN or loNDON etc by London.
+This is equivalent to s/london/London/gi.<br>
+b) s/Alice/Mary/ <br>
+ replaces every occurrence of Alice by Mary.
+
+<h4>2.2 Optional: Transliteration</h4> 
+
+There is also something called "transliteration" which replaces
+single characters not strings.
+<br>
+$string_variable =~ tr/character_sequence/character_sequence/
+<br>
+Most of the regular expression 
+special characters are not valid for transliteration but "-" can 
+be used as in tr/a-z// which would delete all letters.
+
+<h4>2.3 The script to be used for the exercises below</h4>
+
+<font color=blue>
+#!/usr/local/bin/perl <br>
+#<br>
+# Regular expressions <br>
+#<br>
+# reading a file: <br>
+open(ALICE, "alice.txt");<br>
+@lines = &#60ALICE&gt ;<br>
+close(ALICE);<p>
+# searching the file content line by line:<br>
+foreach $line (@lines){<br>
+$line =~s/T/t/g;<br>
+print $line;<br>
+} # end of foreach <br>
+</font>
+
+<h4>2.4 Exercises</h4>
+
+4) Using the alice.txt file:
+<br>
+a) Replace all upper case A by lower case a. <br>
+b) Delete all words with more than 3 characters.<br>
+
+<h4>3 Non-greedy Multipliers and Patterns</h4>
+
+By default the multipliers * and + are "greedy" which means they
+match as many characters as possible. For example, 
+/(\b.+\b)/ matches any non-empty line.
+A question mark behind a multiplier forces it to be non-greedy.
+Therefore /(\b.+?\b)/ matches the first word in a line.
+
+<h4>3.1 Exercise</h4>
+
+5) Write a replace statement that deletes all HTML markup from a file.
+You need non-greedy multipliers because otherwise
+the text between tags may be deleted in a line that contains several tags. 
+
+<h4>3.2 Remembering Patterns</h4>
+
+Patterns within parentheses are remembered. Using \1, \2, etc they can 
+be referred to within the same regular expression (or search expression) 
+and using $1, $2, etc they can be referred to in a print statement (or 
+replace string). 
+
+<h4>3.3 Examples</h4>
+
+/(t.*e)/;<br>
+print "$1";<br>
+prints strings that start with "t" and end with "e".
+<p>
+s/(t.*e)/:$1:/g;<br>
+places a ":" in front and behind each string t...e.
+<p>
+/(...)\1/<br>
+matches a three character string that is repeated.
+<p>
+s/^(.)(.*)(.)$/$3$2$1/<br>
+switches the first and last character of a line.
+
+<h4>3.4 Exercise</h4>
+
+6) Print double characters within parenthesis "()".
+For example, replace "arrived" by "a(rr)ived".
+
+<h4>3.5 Optional: Special variables:</h4>
+
+<table border=1 cellpadding=3>
+<tr><td>$` </td><td>contains the string before the pattern</td>
+<tr><td>$& </td><td>contains the pattern that is matched</td>
+<tr><td>$' </td><td>contains the string after the pattern</td>
+</table>
+<p>
+For example:<br>
+$line="The cat that sat on the mat.";<br>
+$line =~ /c.t/;<br>
+$` contains "The "<br>
+$& contains "cat"<br>
+$' contains " that sat on the mat."<br>
+
+<h4>4 Split and Join</h4>
+
+Using <font color=red>@personal = split(/:/, $line); </font><br>
+a string such as 
+$line = "Caine:Michael:Actor:14, Leafy Drive"; <br>
+can be split into an array such as
+@personal = ("Caine", "Michael", "Actor", "14, Leafy Drive");<br>
+Other examples:<br>
+<font color=red>
+@chars = split(//, $word);<br>
+@words = split(/ /, $sentence);<br>
+@sentences = split(/\./, $paragraph);<br>
+</font><br>
+"join" does the opposite of "split":
+<br><font color=red>
+$bigstring = join(":",@personal);
+</font>   
+
+<h4>4.1 Exercises</h4>
+
+7) Read the alice.txt file into an array. Chomp it. Using "join"
+concatenate it into one string. Then split it into 
+words (or sentences) and print it one word (sentence) per line. 
+<p>
+8) Write a script that takes an HTML source file as input and prints
+it so that a newline follows only "closing tags", i.e. tags that are 
+of the form &#60/...&#62.
+
+</body>
+
+</HTML>

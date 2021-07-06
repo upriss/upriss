@@ -1,0 +1,92 @@
+<HTML>
+<HEAD>
+<TITLE>Session 7</TITLE>
+</HEAD>
+<BODY>
+
+<h3>1 Using Formal Concept Analysis (FCA) software</h3>
+
+Download the file <a href="friendsAndCars.csv">friendsAndCars.csv</a>
+file and save it on your I:-drive. (This is the same file as used in
+the statistics exercises).
+<p>
+Convert the csv file into an FCA format using:
+<font color=blue><pre>
+/home/staff/cs170/fcastone friendsAndCars.csv friendsAndCars.cxt
+</pre></font>
+<p>
+If that does not work, save the file from
+<a href="http://www.dcs.napier.ac.uk/~cs170/fcastone">here</a> as
+fcastone in your current directory and run 
+<font color=blue><pre>
+perl fcastone friendsAndCars.csv friendsAndCars.cxt
+</pre></font>
+in that directory.
+<p>
+(If you are not using Socweb, you would need to download the FcaStone software
+from <a href="http://fcastone.sourceforge.net/">http://fcastone.sourceforge.net/</a>.
+Unzip the file; find the file called fcastone;
+change its permissions to executable using chmod 755 fcastone). 
+<p>
+Download ConExp from <a href="http://sourceforge.net/projects/conexp/">here</a>.
+Double click the file to unzip it. Then go into the folder and double
+click on the conexp.bat file (or the conexp.jar file depending on your
+settings).
+<p>
+Once ConExp is running:
+
+<ul>
+<li>click on "Open File" and open the FriendsAndCars.cxt file
+<li>click on "Build Lattice" 
+<li>make the window larger
+<li>change the following drawing options:
+<ul><li>Attribs: Show multi-labels
+<li>Objects: show multi-labels
+</ul>
+<li>change "Draw Node" to "Fixed radius" 
+<li>click on the nodes and move them around until there are no overlapping lines
+and labels in the diagram.
+</ul>
+
+You can save all of the data by clicking "Save File" (in the top bar)
+or save/export the lattice to a png or jpg file by clicking on 
+"save lattice image" just to the right of the image.
+
+<h3>2 More exercises using Conexp</h3>
+
+Enter the context of the animals from the 
+lecture (Garfield, Socks, ...). It is probably best to 
+first delete the objects and attributes that you 
+don't need (by highlighting and right clicking).
+<p>
+After you entered the data, its probably a good idea to save the file.
+(Be careful NOT to click the "open new file" button at this point
+because that would delete your data.)
+
+<ul>
+<li>Click on Build lattice 
+<li>Click on "Start Attribute Exploration"
+<li>Accept all questions except when it asks you whether all cartoon animals 
+are mammals. Enter Donald Duck as a counter example. (Explanation: when it asks
+you whether "dog, cat, mammal" implies "cartoon, real, tortoise" and so 
+on, you need to click "accept" because no object can be dog and cat at the
+same time. That means that the premise of this implication is empty and 
+thus always true.)
+
+<li>Click on "Context Editor" to see whether Donald has been added.
+<li>Click on "Lattice Diagram". Click the checkbox on the right next to 
+Donald (or click "Select all objects"). 
+<li>Notice how the diagram has now changed. 
+</ul>
+
+
+Go back to the Context Editor and add a new object called "Daisy" and
+give her the attributes "cartoon" and "tortoise". 
+
+Click on "Build lattice" and see if you can arrange the messy diagram
+in a more readable fashion.
+
+
+
+</BODY>
+</HTML>

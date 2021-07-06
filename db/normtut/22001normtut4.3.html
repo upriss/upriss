@@ -1,0 +1,25 @@
+
+<html>
+<head>
+<title>Relational Database Tutorials</title> 
+</head>
+<body>
+<h3>4.3 Further normalisation</h3>
+So far:
+<p>
+Supp-part(<b>sno,partno</b>,partdesc)<br>
+Cust-supp(<b>partno,custid,</b>,sno,custname,custaddr,quantity)
+<p>
+<pre>
+  sno -> sname,saddr
+  partno -> partdesc
+  partno,custid,sno -> quantity
+  sname -> sno
+  custid -> custname,custaddr
+</pre>
+<p>
+Because of "custid -> sno" the dependency "sno,partno,custid -> quantity"
+can be modified to "partno,custid -> quantity".
+<p><p>
+These relations are normalised into 2NF as follows:
+<p><ol><li><a href='22001normtut4.41ans.html'>Supp-part(<b>sno,partno</b>)<br>Cust-supp(<b>partno,custid</b>,quantity)<br>Part(<b>partno</b>,partdesc)<br>Cust(<b>custid</b>,custname,custaddr)</a><br>&nbsp;<li><a href='22001normtut4.42ans.html'>Supp-part(<b>sno,partno</b>)<br>Cust-supp(<b>partno,custid,sno</b>,quantity)<br>Part(<b>partno</b>,partdesc)<br>Cust(<b>custid</b>,custname,custaddr,sno)</a><br>&nbsp;<li><a href='22001normtut4.43ans.html'>Supp-part(<b>sno,partno</b>,partdesc)<br>Cust-supp(<b>partno,custid</b>,quantity)<br>Cust(<b>custid</b>,custname,custaddr,sno)</a><br>&nbsp;<li><a href='22001normtut4.44ans.html'>Supp-part(<b>sno,partno</b>)<br>Cust-supp(<b>partno,custid</b>,quantity)<br>Part(<b>partno</b>,partdesc)<br>Cust(<b>custid</b>,custname,custaddr,sno)</a><br>&nbsp;</ol><p><a href='22001normtut_index.html'>Index</a>

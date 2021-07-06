@@ -1,0 +1,143 @@
+<html>
+<title>Week 7</Title>
+
+<body>
+
+
+<h4>Exercise</h4>
+
+Which of these XML statements are well-formed?
+
+<p>1) 
+&#60;class&#62;&#60;/class&#62;
+
+<p>2) 
+&#60;class&#62;&#60;lecture&#62;&#60;/lecture&#62;&#60;/lecture&#62;
+&#60;lecture&#62;&#60;/class&#62;
+
+<p>3) 
+&#60;class&#62;&#60;lecture&#62;&#60;/lecture&#62;&#60;lecture/&#62;
+&#60;practical /&#62;&#60;/class&#62;
+
+<p>4) 
+&#60;lecture&#62;
+&#60;slide Nr="1"/&#62;
+&#60;image&#62;&#60;jpg/&#62;&#60;/image&#62;
+&#60;/lecture&#62;
+&#60;practical&#62;&#60;slide Nr="2" size="12" &#62;
+&#60;/slide&#62;
+&#60;/practical&#62;
+
+<p>5) 
+&#60;class&#62;&#60;lecture&#62;First lesson with &#60;exercise&#62;
+One&#60;/exercise&#62;
+&#60;/lecture&#62;&#60;/class&#62;
+
+<p>6) 
+&#60;class&#62; This is true:5 &#60; 6, isn't it? &#60;/class&#62;
+
+<p>7) 
+&#60;class&#62;&#60;lecture&#62;This is a bracket: &amp;#60;
+&#60;/lecture&#62;&#60;/class&#62;
+
+<p>8) 
+&#60;html&#62;&#60;img src="file.gif"&#62;&#60;/html&#62;
+
+<p>9) 
+&#60;html&#62;&#60;font color=blue&#62;Hello&#60;/font&#62;&#60;/html&#62;
+
+<h3>Working with XML</h3>
+
+It is best to edit XML files with a dedicated XML editor in order to check
+the XML syntax and automatically generate DTDs and Schemas. A free, open-source
+XML editor is <a href="http://sourceforge.net/projects/butterflyxml">Butterfly</a>.
+Another free (PC-only) XML editor is <a href="http://www.xmlwrench.com/">XmlWrench</a>
+which also has an <a href="http://xmlwrench.com/online/">online interface</a>.
+Browsers, such as Firefox, can be used to check whether an XML file is well-formed.
+There are also Firefox add-ons for XML development.
+
+<h4>1.1 Exercises</h4>
+
+1) Install an XML editor. The exercises below assume that you are installing
+the Butterfly editor, but other XML editors should have similar functionality.
+To run the Butterfly editor 
+on Unix type "sh run.sh" in the Butterfly folder; on Windows click
+on run.bat or ButterflyXML.exe.
+<p>
+2) Click on "Create a new XML file". Create an XML file for a weekly schedule
+with 
+<ul>
+<li>the days of the week (Monday - Friday);
+<li>each day has a date;
+<li>events can be scheduled;
+<li>each event has a time, a name, a location and a short description
+</ul>
+Note: Butterfly does not have a copy/paste function, but Ctrl-C/Ctrl-V
+might work. Otherwise, once
+you have entered the information for one day, you can right click on the tags
+and use "add sibling/add child" to enter the tags for other days, etc.
+<p>
+Think about the best modelling strategy for this XML file. Should Monday,
+Tuesday, etc be elements, attributes or PCDATA (ie content of elements)?
+<p>
+3) When you are finished entering the data, right click on a tag and then
+select "Generate DTD". Modify the DTD so that events are optional and
+descriptions of elements are optional. (Note: DTDs use a regular
+expression like notation: * means 0 or more, + means 1 or more,
+? means 0 or 1). 
+<p>
+4) The following XML is a mess! Save it as a file and open it in
+your XML editor. Fix all the problems. Note: don't try to generate the DTD
+while there are errors in your XML because Butterfly may crash. Save
+the XML before creating a DTD. Create a DTD and a Schema.
+
+<font color=blue><pre>
+&#60;!- This is about movies! -&#62;
+  &#60;!ELEMENT actor ( #PCDATA )&#62;
+  &#60;!ELEMENT movie (actor*, title, year*)&#62;
+  &#60;!ELEMENT title ( #PCDATA )&#62;
+  &#60;!ELEMENT year ( #PCDATA )&#62;
+
+  &#60;movie id = 1&#62;
+    &#60;title&#62;The Quest&#60;/title&#62;
+    &#60;actor&#62;Tom Smith&#60;/actor&#62;
+    &#60;year&#62;2007&#60;/year&#62;
+  &#60;movie id = 2&#62;
+    &#60;title&#62;Summer&#60;/title&#62;
+    &#60;year&#62;1998&#60;/year&#62;
+    &#60;actor&#62;Susie Black&#60;/actor&#62;
+    &#60;actor&#62;Paul White&#60;/actor&#62;
+  &#60;/movie&#62;
+ &#60;movie id = 3&#62;&#60;title&#62;Hello World&#60;/movie&#62;&#60;/title&#62;
+</pre></font>
+
+5) The jQuery.xmleditor is an XML editor fully written in Javascript which
+can be incorporated into websites. The full code is available at
+<a href="https://github.com/UNC-Libraries">https://github.com/UNC-Libraries</a>.
+A demo of the editor has been prepared for this exercise. Download the
+<a href="demo.zip">demo.zip</a> file and unpack it in a director on your server.
+Also, download the <a href="jQueryXmleditorDemo.html">jQueryXmleditorDemo.html</a>
+file. Use the xsd schema for the movie example from the previous 
+exercise and store it in a file name "movies.xsd". In the jQueryXmleditorDemo.html
+file make sure that the rootElement is set to the root element in your movies.xml
+file (i.e. if your root is not "movies" you need to change that value). 
+
+<p>
+
+Test whether the jQuery.xmleditor works. Some options will only work in some
+browsers. Try changing between text and xml. Add some subelements and attributes.
+Save an example of the movies.xml file in the same directory and uncomment the
+line with ajaxOptions. Then reload the page.
+
+<p>
+
+How would this work with in combination with a PHP script? Write a PHP script
+that reads an xml file from the current directory and presents it using
+the jQuery.xmleditor.
+
+
+
+
+
+</body>
+</html>

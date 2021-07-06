@@ -1,0 +1,139 @@
+2.1) Modify the program from above so that it asks users to "guess the 
+lucky number". If the correct number is guessed the program stops, 
+otherwise it continues forever. 
+
+#!/usr/bin/env python
+#
+# guess the lucky number
+
+number = input("Guess the lucky number ")
+while number != 5:
+   print "That is not the lucky number"
+   number = input("Guess the lucky number ")
+
+
+2.2) Modify the program so that it asks users whether they want to 
+guess again each time. Use two variables, number for the number and 
+answer for the answer to the question whether they want to continue 
+guessing. The program stops if the user guesses the correct number or 
+answers "no". (In other words, the program continues as long as a user 
+has not answered "no" and has not guessed the correct number.) 
+
+#!/usr/bin/env python
+#
+# while statement with 2 variables that can terminate the loop
+
+number = -1
+again = "yes"
+while number != 5 and again != "no":
+    number = input("Guess the lucky number: ")
+    if number != 5:
+        print "That is not the lucky number"
+        again = raw_input("Would you like to guess again? ")
+
+
+
+3.1) A counter: Write a program that asks five times to guess the 
+lucky number. Use a while loop and a counter, such as ...
+The program asks for five guesses (no matter whether the correct 
+number was guessed or not). If the correct number is guessed, the 
+program outputs "Good guess!", otherwise it outputs "Try again!". 
+After the fifth guess it stops and prints "Game over." 
+
+#!/usr/bin/env python
+#
+# while statement with counter
+
+counter = 1
+while counter <= 5:
+   number = input("Guess the " + str(counter) + ". number ")
+   if number != 5:
+       print "Try again."
+   else:
+       print "Good guess!"
+   counter = counter +1
+else:
+   print "Game over"
+
+3.2) break: In the previous example, insert "break" after the 
+"Good guess!" print statement. "break" will terminate the while 
+loop so that users do not have to continue guessing after they 
+found the number. If the user does not guess the number at all 
+print "Sorry but that was not very successful" (use "else" for this). 
+
+
+#!/usr/bin/env python
+#
+# while statement with counter and break
+
+counter = 1
+while counter <= 5:
+   number = input("Guess the " + str(counter) + ". number ")
+   if number != 5:
+       print "Try again."
+   else:
+       print "Good guess!"
+       break
+   counter = counter +1
+else:
+   print "Sorry but that was not very successful"
+
+
+3.3) Counting hits: Modify the program again. This time the program
+continues even after the correct number was guessed but it counts how often
+the correct number was guessed. You'll need two counters: one for the while
+loop and another one for the number of correct guesses. After the while loop
+is finished, use an if statement to print either "You guessed the number ...
+times" or "The number was not guessed at all". 
+
+#!/usr/bin/env python
+#
+# counting hits
+
+counter = 1
+hits = 0
+while counter <= 5:
+   number = input("Guess the " + str(counter) + ". number ")
+   if number != 5:
+       print "Try again."
+   else:
+       print "Good guess!"
+       hits = hits + 1
+   counter = counter +1
+
+if hits > 0:
+   print "You guessed the number", hits, "times"
+else:
+   print "The number was not guessed at all"
+
+
+4.1) Modify the counter program from above using a for loop so that it asks
+the user for five guesses and then stops. Use "break" to terminate the for loop
+as soon as the correct number is guessed. 
+
+
+#!/usr/bin/env python
+#
+# for statement
+#
+
+for counter in range(5):
+   number = input("Guess the " + str(counter + 1) + ". number ")
+   if number != 5:
+       print "Try again."
+   else:
+       print "Good guess!"
+       break
+
+
+4.2) Optional exercise: print all multiples of 13 that are smaller than 100.
+Use the range function in the following manner: range(start, end, step) where
+"start" is the starting value of the counter, "end" is the end value and "step" is
+the amount by which the counter is increased each time. 
+
+#!/usr/bin/env python
+#
+# multiples of 13
+
+for counter in range(13,100,13):
+        print counter

@@ -1,0 +1,215 @@
+<HTML>
+<HEAD>
+<TITLE>Session 1</TITLE>
+</HEAD>
+<BODY>
+
+<h4>1 Starting Python/SymPy</h4>
+
+You need the following lines to create the settings required for the
+exercises below.
+
+<font color=blue><pre>
+from __future__ import division
+import sys
+from sympy import *
+sys.displayhook = pprint
+</pre></font>
+
+Read
+<a href="ma0.html">these instructions</a> for more details
+on how to setup your account and use Python on Socweb.
+
+<p>
+
+Note: the last line "sys.displayhook = pprint" is optional. It tries to
+print the formulas in a nicer way, but this only works if the
+character set of the client window is correctly configured.
+So if the formulas have strange characters in them, don't use 
+"sys.displayhook = pprint".
+
+<h4>2 Using Python/SymPy in the interactive mode </h4>
+
+Enter the following lines one at a time. You can either type
+them in or copy and paste from here.
+
+<font color=blue><pre>
+6 * 12
+n1 = 4
+n2 = 5
+n1 + n2
+result = n1 * n2
+result
+</pre></font>
+
+Thus, you can use python like a calculator! 
+<p>
+If you want to correct or change a previous line, you can
+go back to that line using the uparrow key. 
+<br>
+Try this: change
+<font color=blue>n1 + n2</font> to
+<font color=blue>n1 + n2 + 1</font>.
+<p>
+
+There are several operators related to division:
+<p>
+<table border=1 cellpadding=3>
+<tr><td>division<td> <font color=blue>21 / 10 == 2.1</font>
+<tr><td>integer division<td> <font color=blue>21 // 10 == 2</font> 
+<tr><td>remainder<td> <font color=blue>21 % 10 == 1</font>
+</table>
+<p>
+Note: the "/" operator only works in this manner because you executed 
+earlier: "from __future__ import division".
+<p>
+Two equal signs (==) are used to test for equality.
+
+<h4>3 Examples of simple calculations</h4>
+
+In some cases SymPy does not provide a numerical result, but only
+transforms the expressions. For example, <br>sqrt(2) = 2**(1/2)
+(or &nbsp; &radic; 2 = 2<sup>1/2</sup>).<br>
+If you want to see a numerical result use N(). 
+Try the following:
+
+<font color=blue><pre>
+2**3
+pi
+N(pi)
+sqrt(2)
+N(sqrt(2))
+sqrt(2)*pi
+N(sqrt(2)*pi)
+a = Rational(1,2)
+b = Rational(3,4)
+a + b
+a + b == 5/4
+</pre></font>
+
+By the way, the last four lines show that
+
+<pre>
+1   3   1 * 2   3   5
+- + - = ----- + - = -
+2   4     4     4   4
+</pre>
+
+Hopefully, you still remember this from School!
+
+<h4>4 Arithmetical operator precedence</h4>
+
+What is <font color=blue>3**2*4 + 2/5</font>?<p>
+The precedence is as follows:
+<p>
+<table border=1 cellpadding=5>
+<tr><td>1.<td>exponentiation <td> **
+<tr><td>2.<td>multiplication, division, integer division, remainder <td> *, /, //, %
+<tr><td>3.<td>addition, subtraction <td> +, -
+<tr><td>4.<td>comparison <td>==, <, <=, >, >=, !=
+</table>
+<p>
+Try the following expressions and observe how precedence is applied:
+
+<font color=blue><pre>
+1 + 2 * 3 + 4
+1 + (2 * 3) + 4
+(1 + 2) * (3 + 4)
+2**3 + 1
+2**(3 + 1)
+4 == 3 + 1
+(4 == 3) + 1
+</pre></font>
+
+<h4>5 Using variables</h4>
+
+Programming variables (<font color=blue>n1 = 4; result = n1 + 1</font>)
+are different from mathematical variables (<font color=blue>
+x = Symbol('x'), y = Symbol('y')</font>). Programming variables
+have a current value assigned. They can be assigned a new value at
+any time. Mathematical variables express an unknown constant. 
+For example, try the expressions below. 
+Don't worry if you don't remember the mathematical details for all of
+these from School. The point of these exercises is to show how CAS
+software can solve in seconds, what might take a long time to achieve
+with pen and paper.
+
+<font color=blue><pre>
+x = Symbol('x')
+y = Symbol('y')
+x+y+x-y
+((x+y)**2).expand()            ### expands expressions
+(x+y+x-y).subs(x,13)           ### substitutes a value
+together(1/x + 1/y)            ### combines several fractions into one
+diff(x**3 + x**2 + 3 * y, x)   ### differentiates an expression
+integrate(6*x**5, x)
+solve(x**2 -1, x)              ### solves algebraic equations
+solve([x + 5*y - 2, -3*x + 6*y - 15], [x, y])
+Integral(x**2, x)              ### prints an integral function
+</pre></font>
+
+<h4>6 Python Exercises</h4>
+
+1) A magician asks a person to think of a number, then
+add 3 to that number. Then multiply the result by 2, subtract 4,
+subtract twice the original number, finally add 3. Then the
+magician correctly guesses that the result is 5. <br>
+Write a formula for this and test it with Sympy. You don't need
+solve() for this because the result is deterministic. Can you
+simplify the formula with pen and paper so that it reduces to 5?
+<p>
+2) Solve the equation: 7x + 3(x + 1) = 2x/4 - 1<br>
+Hint: you need to insert the correct operators and transform the
+equation so that one side says 0. You then apply the solve() function
+to the side of the equation which does not say 0.
+<p>
+3) Which of the following are equal?<br>
+
+x**2 - 1<br>
+(x + 1) * ( x + 1)<br>
+(x - 1) * ( x + 1)<br>
+x**2 + 2* x + 1<br>
+Hint: python will not automatically expand the expressions.
+In order to compare expressions (with ==), you need to use
+the expand() function.
+<p>
+
+4) a) Substitute x = 1 in x * (x**2 +5), then expand the expression;<br>
+b) substitute x = x + 1  in x * (x**2 +5) then expand the expression.<p>
+(The background for this exercise is mathematical induction which is a
+method of proof by showing that a) a fact holds for 1 and b) if it holds for
+x, it also holds for x +1. In this case, the goal is to prove that
+x * (x**2 +5) is divisible by 6 if x is any integer. The proof is 
+successful if the result from a) is a multiple of 6 and all summands
+in the result from b) are either divisible by 6 or by x because 
+it was assumed that x is divisible by 6.)
+
+
+<h4>7 Web Exercise</h4>
+
+5) Apart from the prime numbers discussed in the lecture,
+there are many other number sequences studied in mathematics
+and some other fields. Luckily, there are resources
+on the web that can be used to identify the sequences.
+Use the <a href="http://oeis.org">
+Encyclopedia of Integer Sequences</a> to identify the following
+sequences. (Don't read all the details on that site and don't
+worry if you don't understand everything.)
+<p>
+For the first two sequences and the last one, you could try to guess
+what principle is used to build them before you look them up. These
+sequences are built using a simple construction.
+
+<p>
+0, 1, 1, 2, 3, 5, 8, 13
+<p>
+1, 1, 2, 6, 24, 120
+<p>
+70, 836, 4030, 5830, 7192, 7912, 9272
+<p>
+1, 3, 7, 9, 13, 15, 21, 25, 31
+<p>
+4, 3, 3, 5, 4, 4, 3, 5
+
+</BODY>
+</HTML>

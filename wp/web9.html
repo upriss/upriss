@@ -1,0 +1,92 @@
+<html>
+<title>Week 9</Title>
+
+<body>
+
+<h3>Teamwork: famous security threats</h3>
+
+Each team spends about 10 minutes investigating one of the following:
+
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/Stuxnet">Stuxnet</a>
+<li><a href="http://en.wikipedia.org/wiki/Operation_Aurora">Operation Aurora</a>
+<li><a href="http://www.wired.com/threatlevel/2011/03/comodo_hack/">Comodo Hack</a>
+<li>Bundestrojaner
+</ul>
+In each case, the two main questions are:<br>
+What was the threat about?<br>
+What was the main attack strategy used in the threat?
+
+<h3>Client-side security</h3>
+
+<ul>
+<li>Officially, any computer is only identified by an IP address on the web.
+But all browsers send additional information (check out 
+<a href="http://gemal.dk/browserspy/">Browserspy</a>). Check with some
+other students in this class whether your browser and their browser has different
+settings and therefore you and the other students could be identified and tracked
+by the remote website. 
+<li>The Javascript history object can display the previous URL visited. Is
+that a security problem?
+<li>Javascript can change the content of a non-active tab in the browser.
+How could this be abused by a malicious website?
+<li>Which information should be kept/deleted when a browser is in private
+mode: history, downloaded files, passwords, cache, cookies, bookmarks?
+</ul>
+
+<h3>Injection</h3>
+
+In each of the following, $data contains user-submitted code.
+In each case, determine how the user can disrupt the system.
+
+<ul>
+<li>echo $data; <br>
+(Can the user execute Javascript or place an image on the website?)
+<li>system('ls $variable'); <br>
+(Can the user print the system password file?)
+<li>$query = "select $data from test"; <br>
+(Can the user print the database system tables?)
+</ul>
+
+<h3>Server-side security</h3>
+
+In order to make scripts secure, all user input must be carefully checked.
+The best way to check user input is by writing regular expressions
+which specify the exact pattern of the expected input. 
+This tutorial focusses on understanding
+the risks and applying simple checks.
+
+<h4>Exercises</h4>
+
+1.1 Directory indexing and path traversal: <br>
+Create a new directory on your webserver. Create a file in that directory.
+Depending on whether or not your indexes are turned on, you may be able
+to see a directory listing. Check out some websites you know and try
+what happens if you delete the last part of the URL. Can you find any
+websites with unprotected directories?
+<p>
+
+1.2 HTML injection: <br>
+Create a simple web form with a textfield and
+a simple script that prints the user input from the textfield. (You
+can use a script from Week 3 for this exercise if you still have it.)
+Apply no security at this stage. Try entering text with html tags
+into the textfield (for example "&#60;i&#62;hello&#60;/i&#62;") and see what happens.
+<p>
+1.3 Defacing: <br>
+Continuing from the previous exercise, enter an image tag 
+(&#60;img src='...' &#62;)
+with a valid URL into the textfield. See what happens.
+<br>
+In order to fix these basic security risks: if you are using PHP, apply
+functions, such as htmlspecialchars() and strip_tags(),
+and observe what they do. <br>
+<p>
+1.4 System commands: <br>
+Add a system command to your script (something like system('ls $variable')
+where $variable contains user-supplied data. Determine how a hacker can
+obtain shell access via your script. Use escapeshellarg() or escapeshellcmd() 
+in order to protect your code.
+
+</body>
+</html>

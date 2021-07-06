@@ -1,0 +1,181 @@
+1) Create a form that asks a user for his/her name and some comments. 
+Then create two CGI scripts that create a response. The first script 
+displays the information which the user has submitted ("Hello $name. 
+These are your comments: $comments") and asks the user whether he/she 
+really wants to submit the information. The second script is invoked by 
+the first one and displays "Thank you $name. Your comments have been 
+submitted: $comments". 
+
+Form:
+
+<form action='yourcgifile' method='post'>
+Name: <input type='text' name='name' ><p>
+Comments: <input type='text' name='comments' ><p>
+<input type='submit' value='next'>
+</form>      
+
+-----------------------------------------------------------------
+
+First CGI Script:
+
+#!/usr/local/bin/perl
+use CGI qw(:standard);
+my $name= param("name");
+my $comments = param("comments");
+print header();
+
+if ($name =~ /[^\w -]/ or $comments =~ /[^\w -]/ or
+    $name =~ /.{100,}/ or $comments =~ /.{100,}/ or
+    $name eq "" or $comments eq "") {
+    print "Error";
+    die;
+}
+print "<HTML><HEAD><TITLE>Maintaining State</TITLE></HEAD><BODY>
+     <form action = 'yourcgifile' method='post'>
+     Hello $name! Do you really want to submit these comments?<p> $comments
+     <input type='hidden' name='name' value=\"$name\"><p>
+     <input type='hidden' name='comments' value=\"$comments\"><p>
+     <input type='submit' value='yes'>
+     </form>";
+print end_html();     
+
+-----------------------------------------------------------------
+
+2) Use a cookie instead of hidden text in the previous exercise
+
+First CGI file:
+
+#!/usr/local/bin/perl
+use CGI qw(:standard);
+my $name= param("name");
+my $comments = param("comments");
+
+if ($name =~ /[^\w -]/ or $comments =~ /[^\w -]/ or
+    $name =~ /.{100,}/ or $comments =~ /.{100,}/ or
+    $name eq "" or $comments eq "") {
+    die;
+}
+$cookiedata = $name."|".$comments;
+$cookie = cookie(-name=>'nameandcomments',-value=>"$cookiedata",
+       -expires=>'+1h');
+print header(-cookie=>$cookie);
+print "<HTML><HEAD><TITLE>Maintaining State</TITLE></HEAD><BODY>
+     <form action = 'yourcgifile' method='post'>
+     Hello $name! Do you really want to submit these comments?<p> $comments
+     <input type='submit' value='yes'>
+     </form>";
+print end_html();     
+
+-----------------------------------------------------------------
+
+Second CGI file:
+
+#!/usr/local/bin/perl
+use CGI qw(:standard);
+print header();
+print "<HTML><HEAD><TITLE>Maintaining State</TITLE></HEAD><BODY>
+<H3>Reply</h3>";
+$cookiedata = cookie(-name=>'nameandcomments');
+($name, $comments) = split(/\|/,$cookiedata);
+
+if ($name =~ /[^\w -]/ or $comments =~ /[^\w -]/ or
+    $name =~ /.{100,}/ or $comments =~ /.{100,}/ or
+    $name eq "" or $comments eq "") {
+    die;
+}
+print "<p> Hello $name. Here are your comments: <p> $comments";
+print end_html();
+
+-----------------------------------------------------------------
+
+3) First CGI file
+
+#!/usr/local/bin/perl
+use CGI qw(:standard -debug); 
+use CGI::Session;
+use HTML::Template; 
+
+my $template_text1 = <<EOS;
+<html>
+<head><title>Name and Comments</title></head> <body>
+There was an error with your form data. Please, go back and try again.
+</body></html>
+EOS
+
+my $template_text2 = <<EOS;
+<html>
+<head><title>Name and Comments</title></head> <body>
+Hello <TMPL_VAR NAME="name">
+Do you really want to submit these comments?<p> <TMPL_VAR NAME="comments">
+<form action = 'session2' method='post'>
+<input type='submit' value='yes'>
+</form>
+</body></html>
+EOS
+
+my $cgi = new CGI;      
+my $session = new CGI::Session(undef, $cgi, {Directory=>'/home/yourdir/tmp'});
+$cookie = $cgi->cookie(CGISESSID => $session->id );
+print $cgi->header(-cookie=>$cookie);
+my $template1 = HTML::Template->new(scalarref => \$template_text1 );
+my $template2 = HTML::Template->new(scalarref => \$template_text2,
+                                    associate => $cgi);
+
+if ($cgi->param("name") =~ /[^\w -]/ or $cgi->param("comments") =~ /[^\w -]/ or
+    $cgi->param("name") =~ /.{100,}/ or $cgi->param("comments") =~ /.{100,}/ or
+    $cgi->param("name") eq "" or $cgi->param("comments") eq "") {
+    print $template1->output();
+} else {
+    $session->save_param($cgi);
+    print $template2->output();
+}
+
+-----------------------------------------------------------------
+Second CGI file:
+
+#!/usr/local/bin/perl
+use CGI qw(:standard -debug); 
+use CGI::Session;
+use HTML::Template;
+########################################################################
+my $template_text = <<EOS;
+<HTML><HEAD><TITLE>Maintaining State</TITLE></HEAD><BODY>
+<H3>Reply</h3>
+Hello <TMPL_VAR NAME="name">! Here are your comments: <p> 
+<TMPL_VAR NAME="comments">
+EOS
+
+my $cgi = new CGI;
+my $session = new CGI::Session(undef, $cgi, {Directory=>'/home/username/tmp'});
+print $cgi->header();
+my $template = HTML::Template->new(scalarref =>\$template_text, 
+associate => $session);
+
+print $template->output();
+
+-----------------------------------------------------------------
+
+4) Hit counter: create a file that contains only
+the number "0". Your CGI script must open that file for reading; read
+the first line of the file into a scalar variable; increase the number by
+one; close the file; open the file again for writing (not appending); write
+the number to the file; close the file. 
+
+#!/usr/local/bin/perl
+
+use CGI qw(:standard);
+
+print header(); 
+print start_html("Hit Counter");
+open(FILE, "output.txt");
+$counter = <FILE>;
+$counter++;
+close(FILE);
+
+open(FILE, ">output.txt");
+print FILE $counter;
+close(FILE);
+
+print p("You are the $counter visitor of this page");
+print end_html();
+

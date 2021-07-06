@@ -1,0 +1,98 @@
+<html>
+<head>
+<title>Quiz 2</title>
+</head>
+<body>
+
+Revision Questions for Week 3 and 4. The answers will
+be posted on WebCT later in the semester.
+
+<h4>Which of the following is NOT an ER diagram connection trap?</h4>
+
+<li>Fan trap
+<li>Mousetrap
+<li>Chasm trap
+
+<h4>Fan traps</h4>
+
+A many-to-one relationship between Ingredients and Meals and a
+many-to-one relationship between Dishes and Meals constitutes
+a possible fan trap because the pathway between  _ _ _ _ _ _ _ _ _ 
+and _ _ _ _ _ _ _ _ _ is ambiguous. 
+<p>
+The fan trap can be resolved by changing the many-to-one relationship
+between _ _ _ _ _ _ _ _ _  and _ _ _ _ _ _ _ _ _  into a
+many-to-one relationship between _ _ _ _ _ _ _ _ _  and _ _ _ _ _ _ _ _ _ .
+
+<h4>A Chasm trap can occur if ... (choose one)</h4>
+
+<li>all relationships are mandatory
+<li>some relationships are optional
+
+<h4>Which of the following is NOT part of Enhanced ER Models (EER)?</h4>
+
+<li>generalisation
+<li>categorisation
+<li>normalisation
+<li>specialisation
+<li>aggregation
+
+<h4>Which of the following is a relationship, relationship type or relation?</h4>
+
+<li>Bus-Driver
+<li>Bus 14 - Driver John Smith
+<li>The database table that holds the data about buses and drivers.
+
+<h4>Which of the following is NOT true?</h4>
+
+<li>1:1 relationships that are mandatory at both ends can be
+mapped into a relation by either combining or not combining the tables. 
+<li>1:1 relationships that are optional at one end are mapped
+into a relation by taking the primary key from the 'mandatory end'
+and adding it to the 'optional end' as a foreign key. 
+<li>1:1 relationships that are optional at both ends must
+be kept in 2 tables.
+<li>1:m relationships are mapped by taking the primary key from the
+'many end' and adding it to the 'one end' as a foreign key.
+<li>M:n relationships are mapped by creating a new relation that
+contains the keys from both sides.
+
+<h4>Which of the following may include rows that failed the JOIN
+condition because of NULL values?</h4>
+
+<li>Traditional JOIN
+<li>Modern JOIN
+<li>OUTER JOIN
+<li>Equijoin
+
+<h4>What are the two aliases in "SELECT name, address from 
+student undergraduate, student postgraduate"?</h4>
+
+_ _ _ _ _ _ _ _ _ _  and _ _ _ _ _ _ _ _ _ _ .
+
+<h4>Which of the rows in the following table is not an equivalence (i.e. produces
+the same result if used in SQL)?</h4>
+
+SELECT * FROM department WHERE ...
+<p>
+<table border=1>
+<tr><td>"depno BETWEEN 3 AND 5" </td><td> "depno > 2 AND depno < 6"</td></tr>
+<tr><td>"depno IN (1,2,3)" </td><td> "depno = 1 OR depno =2
+OR depno =3" </td></tr>
+<tr><td>"depno > ANY (1,2,3)" </td><td> "depno = 1 AND depno =2
+AND depno =3" </td></tr>
+<tr><td>"depno > ANY (SELECT depno FROM department)" 
+</td><td> "depno > (SELECT MIN(depno) FROM department)"</td></tr>
+<tr><td>"depno >= ALL (SELECT depno FROM department)" 
+</td><td> "depno >= (SELECT MAX(depno) FROM department)"</td></tr>
+</table>
+
+<h4>Which of the following is correct?</h4>
+
+<li>CREATE table student (name varchar(20), dob 22.1.05);
+<li>CREATE student table (name varchar(20), dob date);
+<li>CREATE table student (name, dob);
+
+
+
+</body>

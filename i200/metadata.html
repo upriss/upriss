@@ -1,0 +1,148 @@
+<HTML>
+<HEAD>
+<TITLE>Q200 Week 10</title>
+</HEAD>
+<BODY>
+
+<h3>Heterogenous Datasources and Metadata</h3>
+
+<h3>Dublin Core:</h3>
+
+(The following list was extracted from http://purl.org/dc/)
+
+<p><li><b>Title</b><br>
+  Definition:  A name given to the resource.
+
+<p><li><b>Creator</b><br>
+  Definition:  An entity primarily responsible for making the content of
+               the resource.<br>
+  Comment:     Examples of a Creator include a person, an organisation,
+               or a service.
+
+<p><li><b>Subject</b><br>
+  Definition:  The topic of the content of the resource.<br>
+  Comment:     Typically, a Subject will be expressed as keywords,
+               key phrases or classification codes that describe a topic
+               of the resource.
+
+<p><li><b>Description</b><br>
+  Definition:  An account of the content of the resource.<br>
+  Comment:     Description may include but is not limited to: an 
+         abstract, table of contents, reference to a graphical 
+               representation of content or a free-text account of 
+               the content.
+
+<p><li><b>Publisher</b><br>
+  Definition:  An entity responsible for making the resource available
+  Comment:     Examples of a Publisher include a person, an 
+               organisation, or a service.
+
+<p><li><b>Contributor</b><br>
+  Definition:  An entity responsible for making contributions to the
+               content of the resource.<br>
+  Comment:     Examples of a Contributor include a person, an 
+               organisation, or a service.
+
+<p><li><b>Date</b><br>
+  Definition:  A date associated with an event in the life cycle of the
+               resource.<br>
+  Comment:     Typically, Date will be associated with the creation or
+               availability of the resource.  
+
+<p><li><b>Type</b><br>
+  Definition:  The nature or genre of the content of the resource.<br>
+  Comment:     Type includes terms describing general categories, 
+               functions, genres, or aggregation levels for content. 
+
+<p><li><b>Format</b><br>
+  Definition:  The physical or digital manifestation of the resource.<br>
+  Comment:     Typically, Format may include the media-type or 
+               dimensions of the resource. Format may be used to
+               determine the software, hardware or other equipment 
+               needed to display or operate the resource. Examples 
+               of dimensions include size and duration.
+
+<p><li><b>Identifier</b><br>
+  Definition:  An unambiguous reference to the resource within a given 
+               context.<br>
+  Comment:     Recommended best practice is to identify the resource by 
+               means of a string or number conforming to a formal
+               identification system. 
+               Example formal identification systems include the Uniform
+               Resource Identifier (URI) (including the Uniform Resource
+               Locator (URL)), the Digital Object Identifier (DOI) and 
+               the International Standard Book Number (ISBN).
+
+<p><li><b>Source</b><br>
+  Definition:  A Reference to a resource from which the present resource
+               is derived.<br>
+  Comment:     The present resource may be derived from the Source 
+               resource in whole or in part. 
+
+<p><li><b>Language</b><br>
+  Definition:  A language of the intellectual content of the resource.
+
+<p><li><b>Relation</b><br>
+  Definition:  A reference to a related resource.
+
+<p><li><b>Coverage</b><br>
+
+  Definition:  The extent or scope of the content of the resource.<br>
+  Comment:     Coverage will typically include spatial location (a place 
+               name or geographic coordinates), temporal period (a 
+               period label, date, or date range) or jurisdiction (such
+               as a named administrative entity).
+
+<p><li><b>Rights</b><br>
+
+  Definition: Information about rights held in and over the resource.<br>
+  Comment:    Typically, a Rights element will contain a rights
+              management statement for the resource, or reference
+              a service providing such information. Rights information
+              often encompasses Intellectual Property Rights (IPR),
+              Copyright, and various Property Rights.
+              If the Rights element is absent, no assumptions can be 
+              made about the status of these and other rights with
+              respect to the resource.
+
+<h3>3 Levels of Internet Protocols:</h3>
+
+<h4>1) Networking Protocols : HTML, HTTP</h4>
+
+<h4>2) Metadata, Knowledge Exchange, Signature Protocols, Style Sheets</h4>
+
+XML Extensible Markup Language;
+<p>
+XSL Extensible Style Language, CSS Cascading Style Sheets
+<p>
+RDF Resource Description Framework; language for writing metadata
+<p>
+Example: 
+<p>
+&#60;RDF xmlns:DC="http://purl.org/DC"><br>
+  &#60;Description about="http://www.w3.org/folio.html"><br>
+    &#60;DC:Title>The W3C Folio 1999&#60;/DC:Title><br>
+    &#60;DC:Creator>W3C Communications Team&#60;/DC:Creator><br>
+    &#60;DC:Date>1999-03-10&#60;/DC:Date><br>
+    &#60;DC:Subject>Web development, World Wide Web
+    Consortium, Interoperability of the Web&#60;/DC:Subject><br>
+  &#60;/Description><br>
+&#60;/RDF>
+
+<h4>3) Social Protocols: Privacy and Content Selection</h4>
+
+P3P Platform for Privacy Preferences; 
+web sites state their privacy practices which user agents match 
+against the preferences defined by the user; based on RDF 
+<p>
+PICS Platform for Internet Content Selection; 
+standard for annotating (rating) webpages according to their content; based on RDF 
+<p>
+Example:
+<p>
+&#60;META http-equiv="PICS-Label" content=' <br>
+(PICS-1.1 "http://www.w3c.org/PICS/vocab.html" <br>
+labels for "http://w3.org/PICS/vocab.html" <br>
+exp "2000.09.04T08:15-0500"<br>
+ratings (q2 v3))'><br>
+

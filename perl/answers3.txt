@@ -1,0 +1,107 @@
+3a) Write a script that asks someone to input their first name, last name 
+and phone number. If the user does not type at least some characters for 
+each of these, print "Do not leave any fields empty" otherwise print "Thank 
+you". 
+
+#!/usr/local/bin/perl -w
+
+print "Please, type in your first name: ";
+$fname = <STDIN> ;
+chomp $fname;
+print "Please, type in your second name: ";
+$lname = <STDIN> ;
+chomp $lname;
+print "Please, type in your phone number: ";
+$phone = <STDIN> ;
+chomp $phone;
+if (not ($fname and $lname and $phone)) {
+     print "Do not leave any fields empty\n";
+}
+else {
+     print "Thank you!\n";
+}  
+
+3b) Change the script so that the script prints "Thank you" if either the 
+first name or the last name or the phone number is supplied. Print "Do not 
+leave all fields empty" otherwise. 
+
+if ($fname or $lname or $phone) {
+     print "Thank you!\n";
+}
+else {
+     print "Do not leave all fields empty\n";
+}
+
+3c) Change the script so that only first name and last name are required. 
+The phone number is optional. 
+
+if ($fname and $lname) {
+     print "Thank you!\n";
+}
+else {
+     print "Do not leave any fields empty\n";
+}
+
+
+Write a program that asks a user to input a color.  If the color is
+black or white, output "The color was black or white". If it starts
+with a letter that comes after "k" in the alphabet, output "The color
+starts with a letter that comes after "k" in the alphabet".
+
+
+#!/usr/local/bin/perl -w
+#
+# if statement
+#
+print "Please enter a color: ";
+$answer = <STDIN> ;
+chomp $answer;
+if (($answer eq "black") or ($answer eq "white"))
+        {print "The color was black or white.\n";}
+elsif ($answer gt "k")
+	{print "The color starts with a letter that comes after \"k\" in the alphabet.\n";}
+
+
+Write a program that asks a user to input a number.  If the number
+equals "5", output "My lucky number". If the number is not "5", output
+"That's not my lucky number." If the number is larger than 10, output
+"What a large number!".
+
+
+#!/usr/local/bin/perl -w
+#
+# if statement
+#
+print "\nPlease enter a number:";
+$answer = <STDIN> ;
+chomp $answer;
+if ($answer eq "5")
+	{print "My lucky number.\n";}
+elsif ($answer > 10)
+        {print "What a large number!\n";}
+else
+        {print "That's not my lucky number.\n";}
+
+
+
+Optional Material:
+
+a) if ($a++ and $b++) {}
+
+Observation: If the first variable is 0 then only the first variable is 
+increased by one, otherwise both variables are increased by one.
+
+Explanation: Perl looks at the expression from left to right. If the first part is 
+zero, Perl does not even look at the second part because an expression
+with "and" is always false if the first part is false. Therefore only $a++ is
+executed, not $b++.
+
+b) if ($a++ or $b++) {}
+
+Observation: If the first variable is 1 then only the first variable is
+increased by one, otherwise both variables are increased by one.
+
+Explanation: Perl looks at the expression from left to right. If the first part is 
+not zero, Perl does not even look at the second part because an expression
+with "or" is true if the first part is true. Therefore only $a++ is
+executed, not $b++.

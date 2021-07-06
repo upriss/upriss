@@ -1,0 +1,96 @@
+<HTML>
+<TITLE>Week 11</Title>
+
+<body>
+
+<h3>1 PHP libraries, extensions</h3>
+
+If you are contemplating writing code for a commonly used task
+(search engine, guestbook, shopping cart), it is probably a good
+idea to check whether such code already exists. For PHP there are
+three good places to look:
+
+<ul>
+<li><a href="http://sourceforge.net">Sourceforge.net</a> 
+(Sourceforge is more important for PHP than for Perl)  
+<li><a href="http://pear.php.net"> Pear: PHP Extension and Application Repository</a>  
+<li><a href="http://pecl.php.net"> Pecl: PHP Extension Community Library</a>
+(C extensions of PHP)
+</ul>
+
+The command-line installer for Pear and Pecl is called pear. This is the 
+preferred way of installing PHP extensions.
+
+<h4>1.2 Exercises</h4>
+
+1) Have a look at the websites above. 
+
+<h3>2 Databases</h3>
+
+PHP can be used with different database management systems, but most commonly is 
+used with MySQL.
+<p>
+Database interfaces support the following tasks: 
+<li>connect to the database, 
+<li>prepare a query (as a string),
+<li>execute the query, 
+<li>fetch the results (either row by row or as an array)
+<li>finish the query (so that the database can clean up its buffers, 
+this is optional)
+<li>disconnect from the database 
+<p>
+Below is an example for accessing a Mysql database from PHP. 
+
+<h4>2.1 Mysql</h4>
+
+<font color=blue>
+&#60;html&#62;&#60;head&#62;&#60;title&#62;Example&#60;/title&#62;<br>
+&#60;/head&#62;&#60;body&#62;<br>
+<br>
+&#60;?php<br>
+<br> 
+// Connection and select database <br>
+$link = mysql_connect('mysqlhost3.napier.ac.uk','username', 'password')<br>
+    or die('Could not connect: ' . mysql_error());<br>
+mysql_select_db('test') or die( "Unable to select database");<br>
+<br>
+// Performing SQL query<br>
+$query = "select * from test";<br>
+$result = mysql_query($query) or die('Query failed: ' . mysql_error());<br>
+$num = mysql_numrows($result);<br>
+<br> 
+if ($num == 0) {<br>
+&nbsp;&nbsp;   echo "No results where returned&#60;p&#62;";<br>
+} else {<br>
+&nbsp;&nbsp;   echo "&#60;table&#62;\n";<br>
+&nbsp;&nbsp;   while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;         echo "&#60;tr&#62;\n";<br>
+// you can either use a foreach statement:<br>
+//  &nbsp;&nbsp;  foreach ($line as $col_value) {<br>
+//  &nbsp;&nbsp;&nbsp;&nbsp;    echo "&#60;td&#62;$col_value&#60;/td&#62;";<br>
+//  &nbsp;&nbsp;  }<br>
+// or you can use it like this:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;echo "&#60;td&#62;",$line['firstfield'],"&#60;/td&#62;";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;echo "&#60;td&#62;",$line['secondfield'],"&#60;/td&#62;";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;echo "&#60;td&#62;",$line['thirdfield'],"&#60;/td&#62;";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;echo "&#60;/tr&#62;\n";<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;echo "&#60;/table&#62;\n";<br>
+} <br>
+<br>
+mysql_free_result($result);<br>
+mysql_close($link);<br>
+?&#62;<br>
+<br>
+&#60;/body&#62;&#60;/html&#62;<br>
+<br>
+</font>
+
+<h4>2.1 Exercises</h4>
+
+2) Try to get the MySQL example to work on your database. You will need the
+hostname, username, and password that you were given by C&IT.
+
+
+</body>
+</html>

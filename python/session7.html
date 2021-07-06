@@ -1,0 +1,190 @@
+<HTML>
+<HEAD>
+<TITLE>L548: Session 7</TITLE>
+</HEAD>
+<BODY>
+
+<h4>1) Regular Expressions</h4>
+
+A regular expression is a pattern that a string is searched for.
+Unix commands such as "ls *.*" are similar to regular expressions,
+but the syntax of regular expressions is more elaborated.
+Several Unix programs (grep, sed, awk, ed, vi, emacs) use regular
+expressions and many modern programming languages (such as
+Java) also support them.
+
+<p>
+In Python, a regular expression is first compiled:
+<p>
+<font color=blue>keyword = re.compile(r"the ")</font>
+<p>
+(A string "the " is compiled and stored in the variable keyword.)
+Then the search for the regular expression is executed:
+<p>
+<font color=blue>keyword.search(line)</font>
+<p>
+To search for all lines that do not contain the regular expression, use:
+<p>
+<font color=blue>not keyword.search(line)</font>
+<p>
+To search for a string variable, use:
+<p>
+<font color=blue>keyword = re.compile(variable)</font>
+<p>
+For a case insensitive search use:
+<p>
+<font color=blue>keyword = re.compile(r"the ",re.I)</font>
+
+<h4>Example:</h4>
+
+<font color=blue>
+#!/usr/bin/env python<br>
+import re<br>
+<br>
+# open a file<br>
+file = open("alice.txt","r")<br>
+text = file.readlines()<br>
+file.close()<br>
+<br>
+# compiling the regular expression:<br>
+keyword = re.compile(r"the ")<br>
+<br>
+# searching the file content line by line:<br>
+for line in text:<br>
+&nbsp; &nbsp;    if keyword.search (line):<br>
+&nbsp; &nbsp;&nbsp; &nbsp;        print line,
+</font>
+<p>
+To print both the string that was searched for and the line in
+which it was found, the following script can be used: 
+<font color=red>(But note that this version only works when
+searching for lines that do contain a regular expression. 
+It does not work, when searching for lines
+that do <b>not</b> contain a regular expression.)</font>
+<p>
+<font color=blue>
+#!/usr/bin/env python<br>
+import re<br>
+<br>
+# open a file<br>
+file = open("alice.txt","r")<br>
+text = file.readlines()<br>
+file.close()<br>
+<br>
+# searching the file content line by line:<br>
+keyword = re.compile(r"the ")<br>
+<br>
+for line in text:<br>
+&nbsp; &nbsp;    result = keyword.search (line)<br>
+&nbsp; &nbsp;    if result:<br>
+&nbsp; &nbsp;&nbsp; &nbsp;        print result.group(), ":", line,
+</font>
+
+<h4>Exercises</h4>
+
+<a href="#chars">List of special characters</a>
+<p>
+1.1 Retrieve all lines from alice.txt that do not contain "the ". 
+Retrieve all lines that contain "the " with lower or upper case
+letters (hint: use the ignore case option).
+<p> 
+2.1 Retrieve lines that have two consecutive o's.<br>
+2.2 Retrieve lines that contain a three letter string consisting of
+"s", then any character,
+then "e", such as "she". <br>
+2.3 Retrieve lines with a three letter word that starts with s and 
+ends with e.<br>
+2.4 Retrieve lines that contain a word of any length that starts with
+s and ends with e. Modify this so that the word has at least 
+four characters.
+<br>
+2.5 Retrieve lines that start with a. Retrieve lines that start with a and 
+end with n.<br>
+2.6 Retrieve blank lines. Think of at least two ways of doing this.<br>
+2.7 Retrieve lines that do not contain the blank space character. <br>
+2.8 Retrieve lines that contain more than one blank space character. 
+
+<p>
+3 Add a few lines with numbers etc. to the end of the alice.txt file
+so that you can search for the following regular expressions: 
+<p>
+3.1 an odd digit followed by an even digit (eg. 12 or 74) <br>
+3.2 a letter followed by a non-letter followed by a number <br>
+3.3 a word that starts with an upper case letter <br>
+3.4 the word "yes" in any combination of upper and lower cases letters <br>
+3.5 one or more times the word "the" <br>
+3.6 a date in the form of one or two digits, a dot, one or two digits,
+a dot, two digits <br>
+3.7 a punctuation mark <br>
+<p>
+4.1 
+Write a script that asks users for their name, address and phone 
+number. Test each input for accuracy, for example, there should be no letters 
+in a phone number. A phone number should have a certain length. An 
+address should
+have a certain format, etc. Ask the user to repeat the input in case
+your script identfies it as incorrect.
+<p>
+4.2 Concerning your projects: what kind of checking is needed to ensure 
+that users fill in the forms in a sensible manner? Make certain that
+your form can handle all kinds of input. For example, users can have
+several first names, middle initials, several last names (which
+may or may not be hyphenated). 
+
+<h4><a name = "chars">Special Characters</a></h4>
+
+
+<table border=1>
+<tr><td>.	<td> Any single character except a newline
+<tr><td>^	<td> The beginning of the line or string
+<tr><td>$	<td> The end of the line or string
+<tr><td>*	<td> Zero or more of the last character
+<tr><td>+	<td> One or more of the last character
+<tr><td>?	<td> Zero or one of the last character
+<tr><td>{5,10}	<td> Five to ten times the previous character
+<tr><td>    <td> for example: * equals {0, }; + equals {1, }
+<tr><td>    <td> ? equals {0,1}
+</table>
+<p>
+<b>More special characters</b>
+<p>
+<table border=1>
+<tr><td>[qjk]		<td> Either q or j or k
+<tr><td>[^qjk]		<td> Neither q nor j nor k
+<tr><td>[a-z]		<td> Anything from a to z inclusive
+<tr><td>[^a-z]		<td> No lower case letters
+<tr><td>[a-zA-Z]	<td> Any letter
+<tr><td>[a-z]+		<td> Any non-zero sequence of lower case letters
+<tr><td>jelly|cream	<td> Either jelly or cream
+<tr><td>(eg|le)gs	<td> Either eggs or legs
+<tr><td>(da)+		<td> Either da or dada or dadada or...
+<tr><td>\n		<td> A newline
+<tr><td>\t		<td> A tab
+<tr><td>\w		<td> Any alphanumeric (word) character.
+<tr><td>		<td> The same as [a-zA-Z0-9_]
+<tr><td>\W		<td> Any non-word character.
+<tr><td>		<td> The same as [^a-zA-Z0-9_]
+<tr><td>\d		<td> Any digit. The same as [0-9]
+<tr><td>\D		<td> Any non-digit. The same as [^0-9]
+<tr><td>\s		<td> Any whitespace character: space,
+<tr><td>		<td> tab, newline, etc
+<tr><td>\S		<td> Any non-whitespace character
+<tr><td>\b		<td> A word boundary, outside [] only
+<tr><td>\B		<td> No word boundary
+</table>
+
+<p>
+<b>Escapes for special characters</b>
+<p>
+<table border=1>
+<tr><td>\|		<td> Vertical bar
+<tr><td>\[		<td> An open square bracket
+<tr><td>\)		<td> A closing parenthesis
+<tr><td>\*		<td> An asterisk
+<tr><td>\^		<td> A carat symbol
+<tr><td>\/		<td> A slash
+<tr><td>\\		<td> A backslash
+</table>
+
+</BODY>
+</HTML>

@@ -1,0 +1,217 @@
+
+<html>
+<!-- DO NOT EDIT DO NOT EDIT DO NOT EDIT DO NOT EDIT DO NOT EDIT -->
+<head>
+<title>OODB</title> 
+</head>
+<body>
+<h3>Databases on the Web</h3>
+<br>
+<p><hr><p><h3>1.1 What is the benefit of databases on the Web?</h3>
+<ul>
+<li> dynamic content
+<li> large amount of data
+<li> separation of content from layout 
+<li> efficient data collection and maintenance
+<li> interfaces to legacy systems
+</ul>
+<p><p><hr><p><h3>1.2 Types of Web Database Tools</h3>
+<ul>
+<li> Extensions to existing database tools
+<li> HTML editors with database capabilities
+<li> Web Database Application languages (eg. ASP, ColdFusion)
+<li> Server-side web languages with database capabilities (eg. Php, Perl, Java)
+</ul>
+<p><p><hr><p><h3>1.3 More details about Web Database Tools</h3>
+Open Source
+<p><ul>
+<li> (Php or Perl or Python) + (MySQL or Postgres)
+<ul>
+<li> available on most operating systems
+<li> scripting languages with DBIs
+<li> MySQL does not support full SQL,
+<li> Postgres is object-relational
+<li> for larger databases: performance tuning may be a challenge
+</ul>
+</ul>
+Microsoft
+<p><ul>
+<li> ASP
+<ul>
+<li> connection to OODB database, ActiveX data objects
+<li> authoring tools: Drumbeat, Microsoft Visual InterDev
+</ul><li> SQL server
+<ul>
+<li> enterprise level database product 
+<li> easily integrated with ASP and other MS tools
+</ul>
+</ul>
+Coldfusion
+<p><ul>
+<li> uses CFML which integrates with HTML and XML
+<li> built-in support for Oracle
+<li> claims to have "scalable deployment and high performance"
+</ul>
+Reading: 
+<a href="http://www.dmst.aueb.gr/dds/pubs/conf/2002-SANE-DynCont/html/
+dyncont.html">Comparison of Dynamic Web Content Technologies</a>
+(contains code examples for database connectivity.)
+<p><p><hr><p><h3>1.4 Typical Applications of databases on the web</h3>
+<ul>
+<li> Dynamic publishing (eg. newspapers)
+<ul>
+<li> template driven
+<li> database stores content
+<li> consistent layout
+</ul>
+</ul>
+<ul>
+<li> Web Portals/Search Engines/On-line catalogs
+<ul>
+<li> form interface
+<li> ranked list of results
+<li> Boolean query language with wild-chars
+<li> But not SQL!!!
+<li> interfaces to legacy databases
+</ul>
+</ul>
+<ul>
+<li> E-commerce
+<ul>
+<li> shopping carts
+<li> credit card transactions
+<li> customer databases
+</ul>
+</ul>
+<ul>
+<li> On-line collaborative environments (mostly unstructured text)
+<ul>
+<li> storage of large amounts of user-generated content 
+<li> eg. guestbooks, discussion groups, Wikis
+</ul>
+</ul>
+<p><hr><p><h3>2.1 Challenges: Dynamic Content</h3>
+Dynamic content can be generated ...
+<p><ul>
+<li> when page is requested or 
+<li> at regular intervals and stored on temporary websites
+</ul>
+<p>Dynamic content causes problems for
+<p><ul>
+<li> indexes (search engines)
+<li> caching (by browser or proxy server)
+<ul>
+<li> HTTP header which allows to set expiration time for caching
+</ul>
+</ul>
+<p><hr><p><h3>2.1.1 Semantic Caching</h3>
+<ul>
+<li> each new query is compared to cache
+<li> queries are evaluated with respect to semantic similarity
+<li> in client server architecture DBs:
+<ul>
+<li> components are full-fledged DBs
+<li> example: users asks for "A and B", cache contains "A and B and C",
+system only searches for "(A and B) Not C".
+</ul>
+</ul>
+<ul>
+<li> in web database architectures
+<ul>
+<li> components are not full-fledged DBs because they do not support full SQL
+<li> new solutions are required !
+</ul>
+</ul>
+<p><hr><p><h3>2.2 The "Deep Web" ("hidden" or "invisible")</h3>
+consists of 
+<p><ul>
+<li> non-textual files and
+</ul>
+<p><ul>
+<li> the content of databases accessible on the web
+<ul>
+<li> content is accessible "only by query"
+<li> maybe 500 times more content than on the normal web
+<li> content is not spidered by search engines
+<li> but links to deep content are spidered
+<li> deep content newspaper sites are usually spidered
+<li> some search engines specialise on deep content
+</ul>
+</ul>
+<p><hr><p><h3>2.2.1 Searchable Web Sources</h3>
+<ul>
+<li> site search: searches surface pages of a site. Not part of Deep Web.
+<li> text database: searches unstructured text documents of a text collection.
+<li> structured database: Deep Web content that could be spidered/mined.
+<ul>
+<li> Examples: shopping catalogs, on-line bookstores, airline booking sites.
+<li> Categories: business, computers, shopping, travel
+</ul>
+</ul>
+<ul>
+<li> browsable interfaces for deep content
+<ul>
+<li> possible for static content (eg. Amazon, Yahoo)
+<li> impossible for highly dynamic content (eg. airline booking sites)
+</ul>
+</ul>
+<p><hr><p><h3>2.2.2 Complexity of Structured Web Databases </h3>
+Research shows that schema vocabularies of structured web databases
+tend to cluster and interlink, revealing hidden structures. (I.e.,
+similar databases tend to use similar database schemas.)
+<p>Constraint patterns of structured web databases are fairly uniform
+across domains. (I.e., similar types of queries can be asked in all
+structured web databases.)
+<p>Reading: <a href="http://www.cs.uiuc.edu/Dienst/UI/2.0/Describe/ncstrl.uiuc_cs/
+UIUCDCS-R-2003-2321">Structured Databases on the Web</a>.
+<p><p><hr><p><h3>2.3 The "Semantic Web"</h3>
+<ul>
+<li> metadata facilitates description of context/meaning/semantics of data
+<ul>
+<li> XML 
+<li> RDF: resource description framework
+</ul>
+</ul>
+<ul>
+<li> automated manipulation/interpretation of meaning
+<ul>
+<li> ontologies: formal description of concepts and relationships
+<li> OWL Web Ontology Language
+<li> mathematical logic
+<li> inference engines
+</ul>
+</ul>
+Readings:
+<a href="http://www.scientificamerican.com/
+article.cfm?articleID=00048144-10D2-1C70-84A9809EC588EF21">Tim Berner's
+Lee's article</a>
+<p>See figure 1 in
+<a href="http://www.cs.umd.edu/users/hendler/AgentWeb.html">this</a> paper.
+<p><p><hr><p><h3>2.4 Challenges: Maintaining State</h3>
+Web-based state management
+<p><ul>
+<li> hidden form fields
+<li> query strings 
+<ul>
+<li> URL rewriting can be used to make URL more readable
+</ul><li> cookies
+</ul>
+<p>All of these can be manipulated by a malicious user!
+<p>Server-based state management:
+<p><ul>
+<li> automatically implemented by languages such as Php, ASP
+<li> application states versus session states
+<li> internally these are also IMPLEMENTED as hidden fields, query strings
+or cookies!
+</ul>
+<p><p><hr><p><h3>2.4.1 Maintaining state in web databases</h3>
+preferred method is
+<p><ul>
+<li> store detailed data in database on server
+<li> user IDs are stored in cookies during a session
+<li> user needs to login with username/password to start a new session
+<li> for better security: use SSL authentication
+</ul>
+<p>Without authentication, there is no guarantee that state is maintained 
+correctly!
+<p>

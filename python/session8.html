@@ -1,0 +1,162 @@
+<HTML>
+<HEAD>
+<TITLE>L548: Session 8</TITLE>
+</HEAD>
+<BODY>
+
+<h4>Regular Expressions (continued)</h4>
+
+<h4>1) Non-greedy Multipliers</h4>
+
+By default the multipliers * and + are "greedy" which means they
+match as many characters as possible. For example, 
+r"\b.+\b" or r"\b.*\b" both match any non-empty line.
+A question mark behind a multiplier forces it to be non-greedy.
+Therefore r"\b.+?\b" matches the first word in a line whereas
+r"\b.*?\b" matches an empty string. 
+
+<h4>Exercise</h4>
+
+1.1 Write a regular expression that finds html tags in a file and
+prints them. (You can use the first lines of the 
+source code of this web page to test it. )
+
+<h4>2) Remembering Patterns</h4>
+
+Sometimes it is useful to be able to select different substrings
+from a string that is matched by a regular expression. For example,
+the expression r"\d\d?\.\d\d?\.\d\d" matches a date format. To select
+the date, month, year from this date format, parentheses are used
+as shown in the following example:
+<p>
+<font color=blue>
+#!/usr/bin/env python<br>
+import re<br>
+<br>
+date = raw_input("Please enter a date in the format mm.dd.yy ")<br>
+<br>
+keyword = re.compile(r"(\d\d?)\.(\d\d?)\.(\d\d)")<br>
+<br>
+result = keyword.search (date)<br>
+if result:<br>
+&nbsp; &nbsp;   print "Month:", result.group(1)<br>
+&nbsp; &nbsp;   print "Day:", result.group(2)<br>
+&nbsp; &nbsp;   print "Year:", result.group(3)<br>
+</font>
+
+<h4>Exercise</h4>
+
+2.1 Continue with the previous exercise but print the type of every
+html tag your script finds, such as html, body, title, a, br.
+<p>
+2.2 Optional: Print all lines in the alice.txt file so that the first and
+the last character in each line are switched.
+<p>
+<b>Optional material/exercise:</b>
+<p>
+2.3 Parenthesis can also be used to match repeated substrings within
+one regular expression. In this case, the groups are denoted by
+\1, \2, \3. For example, r"(.)\1" matches any character that
+occurs twice. Note that this is different from r"..", which means
+any two (possibly different) characters. 
+Exercise: 
+Print all lines in the alice.txt file that contain two double
+characters.
+
+<h4>3) Substitution</h4>
+
+Instead of just printing the results of a search, Python can also
+replace them similar to search/replace in a word processor. The 
+following script replaces "t" with "T". In this case, "sub"
+stands for "substitution". Note: whatever is searched for is a 
+regular expression, but it is replaced by a string. That means
+r"t" is a regular expression in the example but "T" is a string. 
+<p>
+<font color=blue>
+#!/usr/bin/env python<br>
+import re<br>
+<br>
+# open a file<br>
+file = open("alice.txt","r")<br>
+text = file.readlines()<br>
+file.close()<br>
+<br>
+# compiling the regular expression:<br>
+keyword = re.compile(r"t")<br>
+<br>
+# searching the file content line by line:<br>
+for line in text:<br>
+&nbsp; &nbsp;    print keyword.sub ("T",line),
+</font>
+
+
+<h4>Exercises</h4>
+
+Using the alice.txt file replace
+<br>
+3.1 all upper case A by lower case a. <br>
+3.2 Delete all words with more than 3 characters.
+Hint: deleting means replacing with nothing.<br>
+3.3 Print two blank space characters after the "." at the end of a sentence.
+(Optional: Don't do this if the "." is the last character in a line.)<br>
+3.4 Replace single quotes (' or `) by double quotes.
+<p>
+3.5 Modify your program from exercise 1.1, so that it deletes
+all HTML markup.
+
+<h4>4) Split and Join</h4>
+
+Because regular expressions search a file line by line, it is 
+sometimes necessary to reformat a file before searching so that
+not too many items are on each line. The following example shows
+how the alice.txt file can be reformatted using split and join
+so that the line breaks
+occur where the file had the punctuation marks "." or ",".
+<p>
+<font color=blue>
+#!/usr/bin/env python<br>
+import re<br>
+<br>
+# open a file<br>
+file = open("alice.txt","r")<br>
+text = file.readlines()<br>
+file.close()<br>
+<br>
+# join all of the lines together using " " as glue<br>
+bigstring = " ".join(text)<br>
+<br>
+# delete newline characters and white space from the end of each line<br>
+keyword = re.compile(r"\s*\n\s*")<br>
+bigstring = keyword.sub (" ",bigstring)<br>
+<br>
+# split bigstring where "." or "," occurs<br>
+keyword = re.compile(r"[\.,]\s*")<br>
+text = keyword.split (bigstring)<br>
+<br>
+for line in text:<br>
+&nbsp; &nbsp;    print line
+</font>   
+
+<h4>Exercises</h4>
+
+4.1 Modify the example so that it splits the file into words instead of
+sentence parts.
+<p>
+4.2 Write a script that takes an HTML source file as input and prints
+it so that a newline follows only "closing tags", i.e. tags that are 
+of the form &#60/...&#62.
+<p>
+4.3 Optional: Parsing web pages:
+<br>
+If a CGI script downloads a page from the web, it will retrieve the
+HTML source code. Look at several html pages on the web. 
+Think about the following questions: How would you
+extract information from them? How would you store that information in 
+an array? How would a script search for words
+(or regular expressions) in web pages? Besides the fact that you don't
+know yet how a CGI script can download pages from the web, have you
+learned enough so far that you could write such a script? 
+</body>
+
+</HTML>
+

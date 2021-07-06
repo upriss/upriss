@@ -1,0 +1,129 @@
+<HTML>
+<TITLE>L548: Session9</Title>
+
+<body>
+<h3>Programming in the large</h3>
+
+<h3>Subroutines</h3>
+<b>Example:</b>
+<p>
+<font color=blue>
+#!/usr/local/bin/perl<br>
+# main program<p>
+open(IN,"test.html");<br>
+@file=&#60IN&#62 ;<br>
+foreach $line (@file){<br>
+&nbsp; &nbsp;   find_closing_tags($line);<br>
+}<br>
+close IN;<p>
+# end of main<br>
+sub find_closing_tags {<br>
+&nbsp; &nbsp; my $line = $line;<br>
+&nbsp; &nbsp;        if ($line =~ /(&#60\/.*?&#62)/i){<br>
+&nbsp; &nbsp;&nbsp; &nbsp;     print "$1\n";<br>
+&nbsp; &nbsp;}<br>
+}<br>
+</font>
+<p>
+Note: Instead of <font color=blue>my $line = $line;</font> it would
+be better to write <font color=blue>my $line = $_[0];</font> because
+variables should be sent to subroutines in the @_ array. But the first
+version is easier to remember and works in many cases.
+<p>
+<b>Exercise</b>
+<p>
+Add a second subroutine to the example that prints all tags that
+are not closing tags. Before the subroutines are called, let the main 
+routine print a heading "these are the opening tags" and 
+"these are the closing tags". (Note: this script only finds the
+first tag in every line. To change that so that it finds all tags
+you would have to insert line breaks after the tags - compare last week's
+exercise 5).
+
+<p>
+<b>Example:</b>
+<p>
+<font color=blue>
+#!/usr/local/bin/perl<br>
+#<br>
+# main soubroutine<br>
+#<br>
+$file="input.txt";<br>
+@textfile= read_file($file);<br>
+push (@textfile,"this is the last line");<br>
+write_file($file,@textfile);<br>
+system('more input.txt');<br>
+##############################<br>
+sub read_file {<br>
+&nbsp; &nbsp; my $inputfile = $file;<br>
+&nbsp; &nbsp;open (INPUT, $inputfile);<br>
+&nbsp; &nbsp;@text = &#60INPUT&#62 ;<br>
+&nbsp; &nbsp;chomp @text;<br>
+&nbsp; &nbsp;close (INPUT);<br>
+&nbsp; &nbsp;return @text;<br>
+}<br>
+#########################<br>
+sub write_file {<br>
+&nbsp; &nbsp;my $outputfile = $file;<br>
+&nbsp; &nbsp;my @text = @textfile;<br>
+&nbsp; &nbsp;open (OUTPUT, "&#62$outputfile");<br>
+&nbsp; &nbsp;foreach $line (@text) {<br>
+&nbsp; &nbsp;&nbsp; &nbsp;print OUTPUT "$line\n";<br>
+&nbsp; &nbsp;}<br>
+&nbsp; &nbsp;close (OUTPUT);<br>
+}<p>
+</font>
+<p>  
+The main routine sends $file as argument
+to the subroutine read_file and receives
+@text from it as return value. The 
+subroutine sends values to the main routine via the "return"
+function.
+<p>
+<b>Exercise</b>
+<p>
+Write a third subroutine for the script. The subroutine is called
+get_input. It takes @textfile as argument and also returns it. 
+The subroutine asks a user to input some text. The text is inserted
+at the end of the file. Optional: the user is also asked for the
+line where the text will be inserted.
+<p>
+
+<h3>Local and Global Variables</h3>
+
+<font color=blue>
+my ($number)=0;<br>
+local ($string)="";
+</font>
+<p>
+
+Each subroutine should use its own set of variables so that
+the different subroutines do not interfere with each other.
+"Global variables" are variables that are used in the main routine
+and in subroutines. In the previous script $file and @textfile are
+global variables. But in the subroutines they are renamed
+to $inputfile, $outputfile and @text. All variables in subroutines
+should be defined with "my".
+<p>
+Variables declared with "local" are visible in the subroutine and 
+all subroutines that are called from the subroutine. 
+<p>
+If "use strict" is used, global variables are not permitted. In that
+case all variables must be sent to subroutines using the @_ array.
+<p>
+<b>Exercise:</b>
+<p>
+Modify the previous example so that the user is asked for his/her
+first name, last name, email address. The information is stored
+in the file in the following format:<br>
+Mary | Smith | mary@somecompany.com<br>
+John | Miller | miller@somecompany.com<br>
+<br>
+A fourth subroutine is added that asks a user for her/his last name and 
+retrieves the email address from the file. To do that every line of the
+file is
+split into an array. The second element in that array is compared to
+the current user's last name.
+<p>
+</body>
+</html>

@@ -1,0 +1,140 @@
+1) Add a second subroutine to the example that prints all tags that 
+are not closing tags. Before the subroutines are called, let the main 
+routine print a heading "these are the opening tags" and "these are the 
+closing tags". 
+
+#!/usr/local/bin/perl
+open(IN,"test.html");
+@file=<IN> ;
+
+print "These are the opening tags:\n";
+foreach $line (@file){
+find_opening_tags($line);
+}
+
+print "These are the closing tags:\n";
+foreach $line (@file){
+find_closing_tags($line);
+}
+
+close IN;
+
+sub find_closing_tags {
+    my $line = $line;
+    if ($line =~ /(<\/.*?>)/i){
+        print "$1\n";} 
+}
+
+sub find_opening_tags {
+    my $line = $line;
+    if ($line =~ /(<[^\/].*?>)/i){
+        print "$1\n";}
+}  
+
+------------------------------------------------------------------
+
+2) Write a third subroutine for the script. The subroutine is called get_input.
+It takes @textfile as argument and also returns it. The subroutine asks a 
+user to input some text. The text is inserted at the end of the file. 
+Optional: the user is also asked for the line where the text will be 
+inserted. 
+
+#!/usr/local/bin/perl
+#
+# main soubroutine
+#
+$file="input.txt";
+@textfile= read_file($file);
+@textfile = get_input(@textfile);
+write_file($file,@textfile);
+##############################
+sub read_file {
+    my $inputfile = $file;
+    open (INPUT, $inputfile);
+    @text = <INPUT> ;
+    chomp @text;
+    close (INPUT);
+    return @text;
+}
+#########################
+sub write_file {
+    my $outputfile = $file;
+    my @text = @textfile;
+    open (OUTPUT, ">$outputfile");
+    foreach $line (@text) {
+        print OUTPUT "$line\n";
+    }
+    close (OUTPUT);
+}
+##########################
+sub get_input{
+    my @filecontent = @textfile;
+    print "Please, type something: ";
+    $something = <STDIN>;
+    chomp $something;
+    push (@filecontent,$something);
+    return @filecontent;
+}
+
+------------------------------------------------------------------
+
+3) Modify the previous example so that the user is asked for his/her first 
+name, last name, email address. The information is stored in the file in 
+the following format:
+
+Mary | Smith | mary@somecompany.com
+John | Miller | miller@somecompany.com
+
+Only the subroutine "get_input" is changed:
+
+sub get_input{
+    my @filecontent = @textfile;
+    print "Please, type your first name: ";
+    my $firstname = <STDIN>;
+    chomp $firstname;
+    print "Please, type your last name: ";
+    my $lastname = <STDIN>;
+    chomp $lastname;
+    print "Please, type your email address: ";
+    my $email = <STDIN>;
+    chomp $email;
+    $inputstring = "$firstname|$lastname|$email";
+    push (@filecontent,$inputstring);
+    return @filecontent;
+}        
+
+A fourth subroutine is added that asks a user for her/his last name and 
+retrieves the email address from the file. To do that every line of the 
+file is split into an array. The second element in that array is compared 
+to the current user's last name. 
+
+sub find_user{
+
+    my @filecontent = @textfile;
+    print "Type in your last name: ";
+    my $lastname = <STDIN>;
+    chomp $lastname;
+    foreach $line (@filecontent) {
+        @currentline = split (/\|/,$line);
+        if ($currentline[1] eq $lastname) {
+            print "Email address: $currentline[2]\n";
+        }
+    }
+}        
+
+------------------------------------------------------------------
+
+5) Change the subroutine "search" so that it actually searches for the
+keyword and prints the lines that contain the keyword.
+
+sub search{
+($term,@text) = @_;
+
+print "<p>The results for $term are:<p>";
+foreach $line (@text){
+    if ($line =~ /$term/i) {
+        print "$line <br>";
+    }
+}
+}
+

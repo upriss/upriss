@@ -1,0 +1,177 @@
+<HTML>
+<HEAD>
+<TITLE>L548: Session 8</TITLE>
+</HEAD>
+<BODY>
+
+<h3>Regular Expressions (continued)</h3>
+
+<h3>Substitution and Transliteration</h3>
+
+Using 
+<font color=red>$string_variable =~ s/search_pattern/replace_string/ 
+</font>
+<br>
+a search_pattern in $string_variable can be replaced by a replace_string.
+<br><font color=red>s/search_pattern/replace_string/g</font>
+<br>
+stands for global replacement, i.e. not only the first occurrence is
+replaced.
+<br><font color=red>s/search_pattern/replace_string/i</font>
+<br>
+stands for ignore case. "gi" stands for global replacement, ignore case.
+<p>
+(<b>Optional:</b> 
+There is also something called "transliteration" which replaces
+single characters not strings.
+<br>
+$string_variable =~ tr/character_sequence/character_sequence/
+<br>
+Most of the regular expression 
+special characters are not valid for transliteration but "-" can 
+be used as in tr/a-z// which would delete all letters.)
+
+<p>
+<b>Examples:</b>
+<p>
+1) s/[Ll][Oo][Nn][Dd][Oo][Nn]/London/g <br>
+replaces LOndoN or loNDON etc by London.
+This is equivalent to s/london/London/gi.<br>
+2) s/Alice/Mary/ <br>
+ replaces every occurrence of Alice by Mary.
+<p>
+
+<b>Use the following script for todays exercises:</b>
+<p>
+<font color=blue>
+#!/usr/local/bin/perl <br>
+#<br>
+# Regular expressions <br>
+#<br>
+# reading a file: <br>
+open(ALICE, "alice.txt");<br>
+@lines = &#60ALICE&gt ;<br>
+close(ALICE);<p>
+# searching the file content line by line:<br>
+foreach $line (@lines){<br>
+$line =~s/T/t/g;<br>
+print $line;<br>
+} # end of foreach <br>
+</font>
+<p>
+
+<b>Exercises</b>
+<p>
+Using the alice.txt file replace
+<br>
+1a) all upper case A by lower case a. <br>
+1b) the word "Alice" by "ALICE".<br>
+1c) Delete all words with more than 3 characters.<br>
+1d) Print two blank space characters after the "." at the end of a sentence.
+(Optional: Don't do this if the "." is the last character in a line.)<br>
+1e) Replace single quotes (' or `) by double quotes.
+
+
+<h3>Non-greedy Multipliers</h3>
+
+By default the multipliers * and + are "greedy" which means they
+match as many characters as possible. For example, 
+/(\b.+\b)/ matches any non-empty line.
+A question mark behind a multiplier forces it to be non-greedy.
+Therefore /(\b.+?\b)/ matches the first word in a line.
+<p>
+<b>Exercise</b>
+<p>
+
+2) Write a replace statement that deletes all HTML markup from a file.
+You need non-greedy multipliers because otherwise
+the text between tags may be deleted 
+in a line that contains several tags. 
+
+<h3>Remembering Patterns</h3>
+
+Patterns within parentheses are remembered. Using \1, \2, etc they can 
+be referred to within the same regular expression (or search expression) 
+and using $1, $2, etc they can be referred to in a print statement (or 
+replace string). 
+<p>
+<b>Examples</b>
+<p>
+/(t.*e)/;<br>
+print "$1";<br>
+prints strings that start with "t" and end with "e".
+<p>
+s/(t.*e)/:$1:/g;<br>
+places a ":" in front and behind each string t...e.
+<p>
+/(...)\1/<br>
+matches a three character string that is repeated.
+<p>
+s/^(.)(.*)(.)$/$3$2$1/<br>
+switches the first and last character of a line.
+<p>
+<b>Exercises</b>
+<p>
+3a) Try the examples from above.<br>
+3b) Insert a newline character after each punctuation mark (.,!).
+If you chomp each line (or the array of lines)
+before inserting the newline characters
+you can print each sentence in one line.
+<br>
+3c) Print double characters within parenthesis "()".
+For example, replace "arrived" by "a(rr)ived".
+
+<h3>More special variables:</h3>
+<font color=red>
+$` contains the string before the pattern<br>
+$& contains the pattern that is matched<br>
+$' contains the string after the pattern
+<p></font>
+For example:<br>
+$line="The cat that sat on the mat.";<br>
+$line =~ /c.t/;<br>
+$` contains "The "<br>
+$& contains "cat"<br>
+$' contains " that sat on the mat."<br>
+
+<h3>Split and Join</h3>
+
+Using <font color=red>@personal = split(/:/, $line); </font><br>
+a string such as 
+$line = "Caine:Michael:Actor:14, Leafy Drive"; <br>
+can be split into an array such as
+@personal = ("Caine", "Michael", "Actor", "14, Leafy Drive");<br>
+Other examples:<br>
+<font color=red>
+@chars = split(//, $word);<br>
+@words = split(/ /, $sentence);<br>
+@sentences = split(/\./, $paragraph);<br>
+</font><br>
+"join" does the opposite of "split":
+<br><font color=red>
+$bigstring = join(":",@personal);
+</font>   
+<p>
+<b>Exercises</b>
+<p>
+4) Read the alice.txt file into an array. Chomp it. Using "join"
+concatenate it into one string. Then split it into 
+words (or sentences) and print it one word (sentence) per line. 
+<p>
+5) Write a script that takes an HTML source file as input and prints
+it so that a newline follows only "closing tags", i.e. tags that are 
+of the form &#60/...&#62.
+<p>
+6) Optional: Parsing web pages:
+<br>
+If a CGI script downloads a page from the web, it will retrieve the
+HTML source code. Look at several html pages on the web. 
+Think about the following questions: How would you
+extract information from them? How would you store that information in 
+an array? How would a script search for words
+(or regular expressions) in web pages? Besides the fact that you don't
+know yet how a CGI script can download pages from the web, have you
+learned enough so far that you could write such a script? 
+</body>
+
+</HTML>

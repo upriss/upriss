@@ -1,0 +1,61 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/*html*; charset=UTF-8" />
+</head>
+<body>
+
+<h1>SetlX-Tutorial Teil 2</h1>
+
+
+<a name="12" ></a>
+
+
+<h2>1. Aussagenlogische Operatoren</h2>
+<p>In SetlX stehen u.a. folgende aussagenlogische Operatoren zur Verfügung:</p>
+<table>
+<tr><td class="code">&&</td><td>Konjunktion (logisches Und)</td></tr>
+<tr><td class="code">||</td><td>Disjunktion (logisches Oder) </td></tr>
+<tr><td class="code">!</td><td>Negation (logisches Nicht) </td></tr>
+<tr><td class="code">=></td><td>Implikation </td></tr>
+<tr><td class="code">&lt;==></td><td>Äquivalenz </td></tr>
+</table>
+
+<p>Diese Operatoren sind für Elemente von Zahlenmengen nicht definiert, stattdessen erwarten sie die Bool’schen Werten <span class="code">true</span> und <span class="code">false</span> (wahr und falsch). </p>
+
+<p>Probieren Sie diese Operatoren selbst einmal aus. Hier einige Anregungen:</p>
+
+<pre class="code">true;
+true && false;
+true || false;
+true && !false;
+true => false;
+true &lt;==> false;
+true && (true || false);
+!(true && false);</pre>
+
+<p>Entsprechen die Ergebnisse Ihren Erwartungen? Wie unterscheiden sich die Ergebnisse von SetlX ggf. von Ihren Erwartungen?<br />
+Können Sie weitere Beispiele finden, die nicht Ihren Erwartungen entsprechen? Nennen Sie diese. <br />
+Stellen Sie mit Hilfe von SetlX die Wahrheitstabelle für <span class="code">a => b</span> für alle möglichen Belegungen von <span class="code">a</span> und <span class="code">b</span> auf.</p>
+
+<h2>2. Vergleichsoperatoren</h2>
+<p>Vergleichsoperatoren können Wahrheitswerte vergleichen.</p>
+
+
+<p>Diese Operatoren liefern dann als Ergebnis einen Wahrheitswert, also entweder <span class="code">true</span> oder <span class="code">false</span>. Das bedeutet unter anderem, dass die Ergebnisse mittels der im vorherigen Abschnitt eingeführten aussagenlogischen Operatoren verkettet werden können. </p>
+
+<p>Probieren Sie diese Operatoren selbst einmal aus. Hier einige Anregungen:</p>
+
+<pre class="code">
+47 + 11 == 4711 && 2**3 &lt; 3**2;
+2**3 &lt; 3**2 == 47 + 11 == 58; 
+(2**3 &lt; 3**2) == (47 + 11 == 58);</pre>
+
+<p>Entsprechen die Ergebnisse Ihren Erwartungen? Wie unterscheiden sich die Ergebnisse von SetlX ggf. von Ihren Erwartungen?<br />
+Können Sie weitere Beispiele finden, die nicht Ihren Erwartungen entsprechen? Nennen Sie diese. <br />
+Erklären Sie, warum die letzten beiden Befehle zu unterschiedlichen Ergebnissen führen.  </p>
+
+
+
+
+</body>
+</html>

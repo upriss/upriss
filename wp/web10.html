@@ -1,0 +1,74 @@
+<html>
+<title>Week 10</Title>
+
+<body>
+
+<h3>AJAX exercises</h3>
+
+Save the following html file on your computer:
+
+<font color=blue><pre>
+&#60;html&#62;&#60;head&#62;
+&#60;script&#62;
+var request
+
+function popupfile() {
+  request = new XMLHttpRequest();
+  request.onreadystatechange = function() {
+    if (request.readyState==4) {
+      var text = request.responseText;
+      first100chars = text.slice(0,100);
+      document.getElementById("HERE").innerHTML = first100chars;
+    }
+  }
+  request.open("GET","http://de.wikipedia.org/robots.txt",true);
+  request.send(null);
+}
+
+&#60;/script&#62;
+&#60;/head&#62;
+&#60;body&#62;
+
+&#60;div id="HERE"&#62;Change this&#60;/div&#62;
+&#60;input type='button' onclick="popupfile()" value='click here' /&#62;
+&#60;/body&#62;&#60;/html&#62;
+</pre></font>
+
+1) Open it in Internet Explorer and click the button. Try it in a different
+browser. Most likely the other browser won't show any text because of
+security reasons. What kind of security problem might be involved?
+<p>
+In theory you could use 
+<font color=blue>request.getAllResponseHeaders()</font>
+instead of <font color=blue>request.responseText</font> or 
+<font color=blue>request.getResponseHeader('Last-Modified');</font>
+or 
+<font color=blue>request.statusText</font>
+but most likely none of these will work because of security restrictions.
+<p>
+2) Read the content from a text file. Save a text file in the same directory
+as the script. Then change the URL to the name of the text file and
+use <font color=blue>request.responseText</font>. 
+<p>
+3) Read the content from an XML file. Use 
+<font color=blue>var xmldoc = request.responseXML;</font>
+and then use some DOM statement (for example:
+<font color=blue>xmldoc.getElementsByTagName('...').item(0).nodeName</font>)
+to display an XML tag from your file.
+<p>
+4) Check how the browser's "view source" or "back button" work with respect
+to the page you just created.
+
+<h3>Question: Do you now have an idea of what AJAX is about?</h3>
+
+<p>
+
+<h3>Question: AJAX Security</h3>
+
+<ul>
+<li>What are the security risks of AJAX for the server? (Is it different
+from other web pages?)
+<li>What are the security risks for the client? Does the client know where
+the content is coming from? What does this mean for cross-site scripting attacks?
+Are there different possibilities for including remote content in an AJAX page?
+</ul>

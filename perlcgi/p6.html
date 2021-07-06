@@ -1,0 +1,116 @@
+<HTML>
+<TITLE>Week 6</Title>
+
+<body>
+
+<h3>1 Environment Variables</h3>
+
+<font color=blue>
+&#60;html&#62;&#60;head&#62;&#60;title&#62; Environment Variables &#60;/title&#62;
+&#60;/head&#62;&#60;body&#62;<br>
+&#60;h3&#62;Environment variables script&#60;/h3&#62;<br>
+&#60;p&#62; Here are the CGI environment variables that 
+this PHP script has been called with<br>
+&#60;p&#62;&#60;hr&#62;<br>
+&#60;?php<br>
+foreach($_SERVER as $key =&#62; $value) {<br>
+  echo ($key . "=" . $value ."&#60;br&#62;");<br>
+}<br>
+?&#62;<br>
+&#60;h4&#62;How to use just one environment variable:&#60;/h4&#62;<br>
+&#60;?php<br>
+echo "\$_SERVER['REMOTE_ADDR'] = ". $_SERVER['REMOTE_ADDR'];<br>
+?&#62;<br>
+</font>
+
+<h4>1.1 Exercises</h4>
+
+1) Try the script.
+<p>
+2) Use one of the PHP scripts that you have created earlier in this
+semester and that responds to a form. Include a print statement in the PHP script that 
+prints the environment variables REQUEST_METHOD, QUERY_STRING 
+and CONTENT_LENGTH. Note: that some of these are only available if the
+method for sending the form is "get", others are only available if the
+method is "post". (Check the 
+&#60;form action=... method=... &#62; tag in your form.)
+REQUEST_METHOD and CONTENT_LENGTH can be used to 
+increase the security of your script. CONTENT_LENGTH
+should not be longer than a predefined maximum length. 
+
+<h3>2 Customize Pages with PHP</h3>
+
+PHP can show different pages to different users depending on user preferences.
+
+<h4>2.1 Exercises</h4>
+
+3) Ask a user to input their name into a textfield and 
+to choose a color from a popup menu. Then display a page with
+a short message (e.g. "Thank you $_REQUEST['name'] for your request") in that color.
+
+<h3>3 Security on PHP Pages</h3>
+
+There are several security problems and error sources for PHP scripts
+such as the one above.
+<p>
+Here are some security tips:
+<UL>
+<li>
+If the script prints user input or html code that is retrieved from the
+web apply
+<br>
+<font color=blue>
+$text = preg_replace('/&#60;/', '&#38#60;', $text);
+$text = preg_replace('/&#62;/', '&#38#62;', $text);
+</font>
+to the text before printing it. Or even better and simpler use
+<a href="http://www.php.net/manual/en/function.htmlspecialchars.php">
+htmlspecialchars()</a> or 
+<a href="http://www.php.net/manual/en/function.strip-tags.php">strip_tags()</a>.
+<li>For input from radio buttons, menu selections, check boxes, check
+all possible values with an if statement. In case of unexpected
+values, print an error message and discontinue with the script.
+<li>Don't ask the user for a filename and then write to that file.
+<li>Files that are written to should not be in a directory  
+that allows server-side includes, active server pages, PHP 
+pages, or other HTML template systems.
+<li>Don't install PHP code from untrusted sources on your server.
+<li>If you use sendmail to email back to a user, remove all funny characters from
+the address and use "sendmail -t -oi"
+<li>Never allow user input into a system call.
+<li>When calling programs (such as a MySQL database) from PHP
+always check user input into this statement.
+<li>If your script writes to a file, lock the file so that two
+scripts cannot write to it at the same time. 
+<li>Be careful with PATH_INFO. Validate its contents.
+<li>Check the REQUEST_METHOD variable to verify that the data
+was send by POST (or GET or ...)
+<li>Check the CONTENT-LENGTH variable to restrict amount of 
+input text.
+<li>Turn error reporting off once you are finished with writing the script
+(<font color=blue>error_reporting(0);</font>).
+</UL>
+
+More information is available for security of
+<a href="http://uk.php.net/manual/en/security.php">PHP</a> 
+and <a href="http://www.w3.org/Security/Faq/
+www-security-faq.html">general WWW security</a>
+
+<h4>3.1 Exercises</h4>
+
+4) In the previous script check whether the input is
+reasonable and not empty: <br>
+- check whether the name and color contain only word characters
+or -.<br>
+(Hint: preg_match("/[^\w-]/i", $string) is true if $string contains
+a character which isn't a word character or -).<br>
+- check that neither name nor color is longer than 100 chars (use the 
+strlen() function). <br> If the criteria are not fulfilled, do not 
+display the results page but instead show an error message.
+<p>
+5) For the $_REQUEST['name'] variable replace HTML characters "&#60;" and "&#62;"
+with &#38#60; and &#38#62; before printing the name.<br>
+Hint: use the htmlentities() or the htmlspecialchars() function.
+
+</body>
+</html>

@@ -1,0 +1,259 @@
+
+<html>
+<!-- DO NOT EDIT DO NOT EDIT DO NOT EDIT DO NOT EDIT DO NOT EDIT -->
+<head>
+<title>OODB</title> 
+</head>
+<body>
+Tutorial 6
+
+<h3>6.1 A Case Study</h3>
+This tutorial is an abbreviated version of the purchase order database
+that is explained in more detail in the <a href="
+http://www.csis.gvsu.edu/GeneralInfo/Oracle/appdev.920/a96594/adobjxmp.htm">
+on-line Oracle documentation</a>. 
+<p><b>Exercise:</b>
+<p><img src="../../extra/42009tut.gif">
+<p><ul>
+<li> 32. Have a look at the <!--<a href="
+http://www.csis.gvsu.edu/GeneralInfo/Oracle/appdev.920/a96594/
+adobjxmp.htm#451746">-->Class Diagram</a> of the database. Can you
+identify which classes should be defined first and which last?
+</ul>
+<p>Each box in the diagram corresponds to an object type. But how
+many object tables are needed? The relationship between Customer 
+and Phone/Address is "has" whereas the relationship between 
+LineItem and StockItem is "refers to". For which one ("has"
+or "refers to") is it necessary to create an object table
+for the dependent data?
+<p><p><hr><p><h3>6.2 The Customer table</h3>
+The following code creates the phone and address types and the
+customer type and table.
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   CREATE TYPE PhoneList_vartyp AS VARRAY(10) OF VARCHAR2(20);<br>
+&nbsp; &nbsp; &nbsp;   CREATE TYPE Address_objtyp AS OBJECT (<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      Street         VARCHAR2(200),<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      City           VARCHAR2(200),<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      State          CHAR(2),<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      Zip            VARCHAR2(20)<br>
+&nbsp; &nbsp; &nbsp;   );<br>
+</font>
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   CREATE TYPE Customer_objtyp AS OBJECT (<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      CustNo           NUMBER,<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      CustName         VARCHAR2(200),<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      Address_obj      Address_objtyp,<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      PhoneList_var    PhoneList_vartyp<br>
+&nbsp; &nbsp; &nbsp;   ) NOT FINAL;<br>
+</font>
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   CREATE TABLE Customer_objtab OF Customer_objtyp (CustNo PRIMARY KEY) <br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      OBJECT IDENTIFIER IS PRIMARY KEY ;   <br>
+</font>
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   INSERT INTO Customer_objtab<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      VALUES (<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      1, 'Jean Nance',<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      Address_objtyp('2 Avocet Drive', 'Redwood Shores', 'CA', '95054'),<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      PhoneList_vartyp('415-555-1212')<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      ) ;<br>
+&nbsp; &nbsp; &nbsp;   INSERT INTO Customer_objtab<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      VALUES (<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      2, 'John Nike',<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      Address_objtyp('323 College Drive', 'Edison', 'NJ', '08820'),<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      PhoneList_vartyp('609-555-1212','201-555-1212')<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      ) ;<br>
+</font>
+<p><b>Exercises:</b>
+<p><ul>
+<li> 33. Create the tables as indicated, but do not yet insert any rows
+(delete the rows if you have already inserted them).
+Create a subtype Bad_customers under Customer_objtyp. (This
+table is for customers who have not paid their last bill on time.)
+Insert five rows into the table, three of which are good customers,
+two are bad customers. Hint: use the types after "VALUES (".
+Write a select statement that selects all good customers.
+</ul>
+<p><p><hr><p><h3>6.3 The Stock and LineItem Types and Tables</h3>
+<font color=blue>
+&nbsp; &nbsp; &nbsp;   CREATE TYPE StockItem_objtyp AS OBJECT (<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      StockNo    NUMBER,<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      Price      NUMBER,<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      TaxRate    NUMBER<br>
+&nbsp; &nbsp; &nbsp;   );<br>
+</font>
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   CREATE TABLE Stock_objtab OF StockItem_objtyp (StockNo PRIMARY KEY)<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+     OBJECT IDENTIFIER IS PRIMARY KEY;<br>
+</font>
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   INSERT INTO Stock_objtab VALUES(1004, 6750.00, 2) ;<br>
+&nbsp; &nbsp; &nbsp;   INSERT INTO Stock_objtab VALUES(1011, 4500.23, 2) ;<br>
+&nbsp; &nbsp; &nbsp;   INSERT INTO Stock_objtab VALUES(1534, 2234.00, 2) ;<br>
+&nbsp; &nbsp; &nbsp;   INSERT INTO Stock_objtab VALUES(1535, 3456.23, 2) ;<br>
+</font>
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   CREATE TYPE LineItem_objtyp AS OBJECT (<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      LineItemNo   NUMBER,<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      Stock_ref    REF StockItem_objtyp,<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      Quantity     NUMBER,<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      Discount     NUMBER<br>
+&nbsp; &nbsp; &nbsp;   );<br>
+</font>
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   CREATE TYPE LineItemList_ntabtyp AS TABLE OF LineItem_objtyp; <br>
+</font>
+<p><b>Exercises:</b>
+<p><ul>
+<li> 34. Create the tables as indicated. 
+Create a table TotalStocks that has a column WarehouseNO
+and a column of type LineItemList_ntabtyp. This table
+shows for each warehouse how many items it stores for each
+Stock_ref. Insert three rows into this table.
+</ul>
+<p><p><hr><p><h3>6.4 The purchaseOrder type and table</h3>
+<font color=blue>
+&nbsp; &nbsp; &nbsp;   CREATE TYPE PurchaseOrder_objtyp AUTHID CURRENT_USER AS OBJECT (<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      PONo                 NUMBER,<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      Cust_ref             REF Customer_objtyp,<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      OrderDate            DATE,<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      ShipDate             DATE,<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      LineItemList_ntab    LineItemList_ntabtyp,<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      ShipToAddr_obj       Address_objtyp,<br>
+&nbsp; &nbsp; &nbsp;   MEMBER FUNCTION<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      sumLineItems RETURN NUMBER<br>
+&nbsp; &nbsp; &nbsp;   );<br>
+</font>
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   CREATE TABLE PurchaseOrder_objtab OF PurchaseOrder_objtyp (  <br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      PRIMARY KEY (PONo),                                       <br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      FOREIGN KEY (Cust_ref) REFERENCES Customer_objtab)        <br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      OBJECT IDENTIFIER IS PRIMARY KEY                          <br>
+&nbsp; &nbsp; &nbsp;   NESTED TABLE LineItemList_ntab STORE AS PoLine_ntab ( <br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+     (PRIMARY KEY(NESTED_TABLE_ID, LineItemNo))          <br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+     ORGANIZATION INDEX COMPRESS)                        <br>
+&nbsp; &nbsp; &nbsp;   RETURN AS LOCATOR;<br>
+</font>
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   INSERT INTO PurchaseOrder_objtab<br>
+&nbsp; &nbsp; &nbsp;   SELECT  1001, REF(C),<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+          SYSDATE, '10-MAY-1999',<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+          LineItemList_ntabtyp(),<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+          NULL<br>
+&nbsp; &nbsp; &nbsp;   FROM   Customer_objtab C<br>
+&nbsp; &nbsp; &nbsp;   WHERE  C.CustNo = 1 ;<br>
+</font>
+<p><b>Exercises:</b>
+<p><ul>
+<li> 35. Create the tables as indicated. The insert statement above does
+not yet insert any data into the nested table. The following insert
+statement for the nested table creates an error message (even though
+it follows exactly the Oracle documentation). Fix the error. Hint: search
+for the error message on <a href="
+http://www.csis.gvsu.edu/GeneralInfo/Oracle/appdev.920/a96594/adobjxmp.htm">
+this page</a>. Then change the table which is causing the problem so
+that its object identifier is not the primary key.
+</ul>
+<p><font color=blue>
+&nbsp; &nbsp; &nbsp;   INSERT INTO TABLE (<br>
+&nbsp; &nbsp; &nbsp;   SELECT  P.LineItemList_ntab<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      FROM   PurchaseOrder_objtab P<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      WHERE  P.PONo = 1001<br>
+&nbsp; &nbsp; &nbsp;   ) <br>
+&nbsp; &nbsp; &nbsp;   SELECT  01, REF(S), 12, 0<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      FROM   Stock_objtab S<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      WHERE  S.StockNo = 1534 ;<br>
+</font>
+<p><ul>
+<li> 36. Insert two more rows into PurchaseOrder_objtab.
+</ul>
+<p><ul>
+<li> 37. Write an SQL statement that prints all information about
+a Purchase order for the current date.
+</ul>
+<p><p><hr><p><h3>6.5 The PurchaseOrder Type Body</h3>
+<font color=blue>
+&nbsp; &nbsp; &nbsp;   CREATE OR REPLACE TYPE BODY PurchaseOrder_objtyp AS <br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      MEMBER FUNCTION sumLineItems RETURN NUMBER IS  <br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      i          INTEGER;  <br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      StockVal   StockItem_objtyp;  <br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      Total      NUMBER := 0;<br>
+&nbsp; &nbsp; &nbsp;   BEGIN<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      IF (UTL_COLL.IS_LOCATOR(LineItemList_ntab)) -- check for locator<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+         THEN<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+            SELECT SUM(L.Quantity * L.Stock_ref.Price) INTO Total<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+            FROM   TABLE(CAST(LineItemList_ntab AS LineItemList_ntabtyp)) L;<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      ELSE<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+         FOR i in 1..SELF.LineItemList_ntab.COUNT LOOP  <br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+            UTL_REF.SELECT_OBJECT(LineItemList_ntab(i).Stock_ref,StockVal);  <br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+            Total := Total +SELF.LineItemList_ntab(i).Quantity* StockVal.Price;<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+         END LOOP;  <br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      END IF;  <br>
+&nbsp; &nbsp; &nbsp;   RETURN Total;  <br>
+&nbsp; &nbsp; &nbsp;   END;  <br>
+&nbsp; &nbsp; &nbsp;   END;     <br>
+</font>
+<p><b>Exercises:</b>
+<p><ul>
+<li> 38. Try to figure out how the sumLineItems function works. 
+Write a select statement that uses it.

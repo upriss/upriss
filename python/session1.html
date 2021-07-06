@@ -1,0 +1,132 @@
+<HTML>
+<HEAD>
+<TITLE>L548 Session 1</TITLE>
+</HEAD>
+<BODY>
+
+
+<h3>1) A first example "Hello World"</h3>
+
+<font color=blue>
+#!/usr/bin/env python<br>
+#<br>
+# This program says "hello" to the world<br>
+<br>
+print "Hello World!"<br>
+</font>
+<p>
+To execute the python script copy the blue text from the screen
+and paste it into a file. Save the file, for example, under the
+name "hello.py". Then type at the Unix prompt:
+
+<font color=blue>
+<p>
+python hello.py
+<p>
+</font>
+<p>
+
+<b>Explanations</b>
+<table border=1>
+<tr><td># <td>indicates a comment;  the line is ignored
+<tr><td>print <td> a command; prints the string between the quotes
+</table>
+<p>
+<b>Exercises</b>
+<p>
+1.1) Add a second print statement to the script from the example.
+(For example print "How are you?".)
+<p>
+1.2) Make some random changes, for example, delete the "#" before
+"This program says ...".
+In most cases you will get an error message. 
+Fix the errors until the script executes again successfully.
+<p>
+1.3) Type just <font color="blue">python</font> at the command line.
+This starts the interactive mode. You can now type commands. To
+leave the interactive mode press the control key followd by
+<font color="blue">D</font>. Note: in the interactive mode,
+you don't need the word <font color="blue">print</font>. 
+Just typing <font color="blue"> "Hello World"</font> will print it.
+
+<br>
+
+
+<h3>2) A second example </h3>
+
+<font color=blue>
+#!/usr/bin/env python<br>
+#<br>
+# A program for greeting people<br>
+<br>
+name = raw_input ("What is your name? ")<br>
+print "Hello, " + name + "! How are you?"<br>
+print "My name is" , name<br>
+</font>
+<p>
+
+<b>Explanations</b>
+<table border=1>
+<tr><td>name <td> a variable for a "name"
+<tr><td> = <td> an assignment operator
+<tr><td> raw_input <td> input a string from the keyboard
+<tr><td> + <td> concatenates strings
+<tr><td> , <td> separates elements in a print statement
+</table>
+<p>            
+
+<b>Exercises:</b><p>
+
+2.1) What is the difference between using "+" and "," in a print statement?
+Try it!<br>
+2.2) Write a program that
+asks two people for their names; stores the names in variables
+called name1 and name2; says hello to both of them.
+
+<h3>Operators for Numbers</h3>
+
+<font color=blue>
+#!/usr/bin/env python<br>
+#<br>
+# A program for numbers<br>
+#<br>
+<br>
+a = 3 - 4  + 10<br>
+b = 5 * 6<br>
+c = 7.0/8.0<br>
+print "These are the values:", a, b, c<br>
+print "Increment", a, "by one: "<br>
+a = a +1<br>
+print a<br>
+print "The sum of", a, "and", b, "is"<br>
+d = a + b<br>
+print d<br>
+number = input("Input a number ")<br>
+print number
+</font>      
+<p>
+
+<b>Exercises</b>
+<p>
+3.1) Execute the script. Make sure you understand every line.
+<br>
+3.2) Write a script that asks a user for a number. The script
+adds 3 to that number. Then multiplies the result by 2, subtracts 4,
+subtracts twice the original number, adds 3, then prints
+the result.
+
+<h3>Optional exercise</h3>
+
+To execute a python script 
+you can also change the program permissions to executable
+
+<font color=blue>
+<p>
+chmod u+x program_name
+<p>           
+</font>
+
+and then execute it by simply typing the program_name. 
+
+</BODY>
+</HTML>

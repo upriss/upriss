@@ -1,0 +1,117 @@
+<HTML>
+<TITLE>L548: Session 12</Title>
+
+<body>
+<h3>Object-oriented programming I</h3>
+
+<font color=blue>
+#!/usr/local/bin/perl<br>
+#########################################<br>
+package Student;<br>
+sub new {<br>
+my $self = {};<br>
+bless $self;<br>
+$self->{name} = $_[1];<br>
+$self->{courses} = $_[2];<br>
+return $self;<br>
+}<br>
+sub printDetails {<br>
+my $self = $_[0];<br>
+print "Name: $self->{name}\n";<br>
+print "Courses: @{$self->{courses}}\n";<br>
+}<br>
+sub enroll {<br>
+    my $self = $_[0];<br>
+    my $course = $_[1];<br>
+    push (@{$self->{courses}},$course);<br>
+}<br>
+#########################################<br>
+package main;<br>
+my($student1) = new Student("Fred", ["L548"]);<br>
+<br>
+print "Input the courses which $student1->{name} is enrolled in.\n";<br>
+print "When finished, type X.\n";<br>
+$newcourse = &#60;STDIN&#62;;<br>
+chomp $newcourse;<br>
+<br>
+while ($newcourse !~ /x/i) {<br>
+    $student1-&#62;enroll($newcourse);<br>
+    $newcourse = &#60;STDIN&#62;;<br>
+    chomp $newcourse;<br>
+}<br>
+<br>
+$student1-&#62;printDetails(); 
+</font>
+<p>
+
+<b>Exercises</b>
+<p>
+Add further attributes to the  student class (phone number, email address, 
+degree, etc).
+<p>
+Create an array of students. Let users add new students to the array.
+Ask the user for the name of a student and then print his/her details.
+<p>
+Create a method creditHours  that computes the number of credit hours
+for a student
+assuming that every class is a three credit class.
+<p>                    
+Create a class Employee that contains information
+about names, ages and positions. What could be useful methods
+for the class? 
+<p>
+
+<b>Note:</b>
+<p>
+ Without blessing the variable in the subroutine "new",
+a different notation would have to be used:<br>
+Student::printDetails($student1);  <br>
+instead of <br>
+$student1->printDetails(); <br>  
+
+Using that notation any subroutine from any package can be included in
+a script. A blessed variable 
+contains an internal pointer to its package, i.e. the variable
+becomes an "object" of that class. 
+
+<h3>Optional Materials:</h3>
+
+The following examples provide more details for the notation (implementation)
+of object-oriented programming in Perl.
+<p>
+<b>Pointers (references)</b>
+<p>
+<font color=blue>
+#!/usr/local/bin/perl<p>
+# normal hash<br>
+%hash = ("name", "Fred", "color", "white");<br>
+print "$hash{name}\n";<br>
+print "$hash{color}\n";<br>
+<br>
+# pointer to a hash<br>
+$pointer_to_hash = \%hash;<br>
+print "$pointer_to_hash->{name}\n";<br>
+print "$pointer_to_hash->{color}\n"; <br>
+ </font>
+<br>
+<b>Returning a pointer to a hash from a subroutine</b>
+<p>
+The hash is defined as "$self = {...}" instead of as "%self =(...)".
+"$self" is a scalar and therefore a pointer to a hash.
+<p>
+<font color=blue>
+#!/usr/local/bin/perl<p>
+sub new {<br>
+        my $self = {};<br>
+        $self->{'name'} = $_[0];<br>
+        $self->{'color'} = $_[1];<br>
+        return $self;<br>
+        }<br>
+<br>
+my($cat) = new("Fred","white");<br>
+print "$cat->{name}\n";<br>
+print "$cat->{color}\n";<br>
+</font>
+<p>
+</body>
+</HTML>

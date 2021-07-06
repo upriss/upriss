@@ -1,0 +1,37 @@
+
+<html>
+<head>
+<title>Relational Database Tutorials</title> 
+</head>
+<body>
+<h3>3.1 Another example: Patient Database</h3>
+Identify any repeating groups and functional dependences in the
+PATIENT relation. Show all the intermediate steps to derive the
+third normal form for PATIENT.
+<pre>
+PATIENT(patno,patname,gpno,gpname,appdate,consultant,conaddr,sample)
+</pre>
+<table border="1">
+<tr><th>patno</th><th>patname</th><th>gpno</th><th>gpname</th><th>appdate</th>
+<th>consultant</th><th>conaddr</th><th>sample</th></tr>
+<tr><td rowspan="3">01027</td><td rowspan="3">Grist</td><td rowspan="3">919</td>
+<td rowspan="3">Robinson</td><td>3/9/2004</td><td>Farnes</td><td>Acadia Rd</td>
+<td>blood</td></tr>
+<tr><td>20/12/2004</td><td>Farnes</td><td>Acadia Rd</td><td>none</td></tr>
+<tr><td>10/10/2004</td><td>Edwards</td><td>Beech Ave</td><td>urine</td></tr>
+<tr><td rowspan="2">08023</td><td rowspan="2">Daniels</td><td rowspan="2">818</td>
+<td rowspan="2">Seymour</td><td>3/9/2004</td><td>Farnes</td><td>Acadia Rd</td>
+<td>none</td></tr>
+<tr><td>3/9/2004</td><td>Russ</td><td>Fir St</td><td>sputum</td></tr>
+<tr><td>191146</td><td>Falken</td><td>717</td><td>Ibbotson</td><td>4/10/2004</td>
+<td>Russ</td><td>Fir St</td><td>blood</td></tr>
+<tr><td>001239</td><td>Burgess</td><td>818</td><td>Seymour</td><td>5/6/2004</td>
+<td>Russ</td><td>Fir St</td><td>sputum</td></tr>
+<tr><td>007249</td><td>Lynch</td><td>717</td><td>Ibbotson</td><td>9/11/2004</td>
+<td>Edwards</td><td>Beach Ave</td><td>none</td></tr>
+</table>
+<br/><br/><br/>
+<p>For this exercise, please, write down all steps in a text editor. 
+Once you have the First Normal Form, 
+click "next" to compare your results to the model answer.
+<p>&nbsp; <a href='22001normtut3.2.html'>Next</a><p><a href='22001normtut_index.html'>Index</a>

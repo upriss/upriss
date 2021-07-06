@@ -1,0 +1,23 @@
+
+<html>
+<head>
+<title>Relational Database Tutorials</title> 
+</head>
+<body>
+<h3>4.6 Summary</h3>
+Supplier(<b>sno</b>,sname,saddress)<br>
+Supp-part(<b>sno,partno</b>)<br>
+Cust-supp(<b>partno,custid</b>,quantity)<br>
+Part(<b>partno</b>,partdesc)<br>
+Cust(<b>custid</b>,custname,custaddr,sno)
+<p>
+<pre>
+  sno -> sname,saddr
+  partno -> partdesc
+  partno,custid -> quantity
+  sname -> sno
+  custid -> custname,custaddr
+  custid -> sno
+</pre>
+The relations are in BCNF.
+<p><p><a href='22001normtut_index.html'>Index</a>

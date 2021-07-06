@@ -1,0 +1,187 @@
+<html>
+<title>Week 6</Title>
+
+<body>
+
+<h3>Parsing XML with DOM</h3>
+
+The movies file from last week can be used as an example for this week's
+exercises. (See the <a href="answer5.txt">answers</a> to last week's exercises.)
+The file should be saved as "movies.xml".
+In order to read the file, a new instance of DOMDocument is created.
+The different methods of DOMDocument can then be used to process the file.
+A complete list of the available methods can be found in the 
+PHP <a href="http://uk.php.net/manual/en/book.dom.php">manual</a>.
+The example below shows some of the methods being used.
+<p>
+<font color=blue><pre>
+&#60;?php
+error_reporting(E_ALL);
+$doc = new DOMDocument();
+$doc-&#62;load("movies.xml");
+
+echo "If the document is valid, it prints a 1 here:";
+echo $doc->validate();
+echo "&#60;p&#62;";
+
+echo "The whole document:&#60;br&#62;";
+echo $doc-&#62;saveXML();  
+echo "&#60;p&#62;";
+
+echo "Document type: ";  
+echo $doc-&#62;doctype-&#62;name;
+echo "&#60;p&#62;";
+
+echo "The top element: ";
+$topElem = $doc-&#62;documentElement;
+echo $topElem-&#62;tagName;
+echo "&#60;p&#62;";
+
+foreach ($topElem-&#62;childNodes AS $item) {
+  if ($item-&#62;nodeType == 1) {
+     echo $item-&#62;tagName. " : ";
+     foreach ($item-&#62;childNodes AS $bottomItem) {
+        if ($bottomItem-&#62;nodeType == 1) {
+          echo $bottomItem-&#62;tagName ." = ". $bottomItem-&#62;nodeValue ."; ";
+        }
+     }
+     echo "&#60;br/&#62;";
+  }
+}
+?> 
+</pre></font>
+<p>
+Notes: <br>
+1) Space characters in an XML document can lead to the creation
+of empty text elements. The if statements (nodeType ==1) above make sure that 
+the nodes are element nodes.
+<p>
+
+2) It is a good idea to turn error reporting on as a debugging help.
+If you want to allow for undefined variables use
+<font color=blue>error_reporting(E_ALL ^ E_NOTICE);</font> instead. 
+Once you are finished with a script, the error_reporting line can be
+commented out.
+
+<h3>Exercises</h3>
+
+Note: in order to see the XML output properly, you may need to use
+"view source" in your browser for the exercises.
+<p>
+1) Change the program so that instead of using "childNodes" it uses
+"nextSibling" for looping through the nodes.
+<p>
+2) Quite often it is not necessary to loop through the whole document in
+order to find some information. "DOMDocument::getElementsByTagName" returns
+a list of elements with that tag name. Print all the titles of the movies
+by looping through the nodes which have "title" as their tag name and 
+printing their "textContent".
+<p>
+3) Similar to the previous exercise, find the movie from the year "1998"
+and print the textContent of its parentNode.
+<p>
+4) Read the contents of the XML file into a data structure that contains
+the movies and their titles, actor and years. (For simplicity, store
+only the first actor of each movie.) Hints: create an array of
+movies: "$movies = array();". Create a temporary array for each child node.
+When processing the bottomItems, add the tagName/nodeValue pairs to the
+temporary array: "$temp[$bottomItem->tagName] = $bottomItem->nodeValue;"
+Use "print_r($movies);" to verify the contents of the array. 
+<p>
+5) Optional exercise: DOM can also be used to create XML documents.
+Create a movie element with author, title and year and add it the
+movies XML file.
+
+<h3>Parsing XML with SAX</h3>
+
+SAX-based parsing is event-driven. In PHP it is available via the 
+xml parser. (See the PHP
+<a href="http://uk.php.net/manual/en/book.xml.php">manual</a>
+for details.)
+The following example prints tag names, attributes "ID", and content data.
+
+<font color=blue><pre>
+&#60;?php
+error_reporting(E_ALL ^ E_NOTICE);
+$file = "movies.xml";
+    
+function startElement($parser, $name, $attrs) { 
+    global $depth;
+    for ($i = 0; $i &#60; $depth; $i++) {
+        echo "&amp;nbsp;";
+    }
+    echo "$name: {$attrs["ID"]}";
+    $depth++;
+}
+ 
+function endElement($parser, $name) { 
+    global $depth;
+    $depth--;
+    echo "&#60;p&#62;";
+} 
+
+function dataHandler($parser,$data) {
+    echo "$data";
+ 
+}
+
+$xml_parser = xml_parser_create();
+xml_set_element_handler($xml_parser, "startElement", "endElement");
+xml_set_character_data_handler($xml_parser, "dataHandler");
+$fp = fopen($file, "r");
+    
+while ($data = fread($fp, 4096)) {
+     xml_parse($xml_parser, $data, feof($fp));
+}
+xml_parser_free($xml_parser);
+?&#62;
+</pre></font>
+
+The example below parses an XML file into a data structure. But
+this isn't the same sort of data structure as one would use with DOM.
+
+<font color=blue><pre>
+&#60;?php
+error_reporting(E_ALL);
+$filecontent = implode('', file('movies.xml'));
+$p = xml_parser_create();
+xml_parse_into_struct($p, $filecontent, $vals, $index);
+xml_parser_free($p);
+echo "&#60;pre&#62;";
+echo "Index array\n";
+print_r($index);
+echo "\nVals array\n";
+print_r($vals);
+echo "&#60;/pre&#62;";
+?&#62;
+</pre></font>
+
+
+<h3>Exercises</h3>
+
+6) Try the first example. Change the code so that tag names are printed
+in italics and the ID attributes are printed in bold face.
+<p>
+7) Print only the titles of the movies. Hint: use a global variable
+that is shared between the startElement and the handler function.
+In the startElement this function is set to "true" if it is a title tag,
+"false" otherwise.
+<p>
+8) Try the second example above. Using the $vals array, print only the movie
+titles.
+<p>
+9) Try the SimpleXML below. It converts from
+XML to an object and back.
+
+<font color=blue><pre>
+&#60;?php
+if (file_exists('movies.xml')) {
+$xml = simplexml_load_file('movies.xml');
+print_r($xml);
+print $xml-&#62;asXML();
+}
+?&#62;
+</pre></font>
+
+</body>
+</html>

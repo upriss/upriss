@@ -1,0 +1,18 @@
+
+<html>
+<head>
+<title>Relational Database Tutorials</title> 
+</head>
+<body>
+<h3>5.1 Exercise: GP Database</h3>
+Normalise the following relation to 3NF showing all the steps involved.
+<pre>
+GP(<u>gpno</u>,cpname,gpadd,(patno,patname,patadd,patdob,(apptdate,apptime,diagnosis,treatment)))
+  gpno -> gpname,gpadd
+  patno -> patname,patadd, patdob
+  patno,apptdate -> apptime,diagnosis
+  diagnosis -> treatment
+</pre>
+<p>Copy the relation into a text editor and normalise it. When you are finished
+ask a lecturer or demonstrator to check your result.
+<p>&nbsp; <a href='22001normtut5.2.html'>Next</a><p><a href='22001normtut_index.html'>Index</a>

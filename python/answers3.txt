@@ -1,0 +1,130 @@
+1.2) Write a script that asks someone to input their first name,
+last name and phone number. If the user does not type at least
+some characters for each of these, print "Do not leave any fields
+empty" otherwise print "Thank you". (Hint: if a variable is empty,
+its value will be "false".) 
+
+#!/usr/bin/env python
+
+fname = raw_input ("Please, type in your first name: ")
+lname = raw_input ("Please, type in your last name: ")
+phone = raw_input ("Please, type in your phone number: ")
+
+if fname and lname and phone:
+     print "Thank you!"
+else:
+     print "Do not leave any fields empty"
+
+----------------------
+
+1.3) Change the script so that the script prints "Thank you" if either
+the first name or the last name or the phone number is supplied.
+Print "Do not leave all fields empty" otherwise. 
+
+#!/usr/bin/env python
+
+fname = raw_input ("Please, type in your first name: ")
+lname = raw_input ("Please, type in your last name: ")
+phone = raw_input ("Please, type in your phone number: ")
+
+if fname or lname or phone:
+     print "Thank you!"
+else:
+     print "Do not leave any fields empty"
+
+
+------------------
+
+1.4) Change the script so that only first name and last name are required.
+The phone number is optional.
+
+#!/usr/bin/env python
+
+fname = raw_input ("Please, type in your first name: ")
+lname = raw_input ("Please, type in your last name: ")
+phone = raw_input ("Please, type in your phone number: ")
+
+if fname and lname:
+     print "Thank you!"
+else:
+     print "Do not leave any fields empty"
+
+------------------------
+
+2.1) Write a program that asks a user to input a color.
+If the color is black or white, output "The color was black or white". 
+If it starts with a letter that comes after "k" in the alphabet,
+output "The color starts with a letter that comes after "k" in the
+alphabet". (Optional: consider both capitalized and non-capitalized
+words. Note: the order of the alphabet in Unix and Python
+is: symbols, numbers, upper case letters, lower case letters.)
+
+
+#!/usr/bin/env python
+#
+# guess a color
+#
+answer = raw_input ("Please enter a color: ")
+
+if (answer == "black") or (answer == "white"):
+   print "The color was black or white."
+elif answer >= "k":
+   print "The color starts with a letter that comes after \"k\" in the alph\
+abet."
+
+------------
+
+2.2) Write a program that asks a user to input a number.
+If the number equals "5", output "My lucky number".
+If the number is larger than 10, output "What a large number!".
+In all other cases, output "That's not my lucky number."
+
+
+#!/usr/bin/env python
+#
+# guess a number
+#
+answer = input("Please enter a number: ")
+
+if answer == 5:
+        print "My lucky number."
+elif answer > 10:
+        print "What a large number!"
+else:
+        print "That's not my lucky number."
+
+--------
+
+4.2) Ask the user to type something (use raw_input). To find out whether 
+the input was a number, compare whether the input is after "0" and before ":
+" in alphabetical order. If it is a number convert it into an integer.
+Then print the input and its type.
+(Note: this won't work if the user enters a real number. See below.) 
+
+something = raw_input ("Please type something ")
+        
+if something >= "1" and something < ":":
+   something = int(something)
+print "The input", something, "is of type", type(something)
+
+
+
+6.2) Ask the user to type a Python object. (That means numbers can be typed 
+directly but strings must be enclosed in quotes.) Use "input" instead of 
+"raw_input". Check the type of the user-input in the following manner: 
+inlcude the line "import types" at the beginning of your script. Then 
+compare the type of the user-input to the objects types.IntType, 
+types.FloatType and types.StringType. Print "The input was an integer", 
+"the input was a real number", "the input was a string", respectively.
+
+import types
+
+something = input ("Please type something ")
+
+if type(something) is types.IntType:
+   print "The input was an integer"
+elif type(something) is types.FloatType:
+   print "The input was a real number"
+elif type(something) is types.StringType:
+   print "The input was a string"
+

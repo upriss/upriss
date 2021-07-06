@@ -1,0 +1,137 @@
+<html>
+<title>Unix help</title>
+</html>
+<body>
+
+Contents:
+
+<li><a href="#faq">Python FAQ</a>
+<li><a href="#install">Installing Python on your own computer</a>
+<li><a href="#dcs">Using your i-drive/Socweb/DCS</a>
+<li><a href="#home">Connecting from a home computer</a>
+<li><a href="#list">Some general Unix commands</a>
+
+<a name="faq">
+<h4>Python FAQ</h4>
+
+<li><b>I copied your code into UltraEdit/Notepad++ but it does not seem
+to work.</b><br>
+Unix and PCs have different characters for line and file endings. Normally
+UltraEdit and Notepad can deal with that, but, if not, you may need to change
+your settings in these editors. In UltraEdit this can be done in
+"Advanced-Configuration-File Handling". Another possibility is to use
+<font color=blue>dos2unix -c ISO filename</font> on the command-line. 
+Then open the file with nano and delete any control characters that may have been
+left. 
+
+<!--<li><b>How do I find out whether a graph is bipartite?</b><br>
+For the coursework, you don't need NetworkX to determine this. Just
+looking at the data should be enough to determine which one is
+bipartite and which one is not.<br>
+If you are using NetworkX, keep in mind that the is_bipartite()
+function has different results depending on whether the graph is
+directed or not.-->
+
+<!--<li><b>There seem to be several possible answers for some of the
+questions about data analysis in the coursework</b><br>
+That is correct. You need to decide which representation is more
+interesting.-->
+
+<li><b>Why do I not see any output when I execute a script whereas it
+works fine using the interpreter?</b><br>
+The interpreter automatically prints results. For example, if you type
+"N(pi)" the interpreter prints the value of pi. If you do the same in a script,
+there will be no output. In order to see output from a script you need 
+to print it ("print N(pi)").
+
+<li><b>Why are there funny characters on the screen?</b><br>
+The command "sys.displayhook = pprint" uses UTF-8 characters to
+display mathematical formulas in a nicer format. Unfortunately, this
+does not always work perfectly when the client is on a PC and the
+server is Unix. To disable the display hook command temporarily, type<br>
+sys.displayhook = sys.__displayhook__<br>
+To disable the command permanently, delete that line from your .pythonstartup file.
+<li><b>Why are my commands for sets not working properly</b><br>
+You'll need <font color=blue>from sets import Set</font> for
+the exercises to work properly. Otherwise, you would be using the sets
+module from SymPy, which is different from the one in Python.
+<li><b>Why is this code not working even though nothing seems wrong?</b><br>
+Are you maybe reusing a name which is predefined by Python or by your
+program? You may not be getting a warning if you are overwriting a
+predefined name or if you are using the same name for a function and a
+variable, etc, but your code won't work.
+
+<a name="install">
+<h4>Installing Python on your own computer</h4>
+
+You can login to the university server remotely (see below). Therefore
+it should  not be necessary for you to install Python on your own
+computer. If you do want to run it yourself, make sure that you have a
+version after 2.4 (for example, Python 2.6.4). I have not tested any
+code on Python 3 yet. Python is pre-installed on Mac OS X and Linux
+computers. For PCs you can get it from:
+<a href="http://www.python.org/download/releases/">Python downloads</a>.
+<br>
+You also need <a href="http://code.google.com/p/sympy/">SymPy</a> for
+most of the exercises.
+
+<a name="dcs">
+<h4>Using your i-drive/Socweb/DCS</h4>
+
+<li>General <a href="ma0.html">instructions</a> on using Python on Socweb/DCS.
+<li>You can edit the files on the I:-drive using Notepad++ or UltraEdit
+because the I:-drive provides access to the same files as the ssh window. 
+Don't use plain Notepad, Word or WordPad.
+If you do not have an I:-drive,
+you need to map it: Go to All Programs -> School of Computing ->
+Unix -> Map Unix drives.
+<li>Unix <b>editor:</b> nano
+<li><b>Arrow keys etc:</b>
+Use the arrow keys to repeat a previous command.
+Use the tab key to complete a filename.
+<li>In nano, you can use Ctrl-K to delete/cut a line and Ctrl-U to 
+get it back (paste). You can cut/uncut several adjacent lines in one go.
+
+<a name="home">
+<h4>Connecting from a home computer</h4>
+
+A secure shell (SSH) client is needed. On Linux and Mac OS X, such a client 
+is usually pre-installed (type "ssh" at the command-line). For PCs there are several
+clients freely available for download, such as 
+<a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/">PuTTY</a>
+or a GUI ftp client such as
+<a href="http://sourceforge.net/projects/winscp/">WinSCP</a>. 
+The address for the
+server is <font color=red>socweb8.napier.ac.uk</font>.
+
+<a name="list">
+<h4>Some general Unix commands</h4>
+
+<table border=1 cellpadding=5>
+<tr><td>Change to mydirectory</td><td>cd mydirectory</td>
+<tr><td>Create newdirectory</td><td>mkdir newdirectory</td>
+<tr><td>Remove (delete) olddir</td><td>rmdir olddir</td>
+<tr><td>Move (rename) olddir to newdir</td><td>mv -i olddir newdir</td>
+<tr><td>Show name of current dir.</td><td>pwd</td>
+<tr><td>Allow others to read and execute files
+in current directory</td><td> chmod go+rx .</td>
+<tr><td>List files in current dir.</td><td>ls</td>
+<tr><td>List all (incl. hidden)files, with details</td><td>ls -la</td>
+<tr><td>Show contents of myfile</td><td> more myfile</td>
+<tr><td>Move (rename) oldfile to newfile</td><td>mv -i oldfile newfile</td>
+<tr><td>Copy origfile to 
+duplicatefile</td><td>cp -i origfile duplicatefile</td>
+<tr><td>Remove (delete) oldfile</td><td> rm -i oldfile</td>
+<tr><td>Allow others to
+read/change sharedfile</td><td>chmod go+rw sharedfile</td>
+<tr><td>Show the first few lines of largefile</td><td> head largefile</td>
+<tr><td>Show the last few lines of largefile</td><td>tail largefile</td>
+<tr><td>Edit a text file</td><td>nano or emacs or vi or pico</td>
+<tr><td>Find commands related to keyword</td><td>man -k keyword</td>
+<tr><td>Read manual for command</td><td> man command</td>
+<tr><td>Find true name of cmd</td><td>which cmd</td>
+<tr><td>Show environment variables</td><td>printenv</td>
+<tr><td>Change environvariable</td><td>setenv environvariable value
+</table>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<HTML>
+<HEAD>
+<TITLE>Session 6</TITLE>
+</HEAD>
+<BODY>
+
+This continues from last week. The NetworkX modules need to be imported:
+
+<font color=blue><pre>
+from networkx import *
+from operator import *
+</pre></font>
+
+<h3>1 Analysing relations</h3>
+
+Download the file <a href="friends.csv">friends.csv</a> and save it on
+your I:-drive. This is a comma-separated variable (csv) file.
+You can look at the file if you open it
+in Wordpad. If you double click a csv-file, it will open in Excel.
+<p>
+The file contains a binary relation which can be
+represented as a graph using:
+
+<font color=blue><pre>
+F = read_edgelist("friends.csv",delimiter=",",create_using=DiGraph())
+</pre></font>
+
+(Notes: F is specified as a directed graph because whether someone calls
+someone else a "friend" may not be symmetric. <br>
+If you create a csv file yourself, make sure that it does not contain any
+blank lines at the end of the file.)
+
+<h4>1.1 Exercises</h4>
+
+1) Something to think about: What is the domain/co-domain for 
+the friends relation?
+<p>
+2) Create a gif file for F. Try different layouts.
+Which layout seems most suitable? Is it easy to see
+who is considered "friend" by most people and who has the most friends?
+
+<h4>1.2 Calculating Google's PageRank</h4>
+
+PageRank is an algorithm that calculates the "relative importance" of
+nodes in a directed graph. Basically, nodes that have more incoming edges are
+more important. Edges coming from more important nodes count more
+than edges coming from less important nodes.
+<p>
+The code below calculates the PageRank for each node in F and then
+prints a list of nodes in decreasing order of importance.
+
+<font color=blue><pre>
+pg = pagerank(F)
+for item in sorted(pg.iteritems(), key=itemgetter(1), reverse=True):
+&nbsp; &nbsp;  print item
+</pre></font>
+
+Who is considered "friend" by most people according to PageRank?
+Who has the least friends?
+
+<h4>1.3 Exercise</h4>
+
+3) Calculate the reverse graph using <font color=blue>F.reverse()</font>,
+i.e., if (John,Paul) is in the original, then (Paul,John) is in the
+reverse graph.
+<p>
+4) Calculate the PageRank of the reverse graph. Create gif files for
+both F and the reverse graph. Answer the following questions based
+on what you observe in the pictures and the PageRank data:<br>
+<li>Why is Claire high in F and low in the reverse graph? 
+<li>Why are Helen and Sue highly ranked in F and in the reverse graph?
+<li>What does this mean for websites: how can a website achieve a high
+PageRank in Google?
+
+<h3>2 Small-world networks</h3>
+
+A small-world network has a small average shortest path
+lenght (eg below 6) and an average clustering coefficient that is 
+larger than the clustering coefficient of a random graph 
+with the same number of nodes and edges.
+The average clustering coefficient determines whether the neighbours
+of nodes are also connected and thus the graph forms clusters. 
+<p>
+Using
+<font color=blue><pre>
+average_shortest_path_length(G)
+average_clustering(G)             ### for the clustering coefficient
+gnm_random_graph(n, m)            ### for a random graph with n nodes, m edges
+G.to_undirected()                 ### returns an undirected graph from DiGraph
+G.number_of_nodes()
+G.number_of_edges()
+</font></pre>
+
+<h4>2.1 Exercise</h4>
+
+5) Determine whether the friends graph is a small-world network.
+
+
+<h3>3 Exercise with pen and paper</h3>
+
+Suppose you are going to a party with your girlfriend/boyfriend. 
+There are three other couples at the party. Several people shake
+hands. Obviously nobody shakes hands with themselves or their
+girlfriend/boyfriend. Nobody shakes hands with the same person
+more than once. At the end of the party, you ask everybody
+including your girlfriend/boyfriend
+how many hands they have shaken. Each person gives a different
+answer.
+<p>
+Can you figure out how many hands you shook and how many hands your
+girlfriend/boyfriend shook?
+<p>
+Hints: 
+
+<li>Consider this a graph problem where the nodes are people
+and the edges are handshakes. 
+
+<li>What is the maximum number of handshakes possible for a single
+person in this graph? What is the minimum number?
+
+<li>Because each person gives a different answer, you can figure out 
+what the answers must have been.
+
+<li>Insert edges into the graph, starting with the person with the
+most handshakes and then the one with the second most handshakes.
+

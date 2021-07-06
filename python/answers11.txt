@@ -1,0 +1,162 @@
+1.1 Create a form that asks a user for his/her name and some
+comments. Then create two CGI scripts that create a response. The
+first script displays the information which the user has submitted
+("Hello", name, ". These are your comments:", comments) and asks the
+user whether he/she really wants to submit the information. The second
+script is invoked by the first one and displays "Thank you", name,". 
+Your comments have been submitted:", comments.
+
+Form:
+
+<form action='yourcgifile' method='post'>
+Name: <input type='text' name='name' ><p>
+Comments: <input type='text' name='comments' ><p>
+<input type='submit' value='next'>
+</form>      
+
+First CGI Script:
+
+#!/usr/bin/env python
+#
+######### CGI header #######################################
+import cgi
+print "Content-Type: text/html\n"
+form = cgi.FieldStorage()
+
+######### get form values ##################################
+name = form.getvalue("name")
+comments = form.getvalue("comments")
+
+########## HTML header ######################################
+print """
+<html> <head> <title>First CGI script </title> </head>
+<body> <h4>First CGI script:</h4>
+"""
+
+########## Form with hidden variables ######################
+print "<form action = 'two.cgi' method='post'>"
+print "Hello", name+ ". These are your comments:", comments
+print "<p>Do you really want to submit these comments?<p>"
+print "<input type='hidden' name='hiddenname' value='"+name+"'>"
+print "<input type='hidden' name='hiddencomments' value='"+ comments+"'>"
+print "<input type='submit' value='yes'>"
+print "</form>"
+
+
+########## HTML footer ######################################
+print """
+</body></html>
+"""
+
+-----
+2.1 Use a cookie instead of hidden text in the previous exercise.
+
+The First CGI file
+
+#!/usr/bin/env python
+#
+
+######### CGI header #######################################
+import cgi
+form = cgi.FieldStorage()
+
+######### get form values ##################################
+name = form.getvalue("name")
+comments = form.getvalue("comments")
+
+######### setting the Cookie ###############################
+
+import Cookie
+C = Cookie.SimpleCookie()
+C["cookie_name"] = name
+C["cookie_comments"] = comments
+print C
+print "Content-Type: text/html\n"
+
+########## HTML header ######################################
+print """
+<html> <head> <title>First CGI script </title> </head>
+<body> <h4>First CGI script:</h4>
+"""
+
+########## Form without hidden variables ######################
+print "<form action = 'twocookie.cgi' method='post'>"
+print "Hello", name+ ". These are your comments:", comments
+print "<p>Do you really want to submit these comments?<p>"
+print "<input type='submit' value='yes'>"
+print "</form>"
+
+########## HTML footer ######################################
+print """
+</body></html>
+"""
+
+The Second CGI File (twocookie.cgi)
+
+#!/usr/bin/env python
+#
+######### CGI header #######################################
+import cgi
+print "Content-Type: text/html\n"
+form = cgi.FieldStorage()
+
+######### read cookie ##################################
+import Cookie
+import os
+
+C = Cookie.SimpleCookie()
+C.load(os.environ["HTTP_COOKIE"])
+
+name = C["cookie_name"].value
+comments = C["cookie_comments"].value
+
+########## HTML header ######################################
+print """
+<html> <head> <title>Second CGI script </title> </head>
+<body> <h4>Second CGI script:</h4>
+"""
+
+print "Thank you", name+ ". Your comments have been submitted:", comments
+
+########## HTML footer ######################################
+print """
+</body></html>
+"""
+
+---
+
+3.1 A hit counter: create a file that contains only the number "0". Your CGI 
+script must open that file for reading; read the first line of the file into 
+an integer; increase the number by one; close the file; open the file again for
+writing (not appending); write the number to the file; close the file. 
+
+#!/usr/bin/env python
+#
+######### CGI header #######################################
+import cgi
+print "Content-Type: text/html\n"
+
+counter = open("counter.txt","r")
+line = counter.readline()
+counter.close()
+
+if line == "":
+    number = 1
+else: 
+    number = int(line) + 1
+
+counter = open("counter.txt","w")
+counter.write(str(number))
+counter.close()
+
+########## HTML content #####################################
+print """
+<html> <head> <title>Some Title </title> </head>
+<body> <h4>Some Content ...</h4>
+"""
+print "You are visitor number: ", number
+
+########## HTML footer #####################################
+print """
+</body></html>
+"""

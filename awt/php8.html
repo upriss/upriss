@@ -1,0 +1,213 @@
+<HTML>
+<TITLE>Week 5</Title>
+
+<body>
+
+<h3>1 Regular Expressions</h3>
+
+A regular expression is a pattern that a string is searched for.
+Unix commands such as "ls *.*" are similar to regular expressions,
+but the syntax of regular expressions is more elaborated.
+Several Unix programs (grep, sed, awk, ed, vi, emacs) use regular
+expressions and many modern programming languages (such as
+Java) also support them.
+<p>
+PHP allows for the use of two different types of Regular Expressions:
+POSIX and Perl-compatible ones. Below are a few example scripts which
+illustrate how to open a file in PHP, how to use Perl-compatible
+regular expressions and how to use replacement and split/implode. 
+
+<p>
+The <a href="regexchars.html">list of special characters</a> summarises
+characters that have special meanings or need to be escaped in regular expressions.
+
+<h4>1.1 Opening a file and printing it line by line</h4>
+
+<font color=blue>
+&#60;html&#62;&#60;head&#62;<br>
+&#60;title&#62;Displaying a file line by line&#60;/title&#62; <br>
+&#60;/head&#62;&#60;body&#62;<br>
+&#60;hr&#62;&#60;h1&#62;Results:&#60;/h1&#62;&#60;hr&#62;&#60;p&#62;<br>
+&#60;?php<br>
+$lines = file('alice.txt');<br>
+foreach ($lines as $line_num =&#62; $line) {<br>
+&nbsp;
+  echo "Line ",$line_num,": ",$line, "&#60;br&#62;\n";<br>
+}<br>
+?&#62;<br>
+&#60;p&#62;&#60;hr&#62;&#60;/body&#62;&#60;/html&#62;<br>
+</font>
+
+<h4>1.2 Using regular expressions</h4>
+
+<font color=blue>
+&#60;html&#62;&#60;head&#62;<br>
+&#60;title&#62;Searching&#60;/title&#62; &#60;/head&#62;&#60;body&#62;<br>
+&#60;hr&#62;&#60;h1&#62;Results:&#60;/h1&#62;&#60;hr&#62;&#60;p&#62;<br>
+&#60;?php<br>
+$lines = file('alice.txt');<br>
+foreach ($lines as $line_num =&#62; $line) {<br>
+&nbsp; if (preg_match("/the /i", $line, $matches)) {<br>
+&nbsp; &nbsp; 
+echo "&#60;br&#62; Line ", $line_num, " matches: ",$matches[0],"&#60;br&#62;";<br>
+&nbsp; &nbsp; 
+echo $line;<br>
+&nbsp;  }<br>
+}<br>
+?&#62;<br>
+&#60;p&#62;&#60;hr&#62;&#60;/body&#62;&#60;/html&#62;<br>
+</font>
+<p>
+Inserting an "i" after the
+expression means "ignore case": <font color=blue>/the /i</font>.
+<p>
+This <a href="http://uk.php.net/manual/en/ref.pcre.php">manual page</a> provides
+more details on regular expressions and 
+<a href="http://uk.php.net/manual/en/function.preg-match.php">
+examples of preg_match</a>.
+
+<h4>1.2 Exercises</h4>
+
+For the exercises you can use the <a href="../perlcgi/alice.txt">alice.txt file</a>.
+(<font color=red>Note for MS Windows users:</font>
+It is best to save this file by copying and pasting
+it into a Unix editor. If you save the file under DOS/Windows, each
+line ends with "\r\n" instead of "\n", which could be a problem.)
+
+<p>
+1) Retrieve all lines from alice.txt that do not contain /the /. 
+Retrieve all lines that contain "the" with lower or upper case
+letters.
+<p> 
+2) a) Retrieve lines that contain a word of any length that starts with
+t and ends with e. Modify this so that the word has at least 
+three characters.
+<br>
+b) Retrieve lines that start with a. Retrieve lines that start with a and 
+end with n. Hint: You need to specify the beginning of the line,
+"a", any number of any characters in the middle, "n", end of line.
+<br>
+c) Retrieve blank lines. Think of at least two ways of doing this.<br>
+d) Retrieve lines that contain a word that starts with an upper case letter.<br>
+<p>
+
+3) What is the difference between the following expressions?<br>
+
+<p>
+a) abc*  and (abc)* <br>
+b) !preg_match("/yes/"...)  and /[^y][^e][^s]/ <br>
+c) [A-Z][a-z]* and [A-Z][a-z]+ <p>
+
+<h4>2 Replacement</h4>
+
+<font color=blue>
+&#60;html&#62;&#60;head&#62;<br>
+&#60;title&#62;Searching&#60;/title&#62; &#60;/head&#62;&#60;body&#62;<br>
+&#60;hr&#62;&#60;h1&#62;Results:&#60;/h1&#62;&#60;hr&#62;&#60;p&#62;<br>
+&#60;?php<br>
+$lines = file('alice.txt');<br>
+foreach ($lines as $line_num =&#62; $line) {<br>
+$line = preg_replace("/T/", 't', $line); <br>
+&nbsp; &nbsp; 
+echo $line, "&#60;br&#62;";<br>
+}<br>
+?&#62;<br>
+&#60;p&#62;&#60;hr&#62;&#60;/body&#62;&#60;/html&#62;<br>
+</font>
+<p>
+(<a href="http://www.php.net/manual/en/function.preg-replace.php">Manual page</a>
+for preg_replace).
+
+<h4>2.1 Examples</h4>
+
+a) ("/[Ll][Oo][Nn][Dd][Oo][Nn]/",'London') <br>
+replaces LOndoN or loNDON etc by London.<br>
+b) ("/Alice/",'Mary') <br>
+ replaces every occurrence of Alice by Mary.
+
+<h4>2.2 Exercises</h4>
+
+4) Using the alice.txt file:
+<br>
+a) Replace all upper case A by lower case a. <br>
+b) Delete all words with more than 3 characters.<br>
+
+<h4>3 Non-greedy Multipliers and Patterns</h4>
+
+By default the multipliers * and + are "greedy" which means they
+match as many characters as possible. For example, 
+/(\b.+\b)/ matches any non-empty line.
+A question mark behind a multiplier forces it to be non-greedy.
+Therefore /(\b.+?\b)/ matches the first word in a line.
+
+<h4>3.1 Exercise</h4>
+
+5) Write a replace statement that deletes all HTML markup from a file.
+You need non-greedy multipliers because otherwise
+the text between tags may be deleted in a line that contains several tags. 
+
+<h4>3.2 Remembering Patterns</h4>
+
+Patterns within parentheses are remembered. Using \1, \2, etc they can 
+be referred to within the same regular expression (or search expression).
+They can also be echoed using the array provided ("$matches" in the
+example below).
+
+<h4>3.3 Examples</h4>
+
+preg_match("/(t.*e)/", $line, $matches);<br>
+echo "$matches[1]";<br>
+echoes strings that start with "t" and end with "e".
+<p>
+("/(t.*e)/",':\1:',$line)<br>
+places a ":" in front and behind each string t...e.
+<p>
+/(...)\\1/<br>
+matches a three character string that is repeated.
+<p>
+("/^(.)(.*)(.)$/",'\3\2\1',$line)<br>
+switches the first and last character of a line.
+
+<h4>3.4 Exercise</h4>
+
+6) Print double characters within parenthesis "()".
+For example, replace "arrived" by "a(rr)ived".
+
+<h4>4 Split and Implode</h4>
+
+
+Using <font color=red>$personal = preg_split("/:/", $line); </font><br>
+a string such as 
+$line = "Caine:Michael:Actor:14, Leafy Drive"; <br>
+can be split into an array such as
+$personal = array ("Caine", "Michael", "Actor", "14, Leafy Drive");<br>
+Other examples:<br>
+<font color=red>
+$chars = preg_split("//", $word);<br>
+$words = preg_split("/ /", $sentence);<br>
+$sentences = preg_split("/\./", $paragraph);<br>
+</font><br>
+"implode" does the opposite of "preg_split":
+<br><font color=red>
+$bigstring = implode(":",$personal);
+</font>   
+<p>
+(<a href="http://www.php.net/manual/en/function.preg-split.php">Manual page</a>
+for preg_split.
+<a href="http://www.php.net/manual/en/function.implode.php">Manual page</a>
+for implode.)
+
+
+<h4>4.1 Exercises</h4>
+
+7) Read the alice.txt file into an array. Chomp it. Using "implode"
+concatenate it into one string. Then split it into 
+words (or sentences) and print it one word (sentence) per line. 
+<p>
+8) Write a script that takes an HTML source file as input and prints
+it so that a newline follows only "closing tags", i.e. tags that are 
+of the form &#60/...&#62.
+
+</body>
+
+</HTML>

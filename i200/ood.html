@@ -1,0 +1,47 @@
+<HTML>
+<HEAD>
+<TITLE>Q200 Week 7</title>
+</HEAD>
+<BODY>
+
+
+<h3>The Object-Oriented Design Paradigm</h3>
+
+<h4>Definitions</h4>
+
+<li><em>class:</em> 
+an abstract framework for  a set of items; example: "image"
+<li><em>object:</em> 
+an instance of a class; example: a specific image
+<li><em>property:</em> a feature or attribute of the objects in a class;
+usually has values; example: "size" (values: 1in x 1in, etc), "color"
+(values: blue, red, etc)
+<li><em>method:</em> 
+an action that can be performed on objects of a class;
+example: "save", "rescale"
+<li><em>event:</em> an external event that happens to objects of a class and 
+can trigger methods to be invoked; example: "click on"
+
+<h4>Class- or type-hierarchy</h4>
+
+<li>classes form a hierarchy based on the ISA relation
+<li><em>inheritance</em>: classes inherit properties, methods and events
+from their parents in the class hierarchy
+<li>two classes are in ISA relation if all objects of the first
+class are also objects of the second class; for example:
+vector-graphic ISA image; the ISA relation usually corresponds
+to a normal English sentence using "is a"; for example:
+"a vector graphic is an image"
+<li>the ISA relation must be distinguished from the HAS relation that
+holds between objects and their properties; examples:
+image HAS size, image HAS color
+
+<h4>Example</h4>
+
+An example of object-oriented design is the document object model
+(DOM) that describes elements of webpages (such as link, image,
+table, text), their properties (target, name, font), their methods
+(load, save) and their events (click on, mouse over).
+
+</body>
+</html>

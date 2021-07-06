@@ -1,0 +1,185 @@
+<HTML>
+<HEAD>
+<TITLE>L548 Session 2</TITLE>
+</HEAD>
+<BODY>
+
+<b>1) Operators for Numbers</b>
+<p>
+<font color=red>
+$a = $b; ##### Assign $b to $a<br>
+$a = 7.84e45 ##### 7.84 times 10 to the 45th power<br>
+$a = 1 + 2; ##### Add 1 and 2 and store in $a<br>
+$a = 3 - 4; ##### Subtract 4 from 3 and store in $a<br>
+$a = $a + $b; ##### Add $b to $a<br>
+$a = 5 * 6; ##### Multiply 5 and 6<br>
+$a = 7 / 8; ##### Divide 7 by 8 to give 0.875<br>
+$a = 9 ** 10; ##### Nine to the power of 10<br>
+$a = 5 % 2; ##### Remainder of 5 divided by 2<br>
+$a++;	##### Increment $a by one<br>
+$a--;	##### Decrement $a by one<br>
+</font>
+<p>
+
+<b>Exercise: Operating with Numbers</b>
+<p>
+<font color=blue>
+#!/usr/local/bin/perl -w<br>
+# <br>
+# This program converts from US $ to Canadian $<br>
+# <br>
+print "Money value in US \$ ";<br>
+$us_money = &#60;STDIN&#62; ;<br>
+chomp $us_money;<br>
+$can_money = $us_money /0.6;<br>
+print "US\$ $us_money = Canandian \$ $can_money\n";<br>
+</font>
+<p>
+
+a) In analogy to the example, write a script that 
+asks users for the temperature in F
+and prints the temperature in C. (Conversion: 
+Celsius = (F - 32) * 5/9 )<br>
+<p>
+
+<b>2) Strings</b>
+<p>
+A string is delimited by double quotes (""). Certain special characters
+can be used, such as "\n" and "\t". Variables are interpreted, i.e.
+'print "$name"' prints the value of '$name' and not $-sign followed by
+'name'. To print the characters $, ", \, @, they must be preceded
+by a backslash (\). 
+<p>
+<font color=blue>
+print "hello\n";<br>
+print "hello\\n";<br>
+print "\$5.00\n";<br>
+print "She said: \"hello\"\n"; <br>
+print "\tThis is indented\n"; <br>
+$a = "apples"; $b = "pears"; <br>
+print "$a and $b\n"; <br>
+</font>
+<p>
+<b>Exercise:</b>
+<p>
+a) Write Perl print statements for 
+the following text (with the same linebreaks, etc):
+<p>
+Snoopy bought a CD called "Greatest Hits" on the WWW for <br>
+$10.00. To buy the CD he had to send an email message to <br>
+orders@hits-online.net. This is what the design on the CD <br>
+cover looked like:
+<p>
+<pre>
+       \  |  /
+         @ @
+          *
+        \---/
+</pre>
+
+<p>
+
+<b>3) Operators and functions for strings</b>
+
+<p>
+<font color=red>
+chop $a; ##### removes the last character<br>
+chomp $a; ##### removes the last character if it is a newline character<br>
+$a = $b . $c; ##### concatenate $b and $c<br>
+$a = $b x $c; ##### $b repeated $c times<br>
+</font>
+
+<p>
+Example:
+<p>
+<font color=blue>
+#!/usr/local/bin/perl -w <br>
+# <br>
+# program that demonstrates operating with strings<br>
+#<br>
+print "Please, type your favourite color: ";<br>
+$color= &#60;STDIN&#62;;<br>
+chomp $color;<br>
+$color = $color . "***";<br>
+chop $color; chop $color;<br>
+$color = $color . "!";<br>
+$color = $color x 5;<br>
+print "$color\n";
+</font>
+<p>
+a) Add 'print "$color\n";' after every line so that you can see how
+the content of the variable is changed after each step. 
+<p>
+b) Write a program that asks users for their favourite
+color. Create the following output (assuming "red" is the chosen
+color). 
+
+<pre>
+red red red red red red red red red red  
+red 					 red
+red 					 red
+red red red red red red red red red red
+</pre>
+
+Hints: For the first and last lines: concatenate the string with
+"." and use the x-operator. For the second and third line use 
+"\t".
+<p>
+<b>4) Debugging</b>
+<p>
+Adding print statements for variables can be a good strategy
+to <b>debug</b> a piece of code. For example, the following piece
+of code is mostly nonsense. Do not try to understand it! But
+if you add 'print "$color\n";' after every line, you can identify
+the line which changes the variable to a number. Delete that line
+and the output will contain another color. (This shows that it is 
+sometimes possible to use a piece of code without fully understanding
+every symbol in it - as long as you know what every line does!)
+<p>
+<font color="blue">
+$color= "red" || die;<br>
+chop $color if 1;<br>
+$color = "g".$color . "en";<br>
+0 && chomp $color;<br>
+$color = $color . "!";<br>
+$color = print "";<br>
+$color = $color x 5;<br>
+print "$color\n";<br>
+</font>
+<p>
+
+<b>5) Control structures: if</b>
+<p>
+This is just a first introduction to control structures. They will
+be covered in more detail during the next two weeks.
+<p>
+<font color=blue>
+#!/usr/local/bin/perl -w<br>
+#<br>
+# if statement<br>
+#<br>
+print "Do you like Perl? ";<br>
+$answer = &#60;STDIN&#62;;<br>
+chomp $answer;<br>
+if ($answer eq "yes"){<br>
+print "That is great!\n";<br>
+}<br>
+else {<br>
+print "That is disappointing!\n";<br>
+}
+<p>
+</font>
+
+<b>Exercises</b>
+<p>
+Modify the program so that it answers "That is great!" if the
+answer was "yes", "That is disappointing"
+if the answer was "no" and "That is not an answer to my question."
+otherwise. Use "if ... elsif ... else ...". Note that "if" and
+"elsif" are followed by an expression in parenthesis () and then
+a statement in curly brackets {}, "else" is followed only by a statement
+in curly brackets.
+
+</body>
+</html>
+

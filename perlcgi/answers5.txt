@@ -1,0 +1,164 @@
+2) a) Retrieve lines that have a three letter string that starts with 
+t and ends with e.
+/t.e/
+
+b) Retrieve lines with a three letter word that starts with t and ends 
+with e.
+/\bt\we\b/
+
+c) Retrieve lines that have a word of any length that starts with t and 
+ends with e. 
+/\bt\w*e\b/
+
+Modify this so that the word has at least three characters. 
+/\bt\w+e\b/
+
+d) Retrieve lines that start with a. 
+/^a/
+
+Retrieve lines that start with a and end with n.
+/^a.*n$/
+
+e) Retrieve blank lines. Think of at least two ways of doing this.
+/^$/
+or
+!~ /./
+
+f) Retrieve lines that have two consecutive o's.
+/oo/
+g) Retrieve lines that do not contain the blank space character. 
+!~ / /
+h) Retrieve lines that contain more than one blank space character. 
+/ .* /
+
+---------------------------------------------------------------------------
+
+3)a) an odd digit followed by an even digit (eg. 12 or 74) 
+/[13579][02468]/
+b) a letter followed by a non-letter followed by a number 
+/[a-zA-Z][^a-zA-Z][0-9]/
+c) a word that starts with an upper case letter 
+/\b[A-Z]/
+d) the word "yes" in any combination of upper and lower case letters 
+/\b[Yy][Ee][Ss]\b/
+or
+/\byes\b/i
+e) one or more times the word "the" 
+/(\bthe\b)+/
+f) a date in the form of one or two digits, a dot, one or two digits, 
+a dot, two digits
+/\d\d?\.\d\d?\.\d\d/ 
+g) a punctuation mark
+/[\!:;"',\.\?`]/ 
+
+---------------------------------------------------------------------------
+
+4) What is the difference between the following expressions?
+
+b) !/yes/ and /[^y][^e][^s]/ 
+
+!/yes/ matches lines that do not contain the string "yes".
+
+/[^y][^e][^s]/ matches lines that contain three characters so that
+the first one is not "y", the second one is not "e", and the third one
+is not "s". Eg. "yes" or "yeS" or "yyy" are not matched, but
+"YES" or "yes!" are matched (because "es!" does not equal "yes"). 
+
+---------------------------------------------------------------------------
+
+6a) Replace all upper case letters by lower case letters;
+
+open(ALICE, "alice.txt");
+@lines = <ALICE> ;
+close(ALICE);
+foreach $line (@lines){
+$line =~ s/A/a/g;
+print $line;
+} # end of foreach 
+
+6b) Replace the word "Alice" by "ALICE".
+
+s/Alice/ALICE/g; 
+
+6c) Delete all words with more than 3 characters.
+
+s/\b\w\w\w+\b//g; 
+
+6d) Print two blank space characters after the "." at the end of a 
+sentence. (Optional: Don't do this if the "." is the last character in a line.)
+
+s/\. /.  /g;  
+
+or
+
+s/\.[^\n]/.  /g;  
+
+6e) Replace single quotes (' or `) by double quotes. 
+
+s/[`']/"/g;
+
+---------------------------------------------------------------------------
+
+7) Write a replace statement that deletes all HTML mark-up from a file. 
+
+s/<.*>//g;
+
+But this doesn't work if there are several tags in one line because
+* is greedy. Better solution:
+
+s/<.*?>//g; 
+
+---------------------------------------------------------------------------
+
+8) Insert a newline character after each punctuation mark (.,!). If 
+you chomp each line before inserting the newline characters 
+you can print each sentence in one line. 
+
+s/([\.,!])/\1\n/g;
+
+Or:
+
+chomp $line;
+$line =~ s/([\.,!])/\1\n/g; 
+
+---------------------------------------------------------------------------
+
+9) Print double characters within parenthesis "()". For example, replace 
+"arrived" by "a(rr)ived". 
+
+s/(.)\1/(\1\1)/g;
+
+---------------------------------------------------------------------------
+
+10) Read the alice.txt file into an array. Chomp it. Using join concatenate 
+it into one string. Then split it into words (or sentences) and print it 
+one word (sentence) per line. 
+
+open(ALICE, "alice.txt");
+@lines = <ALICE> ;
+close(ALICE);
+
+chomp @lines;
+$bigstring = join(" ",@lines);
+@words = split(/\b/, $bigstring);
+
+foreach $word (@words){
+print "$word\n";
+}
+                 
+---------------------------------------------------------------------------
+
+11) Write a script that takes an HTML source file as input and prints it so 
+that a newline follows only "closing tags", i.e. tags that are of the 
+form </...>. 
+
+open(HTML, "file.html");
+@lines = <HTML> ;
+close(HTML);
+chomp @lines;
+foreach $line (@lines){
+$line =~ s/(<\/.*?>)/\1\n/g;
+print $line;
+} # end of foreach
+close(HTML);  
+

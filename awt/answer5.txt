@@ -1,0 +1,75 @@
+4) The following XML is a mess! ...
+
+Here it is tidied up:
+
+<?xml version="1.0" ?>
+<!DOCTYPE movies [
+  <!ELEMENT actor ( #PCDATA )>
+  <!ELEMENT movie (actor | title | year)*>
+  <!ELEMENT movies (movie+)>
+  <!ELEMENT title ( #PCDATA )>
+  <!ELEMENT year ( #PCDATA )>
+  <!ATTLIST  movie id CDATA #REQUIRED>
+]>
+<!--This is about movies! -->
+<movies>
+  <movie id="1">
+    <title>The Quest</title>
+    <actor>Tom Smith</actor>
+    <year>2007</year>
+  </movie>
+  <movie id="2">
+    <title>Summer</title>
+    <year>1998</year>
+    <actor>Susie Black</actor>
+    <actor>Paul White</actor>
+  </movie>
+  <movie id="3">
+    <title>Hello World</title>
+  </movie>
+</movies>
+
+-------------------------------------------------------------
+
+Selected answers for some of Andrew's DTD exercises 
+
+
+Options and brackets
+
+	<!ELEMENT country (president|(king,queen?)|queen)>
+
+Payment problem
+
+	<!ELEMENT payment ((card+,cash?)|cash)>
+
+Batches
+
+	<!ELEMENT batch (debit,((debit+,credit)|credit+))>
+
+-------------------------------------------------------------
+
+Selected answers for some of Andrew's XML Schema exercises 
+
+Payment problem
+
+<xs:choice>
+  <xs:sequence>
+    <xs:element name="card" type="xs:string" maxOccurs="unbounded"/>
+    <xs:element name="cash" type="xs:string" minOccurs="0" maxOccurs="1"/>
+  </xs:sequence>
+  <xs:element name="cash" type="xs:string"/>
+</xs:choice>
+
+
+Batches
+
+<xs:sequence>
+   <xs:element name="debit" type="xs:string"/>
+   <xs:choice> 
+     <xs:sequence>
+       <xs:element name="debit" type="xs:string" maxOccurs="unbounded"/>
+       <xs:element name="credit" type="xs:string"/>
+     </xs:sequence>
+     <xs:element name="credit" type="xs:string" maxOccurs="unbounded"/>
+  </xs:choice>
+</xs:sequence>

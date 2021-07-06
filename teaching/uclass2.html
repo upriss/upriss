@@ -1,0 +1,158 @@
+<HTML>
+<HEAD>
+<TITLE>Unix Workshop</TITLE>
+</HEAD>
+<BODY>
+
+<h3>2) Editors and regular expressions</h3>
+
+<h4>Vi</h4>
+
+Chapters 11 and 12
+<p>
+Why vi? With sophisticated GUI editors around, I would not recommend
+using vi for normal text editing. But there are always situations
+(such as login to different or remote machines) when no other editor
+is available. Furthermore, vi facilitates regular expression-based 
+substitution.
+<p>
+<table border=1>
+<tr><td> default is command mode <td>
+<tr><td> enter text-mode <td>
+	<li> insert: i (before cursor), I (in front of current line)
+	<li> append: a (after cursor), A (at end of current line)
+	<li> open: o (new line before current line), O (after current line)
+	<li> change: cc (change current line)
+<tr><td> leave text-mode <td> press ESC
+<tr><td> enter ex mode <td> press :
+<tr><td> leave ex mode <td> press RETURN or ESC
+</table>
+<p>
+<b>Exercises</b>
+<p>
+Open a file. Enter text mode.  Type several lines. Leave text mode.
+Go to the second line and type something after it. Leave text mode.
+Go back to the second line and type something before it. Open a new line.
+Go to the first line and change it. Etc.
+
+<h4>Commands in command mode</h4>
+
+<table border=1>
+<tr><td> go right <td> l, SPACE, right arrow
+<tr><td> go left <td> h, BKSPC, left arrow
+<tr><td> go to next line <td> +, RETURN
+<tr><td> go down <td> j, Ctrl-n, Ctrl-j, down arrow
+<tr><td> go up <td> k, Ctrl-p, up arrow
+<tr><td> go to beginning of the line <td> ^
+<tr><td> go to end of the line <td> $
+<tr><td> next word <td> w
+<tr><td> previous word <td> b
+<tr><td> go to beginning of the file <td> H
+<tr><td> go to end of the file <td> L
+<tr><td> next page <td> Ctrl-f
+<tr><td> previous page <td> Ctrl-b
+<tr><td> put current line on top of screen <td> z RETURN
+<tr><td> delete character <td> x
+<tr><td> delete line <td> dd
+<tr><td> undo <td> u
+<tr><td> repeat command <td> .
+<tr><td> forward search <td> /pattern RETURN
+<tr><td> backward search <td> ?pattern RETURN
+<tr><td> repeat forward search <td> n
+<tr><td> repeat backward search <td> N
+<tr><td> clear screen<td> Ctrl-r or Ctrl-l
+<tr><td> show status message <td> Ctrl-g
+</table>
+<p>
+<b>Exercises</b>
+<p>
+Try all of the above. Do several searches. 
+
+<h4>Commands in ex mode</h4>
+
+<table border=1>
+<tr><td> save<td> w
+<tr><td> quit and save <td>wq or x
+<tr><td> quit without saving <td> q!
+<tr><td> show mode <td> set showmode
+<tr><td> show line numbers <td> set number (set nonumber)
+<tr><td> show matching parenthesis <td> set showmatch
+<tr><td> execute Unix command <td> ! command
+<tr><td> search <td> /search_pattern/
+<tr><td> repeat search <td> //
+<tr><td> search backwards <td> ?search_pattern?
+<tr><td> substitute (replace) <td> s/search_pattern/replace_pattern/
+<tr><td> substitute globally <td> 1,$s/.../.../g
+<tr><td> substitute globally and ask for confirmation<td> 1,$s/.../.../gc
+<tr><td> set ignore case for searches <td> set ic
+<tr><td> variable for replacement string <td> &
+</table>
+<p>
+<b>Exercises</b>
+<p>
+Try all of the above. Type some more text. Save it. Make changes. Etc.
+
+<h4>Files that vi uses</h4>
+
+<table border=1>
+<tr><td> /etc/termcap <td> terminal settings
+<tr><td> .exrc <td> user defined settings for commands, etc
+</table>
+
+<h4>Regular Expressions</h4>
+
+pages 146 - 150
+<p>
+<table border=1>
+<tr><td>.	<td> Any single character except a newline
+<tr><td>^	<td> The beginning of the line or string
+<tr><td>$	<td> The end of the line or string
+<tr><td>*	<td> Zero or more of the last character
+<tr><td>\{m,n\} <td> at least m times, at most n times
+<tr><td>\{m,\} <td> at least m times
+<tr><td>\{m\} <td> exactly m times
+<tr><td>[ ] <td> any character found between []
+<tr><td>[^ ] <td> any character not found between []
+<tr><td>[qjk]		<td> Either q or j or k
+<tr><td>[^qjk]		<td> Neither q nor j nor k
+<tr><td>[a-z]		<td> Anything from a to z inclusive
+<tr><td>[^a-z]		<td> No lower case letters
+<tr><td>[a-zA-Z]	<td> Any letter
+<tr><td> \     <td> escape
+<tr><td>[:space:] <td> a space
+<tr><td> \( \) <td> remembering a pattern, referred to by \1, \2, etc
+</table>
+
+<p>
+<b>Exercise</b>
+<p>
+Find the next occurrence of <br>
+THE or the or The or <br>
+a word that starts with b <br>
+a number <br>
+a punctuation mark<br>
+a non-letter<br>
+a line that starts with "the" and ends with "."<br>
+the next double character<br>
+
+<h4> Grep and sed</h4>
+
+Chapter 15
+<p>
+<table border=1>
+<tr><td>grep<td>
+	<li> searching for file content
+	<li> grep 'pattern' filenames
+	<li> options: -l (lines are not displayed)
+	<li> -w (search for words)
+	<li> -i (ignore case)
+	<li> -n (line number)
+	<li> -c (count matches) 
+<tr><td>sed<td>
+	<li> useful for editing in shell scripts
+	<li> sed 'edit command' filename
+	<li> example: sed s/sun/moon/g file
+</table>
+
+</BODY>
+</HTML>
